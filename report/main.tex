@@ -49,9 +49,12 @@ signals from meteorological features, and five direct horizon models then
 forecast the next five weekly scores. The implemented system builds 327
 features per horizon from calendar variables, meteorological lags, rolling
 statistics, exponentially weighted means, region-level statistics, and score
-history. On the local holdout split, the five horizon models obtain an average
-MAE of \textbf{0.2198}. The submitted Kaggle public leaderboard score is
-\textbf{0.8094}, evaluated on approximately 40\% of the test data.
+history. To support future iterations, every training run is stored as a
+versioned experiment containing its configuration, metrics, model artifacts,
+and submission metadata. On the local holdout split, the five horizon models
+obtain an average MAE of \textbf{0.2198}. The submitted Kaggle public
+leaderboard score is \textbf{0.8094}, evaluated on approximately 40\% of the
+test data.
 \end{abstract}
 
 \section{Project Summary (\textcolor{red}{max 1 page})}
@@ -63,13 +66,15 @@ given 91 days of historical meteorological observations per region from the
 test set. Scores range from 0 (no disaster) to 5 (extreme severity).
 
 \subsection{High-Level Approach}
-Our method follows a supervised machine learning paradigm treating the task as
-a \textbf{multi-step time series regression} problem. We extract temporal
-features from the raw meteorological columns, including lag values, rolling
-means/stds, exponentially weighted averages, calendar encodings, historical
-score summaries, and per-region score statistics. These features feed into one
-LightGBM model per prediction horizon. Final predictions are post-processed by
-clipping values to the valid score interval [0, 5].
+Our current baseline follows a supervised machine learning paradigm treating
+the task as a \textbf{multi-step time series regression} problem. We extract
+temporal features from the raw meteorological columns, including lag values,
+rolling means/stds, exponentially weighted averages, calendar encodings,
+historical score summaries, and per-region score statistics. These features
+feed into one LightGBM model per prediction horizon. Final predictions are
+post-processed by clipping values to the valid score interval [0, 5]. The
+report is structured so that future algorithms can be added as new experiment
+versions rather than replacing the current LightGBM baseline.
 
 \subsection{Related Works}
 Time series forecasting for environmental phenomena has been widely studied.
@@ -169,6 +174,17 @@ region, and applies the five horizon models. The prediction script outputs a
 timestamped CSV file under \texttt{submissions/}, containing \texttt{region\_id}
 and five weekly prediction columns.
 
+\subsection{Experiment Versioning}
+Because the implementation is expected to evolve, each run is saved under a
+timestamped directory \texttt{experiments/<run\_id>/}. The directory contains
+\texttt{config.json} for hyperparameters and feature settings,
+\texttt{metrics.json} for validation results, and
+\texttt{submission\_metadata.json} for prediction statistics after inference.
+Large model files and generated submission CSVs are stored inside the same run
+directory but are ignored by git. This format allows future algorithms such as
+XGBoost, additional LightGBM variants, ensembles, or neural time series models
+to be appended to the report as comparable experiment rows.
+
 \section{Experiments (\textcolor{red}{2-4 pages})}
 
 \subsubsection{Dataset and Experimental Setup}
@@ -211,6 +227,25 @@ scores for evaluating whether our implemented pipeline improves over simple
 competition-provided methods.
 
 \subsubsection{Experimental Results}
+
+Table~\ref{tab:experiment_log} records the implemented experiment versions.
+Future iterations should append rows to this table rather than overwriting the
+current baseline result.
+
+\begin{table}[h]
+\centering
+\caption{Experiment Log for Report Iteration}
+\label{tab:experiment_log}
+\begin{tabular}{lccc}
+\hline
+\textbf{Run} & \textbf{Model family} & \textbf{Local MAE} & \textbf{Public MAE} \\
+\hline
+Current & LightGBM two-stage & 0.2198 & 0.8094 \\
+Future & XGBoost direct & TBD & TBD \\
+Future & Ensemble / stacking & TBD & TBD \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{table}[h]
 \centering

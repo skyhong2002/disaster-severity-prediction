@@ -21,8 +21,10 @@ disaster-severity-prediction/
 ├── notebooks/                 # EDA & experiments
 ├── src/
 │   ├── features.py            # Feature engineering
+│   ├── experiment_utils.py    # Versioned experiment tracking helpers
 │   ├── train.py               # Train LightGBM model
 │   └── predict.py             # Generate submission file
+├── experiments/               # Run metadata; large artifacts ignored
 ├── models/                    # Saved model files (not in git)
 ├── submissions/               # Generated CSVs (not in git)
 ├── report/
@@ -83,12 +85,26 @@ After downloading, your `data/` folder should contain:
 # Step 1: Feature engineering + Training
 uv run python src/train.py
 
+# Optional: name the experiment run
+uv run python src/train.py --experiment-name lgbm_v1
+
 # Step 2: Generate predictions
 uv run python src/predict.py
 
-# Output: submissions/submission_<timestamp>.csv
+# Optional: predict with a specific saved run
+uv run python src/predict.py --run-dir experiments/<run_id>
+
+# Output:
+# - submissions/submission_<timestamp>_<run_id>.csv
+# - experiments/<run_id>/config.json
+# - experiments/<run_id>/metrics.json
+# - experiments/<run_id>/submission_metadata.json
 # → Upload this file to Kaggle
 ```
+
+`src/train.py` saves every run under `experiments/<run_id>/` and also updates
+the legacy latest-model files under `models/` for compatibility. `src/predict.py`
+defaults to the latest experiment recorded in `experiments/latest.txt`.
 
 ---
 
@@ -117,9 +133,40 @@ We use **LightGBM** with rich temporal feature engineering:
 
 See `src/features.py` for details.
 
+## 6. Iterating on Algorithms
+
+The repository is organized so the current LightGBM implementation can be kept
+as a reproducible baseline while future methods are added.
+
+Recommended workflow:
+
+```bash
+# Current baseline
+uv run python src/train.py \
+  --model-family lightgbm_two_stage \
+  --experiment-name lgbm_v1
+
+# Future algorithm example
+uv run python src/train.py \
+  --model-family xgboost_direct \
+  --experiment-name xgb_v1
+```
+
+For each algorithm version, keep the same artifact contract:
+
+- `experiments/<run_id>/config.json`: parameters, feature groups, validation split
+- `experiments/<run_id>/metrics.json`: local validation metrics
+- `experiments/<run_id>/submission_metadata.json`: prediction statistics and output paths
+- `experiments/<run_id>/models/`: model files, ignored by git
+- `experiments/<run_id>/submissions/`: generated Kaggle CSVs, ignored by git
+
+When a future method changes feature engineering, validation, ensembling, or
+model family, create a new `--experiment-name` instead of overwriting the
+previous run. The report can then be updated by comparing the JSON summaries.
+
 ---
 
-## 6. Kaggle Submission Rules
+## 7. Kaggle Submission Rules
 - Team name must be **Team 5**
 - Max **3 submissions per day** (resets 8 AM Taiwan time)
 - Deadline: **June 10, 2026 11:55 PM**
@@ -127,7 +174,7 @@ See `src/features.py` for details.
 
 ---
 
-## 7. Report
+## 8. Report
 Report is in `report/main.tex` (IEEE format).  
 Upload to [Overleaf](https://www.overleaf.com) → New Project → Upload `.tex` file.  
 Submit PDF via E3 as `DM_project_Group_5.pdf` by June 10.

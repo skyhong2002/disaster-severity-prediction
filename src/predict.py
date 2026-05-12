@@ -8,9 +8,11 @@ Two-stage inference pipeline:
 
 Usage:
     python3 src/predict.py
+    python3 src/predict.py --run-dir experiments/<run_id>
 Output:
     submissions/submission_<timestamp>.csv
 """
+import argparse
 import pickle
 import warnings
 from datetime import datetime
@@ -20,6 +22,7 @@ import numpy as np
 import pandas as pd
 
 from features import build_features, get_feature_cols
+from experiment_utils import get_latest_run_dir, save_json
 
 warnings.filterwarnings("ignore")
 
@@ -32,21 +35,44 @@ SUB_DIR.mkdir(exist_ok=True)
 N_WEEKS = 5
 
 
-def load_models():
-    model_path = MODEL_DIR / "lgbm_models.pkl"
+def parse_args():
+    parser = argparse.ArgumentParser(description="Generate Kaggle submission.")
+    parser.add_argument(
+        "--run-dir",
+        default=None,
+        help="Experiment run directory. Defaults to experiments/latest.txt.",
+    )
+    return parser.parse_args()
+
+
+def resolve_run_dir(run_dir_arg: str | None) -> Path | None:
+    if run_dir_arg:
+        path = Path(run_dir_arg)
+        return path if path.is_absolute() else ROOT / path
+    return get_latest_run_dir()
+
+
+def model_dir_for_run(run_dir: Path | None) -> Path:
+    if run_dir is not None and (run_dir / "models" / "lgbm_models.pkl").exists():
+        return run_dir / "models"
+    return MODEL_DIR
+
+
+def load_models(model_dir: Path):
+    model_path = model_dir / "lgbm_models.pkl"
     with open(model_path, "rb") as f:
         models = pickle.load(f)
     print(f"Loaded {len(models)} horizon models from {model_path}")
     return models
 
 
-def load_score_reconstructor():
+def load_score_reconstructor(model_dir: Path):
     """
     Load Stage-1 model that predicts score from meteorological features.
     Trained during train.py (saved as lgbm_score_reconstructor.pkl).
     Falls back to None if not found.
     """
-    path = MODEL_DIR / "lgbm_score_reconstructor.pkl"
+    path = model_dir / "lgbm_score_reconstructor.pkl"
     if path.exists():
         with open(path, "rb") as f:
             model = pickle.load(f)
@@ -96,9 +122,16 @@ def inject_reconstructed_scores(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
+    args = parse_args()
+    run_dir = resolve_run_dir(args.run_dir)
+    model_dir = model_dir_for_run(run_dir)
+
     print("=" * 60)
     print("  Natural Disaster Severity Prediction — Inference")
     print("=" * 60)
+    if run_dir:
+        print(f"Experiment run directory: {run_dir}")
+    print(f"Model directory: {model_dir}")
 
     # ── 1. Load raw data ──────────────────────────────────────────
     print("\nLoading data ...")
@@ -109,7 +142,7 @@ def main():
 
     # ── 2. Stage 1: Reconstruct scores for test window ────────────
     print("\n[Stage 1] Reconstructing scores for test window ...")
-    reconstructor = load_score_reconstructor()
+    reconstructor = load_score_reconstructor(model_dir)
 
     # Build minimal features (meteo only, no score history) for reconstructor
     test["score"] = np.nan
@@ -145,7 +178,7 @@ def main():
 
     # ── 4. Load horizon models and predict ────────────────────────
     print("\n[Stage 2] Forecasting weeks 1–5 ...")
-    models    = load_models()
+    models    = load_models(model_dir)
     feat_cols = [c for c in get_feature_cols(test_feat) if c in test_last.columns]
     X_test    = test_last[feat_cols]
 
@@ -164,18 +197,49 @@ def main():
     pred_cols  = [f"pred_week{w}" for w in range(1, N_WEEKS + 1)]
     submission[pred_cols] = submission[pred_cols].fillna(0)
 
-    ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
-    out_path = SUB_DIR / f"submission_{ts}.csv"
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_suffix = run_dir.name if run_dir else "legacy"
+    out_path = SUB_DIR / f"submission_{ts}_{run_suffix}.csv"
     submission.to_csv(out_path, index=False)
+
+    run_submission_path = None
+    if run_dir:
+        run_submission_path = run_dir / "submissions" / out_path.name
+        run_submission_path.parent.mkdir(parents=True, exist_ok=True)
+        submission.to_csv(run_submission_path, index=False)
+
     print(f"\nSubmission saved → {out_path}")
+    if run_submission_path:
+        print(f"Run submission saved → {run_submission_path}")
     print(submission.head(10).to_string(index=False))
 
     print("\nPrediction statistics:")
+    pred_stats = {}
     for col in pred_cols:
+        pred_stats[col] = {
+            "mean": submission[col].mean(),
+            "std": submission[col].std(),
+            "min": submission[col].min(),
+            "max": submission[col].max(),
+        }
         print(f"  {col}: mean={submission[col].mean():.3f}, "
               f"std={submission[col].std():.3f}, "
               f"min={submission[col].min():.3f}, "
               f"max={submission[col].max():.3f}")
+
+    if run_dir:
+        save_json(
+            run_dir / "submission_metadata.json",
+            {
+                "created_at": datetime.now().isoformat(timespec="seconds"),
+                "model_dir": model_dir,
+                "global_submission_path": out_path,
+                "run_submission_path": run_submission_path,
+                "rows": len(submission),
+                "prediction_stats": pred_stats,
+            },
+        )
+        print(f"Submission metadata saved → {run_dir / 'submission_metadata.json'}")
 
 
 if __name__ == "__main__":

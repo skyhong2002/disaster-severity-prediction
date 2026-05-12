@@ -9,11 +9,13 @@ Two-stage LightGBM training:
 
 Usage:
     python3 src/train.py
+    python3 src/train.py --experiment-name lgbm_v1
 """
-import os
+import argparse
 import pickle
 import warnings
 import gc
+from datetime import datetime
 from pathlib import Path
 
 import lightgbm as lgb
@@ -22,6 +24,7 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error
 
 from features import build_features, get_feature_cols, METEO_COLS, reduce_mem_usage
+from experiment_utils import create_run_dir, save_json, write_latest_run
 
 warnings.filterwarnings("ignore")
 
@@ -30,6 +33,8 @@ ROOT      = Path(__file__).parent.parent
 DATA_DIR  = ROOT / "data"
 MODEL_DIR = ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
+
+MODEL_FAMILY = "lightgbm_two_stage"
 
 # ── LightGBM config ────────────────────────────────────────────────────────────
 LGB_PARAMS = {
@@ -50,6 +55,21 @@ LGB_PARAMS = {
 
 N_WEEKS = 5       # predict weeks 1–5
 N_FOLDS = 5       # time-series CV folds
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Train disaster severity models.")
+    parser.add_argument(
+        "--experiment-name",
+        default="current",
+        help="Readable name appended to experiments/<run_id>/.",
+    )
+    parser.add_argument(
+        "--model-family",
+        default=MODEL_FAMILY,
+        help="Model family label for experiment tracking.",
+    )
+    return parser.parse_args()
 
 
 def load_data():
@@ -187,12 +207,37 @@ def train_score_reconstructor(feat_df: pd.DataFrame) -> lgb.LGBMRegressor:
 
 
 def main():
+    args = parse_args()
+    run_dir = create_run_dir(args.model_family, args.experiment_name)
+
     print("=" * 60)
     print("  Natural Disaster Severity Prediction — Training (Optimized)")
     print("=" * 60)
+    print(f"Experiment run directory: {run_dir}")
+
+    save_json(
+        run_dir / "config.json",
+        {
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "model_family": args.model_family,
+            "experiment_name": args.experiment_name,
+            "n_weeks": N_WEEKS,
+            "validation_strategy": "chronological_holdout_last_20_percent",
+            "meteorological_columns": METEO_COLS,
+            "lightgbm_params": LGB_PARAMS,
+            "pipeline": [
+                "load train.csv",
+                "build temporal features",
+                "train score reconstructor",
+                "train one direct LightGBM model per horizon",
+                "save versioned models and metrics",
+            ],
+        },
+    )
 
     # 1. Load data
     train = load_data()
+    train_shape = train.shape
 
     # 2. Feature engineering
     print("\nBuilding features ...")
@@ -206,7 +251,7 @@ def main():
 
     # 4. Stage 1: Train score reconstructor (meteo → score, no leakage)
     reconstructor = train_score_reconstructor(feat_df)
-    recon_path = MODEL_DIR / "lgbm_score_reconstructor.pkl"
+    recon_path = run_dir / "models" / "lgbm_score_reconstructor.pkl"
     with open(recon_path, "wb") as f:
         pickle.dump(reconstructor, f)
     print(f"Score reconstructor saved → {recon_path}")
@@ -220,10 +265,18 @@ def main():
         val_maes[week]   = val_mae
 
     # 6. Save horizon models
-    model_path = MODEL_DIR / "lgbm_models.pkl"
+    model_path = run_dir / "models" / "lgbm_models.pkl"
     with open(model_path, "wb") as f:
         pickle.dump(models, f)
     print(f"\nHorizon models saved → {model_path}")
+
+    # Preserve the original latest-model paths for backward compatibility.
+    legacy_recon_path = MODEL_DIR / "lgbm_score_reconstructor.pkl"
+    legacy_model_path = MODEL_DIR / "lgbm_models.pkl"
+    with open(legacy_recon_path, "wb") as f:
+        pickle.dump(reconstructor, f)
+    with open(legacy_model_path, "wb") as f:
+        pickle.dump(models, f)
 
     # Summary
     print("\n--- Validation MAE per horizon ---")
@@ -231,6 +284,28 @@ def main():
         print(f"  Week {w}: {mae:.4f}")
     avg = np.mean(list(val_maes.values()))
     print(f"  Average: {avg:.4f}")
+    metrics = {
+        "model_family": args.model_family,
+        "experiment_name": args.experiment_name,
+        "train_shape": train_shape,
+        "feature_columns": len(get_feature_cols(feat_df)),
+        "weekly_label_rows": len(weekly_df),
+        "score_reconstructor_val_mae": getattr(
+            reconstructor, "best_score_", {}
+        ).get("valid_0", {}).get("l1"),
+        "horizon_val_mae": {f"week_{w}": mae for w, mae in val_maes.items()},
+        "stage2_average_val_mae": avg,
+        "model_paths": {
+            "run_score_reconstructor": recon_path,
+            "run_horizon_models": model_path,
+            "latest_score_reconstructor": legacy_recon_path,
+            "latest_horizon_models": legacy_model_path,
+        },
+    }
+    save_json(run_dir / "metrics.json", metrics)
+    write_latest_run(run_dir)
+    print(f"Metrics saved → {run_dir / 'metrics.json'}")
+    print(f"Latest run pointer updated → {run_dir.name}")
     print("\nDone! Run src/predict.py to generate submission.")
 
 

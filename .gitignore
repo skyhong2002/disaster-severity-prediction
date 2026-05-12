@@ -45,6 +45,10 @@ models/*.pt
 models/*.pth
 models/*.onnx
 models/*.cbm
+experiments/*/models/
+experiments/*/submissions/
+experiments/*/logs/
+experiments/latest.txt
 
 # ── Submissions (generated files) ─────────────────────────────────────────────
 submissions/*.csv

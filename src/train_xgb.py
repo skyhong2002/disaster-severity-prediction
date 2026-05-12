@@ -18,7 +18,7 @@ import gc
 from datetime import datetime
 from pathlib import Path
 
-import lightgbm as lgb
+import xgboost as xgb
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error
@@ -34,23 +34,21 @@ DATA_DIR  = ROOT / "data"
 MODEL_DIR = ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 
-MODEL_FAMILY = "lightgbm_two_stage"
+MODEL_FAMILY = "xgboost_two_stage"
 
 # ── LightGBM config ────────────────────────────────────────────────────────────
-LGB_PARAMS = {
-    "objective":        "regression_l1",   # optimize MAE directly
-    "metric":           "mae",
-    "num_leaves":       127,
+XGB_PARAMS = {
+    "objective":        "reg:absoluteerror",
+    "eval_metric":      "mae",
+    "max_depth":        7,
     "learning_rate":    0.05,
-    "feature_fraction": 0.8,
-    "bagging_fraction": 0.8,
-    "bagging_freq":     1,
-    "min_child_samples": 20,
+    "colsample_bytree": 0.8,
+    "subsample":        0.8,
     "n_estimators":     3000,
-    "early_stopping_rounds": 100,
-    "verbose":          -1,
     "n_jobs":           -1,
     "random_state":     42,
+    "tree_method":      "hist",
+    "early_stopping_rounds": 100,
 }
 
 N_WEEKS = 5       # predict weeks 1–5
@@ -129,8 +127,8 @@ def train_one_horizon(
     feature_df: pd.DataFrame,
     weekly_df:  pd.DataFrame,
     week: int,
-) -> lgb.LGBMRegressor:
-    """Train a single LightGBM model for horizon `week`."""
+) -> xgb.XGBRegressor:
+    """Train a single XGBoost model for horizon `week`."""
     print(f"\n  --- Training horizon: week {week} ---")
     target_col = f"target_w{week}"
 
@@ -157,11 +155,11 @@ def train_one_horizon(
     X_val   = X[val_mask]
     y_val   = y[val_mask]
 
-    model = lgb.LGBMRegressor(**LGB_PARAMS)
+    model = xgb.XGBRegressor(**XGB_PARAMS)
     model.fit(
         X_train, y_train,
         eval_set=[(X_val, y_val)],
-        callbacks=[lgb.log_evaluation(200), lgb.early_stopping(100, verbose=False)],
+        verbose=200,
     )
 
     val_pred = model.predict(X_val)
@@ -191,11 +189,11 @@ def main():
             "n_weeks": N_WEEKS,
             "validation_strategy": "chronological_holdout_last_20_percent",
             "meteorological_columns": METEO_COLS,
-            "lightgbm_params": LGB_PARAMS,
+            "xgboost_params": XGB_PARAMS,
             "pipeline": [
                 "load train.csv",
                 "build temporal features",
-                "train one direct LightGBM model per horizon",
+                "train one direct XGBoost model per horizon",
                 "save versioned models and metrics",
             ],
         },

@@ -1,0 +1,25 @@
+{
+  "experiment_name": "xgb_v1",
+  "feature_columns": 337,
+  "horizon_val_mae": {
+    "week_1": 0.6999565958976746,
+    "week_2": 0.7054544687271118,
+    "week_3": 0.716042697429657,
+    "week_4": 0.7238530516624451,
+    "week_5": 0.7297597527503967
+  },
+  "model_family": "xgboost_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/lgbm_models.pkl",
+    "latest_score_reconstructor": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/lgbm_score_reconstructor.pkl",
+    "run_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260512_234839_xgboost_two_stage_xgb_v1/models/lgbm_models.pkl",
+    "run_score_reconstructor": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260512_234839_xgboost_two_stage_xgb_v1/models/lgbm_score_reconstructor.pkl"
+  },
+  "score_reconstructor_val_mae": null,
+  "stage2_average_val_mae": 0.7150133132934571,
+  "train_shape": [
+    12319040,
+    17
+  ],
+  "weekly_label_rows": 1746696
+}

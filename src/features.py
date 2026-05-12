@@ -71,31 +71,17 @@ def add_meteo_features(df: pd.DataFrame) -> pd.DataFrame:
         df[f"{col}_ewm7"]  = grp.shift(1).ewm(span=7).mean().astype(np.float32)
         df[f"{col}_ewm14"] = grp.shift(1).ewm(span=14).mean().astype(np.float32)
 
-    return df
-
-
-def add_score_history_features(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Add lagged weekly score features.
-    Score is only non-NaN 1 day per week; we forward-fill within each 7-day
-    window so that lag arithmetic works correctly on weekly cadence.
-    """
-    df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
-
-    # Forward-fill score within each region (for feature construction only)
-    score_ff = df.groupby("region_id")["score"].ffill()
-
-    for lag_weeks in SCORE_LAGS:
-        lag_days = lag_weeks * 7
-        df[f"score_lag{lag_weeks}w"] = score_ff.groupby(df["region_id"]).shift(lag_days).astype(np.float32)
-
-    # Rolling score stats (over past N weeks)
-    for win_weeks in [4, 8, 12, 26, 52]:
-        win_days = win_weeks * 7
-        df[f"score_rmean{win_weeks}w"] = score_ff.groupby(df["region_id"]).shift(7).rolling(win_days, min_periods=1).mean().astype(np.float32)
-        df[f"score_rstd{win_weeks}w"]  = score_ff.groupby(df["region_id"]).shift(7).rolling(win_days, min_periods=1).std().astype(np.float32)
+    # --- Domain Features: Drought Approximations ---
+    # Combine rolling temperature and precipitation (High Temp + Low Rain = High Drought Risk)
+    for win in ROLL_WINS:
+        # Avoid division by zero with + 0.01
+        df[f"drought_idx_r{win}"] = (df[f"tmp_rmean{win}"] / (df[f"prec_rmean{win}"] + 0.01)).astype(np.float32)
+        # Daily temp range can also indicate dry air (higher range = drier air)
+        df[f"dryness_idx_r{win}"] = (df[f"tmp_range_rmean{win}"] * df[f"tmp_max_rmean{win}"]).astype(np.float32)
 
     return df
+
+
 
 
 def add_region_stats(df: pd.DataFrame, train_df: pd.DataFrame) -> pd.DataFrame:
@@ -127,7 +113,6 @@ def build_features(
     df = reduce_mem_usage(df)
     df = add_calendar_features(df)
     df = add_meteo_features(df)
-    df = add_score_history_features(df)
     df = add_region_stats(df, train_df)
     print(f"  → {len(df.columns)} columns total")
     return df

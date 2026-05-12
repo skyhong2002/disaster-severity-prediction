@@ -66,59 +66,8 @@ def load_models(model_dir: Path):
     return models
 
 
-def load_score_reconstructor(model_dir: Path):
-    """
-    Load Stage-1 model that predicts score from meteorological features.
-    Trained during train.py (saved as lgbm_score_reconstructor.pkl).
-    Falls back to None if not found.
-    """
-    path = model_dir / "lgbm_score_reconstructor.pkl"
-    if path.exists():
-        with open(path, "rb") as f:
-            model = pickle.load(f)
-        print(f"Loaded score reconstructor from {path}")
-        return model
-    print("⚠  No score reconstructor found — score history features will be 0.")
-    return None
 
 
-def reconstruct_test_scores(
-    test_feat: pd.DataFrame,
-    reconstructor,
-) -> pd.DataFrame:
-    """
-    Stage 1: Fill in weekly score estimates for the test window.
-    Uses the same feature set as training: all meteo + calendar features
-    (no score-history features).
-    """
-    if reconstructor is None:
-        test_feat["score_reconstructed"] = 0.0
-        return test_feat
-
-    exclude = {"region_id", "date", "score"}
-    score_lag_prefixes = ("score_lag", "score_rmean", "score_rstd", "score_reconstructed")
-    feat_cols = [
-        c for c in test_feat.columns
-        if c not in exclude and not c.startswith(score_lag_prefixes)
-    ]
-    test_feat = test_feat.copy()
-    test_feat["score_reconstructed"] = np.clip(
-        reconstructor.predict(test_feat[feat_cols].fillna(0)), 0, 5
-    )
-    return test_feat
-
-
-def inject_reconstructed_scores(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Replace score_ff (used for score-history features) with reconstructed
-    values so that lag/rolling score features don't carry real labels.
-    """
-    df = df.copy()
-    # Overwrite score_ff column used in feature engineering
-    # (score itself stays NaN so it's not used as a label)
-    if "score_reconstructed" in df.columns:
-        df["score"] = df["score_reconstructed"]
-    return df
 
 
 def main():
@@ -140,32 +89,16 @@ def main():
     sub_template = pd.read_csv(DATA_DIR / "sample_submission.csv")
     print(f"  train: {train.shape}, test: {test.shape}")
 
-    # ── 2. Stage 1: Reconstruct scores for test window ────────────
-    print("\n[Stage 1] Reconstructing scores for test window ...")
-    reconstructor = load_score_reconstructor(model_dir)
-
-    # Build minimal features (meteo only, no score history) for reconstructor
+    # ── 2. Build features for test window ────────────
+    print("\n[Stage 1] Building features for forecast ...")
     test["score"] = np.nan
-    combined_raw = pd.concat([train, test], ignore_index=True).sort_values(
-        ["region_id", "date"]
-    )
-    # Add basic meteo features for reconstruction
-    from features import add_calendar_features, add_meteo_features, add_region_stats
-    combined_meteo = add_meteo_features(add_calendar_features(combined_raw))
-    combined_meteo = add_region_stats(combined_meteo, train)
-    test_meteo = combined_meteo[combined_meteo["date"].isin(test["date"].unique())].copy()
-    test_meteo = reconstruct_test_scores(test_meteo, reconstructor)
-
-    # Inject reconstructed scores back so score-history features
-    # can be computed without leakage
-    test["score"] = test_meteo.set_index(["region_id", "date"])["score_reconstructed"] \
-        .reindex(pd.MultiIndex.from_frame(test[["region_id", "date"]])).values
-
-    # ── 3. Build full features with reconstructed scores ──────────
-    print("\n[Stage 2] Building full features for forecast ...")
     combined = pd.concat([train, test], ignore_index=True)
+    
+    from features import build_features
     combined_feat = build_features(combined, train, is_train=False)
-    test_feat = combined_feat[combined_feat["date"].isin(test["date"].unique())].copy()
+    
+    test_dates = test["date"].unique()
+    test_feat = combined_feat[combined_feat["date"].isin(test_dates)].copy()
 
     # For each region, take the LAST row of the 91-day test window
     test_last = (
@@ -176,7 +109,6 @@ def main():
         .reset_index()
     )
 
-    # ── 4. Load horizon models and predict ────────────────────────
     print("\n[Stage 2] Forecasting weeks 1–5 ...")
     models    = load_models(model_dir)
     feat_cols = [c for c in get_feature_cols(test_feat) if c in test_last.columns]

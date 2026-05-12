@@ -1,7 +1,11 @@
 """
 train.py
-Train LightGBM models (one per prediction horizon week 1–5).
-Saves models to models/ directory.
+Two-stage LightGBM training:
+  Stage 1: Train a score reconstructor (meteo features → weekly score).
+           Used at inference to fill score-history features for test data
+           without leaking real labels.
+  Stage 2: Train one LightGBM model per horizon (week 1–5) using the full
+           feature set (meteo + score history + calendar).
 
 Usage:
     python3 src/train.py
@@ -17,7 +21,7 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import KFold
 
-from features import build_features, get_feature_cols
+from features import build_features, get_feature_cols, METEO_COLS
 
 warnings.filterwarnings("ignore")
 
@@ -141,6 +145,46 @@ def train_one_horizon(
     return model, val_mae
 
 
+def train_score_reconstructor(feat_df: pd.DataFrame) -> lgb.LGBMRegressor:
+    """
+    Stage 1: Train a model to predict weekly `score` from meteorological
+    features only (no score-history features used as input).
+    This model is used at inference time to reconstruct plausible score
+    sequences for the test 91-day window, avoiding label leakage.
+    """
+    print("\n--- Training Stage-1: Score Reconstructor ---")
+
+    # Use only rows where score is observed (weekly label rows)
+    weekly = feat_df.dropna(subset=["score"]).copy()
+
+    # Input: only meteorological & calendar features (NO score-history cols)
+    exclude = {"region_id", "date", "score"}
+    score_lag_prefixes = ("score_lag", "score_rmean", "score_rstd")
+    feat_cols = [
+        c for c in feat_df.columns
+        if c not in exclude and not c.startswith(score_lag_prefixes)
+    ]
+
+    X = weekly[feat_cols].fillna(0)
+    y = weekly["score"]
+
+    n_val   = int(len(weekly) * 0.2)
+    X_train, y_train = X.iloc[:-n_val], y.iloc[:-n_val]
+    X_val,   y_val   = X.iloc[-n_val:], y.iloc[-n_val:]
+
+    recon_params = {**LGB_PARAMS, "num_leaves": 63, "n_estimators": 1000}
+    model = lgb.LGBMRegressor(**recon_params)
+    model.fit(
+        X_train, y_train,
+        eval_set=[(X_val, y_val)],
+        callbacks=[lgb.log_evaluation(200), lgb.early_stopping(100, verbose=False)],
+    )
+
+    val_mae = mean_absolute_error(y_val, np.clip(model.predict(X_val), 0, 5))
+    print(f"  Score Reconstructor Val MAE: {val_mae:.4f}")
+    return model
+
+
 def main():
     print("=" * 60)
     print("  Natural Disaster Severity Prediction — Training")
@@ -157,7 +201,14 @@ def main():
     print("\nExtracting weekly labels ...")
     weekly_df = extract_weekly_labels(feat_df)
 
-    # 4. Train one model per horizon
+    # 4. Stage 1: Train score reconstructor (meteo → score, no leakage)
+    reconstructor = train_score_reconstructor(feat_df)
+    recon_path = MODEL_DIR / "lgbm_score_reconstructor.pkl"
+    with open(recon_path, "wb") as f:
+        pickle.dump(reconstructor, f)
+    print(f"Score reconstructor saved → {recon_path}")
+
+    # 5. Stage 2: Train one model per horizon
     models   = {}
     val_maes = {}
     for week in range(1, N_WEEKS + 1):
@@ -165,11 +216,11 @@ def main():
         models[week]     = model
         val_maes[week]   = val_mae
 
-    # 5. Save models
+    # 6. Save horizon models
     model_path = MODEL_DIR / "lgbm_models.pkl"
     with open(model_path, "wb") as f:
         pickle.dump(models, f)
-    print(f"\nModels saved → {model_path}")
+    print(f"\nHorizon models saved → {model_path}")
 
     # Summary
     print("\n--- Validation MAE per horizon ---")

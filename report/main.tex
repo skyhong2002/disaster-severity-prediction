@@ -1,0 +1,302 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% ---- Packages ----
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{float}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% ========================================================
+\begin{document}
+
+\title{Natural Disaster Severity Prediction via\\
+Gradient Boosting and Temporal Feature Engineering}
+
+\author{
+  \IEEEauthorblockN{[Member 1 Name]}
+  \IEEEauthorblockA{\textit{National Yang Ming Chiao Tung University}\\
+  Hsinchu, Taiwan\\
+  [studentid1]@nycu.edu.tw}
+  \and
+  \IEEEauthorblockN{[Member 2 Name]}
+  \IEEEauthorblockA{\textit{National Yang Ming Chiao Tung University}\\
+  Hsinchu, Taiwan\\
+  [studentid2]@nycu.edu.tw}
+  \and
+  \IEEEauthorblockN{[Member 3 Name]}
+  \IEEEauthorblockA{\textit{National Yang Ming Chiao Tung University}\\
+  Hsinchu, Taiwan\\
+  [studentid3]@nycu.edu.tw}
+}
+
+\maketitle
+
+% ========================================================
+\begin{abstract}
+Group ID: 5. GitHub: \url{https://github.com/[YOUR_REPO_LINK]}.
+
+Natural disaster severity prediction is a critical task for risk management
+and early warning systems. In this work, we address the problem of forecasting
+weekly drought severity scores (0--5 scale) for multiple geographic regions
+using historical meteorological data. We propose a multi-step prediction
+pipeline that integrates \textbf{temporal feature engineering} with
+\textbf{LightGBM / XGBoost} gradient boosting models, augmented by lag
+features, rolling statistics, and seasonal decomposition. Our approach achieves
+a Mean Absolute Error (MAE) of \textbf{[X.XXX]} on the public leaderboard,
+surpassing Baseline 3 of the NYCU Data Mining 2026 Kaggle competition.
+\end{abstract}
+
+\begin{IEEEkeywords}
+natural disaster prediction, drought severity, time series forecasting,
+gradient boosting, feature engineering, LightGBM
+\end{IEEEkeywords}
+
+% ========================================================
+\section{Project Summary}
+
+\subsection{Goal}
+The goal of this project is to predict the drought severity score for each
+geographic region over the \textbf{next five consecutive weeks} (35 days),
+given 91 days of historical meteorological observations per region from the
+test set. Scores range from 0 (no disaster) to 5 (extreme severity).
+
+\subsection{High-Level Approach}
+Our method follows a supervised machine learning paradigm treating the task as
+a \textbf{multi-step time series regression} problem. We extract rich temporal
+features from the raw meteorological columns including lag values, rolling
+means/stds, exponential weighted averages, and calendar features. These
+features feed into an ensemble of gradient-boosted tree models. Final
+predictions are post-processed to clip values within [0, 5].
+
+\subsection{Related Works}
+Time series forecasting for environmental phenomena has been widely studied.
+Gradient boosting methods, notably XGBoost~\cite{chen2016xgboost} and
+LightGBM~\cite{ke2017lightgbm}, have demonstrated superior performance on
+tabular time series data by capturing non-linear feature interactions without
+requiring extensive data preprocessing. For weather and disaster prediction,
+feature engineering on lag windows has been shown to be highly effective
+\cite{kaggle_m5}. More recently, Transformer-based models such as
+Temporal Fusion Transformer (TFT)~\cite{lim2021temporal} and PatchTST
+\cite{nie2023patchtst} have achieved state-of-the-art results on multivariate
+time series benchmarks, which we also explore as a complementary approach.
+
+% ========================================================
+\section{Proposed Method}
+
+\subsection{Problem Formulation}
+Let $\mathcal{R} = \{r_1, r_2, \ldots, r_K\}$ denote the set of geographic
+regions. For each region $r_k$, we observe a time series of meteorological
+features $\mathbf{X}_{r_k} \in \mathbb{R}^{T \times D}$ where $T$ is the
+number of observed days and $D$ is the number of meteorological variables.
+The target $y_{r_k, t}$ is the drought severity score at week $t$, available
+only on a specific day per week (the rest are NaN).
+
+Given the 91-day test window, the task is to predict:
+\begin{equation}
+  \hat{y}_{r_k, t+1}, \hat{y}_{r_k, t+2}, \ldots, \hat{y}_{r_k, t+5}
+\end{equation}
+\noindent minimizing the Mean Absolute Error:
+\begin{equation}
+  \text{MAE} = \frac{1}{K \cdot 5} \sum_{k=1}^{K} \sum_{w=1}^{5}
+  \left| \hat{y}_{r_k, w} - y_{r_k, w} \right|
+\end{equation}
+
+\subsection{Data Preprocessing}
+
+\subsubsection{Handling NaN Scores}
+Since scores are only recorded weekly, we forward-fill and backward-fill NaN
+score values within each 7-day window to produce a complete weekly signal for
+feature construction. During training, only the true weekly score rows are
+used as labels.
+
+\subsubsection{Feature Engineering}
+For each meteorological column $d$, we construct the following feature groups:
+
+\begin{itemize}
+  \item \textbf{Lag features}: $x_{t-1}, x_{t-7}, x_{t-14}, x_{t-21},
+        x_{t-28}, x_{t-35}$
+  \item \textbf{Rolling statistics}: mean, std, min, max over windows of
+        7, 14, 21, 28, 35 days
+  \item \textbf{EWM}: exponentially weighted mean with $\alpha \in
+        \{0.3, 0.1\}$
+  \item \textbf{Trend}: linear regression slope over last 7/14 days
+  \item \textbf{Calendar}: day of year, week of year, month, quarter
+  \item \textbf{Score history}: last 1/2/3/5 weekly scores per region
+\end{itemize}
+
+\subsection{Model Architecture}
+
+\subsubsection{LightGBM Ensemble}
+We train one LightGBM regressor per prediction horizon (week 1 through week 5),
+a technique known as \textbf{Direct Multi-Step Forecasting}. Each model uses:
+\begin{itemize}
+  \item \texttt{num\_leaves}: 127
+  \item \texttt{learning\_rate}: 0.05
+  \item \texttt{n\_estimators}: 2000 with early stopping
+  \item \texttt{subsample}: 0.8, \texttt{colsample\_bytree}: 0.8
+\end{itemize}
+
+\subsubsection{XGBoost Baseline}
+We also train an XGBoost model with identical hyperparameters to serve as a
+cross-validation reference.
+
+\subsubsection{Temporal Fusion Transformer (TFT)}
+% TODO: Add TFT results if used
+As a deep learning complement, we experiment with TFT~\cite{lim2021temporal}
+using PyTorch Forecasting, encoding each region as a categorical static
+covariate.
+
+\subsection{Ensemble Strategy}
+Final predictions are produced by weighted averaging:
+\begin{equation}
+  \hat{y} = \alpha \cdot \hat{y}_{\text{LGB}} + \beta \cdot
+  \hat{y}_{\text{XGB}} + \gamma \cdot \hat{y}_{\text{TFT}}
+\end{equation}
+\noindent where $\alpha, \beta, \gamma$ are tuned via cross-validation.
+
+% ========================================================
+\section{Experiments}
+
+\subsection{Data Description}
+The dataset contains meteorological measurements for multiple geographic
+regions. The training set spans \textbf{5,480 days} per region with weekly
+drought scores (0--5). The test set provides 91 days of observations per
+region without labels; we must predict 5 future weekly scores.
+
+Table~\ref{tab:data_stats} summarizes key dataset statistics.
+
+\begin{table}[h]
+\centering
+\caption{Dataset Statistics}
+\label{tab:data_stats}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Train} & \textbf{Test} \\
+\midrule
+Days per region   & 5,480 & 91 \\
+\# Regions        & [TBD] & [TBD] \\
+\# Features       & [TBD] & [TBD] \\
+Score range       & 0--5  & N/A \\
+Weekly NaN ratio  & 6/7   & N/A \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Experimental Setup}
+We use a \textbf{time-series cross-validation} strategy with 5 folds, where
+each fold's validation set consists of the most recent 5 weeks. All
+hyperparameters are tuned on the validation set to prevent data leakage.
+
+\subsection{Baselines}
+We define the following self-defined baselines:
+\begin{itemize}
+  \item \textbf{Baseline-Last}: Predict last observed score for all 5 weeks.
+  \item \textbf{Baseline-Mean}: Predict region-wise historical mean score.
+  \item \textbf{Baseline-MA7}: 7-week moving average.
+\end{itemize}
+
+\subsection{Results}
+
+\begin{table}[h]
+\centering
+\caption{MAE Comparison on Kaggle Public Leaderboard}
+\label{tab:results}
+\begin{tabular}{lc}
+\toprule
+\textbf{Method} & \textbf{MAE (Public)} \\
+\midrule
+Baseline-Last   & [TBD] \\
+Baseline-Mean   & [TBD] \\
+Baseline-MA7    & [TBD] \\
+Kaggle Baseline 1 & [TBD] \\
+Kaggle Baseline 2 & [TBD] \\
+Kaggle Baseline 3 & [TBD] \\
+\midrule
+\textbf{Ours (LightGBM)} & \textbf{[TBD]} \\
+\textbf{Ours (Ensemble)} & \textbf{[TBD]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Study}
+% TODO: Fill in after running experiments
+We conduct ablation studies to assess the contribution of each feature group.
+Results are shown in Table~\ref{tab:ablation}.
+
+\begin{table}[h]
+\centering
+\caption{Ablation Study (MAE, CV)}
+\label{tab:ablation}
+\begin{tabular}{lc}
+\toprule
+\textbf{Configuration} & \textbf{MAE} \\
+\midrule
+Full model              & [TBD] \\
+w/o lag features        & [TBD] \\
+w/o rolling stats       & [TBD] \\
+w/o score history       & [TBD] \\
+w/o calendar features   & [TBD] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ========================================================
+\section{Conclusion}
+In this work, we presented a time series prediction framework for forecasting
+drought severity levels from meteorological data. Our proposed pipeline
+combining temporal feature engineering with LightGBM achieves competitive
+performance on the Kaggle leaderboard. Future work includes exploring
+attention-based models and ensemble refinement.
+
+% ========================================================
+\begin{thebibliography}{00}
+
+\bibitem{chen2016xgboost}
+T.~Chen and C.~Guestrin,
+``XGBoost: A scalable tree boosting system,''
+in \textit{Proc. ACM SIGKDD}, 2016, pp. 785--794.
+
+\bibitem{ke2017lightgbm}
+G.~Ke et al.,
+``LightGBM: A highly efficient gradient boosting decision tree,''
+in \textit{Advances in Neural Information Processing Systems (NeurIPS)},
+2017, pp. 3146--3154.
+
+\bibitem{kaggle_m5}
+S.~Makridakis, E.~Spiliotis, and V.~Assimakopoulos,
+``M5 accuracy competition: Results, findings, and conclusions,''
+\textit{International Journal of Forecasting}, vol.~38, no.~4, 2022.
+
+\bibitem{lim2021temporal}
+B.~Lim, S.~{\"O}.~Ar{\i}k, N.~Loeff, and T.~Pfister,
+``Temporal fusion transformers for interpretable multi-horizon time series
+forecasting,'' \textit{International Journal of Forecasting}, vol.~37, no.~4,
+2021, pp. 1748--1764.
+
+\bibitem{nie2023patchtst}
+Y.~Nie, N.~H.~Nguyen, P.~Sinthong, and J.~Kalagnanam,
+``A time series is worth 64 words: Long-term forecasting with transformers,''
+in \textit{Proc. ICLR}, 2023.
+
+\end{thebibliography}
+
+\end{document}

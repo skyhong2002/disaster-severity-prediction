@@ -1,0 +1,22 @@
+{
+  "average_val_mae": 0.7319984436035156,
+  "experiment_name": "xgb_direct",
+  "feature_columns": 318,
+  "horizon_val_mae": {
+    "week_1": 0.7127484679222107,
+    "week_2": 0.7364633083343506,
+    "week_3": 0.7426829934120178,
+    "week_4": 0.7296587824821472,
+    "week_5": 0.7384386658668518
+  },
+  "model_family": "xgboost_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/lgbm_models.pkl",
+    "run_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260513_013002_xgboost_two_stage_xgb_direct/models/lgbm_models.pkl"
+  },
+  "train_shape": [
+    12319040,
+    17
+  ],
+  "weekly_label_rows": 1746696
+}

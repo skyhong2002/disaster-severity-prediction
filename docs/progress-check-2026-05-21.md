@@ -27,8 +27,6 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 
 May 21, 2026
 
-GitHub: https://github.com/skyhong2002/disaster-severity-prediction
-
 ---
 
 # Task and Data

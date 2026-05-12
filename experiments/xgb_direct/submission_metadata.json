@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-13T03:23:40",
+  "global_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/submissions/submission_20260513_032340_xgb_direct.csv",
+  "model_dir": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 5.0,
+      "mean": 1.0580058097839355,
+      "min": 0.0,
+      "std": 0.9918367266654968
+    },
+    "pred_week2": {
+      "max": 5.0,
+      "mean": 0.9984555244445801,
+      "min": 0.0,
+      "std": 0.9725507497787476
+    },
+    "pred_week3": {
+      "max": 5.0,
+      "mean": 0.9513552784919739,
+      "min": 0.0,
+      "std": 0.9483576416969299
+    },
+    "pred_week4": {
+      "max": 5.0,
+      "mean": 0.9637448787689209,
+      "min": 0.0,
+      "std": 0.9517776370048523
+    },
+    "pred_week5": {
+      "max": 5.0,
+      "mean": 0.9711151719093323,
+      "min": 0.0,
+      "std": 0.9705882668495178
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/xgb_direct/submissions/submission_20260513_032340_xgb_direct.csv"
+}

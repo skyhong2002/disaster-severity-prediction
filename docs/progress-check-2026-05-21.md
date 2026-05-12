@@ -93,12 +93,12 @@ We fixed a critical **Time-Leakage** bug by switching to a strict chronological 
 
 | Horizon | LGBM MAE | XGB MAE |
 |---|---:|---:|
-| Week 1 | 0.6737 | 0.7000 |
-| Week 2 | 0.6837 | 0.7055 |
-| Week 3 | 0.6945 | 0.7160 |
-| Week 4 | 0.7049 | 0.7239 |
-| Week 5 | 0.7141 | 0.7298 |
-| **Average** | **0.6942** | **0.7150** |
+| Week 1 | 0.6772 | 0.7127 |
+| Week 2 | 0.6729 | 0.7365 |
+| Week 3 | 0.6795 | 0.7427 |
+| Week 4 | 0.6761 | 0.7297 |
+| Week 5 | 0.6795 | 0.7384 |
+| **Average** | **0.6770** | **0.7320** |
 
 ---
 
@@ -111,11 +111,12 @@ Public leaderboard uses about **40%** of the test data.
 | Baseline 3 | 0.8056 |
 | Team 20 | 0.8062 |
 | **Team 5 (v0 Leaky)** | **0.8094** |
-| **Team 5 (Final Ensemble)**| **0.8232** |
+| **Team 5 (v1 Ensemble)**| **0.8232** |
+| **Team 5 (Strategy B Ensemble)** | **TBD (Pending Quota)** |
 | Baseline 2 | 0.8623 |
 | Baseline 1 | 0.9117 |
 
-The ensemble successfully improves upon the single un-leaked LGBM model (0.8299).
+We verified that the Strategy B ensemble runs perfectly; its Kaggle submission will be finalized tomorrow when the daily quota resets.
 
 ---
 
@@ -161,4 +162,4 @@ Completed so far:
 
 Main focus next: hyperparameter tuning and model refinement.
 
-## Thank you
+## Thank you (∠·ω )⌒★

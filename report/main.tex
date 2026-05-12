@@ -198,9 +198,13 @@ Table~\ref{tab:experiment_log} records the implemented experiment versions.
 \hline
 \textbf{Model Strategy} & \textbf{Local MAE} & \textbf{Public MAE} \\
 \hline
-LightGBM Direct Forecasting & 0.6942 & 0.8299 \\
-XGBoost Direct Forecasting & 0.7150 & 0.8400* \\
-\textbf{LGBM + XGB Ensemble} & \textbf{N/A} & \textbf{0.8232} \\
+LightGBM w/ Score Reconstructor & 0.6942 & 0.8299 \\
+XGBoost w/ Score Reconstructor & 0.7150 & N/A \\
+\textbf{Ensemble (LGBM+XGB) v1} & N/A & \textbf{0.8232} \\
+\hline
+LightGBM Direct (Domain Feat.) & 0.6770 & N/A \\
+XGBoost Direct (Domain Feat.) & 0.7320 & N/A \\
+\textbf{Ensemble Strategy B} & N/A & \textbf{TBD} \\
 \hline
 \end{tabular}
 \end{table}
@@ -213,13 +217,13 @@ XGBoost Direct Forecasting & 0.7150 & 0.8400* \\
 \hline
 \textbf{Model / Horizon} & \textbf{MAE} \\
 \hline
-Week 1 & 0.6737 \\
-Week 2 & 0.6837 \\
-Week 3 & 0.6945 \\
-Week 4 & 0.7049 \\
-Week 5 & 0.7141 \\
+Week 1 & 0.6772 \\
+Week 2 & 0.6729 \\
+Week 3 & 0.6795 \\
+Week 4 & 0.6761 \\
+Week 5 & 0.6795 \\
 \hline
-\textbf{Average MAE} & \textbf{0.6942} \\
+\textbf{Average MAE} & \textbf{0.6770} \\
 \hline
 \end{tabular}
 \end{table}
@@ -258,17 +262,17 @@ produce a wider range of long-horizon forecasts.
 
 \begin{table}[h]
 \centering
-\caption{Prediction Statistics for Generated Submission}
+\caption{Prediction Statistics for Final Ensemble (Strategy B)}
 \label{tab:pred_stats}
 \begin{tabular}{lcccc}
 \hline
 \textbf{Column} & \textbf{Mean} & \textbf{Std.} & \textbf{Min} & \textbf{Max} \\
 \hline
-\texttt{pred\_week1} & 1.125 & 0.758 & 0.000 & 4.095 \\
-\texttt{pred\_week2} & 1.092 & 0.784 & 0.000 & 4.278 \\
-\texttt{pred\_week3} & 1.049 & 0.803 & 0.000 & 4.091 \\
-\texttt{pred\_week4} & 1.001 & 0.820 & 0.000 & 4.152 \\
-\texttt{pred\_week5} & 0.987 & 0.832 & 0.000 & 4.223 \\
+\texttt{pred\_week1} & 1.058 & 0.992 & 0.000 & 5.000 \\
+\texttt{pred\_week2} & 0.998 & 0.973 & 0.000 & 5.000 \\
+\texttt{pred\_week3} & 0.951 & 0.948 & 0.000 & 5.000 \\
+\texttt{pred\_week4} & 0.964 & 0.952 & 0.000 & 5.000 \\
+\texttt{pred\_week5} & 0.971 & 0.971 & 0.000 & 5.000 \\
 \hline
 \end{tabular}
 \end{table}

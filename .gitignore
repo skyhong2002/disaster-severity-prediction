@@ -88,3 +88,4 @@ report/*.pdf
 *.log
 *.tmp
 .cache/
+uv.lock

@@ -13,15 +13,15 @@ Usage:
 import os
 import pickle
 import warnings
+import gc
 from pathlib import Path
 
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import KFold
 
-from features import build_features, get_feature_cols, METEO_COLS
+from features import build_features, get_feature_cols, METEO_COLS, reduce_mem_usage
 
 warnings.filterwarnings("ignore")
 
@@ -55,6 +55,7 @@ N_FOLDS = 5       # time-series CV folds
 def load_data():
     print("Loading train.csv ...")
     train = pd.read_csv(DATA_DIR / "train.csv", parse_dates=["date"])
+    train = reduce_mem_usage(train)
     print(f"  train shape: {train.shape}")
     return train
 
@@ -187,7 +188,7 @@ def train_score_reconstructor(feat_df: pd.DataFrame) -> lgb.LGBMRegressor:
 
 def main():
     print("=" * 60)
-    print("  Natural Disaster Severity Prediction — Training")
+    print("  Natural Disaster Severity Prediction — Training (Optimized)")
     print("=" * 60)
 
     # 1. Load data
@@ -196,6 +197,8 @@ def main():
     # 2. Feature engineering
     print("\nBuilding features ...")
     feat_df   = build_features(train, train, is_train=True)
+    del train
+    gc.collect()
 
     # 3. Extract weekly training rows
     print("\nExtracting weekly labels ...")

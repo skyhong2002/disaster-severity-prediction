@@ -27,7 +27,7 @@ disaster-severity-prediction/
 ├── submissions/               # Generated CSVs (not in git)
 ├── report/
 │   └── main.tex               # IEEE report (Overleaf)
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -40,8 +40,12 @@ disaster-severity-prediction/
 git clone <repo-url>
 cd disaster-severity-prediction
 
-# Install dependencies (Python 3.10+)
-pip install -r requirements.txt
+# Install uv (if not already installed)
+# macOS / Linux: curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Create virtual environment & install dependencies
+uv sync
 ```
 
 ---
@@ -56,7 +60,7 @@ You need a **Kaggle API Token**. Get one from https://www.kaggle.com/settings �
 export KAGGLE_API_TOKEN=KGAT_xxxxxxxxxxxxxxxxxxxx
 
 # Then run the download script
-python3 src/download_data.py
+uv run python src/download_data.py
 ```
 
 ### Option B — kaggle CLI
@@ -77,10 +81,10 @@ After downloading, your `data/` folder should contain:
 
 ```bash
 # Step 1: Feature engineering + Training
-python3 src/train.py
+uv run python src/train.py
 
 # Step 2: Generate predictions
-python3 src/predict.py
+uv run python src/predict.py
 
 # Output: submissions/submission_<timestamp>.csv
 # → Upload this file to Kaggle

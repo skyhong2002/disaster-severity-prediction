@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from features import build_features, get_feature_cols, METEO_COLS
+from features import build_features, get_feature_cols
 
 warnings.filterwarnings("ignore")
 
@@ -62,14 +62,19 @@ def reconstruct_test_scores(
 ) -> pd.DataFrame:
     """
     Stage 1: Fill in weekly score estimates for the test window.
-    Only applied to rows that correspond to the weekly scoring day
-    (we pick one row per 7-day block per region, i.e. every 7th row).
+    Uses the same feature set as training: all meteo + calendar features
+    (no score-history features).
     """
     if reconstructor is None:
         test_feat["score_reconstructed"] = 0.0
         return test_feat
 
-    feat_cols = [c for c in METEO_COLS if c in test_feat.columns]
+    exclude = {"region_id", "date", "score"}
+    score_lag_prefixes = ("score_lag", "score_rmean", "score_rstd", "score_reconstructed")
+    feat_cols = [
+        c for c in test_feat.columns
+        if c not in exclude and not c.startswith(score_lag_prefixes)
+    ]
     test_feat = test_feat.copy()
     test_feat["score_reconstructed"] = np.clip(
         reconstructor.predict(test_feat[feat_cols].fillna(0)), 0, 5
@@ -112,8 +117,9 @@ def main():
         ["region_id", "date"]
     )
     # Add basic meteo features for reconstruction
-    from features import add_calendar_features, add_meteo_features
+    from features import add_calendar_features, add_meteo_features, add_region_stats
     combined_meteo = add_meteo_features(add_calendar_features(combined_raw))
+    combined_meteo = add_region_stats(combined_meteo, train)
     test_meteo = combined_meteo[combined_meteo["date"].isin(test["date"].unique())].copy()
     test_meteo = reconstruct_test_scores(test_meteo, reconstructor)
 

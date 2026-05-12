@@ -1,6 +1,6 @@
 {
-  "created_at": "2026-05-12T22:58:39",
-  "experiment_name": "lgbm_v2",
+  "created_at": "2026-05-13T03:39:01",
+  "experiment_name": "lgbm_direct",
   "lightgbm_params": {
     "bagging_fraction": 0.8,
     "bagging_freq": 1,
@@ -37,7 +37,6 @@
   "pipeline": [
     "load train.csv",
     "build temporal features",
-    "train score reconstructor",
     "train one direct LightGBM model per horizon",
     "save versioned models and metrics"
   ],

@@ -103,19 +103,16 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 
 ---
 
-# Kaggle 公開排行榜成績
+# Kaggle Public Leaderboard（**40%** 測試集資料）
 
-Public Leaderboard 大約使用了 **40%** 的測試集資料。
-
-| 方法 (Method) | Public MAE |
-|---|---:|
-| Baseline 3 | 0.8056 |
-| Team 20 | 0.8062 |
-| **Team 5 (v0 含有資料洩漏)** | **0.8094** |
-| **Team 5 (v1 雙模型融合)**| **0.8232** |
-| **Team 5 (策略 B 終極融合)** | **TBD (等待配額重置)** |
-| Baseline 2 | 0.8623 |
-| Baseline 1 | 0.9117 |
+| 方法 (Method) | Public MAE | 洞見 (Insight) |
+|---|---:|---|
+| Baseline 3 | 0.8056 | - |
+| **Team 5 (v0)** | **0.8094** | 含有資料洩漏，分數虛高 |
+| **Team 5 (v1 Ensemble)**| **0.8232** | 雖有歷史雜訊，但保留了關鍵序列結構，具最佳泛化能力 |
+| Baseline 2 | 0.8623 | - |
+| **Team 5 (策略 B)** | **0.8640** | 完美 Local MAE (0.677)，但缺乏歷史資訊導致過擬合 (Kaggle悖論) |
+| Baseline 1 | 0.9117 | - |
 
 ---
 
@@ -141,7 +138,7 @@ Public Leaderboard 大約使用了 **40%** 的測試集資料。
 
 # 下一步 (Next Steps)
 
-在最終死線 (Deadline) 之前，我們計畫：
+在 Deadline) 之前，我們計畫：
 
 - 正式對 XGBoost 進行超參數調校 (Hyperparameter tuning)，縮小與 LGBM 的差距。
 - 嘗試加入更長週期的滾動特徵 (Rolling windows) 與特徵篩選 (Feature selection)。

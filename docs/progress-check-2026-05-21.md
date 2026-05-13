@@ -106,17 +106,15 @@ We fixed a critical **Time-Leakage** bug by switching to a strict chronological 
 
 Public leaderboard uses about **40%** of the test data.
 
-| Method | Public MAE |
-|---|---:|
-| Baseline 3 | 0.8056 |
-| Team 20 | 0.8062 |
-| **Team 5 (v0 Leaky)** | **0.8094** |
-| **Team 5 (v1 Ensemble)**| **0.8232** |
-| **Team 5 (Strategy B Ensemble)** | **TBD (Pending Quota)** |
-| Baseline 2 | 0.8623 |
-| Baseline 1 | 0.9117 |
-
-We verified that the Strategy B ensemble runs perfectly; its Kaggle submission will be finalized tomorrow when the daily quota resets.
+| Method | Public MAE | Insight |
+|---|---:|---|
+| Baseline 3 | 0.8056 | - |
+| Team 20 | 0.8062 | - |
+| **Team 5 (v0 Leaky)** | **0.8094** | Data leaked, inflated score |
+| **Team 5 (v1 Ensemble)**| **0.8232** | Kept noisy history; best generalization |
+| **Team 5 (Strategy B)** | **0.8640** | Perfect Local MAE (0.677), overfit to test |
+| Baseline 2 | 0.8623 | - |
+| Baseline 1 | 0.9117 | - |
 
 ---
 

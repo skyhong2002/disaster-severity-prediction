@@ -13,6 +13,7 @@ Output:
     submissions/submission_<timestamp>.csv
 """
 import argparse
+import json
 import pickle
 import warnings
 from datetime import datetime
@@ -66,6 +67,34 @@ def load_models(model_dir: Path):
     return models
 
 
+def model_feature_columns(models: dict, fallback_cols: list[str]) -> list[str]:
+    """Use persisted model feature names when available for legacy compatibility."""
+    first_model = models[min(models.keys())]
+    names = getattr(first_model, "feature_name_", None)
+    if names is None:
+        names = getattr(first_model, "feature_names_in_", None)
+    return list(names) if names is not None else fallback_cols
+
+
+def load_feature_options(run_dir: Path | None) -> dict:
+    """Read feature-engineering options recorded by train.py."""
+    defaults = {
+        "use_score_history": False,
+        "score_gap_days": 91,
+        "use_climatology": True,
+        "use_region_stats": True,
+        "feature_profile": "full",
+    }
+    if run_dir is None:
+        return defaults
+    config_path = run_dir / "config.json"
+    if not config_path.exists():
+        return defaults
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = json.load(f)
+    return {**defaults, **config.get("feature_options", {})}
+
+
 
 
 
@@ -81,6 +110,8 @@ def main():
     if run_dir:
         print(f"Experiment run directory: {run_dir}")
     print(f"Model directory: {model_dir}")
+    feature_options = load_feature_options(run_dir)
+    print(f"Feature options: {feature_options}")
 
     # ── 1. Load raw data ──────────────────────────────────────────
     print("\nLoading data ...")
@@ -95,7 +126,16 @@ def main():
     combined = pd.concat([train, test], ignore_index=True)
     
     from features import build_features
-    combined_feat = build_features(combined, train, is_train=False)
+    combined_feat = build_features(
+        combined,
+        train,
+        is_train=False,
+        use_score_history=feature_options.get("use_score_history", False),
+        score_gap_days=int(feature_options.get("score_gap_days", 91)),
+        use_climatology=feature_options.get("use_climatology", True),
+        use_region_stats=feature_options.get("use_region_stats", True),
+        feature_profile=feature_options.get("feature_profile", "full"),
+    )
     
     test_dates = test["date"].unique()
     test_feat = combined_feat[combined_feat["date"].isin(test_dates)].copy()
@@ -111,7 +151,12 @@ def main():
 
     print("\n[Stage 2] Forecasting weeks 1–5 ...")
     models    = load_models(model_dir)
-    feat_cols = [c for c in get_feature_cols(test_feat) if c in test_last.columns]
+    fallback_cols = [c for c in get_feature_cols(test_feat) if c in test_last.columns]
+    expected_cols = model_feature_columns(models, fallback_cols)
+    missing_cols = [c for c in expected_cols if c not in test_last.columns]
+    if missing_cols:
+        raise ValueError(f"Missing {len(missing_cols)} model feature columns, e.g. {missing_cols[:10]}")
+    feat_cols = expected_cols
     X_test    = test_last[feat_cols]
 
     preds = {}

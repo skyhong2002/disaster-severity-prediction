@@ -23,7 +23,13 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error
 
-from features import build_features, get_feature_cols, METEO_COLS, reduce_mem_usage
+from features import (
+    SCORE_GAP_DAYS,
+    build_features,
+    get_feature_cols,
+    METEO_COLS,
+    reduce_mem_usage,
+)
 from experiment_utils import create_run_dir, save_json, write_latest_run
 
 warnings.filterwarnings("ignore")
@@ -67,6 +73,62 @@ def parse_args():
         default=MODEL_FAMILY,
         help="Model family label for experiment tracking.",
     )
+    parser.add_argument(
+        "--no-score-history",
+        action="store_true",
+        help="Disable 91-day-gapped historical score features.",
+    )
+    parser.add_argument(
+        "--score-gap-days",
+        type=int,
+        default=SCORE_GAP_DAYS,
+        help="Blind-window gap before score-history features become available.",
+    )
+    parser.add_argument(
+        "--no-climatology",
+        action="store_true",
+        help="Disable region-month climatology and anomaly features.",
+    )
+    parser.add_argument(
+        "--use-global-region-stats",
+        action="store_true",
+        help="Add full-train region score stats. Useful for submissions, but optimistic for local validation.",
+    )
+    parser.add_argument(
+        "--recent-days",
+        type=int,
+        default=0,
+        help="Use only weekly training rows from the most recent N days. 0 uses all rows.",
+    )
+    parser.add_argument(
+        "--recency-half-life-days",
+        type=float,
+        default=0,
+        help="Apply exponential sample weights by recency. 0 disables weighting.",
+    )
+    parser.add_argument(
+        "--validation-mode",
+        choices=["holdout", "rolling_origin"],
+        default="holdout",
+        help="Validation strategy. rolling_origin simulates multiple forecast origins.",
+    )
+    parser.add_argument(
+        "--rolling-folds",
+        type=int,
+        default=3,
+        help="Number of rolling-origin folds when --validation-mode=rolling_origin.",
+    )
+    parser.add_argument(
+        "--regularized",
+        action="store_true",
+        help="Use a more conservative XGBoost preset for lower overfit risk.",
+    )
+    parser.add_argument(
+        "--feature-profile",
+        choices=["micro", "lean", "full"],
+        default="micro",
+        help="Feature set size. micro is intended for 32GB RAM machines.",
+    )
     return parser.parse_args()
 
 
@@ -90,6 +152,8 @@ def extract_weekly_labels(train: pd.DataFrame) -> pd.DataFrame:
         .sort_values(["region_id", "date"])
         .reset_index(drop=True)
     )
+    weekly["week_idx"] = weekly.groupby("region_id").cumcount().astype(np.int32)
+    weekly["max_week_idx"] = weekly.groupby("region_id")["week_idx"].transform("max").astype(np.int32)
 
     # For each week row, attach score_week1 … score_week5 (future targets)
     for w in range(1, N_WEEKS + 1):
@@ -123,10 +187,74 @@ def time_series_cv_split(df: pd.DataFrame, n_splits: int = 5):
         yield df[train_mask].index, df[val_mask].index
 
 
+def get_xgb_params(regularized: bool = False) -> dict:
+    """Return the requested XGBoost parameter preset."""
+    params = XGB_PARAMS.copy()
+    if regularized:
+        params.update(
+            {
+                "max_depth": 4,
+                "min_child_weight": 10,
+                "reg_alpha": 0.1,
+                "reg_lambda": 5.0,
+                "colsample_bytree": 0.7,
+                "subsample": 0.7,
+            }
+        )
+    return params
+
+
+def apply_recent_filter(merged: pd.DataFrame, recent_days: int) -> pd.Series:
+    if recent_days <= 0:
+        return pd.Series(True, index=merged.index)
+    date_rank = merged["date"].map({d: i for i, d in enumerate(sorted(merged["date"].unique()))})
+    max_rank = date_rank.max()
+    recent_steps = max(1, int(recent_days / 7))
+    return date_rank >= max_rank - recent_steps
+
+
+def make_recency_weights(dates: pd.Series, half_life_days: float) -> np.ndarray | None:
+    if half_life_days <= 0:
+        return None
+    date_rank = dates.map({d: i for i, d in enumerate(sorted(dates.unique()))}).astype(np.float32)
+    age_days = (date_rank.max() - date_rank) * 7.0
+    weights = np.power(0.5, age_days / half_life_days).astype(np.float32)
+    return np.clip(weights / np.mean(weights), 0.05, 20.0)
+
+
+def validation_masks(merged: pd.DataFrame, mode: str, rolling_folds: int, horizon: int):
+    if mode == "holdout":
+        if {"week_idx", "max_week_idx"}.issubset(merged.columns):
+            val_start = (merged["max_week_idx"] * 0.8).astype(np.int32)
+            train_mask = merged["week_idx"] + horizon < val_start
+            val_mask = merged["week_idx"] >= val_start
+            yield train_mask, val_mask, "last_20pct_per_region"
+        else:
+            dates = np.array(sorted(merged["date"].unique()))
+            val_cutoff = dates[-int(len(dates) * 0.2)]
+            yield merged["date"] < val_cutoff, merged["date"] >= val_cutoff, str(val_cutoff)
+        return
+
+    if not {"week_idx", "max_week_idx"}.issubset(merged.columns):
+        raise ValueError("rolling_origin validation requires week_idx and max_week_idx columns.")
+
+    offsets = np.linspace(rolling_folds + 4, 5, rolling_folds).round().astype(int)
+    for offset in offsets:
+        val_idx = merged["max_week_idx"] - offset
+        train_mask = merged["week_idx"] + horizon < val_idx
+        val_mask = merged["week_idx"] == val_idx
+        yield train_mask, val_mask, f"relative_week_-{offset}"
+
+
 def train_one_horizon(
     feature_df: pd.DataFrame,
     weekly_df:  pd.DataFrame,
     week: int,
+    xgb_params: dict,
+    validation_mode: str,
+    rolling_folds: int,
+    recent_days: int,
+    recency_half_life_days: float,
 ) -> xgb.XGBRegressor:
     """Train a single XGBoost model for horizon `week`."""
     print(f"\n  --- Training horizon: week {week} ---")
@@ -134,7 +262,8 @@ def train_one_horizon(
 
     # Merge features onto weekly label rows
     feat_cols = get_feature_cols(feature_df)
-    merged = weekly_df[["region_id", "date", target_col]].merge(
+    index_cols = ["region_id", "date", "week_idx", "max_week_idx", target_col]
+    merged = weekly_df[index_cols].merge(
         feature_df[["region_id", "date"] + feat_cols],
         on=["region_id", "date"],
         how="left",
@@ -142,31 +271,43 @@ def train_one_horizon(
 
     X = merged[feat_cols]
     y = merged[target_col]
+    usable_mask = apply_recent_filter(merged, recent_days)
 
-    # Chronological train/val split (last 20% of dates as val)
-    dates = merged["date"].sort_values().unique()
-    val_cutoff = dates[-int(len(dates) * 0.2)]
-    
-    train_mask = merged["date"] < val_cutoff
-    val_mask = merged["date"] >= val_cutoff
-    
-    X_train = X[train_mask]
-    y_train = y[train_mask]
-    X_val   = X[val_mask]
-    y_val   = y[val_mask]
+    fold_maes = []
+    final_model = None
+    for train_mask, val_mask, fold_name in validation_masks(merged, validation_mode, rolling_folds, week):
+        train_mask = train_mask & usable_mask
+        if train_mask.sum() == 0 or val_mask.sum() == 0:
+            continue
+        print(f"  Fold {fold_name}: train_rows={int(train_mask.sum())}, val_rows={int(val_mask.sum())}")
 
-    model = xgb.XGBRegressor(**XGB_PARAMS)
-    model.fit(
-        X_train, y_train,
-        eval_set=[(X_val, y_val)],
-        verbose=200,
-    )
+        X_train = X[train_mask]
+        y_train = y[train_mask]
+        X_val   = X[val_mask]
+        y_val   = y[val_mask]
+        sample_weight = make_recency_weights(merged.loc[train_mask, "date"], recency_half_life_days)
 
-    val_pred = model.predict(X_val)
-    val_mae  = mean_absolute_error(y_val, val_pred)
-    print(f"  Val MAE (week {week}): {val_mae:.4f}")
+        model = xgb.XGBRegressor(**xgb_params)
+        model.fit(
+            X_train,
+            y_train,
+            sample_weight=sample_weight,
+            eval_set=[(X_val, y_val)],
+            verbose=200,
+        )
 
-    return model, val_mae
+        val_pred = model.predict(X_val)
+        val_mae  = mean_absolute_error(y_val, val_pred)
+        fold_maes.append(val_mae)
+        final_model = model
+        print(f"  Val MAE (week {week}, {fold_name}): {val_mae:.4f}")
+
+    if not fold_maes or final_model is None:
+        raise RuntimeError(f"No valid validation fold for week {week}.")
+
+    avg_mae = float(np.mean(fold_maes))
+    print(f"  Val MAE (week {week}, average): {avg_mae:.4f}")
+    return final_model, avg_mae
 
 
 
@@ -174,6 +315,7 @@ def train_one_horizon(
 def main():
     args = parse_args()
     run_dir = create_run_dir(args.model_family, args.experiment_name)
+    xgb_params = get_xgb_params(args.regularized)
 
     print("=" * 60)
     print("  Natural Disaster Severity Prediction — Training (Optimized)")
@@ -187,12 +329,23 @@ def main():
             "model_family": args.model_family,
             "experiment_name": args.experiment_name,
             "n_weeks": N_WEEKS,
-            "validation_strategy": "chronological_holdout_last_20_percent",
+            "validation_strategy": args.validation_mode,
+            "rolling_folds": args.rolling_folds,
             "meteorological_columns": METEO_COLS,
-            "xgboost_params": XGB_PARAMS,
+            "xgboost_params": xgb_params,
+            "feature_options": {
+                "use_score_history": not args.no_score_history,
+                "score_gap_days": args.score_gap_days,
+                "use_climatology": not args.no_climatology,
+                "use_region_stats": args.use_global_region_stats,
+                "feature_profile": args.feature_profile,
+                "recent_days": args.recent_days,
+                "recency_half_life_days": args.recency_half_life_days,
+                "regularized": args.regularized,
+            },
             "pipeline": [
                 "load train.csv",
-                "build temporal features",
+                "build temporal, anomaly, and optional score-gap features",
                 "train one direct XGBoost model per horizon",
                 "save versioned models and metrics",
             ],
@@ -203,14 +356,18 @@ def main():
     train = load_data()
     train_shape = train.shape
 
-    from features import (
-        reduce_mem_usage, add_calendar_features, add_meteo_features,
-        add_region_stats, build_features
-    )
-
     # 2. Basic Feature engineering
     print("\nBuilding features ...")
-    feat_df = build_features(train, train, is_train=True)
+    feat_df = build_features(
+        train,
+        train,
+        is_train=True,
+        use_score_history=not args.no_score_history,
+        score_gap_days=args.score_gap_days,
+        use_climatology=not args.no_climatology,
+        use_region_stats=args.use_global_region_stats,
+        feature_profile=args.feature_profile,
+    )
     del train
     gc.collect()
 
@@ -222,7 +379,16 @@ def main():
     models   = {}
     val_maes = {}
     for week in range(1, N_WEEKS + 1):
-        model, val_mae   = train_one_horizon(feat_df, weekly_df, week)
+        model, val_mae   = train_one_horizon(
+            feat_df,
+            weekly_df,
+            week,
+            xgb_params,
+            args.validation_mode,
+            args.rolling_folds,
+            args.recent_days,
+            args.recency_half_life_days,
+        )
         models[week]     = model
         val_maes[week]   = val_mae
 
@@ -247,6 +413,18 @@ def main():
         "experiment_name": args.experiment_name,
         "train_shape": train_shape,
         "feature_columns": len(get_feature_cols(feat_df)),
+        "feature_options": {
+            "use_score_history": not args.no_score_history,
+            "score_gap_days": args.score_gap_days,
+            "use_climatology": not args.no_climatology,
+            "use_region_stats": args.use_global_region_stats,
+            "feature_profile": args.feature_profile,
+            "recent_days": args.recent_days,
+            "recency_half_life_days": args.recency_half_life_days,
+            "regularized": args.regularized,
+        },
+        "validation_strategy": args.validation_mode,
+        "rolling_folds": args.rolling_folds,
         "weekly_label_rows": len(weekly_df),
         "horizon_val_mae": {f"week_{w}": mae for w, mae in val_maes.items()},
         "average_val_mae": avg,

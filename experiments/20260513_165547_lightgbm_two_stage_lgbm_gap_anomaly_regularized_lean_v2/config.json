@@ -1,17 +1,30 @@
 {
-  "created_at": "2026-05-13T03:39:01",
-  "experiment_name": "lgbm_direct",
+  "created_at": "2026-05-13T16:55:47",
+  "experiment_name": "lgbm_gap_anomaly_regularized_lean_v2",
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 1095.0,
+    "recent_days": 0,
+    "regularized": true,
+    "score_gap_days": 91,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
   "lightgbm_params": {
-    "bagging_fraction": 0.8,
+    "bagging_fraction": 0.7,
     "bagging_freq": 1,
     "early_stopping_rounds": 100,
-    "feature_fraction": 0.8,
+    "extra_trees": true,
+    "feature_fraction": 0.7,
+    "lambda_l1": 0.1,
+    "lambda_l2": 2.0,
     "learning_rate": 0.05,
     "metric": "mae",
-    "min_child_samples": 20,
+    "min_child_samples": 80,
     "n_estimators": 3000,
     "n_jobs": -1,
-    "num_leaves": 127,
+    "num_leaves": 63,
     "objective": "regression_l1",
     "random_state": 42,
     "verbose": -1
@@ -36,9 +49,10 @@
   "n_weeks": 5,
   "pipeline": [
     "load train.csv",
-    "build temporal features",
+    "build temporal, anomaly, and optional score-gap features",
     "train one direct LightGBM model per horizon",
     "save versioned models and metrics"
   ],
-  "validation_strategy": "chronological_holdout_last_20_percent"
+  "rolling_folds": 3,
+  "validation_strategy": "rolling_origin"
 }

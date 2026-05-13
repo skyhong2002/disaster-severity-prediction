@@ -1,0 +1,34 @@
+{
+  "average_val_mae": 0.19145737835132118,
+  "experiment_name": "lgbm_gap_anomaly_regularized_lean_v2",
+  "feature_columns": 240,
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 1095.0,
+    "recent_days": 0,
+    "regularized": true,
+    "score_gap_days": 91,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "horizon_val_mae": {
+    "week_1": 0.19093843770846228,
+    "week_2": 0.18966375102020586,
+    "week_3": 0.18895951112451395,
+    "week_4": 0.19096970627410406,
+    "week_5": 0.19675548562931977
+  },
+  "model_family": "lightgbm_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/lgbm_models.pkl",
+    "run_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260513_165547_lightgbm_two_stage_lgbm_gap_anomaly_regularized_lean_v2/models/lgbm_models.pkl"
+  },
+  "rolling_folds": 3,
+  "train_shape": [
+    12319040,
+    17
+  ],
+  "validation_strategy": "rolling_origin",
+  "weekly_label_rows": 1746696
+}

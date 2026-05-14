@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-14T02:56:55",
+  "global_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/submissions/submission_20260514_025655_20260514_023028_lightgbm_two_stage_lgbm_long_term_weather.csv",
+  "model_dir": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260514_023028_lightgbm_two_stage_lgbm_long_term_weather/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 4.518435903652574,
+      "mean": 0.9274832659044788,
+      "min": 0.0,
+      "std": 0.861173094295342
+    },
+    "pred_week2": {
+      "max": 4.653018523426146,
+      "mean": 0.9413270597143187,
+      "min": 0.0,
+      "std": 0.8449709475993463
+    },
+    "pred_week3": {
+      "max": 4.3235282613972705,
+      "mean": 0.929946386276183,
+      "min": 0.0,
+      "std": 0.8398762304795346
+    },
+    "pred_week4": {
+      "max": 2.910937789232305,
+      "mean": 0.6020661743091552,
+      "min": 0.0,
+      "std": 0.5748306184001392
+    },
+    "pred_week5": {
+      "max": 2.483242267348188,
+      "mean": 0.5095810403592886,
+      "min": 0.0,
+      "std": 0.49979152287932344
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260514_023028_lightgbm_two_stage_lgbm_long_term_weather/submissions/submission_20260514_025655_20260514_023028_lightgbm_two_stage_lgbm_long_term_weather.csv"
+}

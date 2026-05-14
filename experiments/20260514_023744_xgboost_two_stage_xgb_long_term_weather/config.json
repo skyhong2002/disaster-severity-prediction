@@ -1,0 +1,53 @@
+{
+  "created_at": "2026-05-14T02:37:44",
+  "experiment_name": "xgb_long_term_weather",
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 0,
+    "recent_days": 0,
+    "regularized": false,
+    "score_gap_days": 91,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": false
+  },
+  "meteorological_columns": [
+    "prec",
+    "surf_pre",
+    "humidity",
+    "tmp",
+    "dp_tmp",
+    "wb_tmp",
+    "tmp_max",
+    "tmp_min",
+    "tmp_range",
+    "surf_tmp",
+    "wind",
+    "wind_max",
+    "wind_min",
+    "wind_range"
+  ],
+  "model_family": "xgboost_two_stage",
+  "n_weeks": 5,
+  "pipeline": [
+    "load train.csv",
+    "build temporal, anomaly, and optional score-gap features",
+    "train one direct XGBoost model per horizon",
+    "save versioned models and metrics"
+  ],
+  "rolling_folds": 3,
+  "validation_strategy": "holdout",
+  "xgboost_params": {
+    "colsample_bytree": 0.8,
+    "early_stopping_rounds": 100,
+    "eval_metric": "mae",
+    "learning_rate": 0.05,
+    "max_depth": 7,
+    "n_estimators": 3000,
+    "n_jobs": -1,
+    "objective": "reg:absoluteerror",
+    "random_state": 42,
+    "subsample": 0.8,
+    "tree_method": "hist"
+  }
+}

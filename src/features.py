@@ -27,18 +27,18 @@ FEATURE_PROFILES = {
         "roll_wins": ROLL_WINS,
         "ewm_spans": EWM_SPANS,
         "domain_wins": ROLL_WINS,
-        "long_wins": [30, 60, 91, 180],
+        "long_wins": [30, 60, 90, 180, 270, 365, 540, 730],
         "score_lags": SCORE_HISTORY_LAGS,
         "score_wins": SCORE_HISTORY_WINS,
     },
     "lean": {
         "meteo_cols": METEO_COLS,
-        "lag_days": [14, 28, 42, 49],
-        "roll_wins": [14, 28, 35],
-        "ewm_spans": [7, 14],
-        "domain_wins": [28, 35],
-        "long_wins": [91, 180],
-        "score_lags": [0, 1, 2, 4, 8, 12, 26, 52],
+        "lag_days": [14, 28],
+        "roll_wins": [14, 28],
+        "ewm_spans": [14],
+        "domain_wins": [28],
+        "long_wins": [90, 180, 270, 365],
+        "score_lags": [0, 4, 12, 26, 52],
         "score_wins": [91, 182, 365],
     },
     "micro": {
@@ -174,6 +174,19 @@ def add_meteo_features(df: pd.DataFrame, profile: dict | None = None) -> pd.Data
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
+        df[f"tmp_mean_long{win}"] = (
+            df.groupby("region_id")["tmp"]
+            .shift(1)
+            .groupby(df["region_id"])
+            .rolling(window=win, min_periods=1)
+            .mean()
+            .reset_index(level=0, drop=True)
+            .astype(np.float32)
+        )
+        # Long-term drought proxy: average temp over accumulated precipitation
+        df[f"long_drought_idx{win}"] = (
+            df[f"tmp_mean_long{win}"] / (df[f"prec_sum{win}"] + 0.1)
+        ).astype(np.float32)
 
     return df
 

@@ -1,0 +1,34 @@
+{
+  "average_val_mae": 0.4888193784894206,
+  "experiment_name": "lgbm_long_term_weather",
+  "feature_columns": 161,
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 0,
+    "recent_days": 0,
+    "regularized": false,
+    "score_gap_days": 91,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": false
+  },
+  "horizon_val_mae": {
+    "week_1": 0.45132545119610223,
+    "week_2": 0.4701866452371248,
+    "week_3": 0.48638309253082657,
+    "week_4": 0.5089358414177667,
+    "week_5": 0.5272658620652827
+  },
+  "model_family": "lightgbm_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/lgbm_models.pkl",
+    "run_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260514_023028_lightgbm_two_stage_lgbm_long_term_weather/models/lgbm_models.pkl"
+  },
+  "rolling_folds": 3,
+  "train_shape": [
+    12319040,
+    17
+  ],
+  "validation_strategy": "holdout",
+  "weekly_label_rows": 1746696
+}

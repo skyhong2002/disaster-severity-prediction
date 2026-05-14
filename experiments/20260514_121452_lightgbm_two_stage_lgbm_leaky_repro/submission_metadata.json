@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-14T12:26:28",
+  "global_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/submissions/submission_20260514_122628_20260514_121452_lightgbm_two_stage_lgbm_leaky_repro.csv",
+  "model_dir": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260514_121452_lightgbm_two_stage_lgbm_leaky_repro/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 5.0,
+      "mean": 0.34480377403496076,
+      "min": 0.0,
+      "std": 0.8515233078532262
+    },
+    "pred_week2": {
+      "max": 5.0,
+      "mean": 0.34199819883143445,
+      "min": 0.0,
+      "std": 0.8472730644401263
+    },
+    "pred_week3": {
+      "max": 5.0,
+      "mean": 0.34012044565058364,
+      "min": 0.0,
+      "std": 0.8376596101973627
+    },
+    "pred_week4": {
+      "max": 4.960112196056403,
+      "mean": 0.3456114785340138,
+      "min": 0.0,
+      "std": 0.8282113447751698
+    },
+    "pred_week5": {
+      "max": 4.80691109811931,
+      "mean": 0.35721965387621135,
+      "min": 0.0,
+      "std": 0.8124309726624932
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260514_121452_lightgbm_two_stage_lgbm_leaky_repro/submissions/submission_20260514_122628_20260514_121452_lightgbm_two_stage_lgbm_leaky_repro.csv"
+}

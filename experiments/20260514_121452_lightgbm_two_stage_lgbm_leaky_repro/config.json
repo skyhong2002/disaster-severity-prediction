@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-05-14T12:14:52",
+  "experiment_name": "lgbm_leaky_repro",
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 0,
+    "recent_days": 0,
+    "regularized": false,
+    "score_gap_days": 0,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "lightgbm_params": {
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "early_stopping_rounds": 100,
+    "feature_fraction": 0.8,
+    "learning_rate": 0.05,
+    "metric": "mae",
+    "min_child_samples": 20,
+    "n_estimators": 3000,
+    "n_jobs": -1,
+    "num_leaves": 127,
+    "objective": "regression_l1",
+    "random_state": 42,
+    "verbose": -1
+  },
+  "meteorological_columns": [
+    "prec",
+    "surf_pre",
+    "humidity",
+    "tmp",
+    "dp_tmp",
+    "wb_tmp",
+    "tmp_max",
+    "tmp_min",
+    "tmp_range",
+    "surf_tmp",
+    "wind",
+    "wind_max",
+    "wind_min",
+    "wind_range"
+  ],
+  "model_family": "lightgbm_two_stage",
+  "n_weeks": 5,
+  "pipeline": [
+    "load train.csv",
+    "build temporal, anomaly, and optional score-gap features",
+    "train one direct LightGBM model per horizon",
+    "save versioned models and metrics"
+  ],
+  "rolling_folds": 3,
+  "validation_strategy": "holdout"
+}

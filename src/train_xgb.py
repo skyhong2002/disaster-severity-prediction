@@ -394,6 +394,7 @@ def main():
 
     # 6. Save horizon models
     model_path = run_dir / "models" / "lgbm_models.pkl"
+    model_path.parent.mkdir(parents=True, exist_ok=True)
     with open(model_path, "wb") as f:
         pickle.dump(models, f)
     print(f"\nHorizon models saved → {model_path}")

@@ -123,7 +123,11 @@ def main():
     # ── 2. Build features for test window ────────────
     print("\n[Stage 1] Building features for forecast ...")
     test["score"] = np.nan
-    combined = pd.concat([train, test], ignore_index=True)
+    
+    # Prevent OOM by only concatenating the last 750 days of train for lag calculations
+    # 'date' column has format 'XXXX-09-18' so Timedelta fails. Since each region has 1 row/day, use tail(750)
+    train_recent = train.groupby("region_id").tail(750).copy()
+    combined = pd.concat([train_recent, test], ignore_index=True)
     
     from features import build_features
     combined_feat = build_features(

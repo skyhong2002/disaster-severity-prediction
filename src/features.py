@@ -33,12 +33,12 @@ FEATURE_PROFILES = {
     },
     "lean": {
         "meteo_cols": METEO_COLS,
-        "lag_days": [14, 28],
-        "roll_wins": [14, 28],
-        "ewm_spans": [14],
-        "domain_wins": [28],
-        "long_wins": [90, 180, 270, 365],
-        "score_lags": [0, 4, 12, 26, 52],
+        "lag_days": LAG_DAYS,
+        "roll_wins": ROLL_WINS,
+        "ewm_spans": EWM_SPANS,
+        "domain_wins": ROLL_WINS,
+        "long_wins": [91, 180],
+        "score_lags": [0, 1, 2, 4, 8, 12, 26, 52],
         "score_wins": [91, 182, 365],
     },
     "micro": {

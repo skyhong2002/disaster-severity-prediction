@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-14T13:41:41",
+  "global_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/submissions/submission_20260514_134141_20260513_165547_lightgbm_two_stage_lgbm_gap_anomaly_regularized_lean_v2.csv",
+  "model_dir": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260513_165547_lightgbm_two_stage_lgbm_gap_anomaly_regularized_lean_v2/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 4.592649025809731,
+      "mean": 0.6986414351317313,
+      "min": 0.0,
+      "std": 0.8361575939791456
+    },
+    "pred_week2": {
+      "max": 4.679773064999361,
+      "mean": 0.6923898867272396,
+      "min": 0.0,
+      "std": 0.831999813132574
+    },
+    "pred_week3": {
+      "max": 4.273964488132024,
+      "mean": 0.6508099138976804,
+      "min": 0.0,
+      "std": 0.8129872509533531
+    },
+    "pred_week4": {
+      "max": 4.586741136686661,
+      "mean": 0.6069978670337601,
+      "min": 0.0,
+      "std": 0.8020929605785728
+    },
+    "pred_week5": {
+      "max": 4.544762989759977,
+      "mean": 0.5775121392033042,
+      "min": 0.0,
+      "std": 0.7854464682224602
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260513_165547_lightgbm_two_stage_lgbm_gap_anomaly_regularized_lean_v2/submissions/submission_20260514_134141_20260513_165547_lightgbm_two_stage_lgbm_gap_anomaly_regularized_lean_v2.csv"
+}

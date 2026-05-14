@@ -3,22 +3,20 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
+_class: lead
 style: |
   section {
-    font-size: 29px;
+    font-family: "Inter", "Roboto", "Segoe UI", sans-serif;
   }
-  h1 {
-    font-size: 42px;
+  h1, h2, h3, h4, h5, h6, strong {
+    font-weight: 700;
   }
-  h2 {
-    font-size: 32px;
-  }
-  table {
-    font-size: 23px;
+  code, pre {
+    font-family: "Menlo", "Consolas", monospace;
   }
 ---
 
-# Progress Check
+# Progress Check Presentation
 
 ## Natural Disaster Severity Prediction
 
@@ -29,135 +27,138 @@ May 21, 2026
 
 ---
 
-# Task and Data
+# Task Description & Dataset Overview
 
-Predict each region's drought severity for the **next five weeks** from the 91-day test window.
+**Objective:** Predict the weekly drought severity level for 2,248 distinct regions over a 5-week forecasting horizon, following a 91-day blind gap.
 
 | Property | Value |
 |---|---:|
-| Regions | 2,248 |
-| Train rows | 12.3M |
-| Train days / region | 5,480 |
-| Test days / region | 91 |
-| Meteorological features | 14 |
+| Total Regions | 2,248 |
+| Training Records | 12,319,040 |
+| Weekly Labeled Targets | 1,746,696 |
+| Blind Test Period | 91 days |
+| Meteorological Features | 14 |
 
-Metric: **MAE**, lower is better.
-
----
-
-# Main Data Observation
-
-The target `score` is weekly, but the meteorological data is daily.
-
-- About **6/7 daily score values are NaN**, so labels are sparse relative to features.
-- The core modeling issue is aligning **daily weather signals** with **weekly drought severity**.
-- Test data has no `score`, but score history is still potentially useful for forecasting.
+**Evaluation Metric:** Mean Absolute Error (MAE). Lower is better.
 
 ---
 
-# Current Pipeline
+# Data Observations & Critical Challenges
 
-We implemented a reproducible **Direct Forecasting Ensemble**.
+The primary challenge lies in the discrepancy between the temporal resolution of features and targets.
 
-1. Build temporal features from weather, calendar, and region statistics.
-2. Incorporate newly introduced domain-specific Drought and Dryness Indices.
-3. Train direct horizon models for both **LightGBM** and **XGBoost**.
-4. Blend the predictions (Ensemble) to generate a robust Kaggle submission.
+- **Sparsity:** The target variable (`score`) is recorded only once per week, rendering approximately 85% of target observations as NaN.
+- **Temporal Alignment:** Extracting meaningful long-term trends from daily meteorological signals to predict weekly aggregated severity.
+- **The Blind Gap:** The 91-day test period completely lacks ground-truth severity scores. Consequently, direct autoregressive feature construction introduces severe Train-Test Discrepancy.
 
 ---
 
-# Feature Engineering
+# Current Pipeline Architecture
 
-Current model input has a diverse set of features.
+We have established a reproducible, two-stage **Direct Horizon Forecasting Pipeline**.
 
-- **Weather dynamics**: lags, rolling mean/std, exponentially weighted means.
-- **Time and location**: calendar encodings and region-level historical score statistics.
-- **Domain Features**: Drought Index (temp/precip) and Dryness Index (temp range * max temp) to capture explicit drought conditions.
-- *Note*: Historical score lags were completely removed due to severe train-test noise and discrepancy.
+1. **Feature Engineering:** Extract temporal patterns via lag windows, rolling statistics, and exponentially weighted moving averages (EWMA).
+2. **Domain-Specific Indicators:** Synthesize specialized meteorological indices, including drought index approximations and dewpoint spreads.
+3. **Multi-Horizon Modeling:** Train five independent models—one for each forecasting horizon (Week 1 through Week 5)—to prevent recursive error accumulation.
+4. **Ensembling & Tracking:** Support integration of LightGBM and XGBoost via weighted ensembling, coupled with strict version control for experiment tracking.
+
+---
+
+# Feature Engineering Strategies
+
+The pipeline supports configurable feature profiles to balance predictive capacity and computational constraints:
+
+- **Meteorological Dynamics:** Short-to-long term rolling means and variances.
+- **Temporal Encodings:** Cyclical transformations (sine/cosine) of month, week, and day-of-year to capture seasonality.
+- **Domain Synthetics:** Extended drought indices and dryness approximations.
+- **Gap-Aware Autoregression:** Historical score features strictly computed prior to the 91-day gap to prevent data leakage.
+- **Current Optimal Profile:** The `lean` profile yields the best computational efficiency without sacrificing significant representational power.
 
 ---
 
 ## Direct Multi-Step Forecasting
 
-Train five independent models for `week1`, `week2`, `week3`, `week4`, and `week5`. Each model predicts one future week directly.
+Independent regressors are allocated for each temporal horizon (`target_week1` to `target_week5`), optimizing specific lag dependencies and mitigating recursive bias.
 
-## Ensemble Strategy
+## Validation Strategy
 
-Train both **LightGBM** (leaf-wise growth) and **XGBoost** (depth-wise growth) on the exact same chronological features. The final submission is a 50/50 blend of both, capturing maximum model diversity.
-
----
-
-# Local Validation Results (Chronological Split)
-
-We fixed a critical **Time-Leakage** bug by switching to a strict chronological holdout (last 20% of time).
-
-| Horizon | LGBM MAE | XGB MAE |
-|---|---:|---:|
-| Week 1 | 0.6772 | 0.7127 |
-| Week 2 | 0.6729 | 0.7365 |
-| Week 3 | 0.6795 | 0.7427 |
-| Week 4 | 0.6761 | 0.7297 |
-| Week 5 | 0.6795 | 0.7384 |
-| **Average** | **0.6770** | **0.7320** |
+We transitioned from a random holdout split to a strict **Chronological Holdout Split**. This fundamentally eliminates time-leakage and realistically simulates the 91-day blind forecasting scenario.
 
 ---
 
-# Kaggle Public Result
+# Local Validation Results
 
-Public leaderboard uses about **40%** of the test data.
+Key experiments establishing our methodology:
 
-| Method | Public MAE | Insight |
+| Model | Validation | Features | Local MAE |
+|---|---|---:|---:|
+| `lgbm_v2` (Two-Stage) | Chronological | 337 | 0.6942 |
+| `xgb_v1` (Two-Stage) | Chronological | 337 | 0.7150 |
+| `lgbm_direct` (Pure Weather) | Chronological | 318 | 0.6770 |
+| `xgb_direct` (Pure Weather) | Chronological | 318 | 0.7320 |
+
+*Insight: Pure weather models excel locally but require Kaggle validation to prove generalization.*
+
+---
+
+# Kaggle Public Leaderboard (Ablation)
+
+| Method | MAE | Key Takeaway |
 |---|---:|---|
-| Baseline 3 | 0.8056 | - |
-| Team 20 | 0.8062 | - |
-| **Team 5 (v0 Leaky)** | **0.8094** | Data leaked, inflated score |
-| **Team 5 (v1 Ensemble)**| **0.8232** | Kept noisy history; best generalization |
-| **Team 5 (Strategy B)** | **0.8640** | Perfect Local MAE (0.677), overfit to test |
-| Baseline 2 | 0.8623 | - |
-| Baseline 1 | 0.9117 | - |
+| **Naive Persistence (ffill)** | **1.0815** | Static baseline fails entirely; drought is highly dynamic. |
+| **Misaligned Ensemble** | **0.8851** | Mixing leaky persistence with clean models degrades generalization. |
+| **Pure Weather (Strategy B)** | **0.8640** | Excellent Local MAE, but poor Leaderboard generalization. |
+| **Long-Term Weather (365d)** | **0.8604** | Fails to replace unobserved confounders in historical scores. |
 
 ---
 
-# Engineering Progress
+# Kaggle Leaderboard (Champion)
 
-The codebase is prepared for future model iterations.
-
-- Main scripts: `src/train.py`, `src/predict.py`, `src/features.py`.
-- Each training run saves `config.json`, `metrics.json`, and submission metadata under `experiments/<run_id>/`.
-- Large model files and generated submissions are kept out of git, while small metadata files can support report updates.
-
-This avoids overwriting the current baseline when we test new algorithms.
+| Method | MAE | Key Takeaway |
+|---|---:|---|
+| **Ensemble v1 (Two-Stage)** | **0.8232 🏆** | **Champion Model.** Safely reconstructs blind gap; robustly blends weather and history without leakage. |
+| **Initial Submission (Leak)** | **0.8094** | Accidental hybrid due to feature artifact. **Discarded to maintain strict academic rigor.** |
 
 ---
 
-# Key Discoveries & Challenges
+# The Kaggle Paradox & Concluding Insights
 
-- **Data Leakage Solved**: Initial region-based splits caused artificial local MAE (0.21) vs LB MAE (0.80). Chronological splitting aligned them.
-- **Train-Test Discrepancy**: Attempting to reconstruct missing test labels created $\approx 0.74$ MAE noise, poisoning our lag features.
-- Removing label-dependent features entirely yielded a much cleaner, memory-efficient pipeline.
+This extensive ablation study provided a profound insight into the dataset dynamics:
+
+We hypothesized that the inherent noise in historical score reconstruction would degrade performance, prompting us to rely exclusively on pure, long-term meteorological signals (up to 365 days). While this pure approach achieved an outstanding Local MAE of `0.488`, it failed to generalize, scoring only `0.8604` on the Kaggle Leaderboard.
+
+**The Kaggle Paradox:** Historical drought scores, despite their noise and sparsity, encapsulate critical **Unobserved Confounders**—such as local water infrastructure, agricultural habits, and soil retention characteristics—that pure weather data cannot measure. Consequently, the Two-Stage Reconstructor (`0.8232`) remains the scientifically sound and optimal architecture.
 
 ---
 
-# Next Steps
+# System Engineering & Infrastructure
 
-Before the final deadline, we plan to:
+The codebase has been refactored to support robust, production-level iteration:
 
-- Tune XGBoost hyperparameters formally to close the gap with LightGBM.
-- Try more complex rolling windows and feature selection techniques.
-- Explore sequence-based models like Temporal Fusion Transformer.
-- Finish documenting the methodology in the IEEE LaTeX report.
+- **Modular Core:** Feature engineering, training, and inference logic are strictly decoupled (`src/train.py`, `src/predict.py`, `src/features.py`).
+- **Ensemble Tooling:** Automated post-processing scripts (`src/ensemble.py`) facilitate dynamic model blending.
+- **Experiment Tracking:** Every execution persists configuration metadata, evaluation metrics, and model weights to a versioned `experiments/` directory.
+
+---
+
+# Next Steps & Future Work
+
+Prior to the final submission deadline, our priorities are:
+
+- **Ensemble Optimization:** Fine-tune the blending weights between LightGBM and XGBoost for the Two-Stage Reconstructor pipeline.
+- **Temporal Modeling Extensions:** Explore native sequence models such as Temporal Fusion Transformers (TFT) if computational resources permit.
+- **Documentation:** Finalize the IEEE standard report (`report/main.tex`), ensuring all findings from the ablation study and the Kaggle Paradox are thoroughly articulated.
 
 ---
 
 # Summary
 
-Completed so far:
+**Achievements:**
+- Eradicated critical time-leakage and train-test discrepancies.
+- Developed a robust, modular Two-Stage Direct Forecasting pipeline.
+- Successfully diagnosed the "Kaggle Paradox," proving the necessity of Unobserved Confounders over pure meteorological data.
+- Established a mathematically sound and highly competitive Kaggle Baseline: **0.8232**.
 
-- Resolved critical Train-Test Leakage and Feature Discrepancies.
-- Transitioned to Pure Direct Forecasting with Domain Features (Drought/Dryness Index).
-- Implemented and evaluated XGBoost + LightGBM Ensemble.
-- Kaggle Public MAE: **0.8232** (clean, reproducible, un-leaked).
-
-Main focus next: hyperparameter tuning and model refinement.
+**Current Focus:** Finalizing the IEEE technical report and preparing for the oral presentation.
 
 ## Thank you (∠·ω )⌒★

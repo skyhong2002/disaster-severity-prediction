@@ -25,6 +25,23 @@ This file records the current legal model selection state for the Final Project 
 | XGBoost source | `submissions/submission_20260513_001713_xgb_v1.csv` |
 | Repro check | Max difference from exact 50/50 blend: `4.44e-16` |
 
+## 5/22 Static Private Leaderboard Candidates
+
+Two conservative candidates were submitted on 2026-05-16 local time for the next static private leaderboard release. Both use only the legal `lgbm_v2` and `xgb_v1` submissions, and both preserve the current best public score.
+
+| Submission | Kaggle ref | Blend | Public MAE | SHA-256 prefix | Purpose |
+|---|---:|---|---:|---|---|
+| `submissions/ensemble_20260516_validation_weighted_v1.csv` | `52689645` | Per-horizon LGBM weights: `0.5191,0.5157,0.5153,0.5132,0.5108` | `0.8232` | `b027d21fe911` | Minimal validation-weighted perturbation around `ensemble_final`. |
+| `submissions/ensemble_20260516_xgb_tilt_40_60.csv` | `52689654` | 40% `lgbm_v2` / 60% `xgb_v1` | `0.8232` | `e7e6946785f3` | Small XGBoost-tilted hedge because adding XGBoost improved public MAE versus LGBM alone. |
+
+Sanity checks for both candidates:
+
+- `2248` rows.
+- Same columns as `sample_submission.csv`.
+- No missing predictions.
+- All predictions clipped to `[0, 5]`.
+- The leaky reproduction output was not used.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |
@@ -32,6 +49,8 @@ This file records the current legal model selection state for the Final Project 
 | `lgbm_v2` | LightGBM two-stage | 337 features, score history | Chronological holdout | `0.6942` | Component of `0.8232` ensemble | Legal baseline model. |
 | `xgb_v1` | XGBoost two-stage | 337 features, score history | Chronological holdout | `0.7150` | Component of `0.8232` ensemble | Legal diversity model. |
 | `ensemble_final` | 50/50 ensemble | `lgbm_v2` + `xgb_v1` | N/A | N/A | `0.8232` | Current best legal submission. |
+| `ensemble_20260516_validation_weighted_v1` | Per-horizon ensemble | `lgbm_v2` + `xgb_v1` | Validation-derived weights | N/A | `0.8232` | Conservative 5/22 private LB candidate. |
+| `ensemble_20260516_xgb_tilt_40_60` | 40/60 ensemble | `lgbm_v2` + `xgb_v1` | Public-neighborhood hedge | N/A | `0.8232` | Conservative 5/22 private LB candidate. |
 | `lgbm_direct` | LightGBM direct | 318 weather-only features | Chronological holdout | `0.6770` | `0.8640` strategy result | Good local score, weak public generalization. |
 | `xgb_direct` | XGBoost direct | 318 weather-only features | Chronological holdout | `0.7320` | Used in strategy experiment | Did not beat two-stage ensemble. |
 | `ensemble_strategy_b_long_term` | 50/50 ensemble | Long-term weather-only | N/A | N/A | `0.8604` | Shows pure weather cannot replace score history. |

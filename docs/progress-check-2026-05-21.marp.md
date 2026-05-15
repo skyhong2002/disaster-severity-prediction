@@ -14,6 +14,16 @@ style: |
   code, pre {
     font-family: "Menlo", "Consolas", monospace;
   }
+  section.compact h1 {
+    font-size: 1.85rem;
+  }
+  section.compact p,
+  section.compact li {
+    font-size: 0.78rem;
+  }
+  section.compact table {
+    font-size: 0.64rem;
+  }
 ---
 
 # Progress Check Presentation
@@ -116,8 +126,41 @@ Key experiments establishing our methodology:
 
 | Method | MAE | Key Takeaway |
 |---|---:|---|
-| **Ensemble v1 (Two-Stage)** | **0.8232 🏆** | **Champion Model.** Safely reconstructs blind gap; robustly blends weather and history without leakage. |
+| **Ensemble v1 (Two-Stage)** | **0.8232 🏆** | **Best legal submission.** 50/50 blend of LightGBM and XGBoost two-stage models. |
 | **Initial Submission (Leak)** | **0.8094** | Accidental hybrid due to feature artifact. **Discarded to maintain strict academic rigor.** |
+
+---
+
+<!-- _class: compact -->
+
+# Static Private Leaderboard Check
+
+The 5/15 static private leaderboard changed our risk assessment.
+
+| Signal | Observation | Action |
+|---|---|---|
+| Static private rank | **Team 5: Rank 3** | Competitive, but not safely above Baseline 3. |
+| Baseline 3 pressure | **13 entries** needed to cross Public Baseline 3 | Spend submissions only on clear hypotheses. |
+| Public/private gap | Public score improved, private rank still risky | Prioritize robust validation and reproducibility. |
+
+**Interpretation:** Optimize private robustness, not only public leaderboard score.
+
+---
+
+<!-- _class: compact -->
+
+# Best Legal Submission Record
+
+| Item | Value |
+|---|---|
+| Submission file | `submissions/ensemble_final.csv` |
+| Public MAE | **0.8232** |
+| Components | `lgbm_v2` + `xgb_v1` |
+| Blend rule | 50% LightGBM / 50% XGBoost |
+| Rows | 2,248 regions |
+| SHA-256 prefix | `28d368bc4be8` |
+
+**Reproducibility note:** The leaky reproduction run is retained only as a diagnostic artifact and is excluded from valid model selection.
 
 ---
 
@@ -138,6 +181,7 @@ The codebase has been refactored to support robust, production-level iteration:
 - **Modular Core:** Feature engineering, training, and inference logic are strictly decoupled (`src/train.py`, `src/predict.py`, `src/features.py`).
 - **Ensemble Tooling:** Automated post-processing scripts (`src/ensemble.py`) facilitate dynamic model blending.
 - **Experiment Tracking:** Every execution persists configuration metadata, evaluation metrics, and model weights to a versioned `experiments/` directory.
+- **Audit Trail:** Current submission lineage is summarized in `docs/experiment_summary.md`.
 
 ---
 
@@ -145,8 +189,8 @@ The codebase has been refactored to support robust, production-level iteration:
 
 Prior to the final submission deadline, our priorities are:
 
-- **Ensemble Optimization:** Fine-tune the blending weights between LightGBM and XGBoost for the Two-Stage Reconstructor pipeline.
-- **Temporal Modeling Extensions:** Explore native sequence models such as Temporal Fusion Transformers (TFT) if computational resources permit.
+- **Private-Robust Optimization:** Tune blend weights only when supported by leakage-free validation evidence.
+- **Validation Upgrade:** Align local validation more tightly with the 91-day blind gap and private leaderboard behavior.
 - **Documentation:** Finalize the IEEE standard report (`report/main.tex`), ensuring all findings from the ablation study and the Kaggle Paradox are thoroughly articulated.
 
 ---
@@ -157,8 +201,9 @@ Prior to the final submission deadline, our priorities are:
 - Eradicated critical time-leakage and train-test discrepancies.
 - Developed a robust, modular Two-Stage Direct Forecasting pipeline.
 - Successfully diagnosed the "Kaggle Paradox," proving the necessity of Unobserved Confounders over pure meteorological data.
-- Established a mathematically sound and highly competitive Kaggle Baseline: **0.8232**.
+- Established a reproducible best legal Kaggle submission: **0.8232 public MAE**.
+- Confirmed 5/15 static private leaderboard risk: **Team 5 rank 3, below Baseline 3**.
 
-**Current Focus:** Finalizing the IEEE technical report and preparing for the oral presentation.
+**Current Focus:** Improve private robustness and keep code/report/submission artifacts fully consistent.
 
 ## Thank you (∠·ω )⌒★

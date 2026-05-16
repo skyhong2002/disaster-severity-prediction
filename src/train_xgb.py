@@ -393,13 +393,13 @@ def main():
         val_maes[week]   = val_mae
 
     # 6. Save horizon models
-    model_path = run_dir / "models" / "lgbm_models.pkl"
+    model_path = run_dir / "models" / "xgb_models.pkl"
     model_path.parent.mkdir(parents=True, exist_ok=True)
     with open(model_path, "wb") as f:
         pickle.dump(models, f)
     print(f"\nHorizon models saved → {model_path}")
 
-    legacy_model_path = MODEL_DIR / "lgbm_models.pkl"
+    legacy_model_path = MODEL_DIR / "xgb_models.pkl"
     with open(legacy_model_path, "wb") as f:
         pickle.dump(models, f)
 

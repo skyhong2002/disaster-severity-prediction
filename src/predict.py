@@ -54,13 +54,33 @@ def resolve_run_dir(run_dir_arg: str | None) -> Path | None:
 
 
 def model_dir_for_run(run_dir: Path | None) -> Path:
-    if run_dir is not None and (run_dir / "models" / "lgbm_models.pkl").exists():
+    if run_dir is not None and any((run_dir / "models" / name).exists() for name in model_file_candidates(run_dir)):
         return run_dir / "models"
     return MODEL_DIR
 
 
-def load_models(model_dir: Path):
-    model_path = model_dir / "lgbm_models.pkl"
+def model_file_candidates(run_dir: Path | None = None) -> list[str]:
+    if run_dir is not None:
+        config_path = run_dir / "config.json"
+        if config_path.exists():
+            with open(config_path, "r", encoding="utf-8") as f:
+                family = json.load(f).get("model_family", "")
+            if "catboost" in family:
+                return ["catboost_models.pkl", "lgbm_models.pkl"]
+            if "xgboost" in family:
+                return ["xgb_models.pkl", "lgbm_models.pkl"]
+    return ["lgbm_models.pkl", "xgb_models.pkl", "catboost_models.pkl"]
+
+
+def load_models(model_dir: Path, run_dir: Path | None = None):
+    model_path = None
+    for filename in model_file_candidates(run_dir):
+        candidate = model_dir / filename
+        if candidate.exists():
+            model_path = candidate
+            break
+    if model_path is None:
+        raise FileNotFoundError(f"No model pickle found in {model_dir}")
     with open(model_path, "rb") as f:
         models = pickle.load(f)
     print(f"Loaded {len(models)} horizon models from {model_path}")
@@ -73,6 +93,8 @@ def model_feature_columns(models: dict, fallback_cols: list[str]) -> list[str]:
     names = getattr(first_model, "feature_name_", None)
     if names is None:
         names = getattr(first_model, "feature_names_in_", None)
+    if names is None and hasattr(first_model, "feature_names_"):
+        names = first_model.feature_names_
     return list(names) if names is not None else fallback_cols
 
 
@@ -154,7 +176,7 @@ def main():
     )
 
     print("\n[Stage 2] Forecasting weeks 1–5 ...")
-    models    = load_models(model_dir)
+    models    = load_models(model_dir, run_dir)
     fallback_cols = [c for c in get_feature_cols(test_feat) if c in test_last.columns]
     expected_cols = model_feature_columns(models, fallback_cols)
     missing_cols = [c for c in expected_cols if c not in test_last.columns]

@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-16T06:31:35",
+  "global_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv",
+  "model_dir": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 4.560816529942496,
+      "mean": 0.733957627994725,
+      "min": 0.0,
+      "std": 0.7380684019502086
+    },
+    "pred_week2": {
+      "max": 4.433131480329599,
+      "mean": 0.720284911301566,
+      "min": 0.0,
+      "std": 0.7295155772453441
+    },
+    "pred_week3": {
+      "max": 4.591520587473012,
+      "mean": 0.6768412124810251,
+      "min": 0.0,
+      "std": 0.7627068701011783
+    },
+    "pred_week4": {
+      "max": 4.4947989876391965,
+      "mean": 0.6530315106598861,
+      "min": 0.0,
+      "std": 0.7410653620097282
+    },
+    "pred_week5": {
+      "max": 4.326404439325865,
+      "mean": 0.6162821184019418,
+      "min": 0.0,
+      "std": 0.7582609674063296
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500/submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv"
+}

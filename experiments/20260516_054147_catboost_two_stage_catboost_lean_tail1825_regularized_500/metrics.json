@@ -1,0 +1,69 @@
+{
+  "average_val_mae": 0.2343416085007369,
+  "categorical_features": [
+    "region_id",
+    "month",
+    "quarter",
+    "weekofyear"
+  ],
+  "experiment_name": "catboost_lean_tail1825_regularized_500",
+  "feature_columns": 372,
+  "feature_options": {
+    "feature_profile": "lean",
+    "iterations_override": 500,
+    "recency_half_life_days": 1095.0,
+    "recent_days": 0,
+    "regularized": true,
+    "score_gap_days": 91,
+    "train_tail_days": 1825,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "horizon_fold_mae": {
+    "week_1": [
+      0.22346225539435374,
+      0.20782443020076913,
+      0.22959107055463035
+    ],
+    "week_2": [
+      0.23282116563035435,
+      0.21608252422550137,
+      0.21963410904373448
+    ],
+    "week_3": [
+      0.2527825127196579,
+      0.21379717451701663,
+      0.2266872974535204
+    ],
+    "week_4": [
+      0.2288923366160757,
+      0.239305346896014,
+      0.25788381483921785
+    ],
+    "week_5": [
+      0.2504858897022922,
+      0.2592397208731895,
+      0.2566344788447259
+    ]
+  },
+  "horizon_val_mae": {
+    "week_1": 0.22029258538325105,
+    "week_2": 0.22284593296653007,
+    "week_3": 0.23108899489673163,
+    "week_4": 0.2420271661171025,
+    "week_5": 0.2554533631400692
+  },
+  "model_family": "catboost_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/models/catboost_models.pkl",
+    "run_horizon_models": "/Users/sky/Projects/NYCU Data Mining/disaster-severity-prediction/experiments/20260516_054147_catboost_two_stage_catboost_lean_tail1825_regularized_500/models/catboost_models.pkl"
+  },
+  "rolling_folds": 3,
+  "train_shape": [
+    4102600,
+    17
+  ],
+  "validation_strategy": "rolling_origin",
+  "weekly_label_rows": 573240
+}

@@ -23,6 +23,8 @@ disaster-severity-prediction/
 │   ├── features.py            # Feature engineering
 │   ├── experiment_utils.py    # Versioned experiment tracking helpers
 │   ├── train.py               # Train LightGBM model
+│   ├── train_xgb.py           # Train XGBoost model
+│   ├── train_catboost.py      # Train CatBoost model
 │   └── predict.py             # Generate submission file
 ├── experiments/               # Run metadata; large artifacts ignored
 ├── models/                    # Saved model files (not in git)
@@ -88,6 +90,17 @@ uv run python src/train.py
 # Optional: name the experiment run
 uv run python src/train.py --experiment-name lgbm_v1
 
+# Optional: train the CatBoost robustness model
+uv run python src/train_catboost.py \
+  --experiment-name catboost_lean_tail1825_regularized_500 \
+  --feature-profile lean \
+  --train-tail-days 1825 \
+  --validation-mode rolling_origin \
+  --rolling-folds 3 \
+  --regularized \
+  --recency-half-life-days 1095 \
+  --iterations 500
+
 # Step 2: Generate predictions
 uv run python src/predict.py
 
@@ -146,10 +159,16 @@ uv run python src/train.py \
   --model-family lightgbm_two_stage \
   --experiment-name lgbm_v1
 
-# Future algorithm example
-uv run python src/train.py \
-  --model-family xgboost_direct \
+# XGBoost baseline
+uv run python src/train_xgb.py \
   --experiment-name xgb_v1
+
+# CatBoost direct-horizon model with native categorical handling
+uv run python src/train_catboost.py \
+  --experiment-name catboost_v1 \
+  --feature-profile lean \
+  --validation-mode rolling_origin \
+  --regularized
 ```
 
 For each algorithm version, keep the same artifact contract:

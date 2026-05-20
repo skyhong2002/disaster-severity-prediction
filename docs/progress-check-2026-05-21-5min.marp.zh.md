@@ -90,7 +90,8 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 | LGBM v2 | Holdout | 0.6942 | LGB/XGB anchor |
 | XGBoost v1 | Holdout | 0.7150 | LGB/XGB anchor |
 | LGB/XGB 50/50 | - | - | 0.8232 |
-| CatBoost tail2737 | Rolling origin | 0.2212 | ensemble member |
+| CatBoost tail2737 | Rolling origin | 0.2212 / 0.2192 rerun | ensemble member |
+| LGBM micro 20260520 | Rolling origin | 0.2002 | diagnostic only |
 | **LGB/XGB/Cat 35/35/30** | - | - | **0.8124** |
 
 **目前 repo 紀錄的最佳 public：** `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`。
@@ -106,6 +107,7 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 - Weather-only 與 long-term weather 在本地看起來強，但 public LB 較弱。
 - 91-day gap score history 仍然提供重要的地區性訊號。
 - CatBoost 加入 native categorical handling 後，作為 diversity model 明顯改善 public score。
+- CatBoost 35%、40% 與 horizon-ramp probes 都沒有超過 30% CatBoost public anchor。
 - Rolling-origin 的低 MAE 很有參考價值，但和舊 holdout MAE 不可直接並列解讀。
 
 下一步的重點不是追 public LB，而是檢查 private robustness。
@@ -117,7 +119,7 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 # 下一步
 
 - 等 5/22 static private leaderboard，比較 LGB/XGB anchor 與 CatBoost blend 的私榜表現。
-- 只在 leakage-free 驗證與私榜訊號支持時，才繼續調整 ensemble 權重。
+- 把 5/20 CatBoost 與 LGBM reruns 視為 post-readout blend inputs，不當成新 anchor。
 - 用 `docs/current_state.json` 與 `scripts/check_current_state.py` 維持報告、簡報、實驗紀錄一致。
 - 完成 IEEE 報告，並保持程式、實驗與提交紀錄一致。
 

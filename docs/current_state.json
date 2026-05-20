@@ -15,6 +15,32 @@
     "sha256_prefix": "28d368bc4be8",
     "blend": "50% LightGBM / 50% XGBoost"
   },
+  "recent_findings": [
+    {
+      "name": "CatBoost 35% blend",
+      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_325_325_35.csv",
+      "public_mae": "0.8141",
+      "interpretation": "Nearby CatBoost-weight probe; public score regressed versus the 30% CatBoost anchor."
+    },
+    {
+      "name": "CatBoost horizon ramp",
+      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv",
+      "public_mae": "0.8138",
+      "interpretation": "Meaningful secondary private-LB hedge, but weaker than the 30% public anchor."
+    },
+    {
+      "name": "CatBoost tail2737 rerun",
+      "run": "experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500",
+      "local_mae": "0.2192",
+      "interpretation": "Legal rerun, not submitted; supports the CatBoost hypothesis but does not change the anchor."
+    },
+    {
+      "name": "LGBM micro rolling rerun",
+      "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520",
+      "local_mae": "0.2002",
+      "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor."
+    }
+  ],
   "model_families": [
     "LightGBM",
     "XGBoost",

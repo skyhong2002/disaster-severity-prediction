@@ -90,7 +90,8 @@ The repository now supports three boosted-tree model families.
 | LGBM v2 | Holdout | 0.6942 | LGB/XGB anchor |
 | XGBoost v1 | Holdout | 0.7150 | LGB/XGB anchor |
 | LGB/XGB 50/50 | - | - | 0.8232 |
-| CatBoost tail2737 | Rolling origin | 0.2212 | ensemble member |
+| CatBoost tail2737 | Rolling origin | 0.2212 / 0.2192 rerun | ensemble member |
+| LGBM micro 20260520 | Rolling origin | 0.2002 | diagnostic only |
 | **LGB/XGB/Cat 35/35/30** | - | - | **0.8124** |
 
 **Current best public record:** `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`.
@@ -106,6 +107,7 @@ A single local validation score does not fully explain Kaggle generalization.
 - Weather-only and long-term weather models looked strong locally but were weaker on the public leaderboard.
 - 91-day-gapped score history still provides important region-specific context.
 - CatBoost's native categorical handling added useful ensemble diversity and improved public MAE.
+- CatBoost 35%, 40%, and horizon-ramp probes did not beat the 30% public anchor.
 - Rolling-origin MAE is useful, but should not be compared directly against older holdout MAE.
 
 The next decision should be based on private robustness, not only public score.
@@ -117,7 +119,7 @@ The next decision should be based on private robustness, not only public score.
 # Next Steps
 
 - Compare the LGB/XGB anchor and CatBoost blends on the 5/22 static private leaderboard.
-- Tune ensemble weights only when leakage-free validation and private evidence support it.
+- Treat the 5/20 CatBoost and LGBM reruns as post-readout blend inputs, not new anchors.
 - Use `docs/current_state.json` and `scripts/check_current_state.py` to keep report, slides, and experiment records aligned.
 - Finalize the IEEE report and keep code, experiments, and submission lineage consistent.
 

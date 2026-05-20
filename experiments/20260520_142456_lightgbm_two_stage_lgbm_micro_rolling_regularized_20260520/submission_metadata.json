@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-20T16:33:23",
+  "global_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/submissions/submission_20260520_163323_20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520.csv",
+  "model_dir": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 4.642868891983504,
+      "mean": 0.7605728071950062,
+      "min": 0.0,
+      "std": 0.855137288912654
+    },
+    "pred_week2": {
+      "max": 4.6765338871269035,
+      "mean": 0.7484885439016143,
+      "min": 0.0,
+      "std": 0.8394320488725499
+    },
+    "pred_week3": {
+      "max": 4.710724120778163,
+      "mean": 0.7154332949140956,
+      "min": 0.0,
+      "std": 0.8247360289034316
+    },
+    "pred_week4": {
+      "max": 4.589443608975763,
+      "mean": 0.68067670802404,
+      "min": 0.0,
+      "std": 0.8135309325463526
+    },
+    "pred_week5": {
+      "max": 4.600139841642971,
+      "mean": 0.6605317526098478,
+      "min": 0.0,
+      "std": 0.8038725617792495
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520/submissions/submission_20260520_163323_20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520.csv"
+}

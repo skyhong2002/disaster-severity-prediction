@@ -1,0 +1,69 @@
+{
+  "average_val_mae": 0.21918608870242226,
+  "categorical_features": [
+    "region_id",
+    "month",
+    "quarter",
+    "weekofyear"
+  ],
+  "experiment_name": "catboost_lean_tail2737_regularized_500",
+  "feature_columns": 372,
+  "feature_options": {
+    "feature_profile": "lean",
+    "iterations_override": 500,
+    "recency_half_life_days": 1095.0,
+    "recent_days": 0,
+    "regularized": true,
+    "score_gap_days": 91,
+    "train_tail_days": 2737,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "horizon_fold_mae": {
+    "week_1": [
+      0.2129091645248614,
+      0.20663634570387732,
+      0.2156575699132603
+    ],
+    "week_2": [
+      0.23112611167220196,
+      0.21368456956395143,
+      0.2136606421568821
+    ],
+    "week_3": [
+      0.23109255264046472,
+      0.2100781507666632,
+      0.23284304395422942
+    ],
+    "week_4": [
+      0.21090907227703215,
+      0.2130007436837029,
+      0.22642587327772945
+    ],
+    "week_5": [
+      0.2295836582462241,
+      0.22413318151852085,
+      0.21605065063673246
+    ]
+  },
+  "horizon_val_mae": {
+    "week_1": 0.211734360047333,
+    "week_2": 0.21949044113101182,
+    "week_3": 0.22467124912045244,
+    "week_4": 0.21677856307948817,
+    "week_5": 0.2232558301338258
+  },
+  "model_family": "catboost_two_stage",
+  "model_paths": {
+    "latest_horizon_models": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/models/catboost_models.pkl",
+    "run_horizon_models": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500/models/catboost_models.pkl"
+  },
+  "rolling_folds": 3,
+  "train_shape": [
+    6152776,
+    17
+  ],
+  "validation_strategy": "rolling_origin",
+  "weekly_label_rows": 867728
+}

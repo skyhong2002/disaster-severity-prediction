@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-05-20T11:59:25",
+  "global_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/submissions/submission_20260520_115925_20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv",
+  "model_dir": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500/models",
+  "prediction_stats": {
+    "pred_week1": {
+      "max": 4.504792304424456,
+      "mean": 0.7347074548168171,
+      "min": 0.0,
+      "std": 0.7346266488308627
+    },
+    "pred_week2": {
+      "max": 4.456711051261114,
+      "mean": 0.7449617947030441,
+      "min": 0.0,
+      "std": 0.740118044280597
+    },
+    "pred_week3": {
+      "max": 4.5135963884159604,
+      "mean": 0.688688107085309,
+      "min": 0.0,
+      "std": 0.756832925190041
+    },
+    "pred_week4": {
+      "max": 4.61540766331106,
+      "mean": 0.6748692644748667,
+      "min": 0.0,
+      "std": 0.7702339848892462
+    },
+    "pred_week5": {
+      "max": 4.493159981787245,
+      "mean": 0.5958974578819661,
+      "min": 0.0,
+      "std": 0.7578541352505086
+    }
+  },
+  "rows": 2248,
+  "run_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500/submissions/submission_20260520_115925_20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv"
+}

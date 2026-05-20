@@ -2,14 +2,17 @@
 
 Last updated: 2026-05-20
 
-This file records the current legal model-selection state for the Final Project progress check. It is intended to keep the slides, report, code, and Kaggle submissions consistent.
+This file records the current legal model-selection state for the Final Project
+progress check. It is intended to keep the slides, report, code, and Kaggle
+submissions consistent.
 
 ## Current Leaderboard Interpretation
 
 - Current best legal public score: `0.8124` MAE.
 - Current best legal submission file: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`.
-- The previous LGB/XGB anchor remains useful for comparison: `submissions/ensemble_final.csv`, public MAE `0.8232`.
+- Previous legal LGB/XGB anchor: `submissions/ensemble_final.csv`, public MAE `0.8232`.
 - 5/15 static private leaderboard: Team 5 was ranked 3, below Baseline 3 and above Baseline 2.
+- Baseline 3 pressure: at the time of the TA announcement, at least 13 successful entries were needed to cross Public Baseline 3.
 - Strategy implication: use public leaderboard gains cautiously and prioritize private robustness, reproducibility, and leakage-free validation evidence.
 
 ## Current Best Legal Submission
@@ -17,44 +20,51 @@ This file records the current legal model-selection state for the Final Project 
 | Field | Value |
 |---|---|
 | Submission | `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` |
+| Kaggle ref | `52698259` |
 | Public MAE | `0.8124` |
 | Rows | `2248` |
-| SHA-256 prefix | `bee6f618828d` |
+| SHA-256 prefix | `bee6f618828d` if restored locally; exact raw CSV is not present in the current checkout |
 | Blend | 35% `lgbm_v2` + 35% `xgb_v1` + 30% `catboost_lean_tail2737_regularized_500` |
 | LightGBM source | `submissions/submission_20260512_234155_lgbm_v2.csv` |
 | XGBoost source | `submissions/submission_20260513_001713_xgb_v1.csv` |
 | CatBoost source | `submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv` |
-
-## Previous Legal Anchor
-
-| Field | Value |
-|---|---|
-| Submission | `submissions/ensemble_final.csv` |
-| Public MAE | `0.8232` |
-| Rows | `2248` |
-| SHA-256 prefix | `28d368bc4be8` |
-| Blend | 50% `lgbm_v2` + 50% `xgb_v1` |
-| Repro check | Max difference from exact 50/50 blend: `4.44e-16` |
+| Repro check | Command lineage is recorded in `docs/catboost_results_2026-05-16.md`. |
 
 ## Submitted Candidates
 
-The 2026-05-16 submission batch has two phases. The first phase tested conservative LGB/XGB blends around the previous anchor. The second phase added CatBoost as a third diversity model.
+The submission set for the 2026-05-22 static private leaderboard contains the
+original conservative LGB/XGB hedges plus a CatBoost blend family. All official
+candidates below use reproducible legal sources; leaky diagnostics are excluded
+from model selection.
 
 | Submission | Kaggle ref | Blend | Public MAE | SHA-256 prefix | Purpose |
 |---|---:|---|---:|---|---|
 | `submissions/ensemble_20260516_validation_weighted_v1.csv` | `52689645` | Per-horizon LGBM weights: `0.5191,0.5157,0.5153,0.5132,0.5108` | `0.8232` | `b027d21fe911` | Minimal validation-weighted perturbation around `ensemble_final`. |
 | `submissions/ensemble_20260516_xgb_tilt_40_60.csv` | `52689654` | 40% `lgbm_v2` / 60% `xgb_v1` | `0.8232` | `e7e6946785f3` | Small XGBoost-tilted hedge. |
-| `submissions/ensemble_20260516_lgb_xgb_cat2737_45_45_10.csv` | `52698220` | 45% LGB / 45% XGB / 10% CatBoost | `0.8163` | not recorded | CatBoost diversity probe. |
-| `submissions/ensemble_20260516_lgb_xgb_cat2737_40_40_20.csv` | `52698244` | 40% LGB / 40% XGB / 20% CatBoost | `0.8126` | not recorded | Higher CatBoost weight. |
-| `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` | `52698259` | 35% LGB / 35% XGB / 30% CatBoost | `0.8124` | `bee6f618828d` | Current best legal public score. |
+| `submissions/ensemble_20260516_lgb_xgb_cat2737_45_45_10.csv` | `52698220` | 45% `lgbm_v2` / 45% `xgb_v1` / 10% CatBoost | `0.8163` | Not available locally | Low CatBoost-weight probe. |
+| `submissions/ensemble_20260516_lgb_xgb_cat2737_40_40_20.csv` | `52698244` | 40% `lgbm_v2` / 40% `xgb_v1` / 20% CatBoost | `0.8126` | Not available locally | Conservative CatBoost blend near the best public score. |
+| `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` | `52698259` | 35% `lgbm_v2` / 35% `xgb_v1` / 30% CatBoost | `0.8124` | `bee6f618828d` if restored locally | Current best legal public score and main 5/22 anchor. |
+| `submissions/ensemble_20260519_lgb_xgb_cat2737_325_325_35.csv` | `52796551` | 32.5% `lgbm_v2` / 32.5% `xgb_v1` / 35% CatBoost | `0.8141` | Not available locally | Nearby CatBoost-weight robustness probe. |
+| `submissions/ensemble_20260519_lgb_xgb_cat2737_30_30_40.csv` | `52796554` | 30% `lgbm_v2` / 30% `xgb_v1` / 40% CatBoost | `0.8168` | Not available locally | Higher CatBoost-weight probe; public regression suggests no further public-only increase. |
+| `submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv` | `52796562` | Horizon-specific LGB/XGB/CatBoost ramp | `0.8138` | Not available locally | Tests whether CatBoost helps more on later horizons. |
 
-Sanity checks for the best current file:
+Sanity checks for local candidate files:
 
 - `2248` rows.
-- Same columns as `sample_submission.csv`.
+- Same columns and `region_id` order as `data/sample_submission.csv`.
 - No missing predictions.
 - Predictions clipped to `[0, 5]`.
 - The leaky reproduction output was not used.
+
+## 2026-05-20 Local Reruns
+
+These runs are legal and useful for future blend experiments, but they were not
+submitted as of this update.
+
+| Run | Model | Validation | Local MAE | Submission | Notes |
+|---|---|---|---:|---|---|
+| `20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500` | CatBoost | Rolling origin | `0.2192` | `submissions/submission_20260520_115925_20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv` | Valid rerun of the CatBoost tail2737 hypothesis; SHA-256 prefix `0fba74bfc925`. |
+| `20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520` | LightGBM | Rolling origin | `0.2002` | `submissions/submission_20260520_163323_20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520.csv` | Memory-safe micro-profile LGBM; strong local score but should be treated as diagnostic/blend input until Kaggle evidence confirms it. |
 
 ## Experiment Table
 
@@ -62,8 +72,10 @@ Sanity checks for the best current file:
 |---|---|---|---|---:|---:|---|
 | `lgbm_v2` | LightGBM direct horizon | 337 features, score history | Chronological holdout | `0.6942` | Component of `0.8232` and `0.8124` ensembles | Legal baseline model. |
 | `xgb_v1` | XGBoost direct horizon | 337 features, score history | Chronological holdout | `0.7150` | Component of `0.8232` and `0.8124` ensembles | Legal diversity model. |
-| `catboost_lean_tail2737_regularized_500` | CatBoost direct horizon | Lean profile, 91-day-gapped score history, native categorical features | Rolling origin | `0.2212` | Component of `0.8124` ensemble | Validation scale differs from holdout; do not compare directly with LGB/XGB holdout MAE. |
+| `catboost_lean_tail2737_regularized_500` | CatBoost direct horizon | Lean profile, 91-day-gapped score history, native categorical features | Rolling origin | `0.2212`; `0.2192` rerun | Component of `0.8124` ensemble | Validation scale differs from holdout; do not compare directly with LGB/XGB holdout MAE. |
+| `lgbm_micro_rolling_regularized_20260520` | LightGBM direct horizon | Micro profile, 91-day-gapped score history, regularized | Rolling origin | `0.2002` | Local diagnostic / candidate blend input | Strong local run; needs Kaggle or pseudo-private evidence before becoming an anchor. |
 | `ensemble_20260516_lgb_xgb_cat2737_35_35_30` | Three-model ensemble | `lgbm_v2` + `xgb_v1` + CatBoost tail2737 | N/A | N/A | `0.8124` | Current best legal public submission. |
+| `ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp` | Three-model ensemble | Horizon-specific CatBoost ramp | Private-robustness probe | N/A | `0.8138` | Keep for 5/22 readout; do not continue unless private rank supports it. |
 | `ensemble_final` | 50/50 ensemble | `lgbm_v2` + `xgb_v1` | N/A | N/A | `0.8232` | Previous legal anchor. |
 | `lgbm_direct` | LightGBM direct weather-only | 318 weather-only features | Chronological holdout | `0.6770` | `0.8640` strategy result | Good local score, weak public generalization. |
 | `xgb_direct` | XGBoost direct weather-only | 318 weather-only features | Chronological holdout | `0.7320` | Used in strategy experiment | Did not beat score-history ensembles. |
@@ -73,7 +85,11 @@ Sanity checks for the best current file:
 
 ## Terminology Note
 
-Some run directory names and `model_family` strings still contain `two_stage`. These are retained for compatibility with existing artifacts. In current documentation, the active implementation should be described as direct-horizon boosted-tree models with leakage-aware 91-day-gapped score-history features, not as the older separate score-estimation pipeline.
+Some run directory names and `model_family` strings still contain `two_stage`.
+These are retained for compatibility with existing artifacts. In current
+documentation, the active implementation should be described as direct-horizon
+boosted-tree models with leakage-aware 91-day-gapped score-history features, not
+as the older separate score-estimation pipeline.
 
 ## Reproducibility Requirements
 

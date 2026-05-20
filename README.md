@@ -84,28 +84,33 @@ After downloading, your `data/` folder should contain:
 ## 3. Run the Pipeline
 
 ```bash
-# Step 1: Feature engineering + Training
+# Train a LightGBM direct-horizon baseline
 uv run python src/train.py
 
-# Optional: name the experiment run
-uv run python src/train.py --experiment-name lgbm_v1
+# Train an XGBoost direct-horizon diversity model
+uv run python src/train_xgb.py --experiment-name xgb_v1
 
-# Optional: train the CatBoost robustness model
+# Train the CatBoost robustness model used in the best current public blend
 uv run python src/train_catboost.py \
-  --experiment-name catboost_lean_tail1825_regularized_500 \
+  --experiment-name catboost_lean_tail2737_regularized_500 \
   --feature-profile lean \
-  --train-tail-days 1825 \
+  --train-tail-days 2737 \
   --validation-mode rolling_origin \
   --rolling-folds 3 \
   --regularized \
   --recency-half-life-days 1095 \
   --iterations 500
 
-# Step 2: Generate predictions
-uv run python src/predict.py
-
-# Optional: predict with a specific saved run
+# Generate predictions from a specific saved run
 uv run python src/predict.py --run-dir experiments/<run_id>
+
+# Blend LGB/XGB/CatBoost submissions
+uv run python src/ensemble.py \
+  --lgb submissions/submission_20260512_234155_lgbm_v2.csv \
+  --xgb submissions/submission_20260513_001713_xgb_v1.csv \
+  --cat submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv \
+  --out submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv \
+  --weights 'lgb=0.35;xgb=0.35;cat=0.30'
 
 # Output:
 # - submissions/submission_<timestamp>_<run_id>.csv
@@ -118,6 +123,17 @@ uv run python src/predict.py --run-dir experiments/<run_id>
 `src/train.py` saves every run under `experiments/<run_id>/` and also updates
 the legacy latest-model files under `models/` for compatibility. `src/predict.py`
 defaults to the latest experiment recorded in `experiments/latest.txt`.
+
+Current model-selection state is tracked in `docs/current_state.json`. The
+current best legal public submission is
+`submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` with public MAE
+`0.8124`.
+
+Before updating the report, slides, or experiment notes, run:
+
+```bash
+uv run python scripts/check_current_state.py
+```
 
 ---
 
@@ -138,18 +154,28 @@ defaults to the latest experiment recorded in `experiments/latest.txt`.
 
 ## 5. Method Overview
 
-We use **LightGBM** with rich temporal feature engineering:
-- Lag features (7, 14, 21, 28, 35 days)
-- Rolling mean/std over multiple windows
-- Score history (last 1–5 weekly scores)
-- Calendar features (week, month, season)
+The current implementation treats drought prediction as a leakage-aware
+direct multi-horizon panel-regression problem:
+
+- One independent model is trained for each forecast week, week 1 through week 5.
+- Feature profiles (`micro`, `lean`, `full`) control memory use and feature count.
+- Features include meteorological lags, rolling statistics, EWMA signals,
+  long-window drought proxies, calendar encodings, climatology anomalies, and
+  optional 91-day-gapped score-history features.
+- Model families currently implemented: LightGBM, XGBoost, and CatBoost.
+- `src/ensemble.py` supports two-model and three-model convex blends, including
+  horizon-specific weights.
+
+The old separate score-estimation experiment is not the current implementation path.
+The active pipeline uses saved feature options from each run and rebuilds the
+same direct-horizon feature table during inference.
 
 See `src/features.py` for details.
 
 ## 6. Iterating on Algorithms
 
-The repository is organized so the current LightGBM implementation can be kept
-as a reproducible baseline while future methods are added.
+The repository is organized so each model family can be compared under a stable
+artifact contract while preserving previous experiment lineage.
 
 Recommended workflow:
 
@@ -170,6 +196,10 @@ uv run python src/train_catboost.py \
   --validation-mode rolling_origin \
   --regularized
 ```
+
+The `*_two_stage` model-family labels are retained for backward compatibility
+with existing run directories. They should be read as historical identifiers,
+not as a claim about the current training flow.
 
 For each algorithm version, keep the same artifact contract:
 

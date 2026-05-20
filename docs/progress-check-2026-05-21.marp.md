@@ -30,6 +30,8 @@ style: |
 
 ## Natural Disaster Severity Prediction
 
+**Archived draft:** this longer deck predates the CatBoost ensemble update. Use `progress-check-2026-05-21-5min.marp.md` or `progress-check-2026-05-21-5min.marp.zh.md` for the current implementation narrative.
+
 **Group 5**  
 Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 
@@ -65,12 +67,13 @@ The primary challenge lies in the discrepancy between the temporal resolution of
 
 # Current Pipeline Architecture
 
-We have established a reproducible, two-stage **Direct Horizon Forecasting Pipeline**.
+We have established a reproducible **Direct Horizon Forecasting Pipeline**.
 
 1. **Feature Engineering:** Extract temporal patterns via lag windows, rolling statistics, and exponentially weighted moving averages (EWMA).
 2. **Domain-Specific Indicators:** Synthesize specialized meteorological indices, including drought index approximations and dewpoint spreads.
-3. **Multi-Horizon Modeling:** Train five independent models—one for each forecasting horizon (Week 1 through Week 5)—to prevent recursive error accumulation.
-4. **Ensembling & Tracking:** Support integration of LightGBM and XGBoost via weighted ensembling, coupled with strict version control for experiment tracking.
+3. **Gap-Aware Score Context:** Use historical score features only after the 91-day blind gap to prevent leakage.
+4. **Multi-Horizon Modeling:** Train five independent models—one for each forecasting horizon (Week 1 through Week 5)—to prevent recursive error accumulation.
+5. **Ensembling & Tracking:** Support LightGBM, XGBoost, and CatBoost weighted ensembling with strict versioned experiment tracking.
 
 ---
 
@@ -102,12 +105,13 @@ Key experiments establishing our methodology:
 
 | Model | Validation | Features | Local MAE |
 |---|---|---:|---:|
-| `lgbm_v2` (Two-Stage) | Chronological | 337 | 0.6942 |
-| `xgb_v1` (Two-Stage) | Chronological | 337 | 0.7150 |
+| `lgbm_v2` (Direct Horizon) | Chronological | 337 | 0.6942 |
+| `xgb_v1` (Direct Horizon) | Chronological | 337 | 0.7150 |
+| `catboost_tail2737` (Direct Horizon) | Rolling Origin | 372 | 0.2212 |
 | `lgbm_direct` (Pure Weather) | Chronological | 318 | 0.6770 |
 | `xgb_direct` (Pure Weather) | Chronological | 318 | 0.7320 |
 
-*Insight: Pure weather models excel locally but require Kaggle validation to prove generalization.*
+*Insight: Validation scores from holdout and rolling-origin modes are not directly comparable; Kaggle public/private results remain the external generalization check.*
 
 ---
 
@@ -122,11 +126,12 @@ Key experiments establishing our methodology:
 
 ---
 
-# Kaggle Leaderboard (Champion)
+# Kaggle Leaderboard (Current Legal Best)
 
 | Method | MAE | Key Takeaway |
 |---|---:|---|
-| **Ensemble v1 (Two-Stage)** | **0.8232 🏆** | **Best legal submission.** 50/50 blend of LightGBM and XGBoost two-stage models. |
+| **LGB/XGB/CatBoost 35/35/30** | **0.8124 🏆** | **Current best legal public score.** CatBoost adds useful diversity. |
+| **LGB/XGB 50/50 Anchor** | **0.8232** | Previous legal anchor; still useful for private leaderboard comparison. |
 | **Initial Submission (Leak)** | **0.8094** | Accidental hybrid due to feature artifact. **Discarded to maintain strict academic rigor.** |
 
 ---
@@ -153,12 +158,12 @@ The 5/15 static private leaderboard changed our risk assessment.
 
 | Item | Value |
 |---|---|
-| Submission file | `submissions/ensemble_final.csv` |
-| Public MAE | **0.8232** |
-| Components | `lgbm_v2` + `xgb_v1` |
-| Blend rule | 50% LightGBM / 50% XGBoost |
+| Submission file | `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` |
+| Public MAE | **0.8124** |
+| Components | `lgbm_v2` + `xgb_v1` + `catboost_tail2737` |
+| Blend rule | 35% LightGBM / 35% XGBoost / 30% CatBoost |
 | Rows | 2,248 regions |
-| SHA-256 prefix | `28d368bc4be8` |
+| SHA-256 prefix | `bee6f618828d` |
 
 **Reproducibility note:** The leaky reproduction run is retained only as a diagnostic artifact and is excluded from valid model selection.
 
@@ -170,7 +175,7 @@ This extensive ablation study provided a profound insight into the dataset dynam
 
 We hypothesized that the inherent noise in historical score reconstruction would degrade performance, prompting us to rely exclusively on pure, long-term meteorological signals (up to 365 days). While this pure approach achieved an outstanding Local MAE of `0.488`, it failed to generalize, scoring only `0.8604` on the Kaggle Leaderboard.
 
-**The Kaggle Paradox:** Historical drought scores, despite their noise and sparsity, encapsulate critical **Unobserved Confounders**—such as local water infrastructure, agricultural habits, and soil retention characteristics—that pure weather data cannot measure. Consequently, the Two-Stage Reconstructor (`0.8232`) remains the scientifically sound and optimal architecture.
+**The Kaggle Paradox:** Historical drought scores, despite their noise and sparsity, encapsulate critical **Unobserved Confounders**—such as local water infrastructure, agricultural habits, and soil retention characteristics—that pure weather data cannot measure. Consequently, the current direct-horizon ensemble keeps 91-day-gapped historical score context and adds CatBoost diversity, reaching `0.8124` public MAE.
 
 ---
 
@@ -179,7 +184,7 @@ We hypothesized that the inherent noise in historical score reconstruction would
 The codebase has been refactored to support robust, production-level iteration:
 
 - **Modular Core:** Feature engineering, training, and inference logic are strictly decoupled (`src/train.py`, `src/predict.py`, `src/features.py`).
-- **Ensemble Tooling:** Automated post-processing scripts (`src/ensemble.py`) facilitate dynamic model blending.
+- **Ensemble Tooling:** Automated post-processing scripts (`src/ensemble.py`) facilitate two-model and three-model blending.
 - **Experiment Tracking:** Every execution persists configuration metadata, evaluation metrics, and model weights to a versioned `experiments/` directory.
 - **Audit Trail:** Current submission lineage is summarized in `docs/experiment_summary.md`.
 
@@ -199,9 +204,9 @@ Prior to the final submission deadline, our priorities are:
 
 **Achievements:**
 - Eradicated critical time-leakage and train-test discrepancies.
-- Developed a robust, modular Two-Stage Direct Forecasting pipeline.
+- Developed a robust, modular Direct Horizon Forecasting pipeline.
 - Successfully diagnosed the "Kaggle Paradox," proving the necessity of Unobserved Confounders over pure meteorological data.
-- Established a reproducible best legal Kaggle submission: **0.8232 public MAE**.
+- Established a reproducible best legal Kaggle submission: **0.8124 public MAE**.
 - Confirmed 5/15 static private leaderboard risk: **Team 5 rank 3, below Baseline 3**.
 
 **Current Focus:** Improve private robustness and keep code/report/submission artifacts fully consistent.

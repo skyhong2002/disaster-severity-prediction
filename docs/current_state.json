@@ -1,0 +1,46 @@
+{
+  "last_updated": "2026-05-20",
+  "project": "Natural Disaster Severity Prediction",
+  "current_best": {
+    "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+    "public_mae": "0.8124",
+    "rows": 2248,
+    "sha256_prefix": "bee6f618828d",
+    "blend": "35% LightGBM / 35% XGBoost / 30% CatBoost",
+    "kaggle_ref": "52698259"
+  },
+  "previous_anchor": {
+    "submission": "submissions/ensemble_final.csv",
+    "public_mae": "0.8232",
+    "sha256_prefix": "28d368bc4be8",
+    "blend": "50% LightGBM / 50% XGBoost"
+  },
+  "model_families": [
+    "LightGBM",
+    "XGBoost",
+    "CatBoost"
+  ],
+  "implementation_summary": "Direct-horizon boosted-tree models with leakage-aware 91-day-gapped score-history features and LGB/XGB/CatBoost ensembling.",
+  "validation_note": "Holdout and rolling-origin local MAE are not directly comparable; Kaggle public/private leaderboard results are the external generalization checks.",
+  "current_docs": [
+    "README.md",
+    "docs/experiment_summary.md",
+    "docs/private_lb_submission_plan_2026-05-22.md",
+    "docs/progress-check-2026-05-21-5min.marp.md",
+    "docs/progress-check-2026-05-21-5min.marp.zh.md",
+    "report/main.tex"
+  ],
+  "archived_docs": [
+    "docs/improvement_plan.md",
+    "docs/progress-check-2026-05-21.marp.md"
+  ],
+  "banned_current_state_phrases": [
+    "Current best legal submission: `submissions/ensemble_final.csv`",
+    "Current status: reproducible best legal public MAE = **0.8232**",
+    "目前狀態： repo 紀錄的最佳 legal public MAE = **0.8232**",
+    "completely eliminates historical score features",
+    "purely on meteorological data",
+    "score reconstructor pipeline",
+    "Score Reconstructor ensemble"
+  ]
+}

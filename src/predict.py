@@ -1,10 +1,11 @@
 """
 predict.py
-Two-stage inference pipeline:
-  Stage 1: Reconstruct weekly scores for the test 91-day window using
-            meteorological features (no score leakage).
-  Stage 2: Use reconstructed scores as score-history features to predict
-            the next 5 weekly scores.
+Inference pipeline for direct-horizon disaster severity models.
+
+The script rebuilds the feature table for the 91-day test window using the
+feature options saved in an experiment run, selects the final test-row feature
+vector for each region, and applies the five saved horizon models. It can load
+LightGBM, XGBoost, or CatBoost model pickles from a run directory.
 
 Usage:
     python3 src/predict.py

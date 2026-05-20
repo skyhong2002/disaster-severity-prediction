@@ -41,7 +41,7 @@ DATA_DIR = ROOT / "data"
 MODEL_DIR = ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 
-MODEL_FAMILY = "catboost_two_stage"
+MODEL_FAMILY = "catboost_two_stage"  # Kept for compatibility with existing runs.
 
 CAT_PARAMS = {
     "loss_function": "MAE",

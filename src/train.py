@@ -1,11 +1,12 @@
 """
 train.py
-Two-stage LightGBM training:
-  Stage 1: Train a score reconstructor (meteo features → weekly score).
-           Used at inference to fill score-history features for test data
-           without leaking real labels.
-  Stage 2: Train one LightGBM model per horizon (week 1–5) using the full
-           feature set (meteo + score history + calendar).
+Direct-horizon LightGBM training for disaster severity prediction.
+
+The current pipeline builds leakage-aware temporal features, including optional
+91-day-gapped score-history features, then trains one independent LightGBM
+regressor for each forecast horizon (week 1-5). The historical separate
+score-estimation approach is kept only in old experiment artifacts, not in
+this training flow.
 
 Usage:
     python3 src/train.py
@@ -40,7 +41,7 @@ DATA_DIR  = ROOT / "data"
 MODEL_DIR = ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 
-MODEL_FAMILY = "lightgbm_two_stage"
+MODEL_FAMILY = "lightgbm_two_stage"  # Kept for compatibility with existing runs.
 
 # ── LightGBM config ────────────────────────────────────────────────────────────
 LGB_PARAMS = {

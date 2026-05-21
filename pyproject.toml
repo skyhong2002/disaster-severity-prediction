@@ -15,4 +15,5 @@ dependencies = [
     "kaggle>=1.6",
     "kagglehub>=0.3",
     "tqdm>=4.65",
+    "torch>=2.2",
 ]

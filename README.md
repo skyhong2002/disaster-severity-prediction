@@ -25,6 +25,7 @@ disaster-severity-prediction/
 │   ├── train.py               # Train LightGBM model
 │   ├── train_xgb.py           # Train XGBoost model
 │   ├── train_catboost.py      # Train CatBoost model
+│   ├── train_group3_ar_gru.py # Reproduce Group 3 autoregressive GRU baseline
 │   └── predict.py             # Generate submission file
 ├── experiments/               # Run metadata; large artifacts ignored
 ├── models/                    # Saved model files (not in git)
@@ -100,6 +101,16 @@ uv run python src/train_catboost.py \
   --regularized \
   --recency-half-life-days 1095 \
   --iterations 500
+
+# Reproduce the Group 3 presentation's autoregressive GRU architecture
+# This is an experimental neural baseline, not the current submission path.
+uv run python src/train_group3_ar_gru.py \
+  --experiment-name group3_ar_gru_smoke \
+  --max-rows 60000 \
+  --max-regions 8 \
+  --train-tail-days 730 \
+  --epochs 1 \
+  --batch-size 64
 
 # Run a Kaggle-like blind-window backtest against a saved run
 uv run python scripts/run_blind_backtest.py \
@@ -199,6 +210,11 @@ direct multi-horizon panel-regression problem:
   long-window drought proxies, calendar encodings, climatology anomalies, and
   optional 91-day-gapped score-history features.
 - Model families currently implemented: LightGBM, XGBoost, and CatBoost.
+- `src/train_group3_ar_gru.py` reproduces Group 3's AR-GRU presentation baseline:
+  a 91-day weather sequence, region/date static context, a 2-layer hidden-64
+  GRU encoder, and a five-step GRUCell decoder with previous-score feedback and
+  teacher forcing. It is kept separate from `src/predict.py` because current
+  evidence still favors the tree ensemble path.
 - `src/ensemble.py` supports two-model and three-model convex blends, including
   horizon-specific weights.
 - `scripts/run_blind_backtest.py` rebuilds a pseudo Kaggle test window inside

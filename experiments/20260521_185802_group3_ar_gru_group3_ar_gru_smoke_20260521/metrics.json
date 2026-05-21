@@ -1,0 +1,29 @@
+{
+  "best_epoch": 1,
+  "best_val_mae": 3.5205283164978027,
+  "experiment_name": "group3_ar_gru_smoke_20260521",
+  "history": [
+    {
+      "epoch": 1,
+      "mae": 3.5205283164978027,
+      "mae_by_horizon": {
+        "week_1": 3.2065367698669434,
+        "week_2": 3.450110912322998,
+        "week_3": 3.571626663208008,
+        "week_4": 3.6550564765930176,
+        "week_5": 3.719311475753784
+      },
+      "pred_max": 0.5601645112037659,
+      "pred_mean": 0.18572160601615906,
+      "pred_min": 0.0,
+      "pred_std": 0.13721124827861786,
+      "target_max": 5.0,
+      "target_mean": 3.706249952316284,
+      "target_min": 1.0,
+      "target_std": 1.049385905265808,
+      "train_mae": 0.4996204935014248
+    }
+  ],
+  "model_family": "group3_ar_gru",
+  "model_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_185802_group3_ar_gru_group3_ar_gru_smoke_20260521/models/group3_ar_gru.pt"
+}

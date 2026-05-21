@@ -194,3 +194,63 @@ Interpretation:
 - The next useful step is not Kaggle submission. The next step is to adapt
   blind-window backtesting or a submission writer for this neural checkpoint,
   then compare residual diversity against LGB/XGB/CatBoost.
+
+## Kaggle Test-Window Inference
+
+Inference script:
+
+```bash
+src/predict_group3_ar_gru.py
+```
+
+Command:
+
+```bash
+PYTHONUNBUFFERED=1 uv run python src/predict_group3_ar_gru.py \
+  --run-dir experiments/20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521 \
+  --device auto \
+  --batch-size 512
+```
+
+Submission artifact:
+
+```text
+submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv
+```
+
+Sanity checks:
+
+| Check | Value |
+|---|---:|
+| rows | 2248 |
+| columns | 6 |
+| NaN values | 0 |
+| prediction min | 0.0000 |
+| prediction max | 5.0000 |
+| sha256 | `5ca7f847eba15e189aec400c14c1e00ae3e3427b2c4b84a28d4469032e065080` |
+
+Prediction distribution:
+
+| Horizon | Mean | Std | Min | Max |
+|---|---:|---:|---:|---:|
+| week 1 | 0.6915 | 0.9282 | 0.0000 | 5.0000 |
+| week 2 | 0.6914 | 0.9321 | 0.0000 | 5.0000 |
+| week 3 | 0.6912 | 0.9358 | 0.0000 | 5.0000 |
+| week 4 | 0.6921 | 0.9397 | 0.0000 | 5.0000 |
+| week 5 | 0.6934 | 0.9442 | 0.0000 | 5.0000 |
+| overall | 0.6919 | 0.9360 | 0.0000 | 5.0000 |
+
+Interpretation:
+
+- The submission writer is now reproducible and uses the same Kaggle-like
+  blind setup as the official test data: 91 days of test weather are visible,
+  but no test scores are used.
+- The test-window prediction mean (`0.6919`) is much higher than the best local
+  validation prediction mean (`0.3090`). This is plausible under distribution
+  shift, but it also confirms that the local validation score is not enough to
+  justify direct submission.
+- Some rows saturate at both boundaries after clipping (`0` and `5`), so this
+  model should be treated as a neural diversity candidate, not as a primary
+  replacement for LGB/XGB/CatBoost.
+- Promotion gate remains unchanged: run blind-window backtest or blend-residual
+  analysis before spending a Kaggle slot on this artifact.

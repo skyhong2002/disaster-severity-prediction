@@ -1,0 +1,62 @@
+{
+  "checkpoint_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521/models/group3_ar_gru.pt",
+  "columns": [
+    "region_id",
+    "pred_week1",
+    "pred_week2",
+    "pred_week3",
+    "pred_week4",
+    "pred_week5"
+  ],
+  "created_at": "2026-05-21T19:34:38",
+  "global_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+  "model_family": "group3_ar_gru",
+  "prediction_stats": {
+    "overall": {
+      "max": 5.0,
+      "mean": 0.6918925046920776,
+      "min": 0.0,
+      "std": 0.9360052347183228
+    },
+    "pred_week1": {
+      "max": 5.0,
+      "mean": 0.6914501190185547,
+      "min": 0.0,
+      "std": 0.9281543493270874
+    },
+    "pred_week2": {
+      "max": 5.0,
+      "mean": 0.6914026141166687,
+      "min": 0.0,
+      "std": 0.9321181774139404
+    },
+    "pred_week3": {
+      "max": 5.0,
+      "mean": 0.6911501288414001,
+      "min": 0.0,
+      "std": 0.9357762336730957
+    },
+    "pred_week4": {
+      "max": 5.0,
+      "mean": 0.6920647025108337,
+      "min": 0.0,
+      "std": 0.9397130012512207
+    },
+    "pred_week5": {
+      "max": 5.0,
+      "mean": 0.6933948993682861,
+      "min": 0.0,
+      "std": 0.9441787600517273
+    }
+  },
+  "rows": 2248,
+  "run_dir": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521",
+  "run_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521/submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+  "sanity_checks": {
+    "expected_rows": 2248,
+    "no_nan": true,
+    "range_max": 5.0,
+    "range_min": 0.0,
+    "row_count_ok": true
+  }
+}

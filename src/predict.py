@@ -104,6 +104,7 @@ def load_feature_options(run_dir: Path | None) -> dict:
         "use_climatology": True,
         "use_region_stats": True,
         "feature_profile": "full",
+        "train_tail_days": 0,
         "drop_feature_groups": [],
     }
     if run_dir is None:
@@ -114,6 +115,18 @@ def load_feature_options(run_dir: Path | None) -> dict:
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
     return {**defaults, **config.get("feature_options", {})}
+
+
+def apply_train_tail(train: pd.DataFrame, tail_days: int) -> pd.DataFrame:
+    """Match training-time raw history for climatology and region priors."""
+    if tail_days <= 0:
+        return train
+    return (
+        train.sort_values(["region_id", "date"])
+        .groupby("region_id", group_keys=False)
+        .tail(tail_days)
+        .reset_index(drop=True)
+    )
 
 
 
@@ -147,13 +160,15 @@ def main():
     
     # Prevent OOM by only concatenating the last 750 days of train for lag calculations
     # 'date' column has format 'XXXX-09-18' so Timedelta fails. Since each region has 1 row/day, use tail(750)
-    train_recent = train.groupby("region_id").tail(750).copy()
+    train_tail_days = int(feature_options.get("train_tail_days", 0) or 0)
+    train_ref = apply_train_tail(train, train_tail_days)
+    train_recent = train_ref.groupby("region_id").tail(750).copy()
     combined = pd.concat([train_recent, test], ignore_index=True)
     
     from features import build_features
     combined_feat = build_features(
         combined,
-        train,
+        train_ref,
         is_train=False,
         use_score_history=feature_options.get("use_score_history", False),
         score_gap_days=int(feature_options.get("score_gap_days", 91)),

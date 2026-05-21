@@ -104,6 +104,12 @@ def parse_args():
         help="Use only weekly training rows from the most recent N days. 0 uses all rows.",
     )
     parser.add_argument(
+        "--train-tail-days",
+        type=int,
+        default=0,
+        help="Use only the most recent N raw daily rows per region before feature building. 0 uses all rows.",
+    )
+    parser.add_argument(
         "--recency-half-life-days",
         type=float,
         default=0,
@@ -152,6 +158,20 @@ def load_data():
     train = reduce_mem_usage(train)
     print(f"  train shape: {train.shape}")
     return train
+
+
+def apply_train_tail(train: pd.DataFrame, tail_days: int) -> pd.DataFrame:
+    """Trim raw daily rows per region before expensive feature construction."""
+    if tail_days <= 0:
+        return train
+    trimmed = (
+        train.sort_values(["region_id", "date"])
+        .groupby("region_id", group_keys=False)
+        .tail(tail_days)
+        .reset_index(drop=True)
+    )
+    print(f"  using latest {tail_days} daily rows per region: {trimmed.shape}")
+    return trimmed
 
 
 def extract_weekly_labels(train: pd.DataFrame) -> pd.DataFrame:
@@ -399,6 +419,7 @@ def main():
                 "use_region_stats": args.use_global_region_stats,
                 "feature_profile": args.feature_profile,
                 "recent_days": args.recent_days,
+                "train_tail_days": args.train_tail_days,
                 "recency_half_life_days": args.recency_half_life_days,
                 "regularized": args.regularized,
                 "final_train_mode": args.final_train_mode,
@@ -416,6 +437,7 @@ def main():
 
     # 1. Load data
     train = load_data()
+    train = apply_train_tail(train, args.train_tail_days)
     train_shape = train.shape
 
     # 2. Basic Feature engineering
@@ -489,6 +511,7 @@ def main():
             "use_region_stats": args.use_global_region_stats,
             "feature_profile": args.feature_profile,
             "recent_days": args.recent_days,
+            "train_tail_days": args.train_tail_days,
             "recency_half_life_days": args.recency_half_life_days,
             "regularized": args.regularized,
             "final_train_mode": args.final_train_mode,

@@ -1,0 +1,62 @@
+{
+  "checkpoint_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521/models/group3_ar_gru.pt",
+  "columns": [
+    "region_id",
+    "pred_week1",
+    "pred_week2",
+    "pred_week3",
+    "pred_week4",
+    "pred_week5"
+  ],
+  "created_at": "2026-05-21T20:08:32",
+  "global_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/submissions/submission_20260521_200832_20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521_group3_ar_gru.csv",
+  "model_family": "group3_ar_gru",
+  "prediction_stats": {
+    "overall": {
+      "max": 5.0,
+      "mean": 0.6959264278411865,
+      "min": 0.0,
+      "std": 0.8989083170890808
+    },
+    "pred_week1": {
+      "max": 5.0,
+      "mean": 0.7087817192077637,
+      "min": 0.0,
+      "std": 0.912563681602478
+    },
+    "pred_week2": {
+      "max": 5.0,
+      "mean": 0.7012432813644409,
+      "min": 0.0,
+      "std": 0.9058314561843872
+    },
+    "pred_week3": {
+      "max": 5.0,
+      "mean": 0.6943851709365845,
+      "min": 0.0,
+      "std": 0.8984919190406799
+    },
+    "pred_week4": {
+      "max": 4.980350494384766,
+      "mean": 0.6895760297775269,
+      "min": 0.0,
+      "std": 0.8917244076728821
+    },
+    "pred_week5": {
+      "max": 4.946289539337158,
+      "mean": 0.6856458783149719,
+      "min": 0.0,
+      "std": 0.885480523109436
+    }
+  },
+  "rows": 2248,
+  "run_dir": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521",
+  "run_submission_path": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521/submissions/submission_20260521_200832_20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521_group3_ar_gru.csv",
+  "sanity_checks": {
+    "expected_rows": 2248,
+    "no_nan": true,
+    "range_max": 5.0,
+    "range_min": 0.0,
+    "row_count_ok": true
+  }
+}

@@ -9,6 +9,8 @@
 - Blind origins: `5,13,26,39,52,78,104`
 - LGBM/XGB blind context: `history_tail_days=1100`, matching `train_tail_days=1095`.
 - CatBoost blind context: `history_tail_days=2737`, matching `train_tail_days=2737` for climatology/anomaly consistency.
+- Group 3 AR-GRU blind context: `history_tail_days=1100`, 91-day weather
+  sequence, corrected synthetic-date parsing for variable-width years.
 - No Kaggle submission was made from these runs.
 
 ## Drift Summary
@@ -28,10 +30,11 @@ Most visible drift features are temperature-related (`tmp`, `tmp_max`, `surf_tmp
 | model | train mode | feature/tail | local rolling MAE | blind MAE | w1 | w2 | w3 | w4 | w5 | decision |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | LGBM | refit_full | lean, tail1095 | 0.2474 | 0.3549 | 0.2996 | 0.3067 | 0.3143 | 0.3842 | 0.4697 | Current pseudo-private anchor. |
+| Group 3 AR-GRU | best checkpoint | tail1825, fixed date parser | 0.1875 | 0.3806 | 0.3485 | 0.3633 | 0.3749 | 0.3976 | 0.4185 | Not a standalone replacement; possible week-5 diversity candidate. |
 | XGBoost | refit_full | lean, tail1095 | 0.2383 | 0.4420 | 0.4175 | 0.4201 | 0.4285 | 0.4434 | 0.5003 | Reject as dominant model; local metric overstates it. |
 | CatBoost | refit_full | lean, tail2737, half-life1095 | 0.2192 | 0.4482 | 0.4184 | 0.4393 | 0.4506 | 0.4560 | 0.4769 | Reject as dominant model; possible late-horizon diversity only. |
 
-Key read: rolling-origin MAE ranked CatBoost best and LGBM worst, while blind backtest ranked LGBM clearly best. This is the strongest evidence so far that local rolling MAE alone is not a safe promotion metric.
+Key read: rolling-origin MAE ranked CatBoost best and LGBM worst, while blind backtest ranked LGBM clearly best. Group 3 AR-GRU has the strongest local MAE but still loses to LGBM on blind MAE. This is the strongest evidence so far that local rolling/neural validation MAE alone is not a safe promotion metric.
 
 ## Blend Results
 
@@ -46,8 +49,8 @@ Bootstrap stability favors LGBM strongly for weeks 1-4. CatBoost only earns mean
 ## Promotion Decision
 
 - Keep: LGBM `lean + tail1095 + refit_full` as the current pseudo-private anchor.
-- Keep as diagnostic: unregularized horizon blend, especially week-5 LGBM/Cat split.
+- Keep as diagnostic: unregularized horizon blend, especially week-5 LGBM/Cat split; Group 3 AR-GRU as a possible low-weight week-5 diversity input.
 - Reject for submission now: XGBoost tail1095 as a dominant model, CatBoost tail2737 as a dominant model, and the public 35/35/30 anchor.
+- Reject for standalone submission now: Group 3 AR-GRU, because corrected blind MAE `0.3806` trails LGBM `0.3549`.
 - Submit candidate: none yet.
 - Next evidence to collect: LGBM tail grid (`1095/1825/2737`) under blind backtest, plus first feature ablations for `score_history`, `climatology`, `domain_indices`, and `long_drought_proxy`.
-

@@ -193,13 +193,24 @@ def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def parse_synthetic_date_parts(date_values: pd.Series) -> tuple[pd.Series, pd.Series, pd.Series]:
+    """Parse synthetic ``year-month-day`` strings with variable-width years."""
+    date_str = date_values.astype(str)
+    parts = date_str.str.extract(r"^(?P<year>-?\d+)-(?P<month>\d{1,2})-(?P<day>\d{1,2})$")
+    year = pd.to_numeric(parts["year"], errors="coerce").fillna(0)
+    month = pd.to_numeric(parts["month"], errors="coerce").fillna(1).clip(1, 12)
+    day = pd.to_numeric(parts["day"], errors="coerce").fillna(1).clip(1, 31)
+    return year, month, day
+
+
 def add_calendar_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add day-of-year, week, month, season features."""
     # Dates use synthetic years beyond pandas' timestamp bounds. Parse month/day
-    # directly from YYYY-MM-DD strings so seasonal features remain meaningful.
+    # from dash-separated fields so variable-width years do not shift columns.
     date_str = df["date"].astype(str)
-    month = pd.to_numeric(date_str.str.slice(5, 7), errors="coerce").fillna(1).astype(np.int8)
-    day = pd.to_numeric(date_str.str.slice(8, 10), errors="coerce").fillna(1).astype(np.int8)
+    _, month_raw, day_raw = parse_synthetic_date_parts(date_str)
+    month = month_raw.astype(np.int8)
+    day = day_raw.astype(np.int8)
     df["month"]      = month
     df["quarter"]    = (((month - 1) // 3) + 1).astype(np.int8)
     df["dayofmonth"] = day

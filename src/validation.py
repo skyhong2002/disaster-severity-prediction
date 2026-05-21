@@ -16,7 +16,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 
-from features import METEO_COLS, SCORE_GAP_DAYS, build_features, get_feature_cols
+from features import METEO_COLS, SCORE_GAP_DAYS, build_features, get_feature_cols, parse_synthetic_date_parts
 from model_wrappers import get_model_feature_names, predict_model_or_ensemble
 
 
@@ -237,7 +237,8 @@ def evaluate_submission_like_predictions(
         if "origin" in preds.columns and "origin" in targets.columns:
             merge_keys.append("origin")
         merged = preds.merge(targets, on=merge_keys, how="inner").merge(clusters, on="region_id", how="left")
-        merged["origin_month"] = merged["origin_date"].astype(str).str.slice(5, 7).astype(int)
+        _, origin_month, _ = parse_synthetic_date_parts(merged["origin_date"])
+        merged["origin_month"] = origin_month.astype(int)
         rows.append(merged)
 
     all_rows = pd.concat(rows, ignore_index=True)

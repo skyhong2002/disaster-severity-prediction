@@ -254,3 +254,154 @@ Interpretation:
   replacement for LGB/XGB/CatBoost.
 - Promotion gate remains unchanged: run blind-window backtest or blend-residual
   analysis before spending a Kaggle slot on this artifact.
+
+## Date Parsing Correction
+
+While wiring the AR-GRU into blind backtesting, we found a hidden date parsing
+bug. Competition dates use synthetic years with variable width, for example
+`3004-12-31`, `23101-11-20`, and `58061-12-31`. The original parser assumed
+fixed `YYYY-MM-DD` positions, so `23101-11-20` produced an invalid month from
+the substring `-1`.
+
+Fix:
+
+- `features.parse_synthetic_date_parts()` now parses `year`, `month`, and `day`
+  from dash-separated fields.
+- `features.add_calendar_features()` uses that parser for global calendar
+  features.
+- `train_group3_ar_gru.add_date_parts()` uses the same parser for AR-GRU date
+  context.
+- `validation.evaluate_submission_like_predictions()` uses the parser for
+  `mae_by_calendar_month`.
+
+The pre-fix AR-GRU checkpoint is kept as a diagnostic artifact, but it should
+not be promoted because its date context was malformed for variable-width
+synthetic years.
+
+## Corrected Formal Tail-1825 Run
+
+Command:
+
+```bash
+PYTHONUNBUFFERED=1 uv run python src/train_group3_ar_gru.py \
+  --experiment-name group3_ar_gru_tail1825_10ep_fixeddate_20260521 \
+  --train-tail-days 1825 \
+  --epochs 10 \
+  --batch-size 192 \
+  --teacher-forcing-ratio 0.5 \
+  --device auto
+```
+
+Output run:
+
+```text
+experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521
+```
+
+Epoch curve:
+
+| epoch | train MAE | validation MAE | pred mean | pred std |
+|---:|---:|---:|---:|---:|
+| 1 | 0.2634 | 0.1875 | 0.3425 | 0.8429 |
+| 2 | 0.2116 | 0.2040 | 0.3512 | 0.7803 |
+| 3 | 0.1985 | 0.1992 | 0.3661 | 0.8244 |
+| 4 | 0.1906 | 0.1957 | 0.3499 | 0.8171 |
+| 5 | 0.1854 | 0.2039 | 0.3468 | 0.7933 |
+| 6 | 0.1792 | 0.2129 | 0.3140 | 0.7262 |
+| 7 | 0.1757 | 0.2181 | 0.3365 | 0.7820 |
+| 8 | 0.1731 | 0.2155 | 0.3740 | 0.8217 |
+| 9 | 0.1693 | 0.2291 | 0.3649 | 0.7975 |
+| 10 | 0.1678 | 0.2458 | 0.3825 | 0.7867 |
+
+Best checkpoint:
+
+| Metric | Value |
+|---|---:|
+| best epoch | 1 |
+| best validation MAE | 0.1875 |
+| target mean | 0.3651 |
+| target std | 0.8941 |
+| prediction mean | 0.3425 |
+| prediction std | 0.8429 |
+
+Interpretation:
+
+- Correct date parsing did not improve the best local validation MAE versus the
+  pre-fix run (`0.1875` vs `0.1852`), but it makes the experiment valid.
+- The model overfits immediately after epoch 1: train MAE improves from
+  `0.2634` to `0.1678`, while validation MAE worsens from `0.1875` to `0.2458`.
+- This reinforces Group 3's observation that neural validation can be unstable
+  and should not be promoted without blind-window evidence.
+
+## Corrected Kaggle Test-Window Inference
+
+Command:
+
+```bash
+PYTHONUNBUFFERED=1 uv run python src/predict_group3_ar_gru.py \
+  --run-dir experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521 \
+  --device auto \
+  --batch-size 512
+```
+
+Submission artifact:
+
+```text
+submissions/submission_20260521_200832_20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521_group3_ar_gru.csv
+```
+
+Sanity checks:
+
+| Check | Value |
+|---|---:|
+| rows | 2248 |
+| columns | 6 |
+| NaN values | 0 |
+| prediction min | 0.0000 |
+| prediction max | 5.0000 |
+| sha256 | `0fbebc421de1644e2aa8211630253fbc833e014f821a1076fb5cf95bd0deae2e` |
+
+Prediction distribution:
+
+| Horizon | Mean | Std | Min | Max |
+|---|---:|---:|---:|---:|
+| week 1 | 0.7088 | 0.9126 | 0.0000 | 5.0000 |
+| week 2 | 0.7012 | 0.9058 | 0.0000 | 5.0000 |
+| week 3 | 0.6944 | 0.8985 | 0.0000 | 5.0000 |
+| week 4 | 0.6896 | 0.8917 | 0.0000 | 4.9804 |
+| week 5 | 0.6856 | 0.8855 | 0.0000 | 4.9463 |
+| overall | 0.6959 | 0.8989 | 0.0000 | 5.0000 |
+
+## Corrected Blind Backtest
+
+Command:
+
+```bash
+PYTHONUNBUFFERED=1 uv run python scripts/run_group3_ar_gru_blind_backtest.py \
+  --run-dir experiments/20260521_194642_group3_ar_gru_group3_ar_gru_tail1825_10ep_fixeddate_20260521 \
+  --origins "5,13,26,39,52,78,104" \
+  --history-tail-days 1100 \
+  --batch-size 512 \
+  --device auto \
+  --out-dir experiments/blind_20260521_group3_ar_gru_tail1825_fixeddate_h1100
+```
+
+Blind metrics:
+
+| Model | Blind MAE | w1 | w2 | w3 | w4 | w5 |
+|---|---:|---:|---:|---:|---:|---:|
+| LGBM lean tail1095 refit_full | 0.3549 | 0.2996 | 0.3067 | 0.3143 | 0.3842 | 0.4697 |
+| Group 3 AR-GRU fixed date | 0.3806 | 0.3485 | 0.3633 | 0.3749 | 0.3976 | 0.4185 |
+| XGBoost lean tail1095 refit_full | 0.4420 | 0.4175 | 0.4201 | 0.4285 | 0.4434 | 0.5003 |
+| CatBoost lean tail2737 refit_full | 0.4482 | 0.4184 | 0.4393 | 0.4506 | 0.4560 | 0.4769 |
+
+Read:
+
+- Corrected AR-GRU is not the best pseudo-private model; LGBM remains the
+  strongest single-model anchor on this benchmark.
+- AR-GRU is better than XGBoost and CatBoost in this specific blind matrix, and
+  it has a different horizon shape: worse than LGBM on weeks 1-4, but better on
+  week 5 (`0.4185` vs LGBM `0.4697`).
+- The model should not be submitted as a standalone replacement. Its best use is
+  a low-weight late-horizon diversity candidate, only after constrained blend
+  testing confirms residual value.

@@ -37,7 +37,7 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
 from experiment_utils import create_run_dir, save_json
-from features import METEO_COLS
+from features import METEO_COLS, parse_synthetic_date_parts
 
 warnings.filterwarnings("ignore")
 
@@ -161,11 +161,11 @@ def clean_and_filter(train: pd.DataFrame, max_regions: int, train_tail_days: int
 
 
 def add_date_parts(frame: pd.DataFrame) -> pd.DataFrame:
-    date_str = frame["date"].astype(str)
     frame = frame.copy()
-    frame["year"] = pd.to_numeric(date_str.str.slice(0, 4), errors="coerce").fillna(0).astype(np.float32)
-    frame["month"] = pd.to_numeric(date_str.str.slice(5, 7), errors="coerce").fillna(1).astype(np.float32)
-    frame["day"] = pd.to_numeric(date_str.str.slice(8, 10), errors="coerce").fillna(1).astype(np.float32)
+    year, month, day = parse_synthetic_date_parts(frame["date"])
+    frame["year"] = year.astype(np.float32)
+    frame["month"] = month.astype(np.float32)
+    frame["day"] = day.astype(np.float32)
     frame["quarter"] = (((frame["month"] - 1) // 3) + 1).astype(np.float32)
     frame["weekofyear"] = (((frame["month"] - 1) * 30 + frame["day"]) // 7).clip(0, 51).astype(np.float32)
     return frame

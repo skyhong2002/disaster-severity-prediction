@@ -122,25 +122,38 @@ def fit_constrained_weights_from_aligned(
 
     for pred_col in pred_cols:
         target_col = target_col_for_prediction(pred_col, aligned_target)
-        y = aligned_target[target_col].iloc[row_indices].to_numpy()
-        pred_matrix = np.vstack([aligned[name][pred_col].iloc[row_indices].to_numpy() for name in model_names])
+        y = pd.to_numeric(aligned_target[target_col].iloc[row_indices], errors="coerce").to_numpy(dtype=np.float64)
+        pred_matrix = np.vstack(
+            [
+                pd.to_numeric(aligned[name][pred_col].iloc[row_indices], errors="coerce").to_numpy(dtype=np.float64)
+                for name in model_names
+            ]
+        )
+        if not np.isfinite(y).all():
+            raise ValueError(f"Target column {target_col} contains non-finite values.")
+        if not np.isfinite(pred_matrix).all():
+            raise ValueError(f"Prediction column {pred_col} contains non-finite values.")
 
         best = (float("inf"), None, None)
         for candidate in grid:
-            pred = candidate @ pred_matrix
+            with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+                pred = candidate @ pred_matrix
+            if not np.isfinite(pred).all():
+                continue
             mae = mean_absolute_error(y, pred)
             objective = mae + lambda_reg * float(np.sum((candidate - anchor_vec) ** 2))
             if objective < best[0]:
                 best = (objective, candidate, mae)
 
-        assert best[1] is not None and best[2] is not None
+        if best[1] is None or best[2] is None:
+            raise ValueError(f"No finite blend candidate found for {pred_col}.")
         for name, value in zip(model_names, best[1]):
             weights[name].append(float(value))
         metrics["mae_by_horizon"][pred_col] = float(best[2])
         metrics["objective_by_horizon"][pred_col] = float(best[0])
 
         residuals = {
-            name: aligned[name][pred_col].iloc[row_indices].to_numpy() - y
+            name: pd.to_numeric(aligned[name][pred_col].iloc[row_indices], errors="coerce").to_numpy(dtype=np.float64) - y
             for name in model_names
         }
         corr = pd.DataFrame(residuals).corr().fillna(0.0)

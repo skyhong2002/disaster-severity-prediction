@@ -603,23 +603,98 @@ def add_region_stats(df: pd.DataFrame, train_df: pd.DataFrame) -> pd.DataFrame:
     - region_score_mean: average severity (baseline risk)
     - region_score_max: extreme exposure (worst-case scenario)
     - region_score_median: typical severity distribution
+    - region_score_*_ratio: historical severity mix used by strong teams
+    - region_score_mean_recent_*d: recent local drought baseline
+    - region_month_score_mean_smooth: region/month seasonal drought prior
 
     Prevents data leakage by computing stats only on train set.
     """
+    scores = train_df.dropna(subset=["score"]).copy()
+    if scores.empty:
+        return df
+    scores["score"] = pd.to_numeric(scores["score"], errors="coerce").astype(np.float32)
+    if "month" not in scores.columns:
+        _, month, _ = parse_synthetic_date_parts(scores["date"])
+        scores["month"] = month.astype(np.int8)
+
+    if "_day_idx" not in scores.columns:
+        scores = scores.sort_values(["region_id", "date"]).copy()
+        scores["_day_idx"] = scores.groupby("region_id").cumcount().astype(np.int32)
+    max_day_idx = scores.groupby("region_id")["_day_idx"].transform("max")
+
+    def ratio(predicate) -> float:
+        return float(predicate.mean())
+
     region_stats = (
-        train_df.dropna(subset=["score"])
-        .groupby("region_id")["score"]
+        scores.groupby("region_id")["score"]
         .agg(
             region_score_mean="mean",
             region_score_std="std",
             region_score_median="median",
             region_score_max="max",
             region_score_min="min",
+            region_score_eq0_ratio=lambda s: ratio(s == 0),
+            region_score_ge1_ratio=lambda s: ratio(s >= 1),
+            region_score_ge3_ratio=lambda s: ratio(s >= 3),
+            region_score_eq5_ratio=lambda s: ratio(s == 5),
         )
         .astype(np.float32)
         .reset_index()
     )
+
+    for days in (365, 730):
+        recent = scores.loc[scores["_day_idx"] >= max_day_idx - days + 1]
+        recent_stats = (
+            recent.groupby("region_id")["score"]
+            .agg(
+                **{
+                    f"region_score_mean_recent_{days}d": "mean",
+                    f"region_score_max_recent_{days}d": "max",
+                    f"region_score_eq0_ratio_recent_{days}d": lambda s: ratio(s == 0),
+                    f"region_score_ge3_ratio_recent_{days}d": lambda s: ratio(s >= 3),
+                }
+            )
+            .astype(np.float32)
+            .reset_index()
+        )
+        region_stats = region_stats.merge(recent_stats, on="region_id", how="left")
+
+    region_stats = region_stats.fillna(0.0)
     df = df.merge(region_stats, on="region_id", how="left")
+
+    monthly = (
+        scores.groupby(["region_id", "month"])["score"]
+        .agg(region_month_score_mean="mean", region_month_score_count="count")
+        .reset_index()
+    )
+    global_month = (
+        scores.groupby("month")["score"]
+        .mean()
+        .rename("global_month_score_mean")
+        .reset_index()
+    )
+    monthly = monthly.merge(global_month, on="month", how="left")
+    prior_strength = 12.0
+    monthly["region_month_score_mean_smooth"] = (
+        (monthly["region_month_score_mean"] * monthly["region_month_score_count"])
+        + (monthly["global_month_score_mean"] * prior_strength)
+    ) / (monthly["region_month_score_count"] + prior_strength)
+    monthly = monthly[
+        [
+            "region_id",
+            "month",
+            "region_month_score_mean",
+            "region_month_score_count",
+            "region_month_score_mean_smooth",
+        ]
+    ].astype(
+        {
+            "region_month_score_mean": np.float32,
+            "region_month_score_count": np.float32,
+            "region_month_score_mean_smooth": np.float32,
+        }
+    )
+    df = df.merge(monthly, on=["region_id", "month"], how="left")
     return df
 
 

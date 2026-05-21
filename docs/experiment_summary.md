@@ -1,6 +1,6 @@
 # Experiment and Submission Summary
 
-Last updated: 2026-05-21
+Last updated: 2026-05-22
 
 This file records the current legal model-selection state for the Final Project
 progress check. It is intended to keep the slides, report, code, and Kaggle
@@ -110,6 +110,25 @@ for the `0.8124` public anchor.
 Readout: the blind-validation candidates did not transfer to public LB. This
 reinforces the need to compare 5/22 private leaderboard behavior before using
 blind-backtest MAE as the sole promotion metric.
+
+## 2026-05-22 Team 4 / Team 20 Reproduction Pass
+
+The serious reproduction pass is recorded in
+`docs/team4_team20_upgrade_summary_20260522.md`.
+
+| Candidate | Evidence | Kaggle status | Decision |
+|---|---|---|---|
+| Team 4 region-prior LGBM | Rolling MAE `0.2680`; blind MAE `0.5068`; postprocessed blind MAE `0.4973` | Not submitted | Reject as an overfit/overconservative feature-prior variant. |
+| Existing LGBM blind anchor postprocessed | Blind MAE `0.3549 -> 0.3418` | Not submitted | Keep as diagnostic; source public MAE is `0.9380`. |
+| Weather-only TCN | Local val MAE `0.3151`; blind MAE `0.4040` | Not submitted | Reject as standalone; useful only as an architecture smoke. |
+| Feature-fused TCN | Local val MAE `0.2654`; blind MAE `0.3508` | Submitted as ref `52900168`, public MAE `0.9450`, SHA-256 prefix `d62f9e32e312` | Negative public readout as a single model; keep as diversity input. |
+| LGBM + feature-fused TCN loose horizon blend | Blind mean horizon MAE `0.3249`; weights `lgb=0.76,0.68,0.66,0.36,0.08` | Submission blocked by daily quota after TCN single-model submit; SHA-256 prefix `005c49e67b41` | Next diagnostic candidate after quota reset, not a replacement for the `0.8124` public anchor. |
+
+Readout: Team 20 style feature-fused sequence modeling produced a real
+pseudo-private signal, especially for later horizons, but the single-model
+public score was poor. The next blend should combine TCNF with the public-strong
+LGB/XGB/CatBoost anchor family, not only with the blind-strong LGBM tail1095
+anchor.
 
 ## Experiment Table
 

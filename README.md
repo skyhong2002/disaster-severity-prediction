@@ -101,6 +101,23 @@ uv run python src/train_catboost.py \
   --recency-half-life-days 1095 \
   --iterations 500
 
+# Run a Kaggle-like blind-window backtest against a saved run
+uv run python scripts/run_blind_backtest.py \
+  --run-dir experiments/<run_id> \
+  --origins "5,13,26" \
+  --history-tail-days 1100
+
+# Poison blind-window scores and verify final-row features do not change
+uv run python scripts/leakage_sentinel.py \
+  --origin 5 \
+  --history-tail-days 1100 \
+  --feature-profile micro
+
+# Compare train-tail candidates against the current test-window distribution
+uv run python scripts/drift_report.py \
+  --tail-days "1095,1825,2737,3650,0" \
+  --out docs/drift_report_20260521.md
+
 # Generate predictions from a specific saved run
 uv run python src/predict.py --run-dir experiments/<run_id>
 
@@ -111,6 +128,21 @@ uv run python src/ensemble.py \
   --cat submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv \
   --out submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv \
   --weights 'lgb=0.35;xgb=0.35;cat=0.30'
+
+# Fit validation-driven constrained blend weights from OOF/blind predictions
+uv run python scripts/fit_blend_weights.py \
+  --preds lgb=validation/lgb.csv,xgb=validation/xgb.csv,cat=validation/cat.csv \
+  --target validation/target.csv \
+  --anchor 'lgb=0.35;xgb=0.35;cat=0.30' \
+  --lambda-reg 0.05 \
+  --bootstrap 100
+
+# Generate an ablation command matrix without launching training
+uv run python scripts/feature_ablation.py \
+  --model-family lightgbm \
+  --groups score_history,climatology,rolling,ewm,long_drought_proxy \
+  --feature-profile micro \
+  --out docs/feature_ablation_20260521_commands.md
 
 # Output:
 # - submissions/submission_<timestamp>_<run_id>.csv
@@ -158,6 +190,10 @@ The current implementation treats drought prediction as a leakage-aware
 direct multi-horizon panel-regression problem:
 
 - One independent model is trained for each forecast week, week 1 through week 5.
+- Validation is separated from the saved final model. Trainers support
+  `--final-train-mode last_fold`, `fold_ensemble`, and `refit_full`; the default
+  is `refit_full`, which uses CV to choose a stable tree count and then retrains
+  on all legal rows available to that horizon.
 - Feature profiles (`micro`, `lean`, `full`) control memory use and feature count.
 - Features include meteorological lags, rolling statistics, EWMA signals,
   long-window drought proxies, calendar encodings, climatology anomalies, and
@@ -165,6 +201,23 @@ direct multi-horizon panel-regression problem:
 - Model families currently implemented: LightGBM, XGBoost, and CatBoost.
 - `src/ensemble.py` supports two-model and three-model convex blends, including
   horizon-specific weights.
+- `scripts/run_blind_backtest.py` rebuilds a pseudo Kaggle test window inside
+  train data by masking a 91-day score window, rebuilding features with
+  time-safe climatology/region statistics, and evaluating five future weeks.
+  It warns when `--history-tail-days` is too short for the selected feature
+  profile, so smoke tests are not mistaken for model-selection evidence.
+- `scripts/leakage_sentinel.py` poisons hidden blind-window scores and asserts
+  that final-row pseudo-test features are unchanged.
+- `scripts/drift_report.py` compares candidate train tails to the real test
+  window with PSI, KS, quantile-Wasserstein distance, weather-only adversarial
+  AUC, and weather+region/month adversarial AUC.
+- `scripts/fit_blend_weights.py` fits non-negative per-horizon blend weights
+  with anchor regularization, optional model caps, and bootstrap stability, so
+  public-LB hand tuning is not the only signal.
+- `--drop-feature-groups` supports coarse ablations such as
+  `score_history`, `climatology`, `calendar`, `short_lag`, `rolling`, `ewm`,
+  `long_drought_proxy`, `domain_indices`, `region_stats`, and CatBoost
+  `region_id`.
 
 The old separate score-estimation experiment is not the current implementation path.
 The active pipeline uses saved feature options from each run and rebuilds the
@@ -195,7 +248,18 @@ uv run python src/train_catboost.py \
   --feature-profile lean \
   --validation-mode rolling_origin \
   --regularized
+
+# Submission-like pseudo-private validation for the trained run
+uv run python scripts/run_blind_backtest.py \
+  --run-dir experiments/<run_id> \
+  --origins "5,13,26" \
+  --history-tail-days 1100
 ```
+
+Use rolling-origin metrics as fast diagnostics, then use blind backtest and
+drift report evidence before promoting a run to a Kaggle submission candidate.
+Do not compare holdout, rolling-origin, blind-backtest, public LB, and private
+LB values as if they were the same metric scale.
 
 The `*_two_stage` model-family labels are retained for backward compatibility
 with existing run directories. They should be read as historical identifiers,

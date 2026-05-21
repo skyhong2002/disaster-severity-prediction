@@ -19,6 +19,7 @@ SCORE_LAGS = [1, 2, 3, 4, 5, 6, 8, 10, 12]   # in weeks
 SCORE_GAP_DAYS = 91
 SCORE_HISTORY_LAGS = [0, 1, 2, 3, 4, 6, 8, 12, 26, 52]  # in weeks after gap
 SCORE_HISTORY_WINS = [28, 91, 182, 365, 728]
+PILLAR_CONTEXT_WINS = [14, 30, 60, 90, 180]
 
 FEATURE_PROFILES = {
     "full": {
@@ -53,12 +54,131 @@ FEATURE_PROFILES = {
     },
 }
 
+FEATURE_GROUPS = {
+    "calendar",
+    "short_lag",
+    "rolling",
+    "ewm",
+    "long_drought_proxy",
+    "domain_indices",
+    "climatology",
+    "score_history",
+    "region_stats",
+    "region_id",
+}
+
 
 def get_feature_profile(name: str) -> dict:
     """Return a predefined feature profile."""
     if name not in FEATURE_PROFILES:
         raise ValueError(f"Unknown feature profile: {name}")
     return FEATURE_PROFILES[name]
+
+
+def required_context_days(
+    feature_profile: str,
+    score_gap_days: int = SCORE_GAP_DAYS,
+    use_score_history: bool = False,
+) -> int:
+    """Return the minimum history window needed to fully populate a profile."""
+    profile = get_feature_profile(feature_profile)
+    required = 1
+    for key in ("lag_days", "roll_wins", "domain_wins", "long_wins", "ewm_spans"):
+        values = profile.get(key, [])
+        if values:
+            required = max(required, int(max(values)))
+    required = max(required, max(PILLAR_CONTEXT_WINS))
+    if use_score_history:
+        score_lag_days = [score_gap_days + int(lag_week) * 7 for lag_week in profile.get("score_lags", [])]
+        score_win_days = [score_gap_days + int(win) for win in profile.get("score_wins", [])]
+        if score_lag_days:
+            required = max(required, max(score_lag_days))
+        if score_win_days:
+            required = max(required, max(score_win_days))
+    return int(required)
+
+
+def parse_drop_feature_groups(raw: str | list[str] | tuple[str, ...] | None) -> list[str]:
+    """Normalize comma-separated feature groups for ablation runs."""
+    if raw is None:
+        return []
+    if isinstance(raw, str):
+        groups = [part.strip() for part in raw.split(",") if part.strip()]
+    else:
+        groups = [str(part).strip() for part in raw if str(part).strip()]
+    unknown = sorted(set(groups) - FEATURE_GROUPS)
+    if unknown:
+        raise ValueError(f"Unknown feature groups: {', '.join(unknown)}")
+    return groups
+
+
+def columns_for_feature_group(columns: list[str], group: str) -> list[str]:
+    """Return columns belonging to one coarse feature group."""
+    if group == "calendar":
+        names = {"month", "quarter", "dayofmonth", "dayofyear", "weekofyear", "sin_doy", "cos_doy", "sin_mon", "cos_mon"}
+        return [col for col in columns if col in names]
+    if group == "short_lag":
+        return [col for col in columns if "_lag" in col and not col.startswith("score_gap")]
+    if group == "rolling":
+        prefixes = ("tmp_range_std_", "wind_std_")
+        return [col for col in columns if "_rmean" in col or "_rstd" in col or col.startswith(prefixes)]
+    if group == "ewm":
+        return [col for col in columns if "_ewm" in col]
+    if group == "long_drought_proxy":
+        prefixes = (
+            "prec_sum",
+            "dry_days",
+            "hot_days",
+            "tmp_mean_long",
+            "long_drought_idx",
+            "consecutive_dry_days",
+            "cdd_rolling",
+            "hot_days_above",
+            "heat_stress_sum",
+        )
+        return [col for col in columns if col.startswith(prefixes)]
+    if group == "domain_indices":
+        prefixes = (
+            "drought_idx",
+            "dryness_idx",
+            "heat_humidity_idx",
+            "dewpoint_spread",
+            "wetbulb_spread",
+            "surf_air_temp_diff",
+            "dew_point_depression",
+            "wet_bulb_depression",
+            "surf_air_diff_mean",
+            "dew_depression_mean",
+            "wet_bulb_depression_mean",
+        )
+        return [col for col in columns if col.startswith(prefixes)]
+    if group == "climatology":
+        return [col for col in columns if "_clim_" in col or col.endswith("_anom")]
+    if group == "score_history":
+        prefixes = ("score_gap", "last_known_score", "score_velocity", "score_momentum")
+        return [col for col in columns if col.startswith(prefixes)]
+    if group == "region_stats":
+        return [col for col in columns if col.startswith("region_") and col != "region_id"]
+    if group == "region_id":
+        return ["region_id"] if "region_id" in columns else []
+    raise ValueError(f"Unknown feature group: {group}")
+
+
+def drop_feature_group_columns(df: pd.DataFrame, groups: list[str] | tuple[str, ...] | None) -> pd.DataFrame:
+    """Drop coarse feature groups for validation-driven ablation."""
+    groups = parse_drop_feature_groups(groups)
+    if not groups:
+        return df
+    drop_cols: set[str] = set()
+    columns = list(df.columns)
+    for group in groups:
+        if group == "region_id":
+            continue
+        drop_cols.update(columns_for_feature_group(columns, group))
+    if drop_cols:
+        df = df.drop(columns=sorted(drop_cols), errors="ignore")
+        print(f"  Dropped {len(drop_cols)} columns from feature groups: {', '.join(groups)}")
+    return df
 
 
 def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
@@ -99,14 +219,14 @@ def build_consecutive_dry_days(df: pd.DataFrame, dry_threshold: float = 0.1) -> 
     """
     Build consecutive dry days (CDD) feature: the maximum number of consecutive days
     with precipitation < dry_threshold.
-    
+
     CDD is a golden feature for drought prediction, capturing persistent water deficit.
     """
     df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
-    
+
     # Mark dry days (prec < threshold)
     df["is_dry"] = (df["prec"] < dry_threshold).astype(np.int32)
-    
+
     # Shift by region to avoid cross-region leakage
     df["dry_block"] = (
         (df["is_dry"] == 0)
@@ -114,14 +234,14 @@ def build_consecutive_dry_days(df: pd.DataFrame, dry_threshold: float = 0.1) -> 
         .cumsum()
         .astype(np.int32)
     )
-    
+
     # Calculate consecutive dry days within each block
     consecutive_dry = (
         df.groupby(["region_id", "dry_block"])["is_dry"]
         .cumsum()
         .astype(np.int32)
     )
-    
+
     # The CDD is the max consecutive dry within each block, broadcasted to all rows
     df["consecutive_dry_days"] = (
         consecutive_dry
@@ -129,7 +249,7 @@ def build_consecutive_dry_days(df: pd.DataFrame, dry_threshold: float = 0.1) -> 
         .transform("max")
         .astype(np.float32)
     )
-    
+
     # Rolling CDD: track max consecutive dry in past N days (golden indicator)
     for win in [30, 60, 90]:
         df[f"cdd_rolling{win}"] = (
@@ -141,7 +261,7 @@ def build_consecutive_dry_days(df: pd.DataFrame, dry_threshold: float = 0.1) -> 
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-    
+
     df = df.drop(columns=["is_dry", "dry_block"])
     return df
 
@@ -149,12 +269,12 @@ def build_consecutive_dry_days(df: pd.DataFrame, dry_threshold: float = 0.1) -> 
 def build_heat_accumulation_features(df: pd.DataFrame, hot_threshold: float = 35.0) -> pd.DataFrame:
     """
     Build heat accumulation features: count of days exceeding temperature threshold.
-    
-    Represents prolonged high-temperature stress that compounds water deficit and 
+
+    Represents prolonged high-temperature stress that compounds water deficit and
     increases evaporation demand on soil.
     """
     df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
-    
+
     for win in [30, 60, 90, 180]:
         # Count days where tmp_max >= hot_threshold
         df[f"hot_days_above{int(hot_threshold)}_{win}d"] = (
@@ -168,7 +288,7 @@ def build_heat_accumulation_features(df: pd.DataFrame, hot_threshold: float = 35
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-    
+
     # Sum of positive temperature anomalies (heat stress accumulation)
     for win in [30, 60, 90]:
         # Use 30°C as baseline for anomaly
@@ -184,18 +304,18 @@ def build_heat_accumulation_features(df: pd.DataFrame, hot_threshold: float = 35
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-    
+
     return df
 
 
 def build_temperature_instability_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Build temperature and wind instability features.
-    
+
     High variability (std dev) in tmp_range and wind indicates chaotic/dry climate system.
     """
     df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
-    
+
     for win in [14, 30, 60]:
         # Standard deviation of daily temp range (high = drier air)
         df[f"tmp_range_std_{win}d"] = (
@@ -207,7 +327,7 @@ def build_temperature_instability_features(df: pd.DataFrame) -> pd.DataFrame:
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-        
+
         # Standard deviation of wind (high = more unstable)
         df[f"wind_std_{win}d"] = (
             df.groupby("region_id")["wind"]
@@ -218,30 +338,30 @@ def build_temperature_instability_features(df: pd.DataFrame) -> pd.DataFrame:
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-    
+
     return df
 
 
 def build_physical_vapor_proxy_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Build domain-specific physical/thermodynamic proxy features for evaporation & drought.
-    
+
     Cross-field features derived from tmp, surf_tmp, dp_tmp (dew point), wb_tmp (wet bulb):
     - surf_air_temp_diff: when soil is dry, surface cannot cool via evaporation → surf_tmp >> tmp
     - dew_point_depression: tmp - dp_tmp; larger = drier air = faster evaporation
     - wet_bulb_depression: tmp - wb_tmp; larger = air strongly desires moisture
     """
     df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
-    
+
     # 1. Surface-Air Temperature Difference: high when soil is dry (cannot evaporate to cool)
     df["surf_air_temp_diff"] = (df["surf_tmp"] - df["tmp"]).astype(np.float32)
-    
+
     # 2. Dew Point Depression (tmp - dp_tmp): larger = drier, faster evaporation
     df["dew_point_depression"] = (df["tmp"] - df["dp_tmp"]).astype(np.float32)
-    
+
     # 3. Wet Bulb Depression (tmp - wb_tmp): larger = air can absorb more moisture
     df["wet_bulb_depression"] = (df["tmp"] - df["wb_tmp"]).astype(np.float32)
-    
+
     # Rolling averages of these physical indicators to capture persistence
     for win in [14, 30]:
         df[f"surf_air_diff_mean_{win}d"] = (
@@ -253,7 +373,7 @@ def build_physical_vapor_proxy_features(df: pd.DataFrame) -> pd.DataFrame:
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-        
+
         df[f"dew_depression_mean_{win}d"] = (
             df.groupby("region_id")["dew_point_depression"]
             .shift(1)
@@ -263,7 +383,7 @@ def build_physical_vapor_proxy_features(df: pd.DataFrame) -> pd.DataFrame:
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-        
+
         df[f"wet_bulb_depression_mean_{win}d"] = (
             df.groupby("region_id")["wet_bulb_depression"]
             .shift(1)
@@ -273,7 +393,7 @@ def build_physical_vapor_proxy_features(df: pd.DataFrame) -> pd.DataFrame:
             .reset_index(level=0, drop=True)
             .astype(np.float32)
         )
-    
+
     return df
 
 
@@ -404,7 +524,7 @@ def add_score_history_features(
 ) -> pd.DataFrame:
     """
     Add score history features available after blind test window.
-    
+
     Includes:
     1. Last Effective Score: the most recent known score in the 91-day window
     2. Score Velocity: change rate (latest - previous week score)
@@ -416,21 +536,23 @@ def add_score_history_features(
     profile = profile or get_feature_profile("full")
     df = df.sort_values(["region_id", "date"]).reset_index(drop=True)
     score_grp = df.groupby("region_id")["score"]
-    
-    # Forward fill to get "last known score" for each day (for dynamics calculation)
+
+    # Forward fill historical labels, then shift by the blind-window gap so
+    # train-time score dynamics match Kaggle/test-time score availability.
     known_score = score_grp.ffill()
-    
+    visible_score = known_score.groupby(df["region_id"]).shift(gap_days)
+
     # 1. Last Effective Score: the final known score visible at prediction time (91 days)
-    df["last_known_score"] = known_score.astype(np.float32)
-    
+    df["last_known_score"] = visible_score.astype(np.float32)
+
     # 2. Score Velocity: change from 7 days ago (previous week)
-    score_7d_ago = known_score.groupby(df["region_id"]).shift(7)
-    df["score_velocity_1w"] = (known_score - score_7d_ago).astype(np.float32)
-    
+    score_7d_ago = known_score.groupby(df["region_id"]).shift(gap_days + 7)
+    df["score_velocity_1w"] = (visible_score - score_7d_ago).astype(np.float32)
+
     # 3. Score Momentum: longer-term trends (14d, 28d)
     for period in [14, 28]:
-        score_n_ago = known_score.groupby(df["region_id"]).shift(period)
-        df[f"score_momentum_{period}d"] = (known_score - score_n_ago).astype(np.float32)
+        score_n_ago = known_score.groupby(df["region_id"]).shift(gap_days + period)
+        df[f"score_momentum_{period}d"] = (visible_score - score_n_ago).astype(np.float32)
 
     # Original gapped score lags (after 91-day blind window)
     for lag_week in profile["score_lags"]:
@@ -456,7 +578,7 @@ def add_score_history_features(
         df["score_gap_trend_13w_52w"] = (
             df["score_gap_mean91d"] - df["score_gap_mean365d"]
         ).astype(np.float32)
-    
+
     return df
 
 
@@ -465,12 +587,12 @@ def add_score_history_features(
 def add_region_stats(df: pd.DataFrame, train_df: pd.DataFrame) -> pd.DataFrame:
     """
     Add per-region historical score statistics (from training data only).
-    
+
     These are "region profiles" that capture long-term characteristics:
     - region_score_mean: average severity (baseline risk)
     - region_score_max: extreme exposure (worst-case scenario)
     - region_score_median: typical severity distribution
-    
+
     Prevents data leakage by computing stats only on train set.
     """
     region_stats = (
@@ -499,65 +621,67 @@ def build_features(
     use_climatology: bool = True,
     use_region_stats: bool = True,
     feature_profile: str = "full",
+    drop_feature_groups: list[str] | tuple[str, ...] | None = None,
 ) -> pd.DataFrame:
     """
     Full feature engineering pipeline with three core pillars:
-    
+
     1. Temporal Accumulation & Instability (build_weather_rolling_features)
        - Consecutive dry days (CDD) - the golden feature for drought
        - Heat accumulation - prolonged high-temperature stress
        - Temperature/wind instability - chaos indicator
-    
+
     2. Domain-Specific Cross Features (build_domain_proxy_features)
        - Physical thermodynamic proxies (surf_air_diff, dew_point_depression, wet_bulb_depression)
        - Captures soil moisture deficit and atmospheric evaporation demand
-    
+
     3. Historical Score & Regional Baseline (add_score_history_features, add_region_stats)
        - Last known score, score velocity, momentum
        - Region profile statistics (mean, max, baseline)
     """
     print(f"  Building features for {'train' if is_train else 'test'} set...")
     profile = get_feature_profile(feature_profile)
-    
+
     # Memory-efficient type reduction
     df = reduce_mem_usage(df)
-    
+
     # ─── Core Feature Engineering ───────────────────────────────────────────
     # 1. Calendar features for seasonality
     df = add_calendar_features(df)
-    
+
     # 2. Standard meteorological lag/rolling features
     df = add_meteo_features(df, profile=profile)
-    
+
     # 3. === PILLAR 1: Temporal Accumulation & Instability ===
     print("  → Adding consecutive dry days (CDD) feature...")
     df = build_consecutive_dry_days(df, dry_threshold=0.1)
-    
+
     print("  → Adding heat accumulation features...")
     df = build_heat_accumulation_features(df, hot_threshold=35.0)
-    
+
     print("  → Adding temperature & wind instability features...")
     df = build_temperature_instability_features(df)
-    
+
     # 4. === PILLAR 2: Domain-Specific Physical Cross Features ===
     print("  → Adding physical vapor pressure proxy features...")
     df = build_physical_vapor_proxy_features(df)
-    
+
     # 5. Climatology anomalies (region-month statistics)
     if use_climatology:
         print("  → Adding climatology anomaly features...")
         df = add_climatology_features(df, train_df)
-    
+
     # 6. === PILLAR 3: Score History & Region Baseline ===
     if use_score_history:
         print("  → Adding score history features (last known state, velocity, momentum)...")
         df = add_score_history_features(df, gap_days=score_gap_days, profile=profile)
-    
+
     # 7. Region-level baseline statistics (from training data)
     if use_region_stats:
         print("  → Adding per-region historical baseline statistics...")
         df = add_region_stats(df, train_df)
-    
+    df = drop_feature_group_columns(df, drop_feature_groups)
+
     df = df.copy()
     print(f"  → {len(df.columns)} columns total")
     return df
@@ -566,4 +690,8 @@ def build_features(
 def get_feature_cols(df: pd.DataFrame) -> List[str]:
     """Return all feature columns (exclude id/date/target)."""
     exclude = {"region_id", "date", "score"}
-    return [c for c in df.columns if c not in exclude]
+    return [
+        c
+        for c in df.columns
+        if c not in exclude and not c.startswith("_") and not c.startswith("target_")
+    ]

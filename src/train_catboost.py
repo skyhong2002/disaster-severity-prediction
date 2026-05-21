@@ -24,8 +24,10 @@ from features import (
     SCORE_GAP_DAYS,
     build_features,
     get_feature_cols,
+    parse_drop_feature_groups,
     reduce_mem_usage,
 )
+from model_wrappers import AveragingRegressor
 from train import (
     N_WEEKS,
     apply_recent_filter,
@@ -99,6 +101,17 @@ def parse_args():
         default="micro",
         help="Feature set size. micro is intended for 32GB RAM machines.",
     )
+    parser.add_argument(
+        "--final-train-mode",
+        choices=["last_fold", "fold_ensemble", "refit_full"],
+        default="refit_full",
+        help="How to produce the saved submission model after validation.",
+    )
+    parser.add_argument(
+        "--drop-feature-groups",
+        default="",
+        help="Comma-separated coarse feature groups to remove for ablation. Includes region_id for CatBoost native categorical ablation.",
+    )
     return parser.parse_args()
 
 
@@ -145,10 +158,31 @@ def apply_param_overrides(params: dict, args: argparse.Namespace) -> dict:
     return params
 
 
-def get_catboost_feature_cols(feature_df: pd.DataFrame) -> list[str]:
+def best_cat_iteration(model: CatBoostRegressor, fallback: int) -> int:
+    """Return a usable one-based best iteration for final refit."""
+    best = model.get_best_iteration()
+    if best is not None and best >= 0:
+        return int(best) + 1
+    tree_count = getattr(model, "tree_count_", None)
+    if tree_count is not None and tree_count > 0:
+        return int(tree_count)
+    return int(fallback)
+
+
+def refit_cat_params(params: dict, iterations: int) -> dict:
+    """Remove validation-only overfit detector settings for full refit."""
+    refit = params.copy()
+    refit["iterations"] = int(max(1, iterations))
+    refit.pop("od_type", None)
+    refit.pop("od_wait", None)
+    return refit
+
+
+def get_catboost_feature_cols(feature_df: pd.DataFrame, drop_groups: list[str] | None = None) -> list[str]:
     """Include region_id as a native categorical feature for CatBoost."""
+    drop_groups = drop_groups or []
     cols = get_feature_cols(feature_df)
-    if "region_id" not in cols:
+    if "region_id" not in cols and "region_id" not in drop_groups:
         cols = ["region_id"] + cols
     return cols
 
@@ -167,10 +201,12 @@ def train_one_horizon(
     rolling_folds: int,
     recent_days: int,
     recency_half_life_days: float,
-) -> tuple[CatBoostRegressor, float, list[float]]:
+    final_train_mode: str,
+    drop_feature_groups: list[str],
+) -> tuple[CatBoostRegressor | AveragingRegressor, float, list[float], dict]:
     print(f"\n  --- Training horizon: week {week} ---")
     target_col = f"target_w{week}"
-    feat_cols = get_catboost_feature_cols(feature_df)
+    feat_cols = get_catboost_feature_cols(feature_df, drop_feature_groups)
     cat_cols = get_cat_cols(feat_cols)
 
     index_cols = ["region_id", "date", "week_idx", "max_week_idx", target_col]
@@ -189,6 +225,8 @@ def train_one_horizon(
     usable_mask = apply_recent_filter(merged, recent_days)
 
     fold_maes = []
+    fold_models = []
+    best_iterations = []
     final_model = None
     for train_mask, val_mask, fold_name in validation_masks(merged, validation_mode, rolling_folds, week):
         train_mask = train_mask & usable_mask
@@ -211,6 +249,8 @@ def train_one_horizon(
         val_pred = model.predict(val_pool)
         val_mae = mean_absolute_error(y.loc[val_mask], val_pred)
         fold_maes.append(float(val_mae))
+        fold_models.append(model)
+        best_iterations.append(best_cat_iteration(model, cat_params.get("iterations", 3000)))
         final_model = model
         print(f"  Val MAE (week {week}, {fold_name}): {val_mae:.4f}")
 
@@ -219,13 +259,40 @@ def train_one_horizon(
 
     avg_mae = float(np.mean(fold_maes))
     print(f"  Val MAE (week {week}, average): {avg_mae:.4f}")
-    return final_model, avg_mae, fold_maes
+    final_info = {
+        "final_train_mode": final_train_mode,
+        "fold_count": len(fold_models),
+        "fold_best_iterations": best_iterations,
+    }
+
+    if final_train_mode == "fold_ensemble":
+        final_info["ensemble_size"] = len(fold_models)
+        return AveragingRegressor(fold_models, feature_names=feat_cols), avg_mae, fold_maes, final_info
+
+    if final_train_mode == "refit_full":
+        final_iterations = int(np.median(best_iterations))
+        final_info["final_iterations"] = final_iterations
+        final_mask = usable_mask
+        sample_weight = make_recency_weights(merged.loc[final_mask, "date"], recency_half_life_days)
+        final_pool = Pool(
+            X.loc[final_mask],
+            y.loc[final_mask],
+            cat_features=cat_cols,
+            weight=sample_weight,
+        )
+        print(f"  Refit full model: train_rows={int(final_mask.sum())}, iterations={final_iterations}")
+        refit_model = CatBoostRegressor(**refit_cat_params(cat_params, final_iterations))
+        refit_model.fit(final_pool)
+        return refit_model, avg_mae, fold_maes, final_info
+
+    return final_model, avg_mae, fold_maes, final_info
 
 
 def main():
     args = parse_args()
     run_dir = create_run_dir(args.model_family, args.experiment_name)
     cat_params = apply_param_overrides(get_cat_params(args.regularized), args)
+    drop_groups = parse_drop_feature_groups(args.drop_feature_groups)
 
     print("=" * 60)
     print("  Natural Disaster Severity Prediction - CatBoost Training")
@@ -252,11 +319,14 @@ def main():
             "recency_half_life_days": args.recency_half_life_days,
             "regularized": args.regularized,
             "iterations_override": args.iterations,
+            "final_train_mode": args.final_train_mode,
+            "drop_feature_groups": drop_groups,
         },
         "pipeline": [
             "load train.csv",
             "build temporal, anomaly, and optional score-gap features",
-            "train one direct CatBoost model per horizon with has_time=True",
+            "validate one direct CatBoost model per horizon with has_time=True",
+            "save refit_full, fold_ensemble, or last_fold final horizon models",
             "save versioned models and metrics",
         ],
     }
@@ -276,6 +346,7 @@ def main():
         use_climatology=not args.no_climatology,
         use_region_stats=args.use_global_region_stats,
         feature_profile=args.feature_profile,
+        drop_feature_groups=drop_groups,
     )
     del train
     gc.collect()
@@ -286,8 +357,9 @@ def main():
     models = {}
     val_maes = {}
     fold_maes = {}
+    final_model_info = {}
     for week in range(1, N_WEEKS + 1):
-        model, val_mae, week_fold_maes = train_one_horizon(
+        model, val_mae, week_fold_maes, week_final_info = train_one_horizon(
             feat_df,
             weekly_df,
             week,
@@ -296,10 +368,13 @@ def main():
             args.rolling_folds,
             args.recent_days,
             args.recency_half_life_days,
+            args.final_train_mode,
+            drop_groups,
         )
         models[week] = model
         val_maes[week] = val_mae
         fold_maes[week] = week_fold_maes
+        final_model_info[week] = week_final_info
 
     model_path = run_dir / "models" / "catboost_models.pkl"
     with open(model_path, "wb") as f:
@@ -320,14 +395,15 @@ def main():
         "model_family": args.model_family,
         "experiment_name": args.experiment_name,
         "train_shape": train_shape,
-        "feature_columns": len(get_catboost_feature_cols(feat_df)),
-        "categorical_features": get_cat_cols(get_catboost_feature_cols(feat_df)),
+        "feature_columns": len(get_catboost_feature_cols(feat_df, drop_groups)),
+        "categorical_features": get_cat_cols(get_catboost_feature_cols(feat_df, drop_groups)),
         "feature_options": config["feature_options"],
         "validation_strategy": args.validation_mode,
         "rolling_folds": args.rolling_folds,
         "weekly_label_rows": len(weekly_df),
         "horizon_val_mae": {f"week_{w}": mae for w, mae in val_maes.items()},
         "horizon_fold_mae": {f"week_{w}": maes for w, maes in fold_maes.items()},
+        "final_model_info": {f"week_{w}": info for w, info in final_model_info.items()},
         "average_val_mae": avg,
         "model_paths": {
             "run_horizon_models": model_path,

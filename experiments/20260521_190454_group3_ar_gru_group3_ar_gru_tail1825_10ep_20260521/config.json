@@ -1,0 +1,64 @@
+{
+  "created_at": "2026-05-21T19:05:22",
+  "data_options": {
+    "date_feature_columns": [
+      "year_z",
+      "month_sin",
+      "month_cos",
+      "quarter_sin",
+      "quarter_cos",
+      "week_sin",
+      "week_cos"
+    ],
+    "date_normalization": {
+      "year_mean": 3545.226600257968,
+      "year_std": 1575.687094749908
+    },
+    "max_regions": 0,
+    "max_rows": 0,
+    "purge_weeks": 5,
+    "score_gap_days": 91,
+    "train_tail_days": 1825,
+    "val_weeks": 8,
+    "weather_columns": [
+      "prec",
+      "surf_pre",
+      "humidity",
+      "tmp",
+      "dp_tmp",
+      "wb_tmp",
+      "tmp_max",
+      "tmp_min",
+      "tmp_range",
+      "surf_tmp",
+      "wind",
+      "wind_max",
+      "wind_min",
+      "wind_range"
+    ]
+  },
+  "experiment_name": "group3_ar_gru_tail1825_10ep_20260521",
+  "model_family": "group3_ar_gru",
+  "presentation_mapping": {
+    "decoder": "GRUCell x 5 horizons with previous score feedback",
+    "gru_encoder": "2 layers, hidden=64",
+    "static_context": "region embedding + year/month/quarter/week cyclical date features",
+    "teacher_forcing": 0.5,
+    "weather_sequence": "91 x 14 weather features"
+  },
+  "sample_counts": {
+    "raw_rows_after_cleaning": 4102600,
+    "regions": 2248,
+    "sequence_samples": 544016,
+    "train_samples": 514792,
+    "validation_samples": 17984
+  },
+  "train_options": {
+    "batch_size": 192,
+    "device": "mps",
+    "epochs": 10,
+    "learning_rate": 0.001,
+    "seed": 42,
+    "weight_decay": 0.0001
+  }
+}

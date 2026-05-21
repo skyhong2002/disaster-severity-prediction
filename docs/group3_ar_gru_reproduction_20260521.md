@@ -115,3 +115,82 @@ only if it shows one of these:
 
 The main risk is the same risk Group 3 reported: local neural-network validation
 can look better than public leaderboard behavior.
+
+## Formal Tail-1825 Run
+
+Command:
+
+```bash
+PYTHONUNBUFFERED=1 uv run python src/train_group3_ar_gru.py \
+  --experiment-name group3_ar_gru_tail1825_10ep_20260521 \
+  --train-tail-days 1825 \
+  --epochs 10 \
+  --batch-size 192 \
+  --teacher-forcing-ratio 0.5 \
+  --device auto
+```
+
+Output run:
+
+```text
+experiments/20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521
+```
+
+Run scale:
+
+| Setting | Value |
+|---|---:|
+| device | MPS |
+| regions | 2248 |
+| raw rows after tailing | 4102600 |
+| sequence samples | 544016 |
+| train samples | 514792 |
+| validation samples | 17984 |
+| train tail days | 1825 |
+| epochs | 10 |
+| batch size | 192 |
+
+Epoch curve:
+
+| epoch | train MAE | validation MAE | pred mean | pred std |
+|---:|---:|---:|---:|---:|
+| 1 | 0.2623 | 0.2002 | 0.3925 | 0.8929 |
+| 2 | 0.2104 | 0.2019 | 0.3402 | 0.7688 |
+| 3 | 0.1977 | 0.1923 | 0.3484 | 0.8337 |
+| 4 | 0.1895 | 0.1946 | 0.3653 | 0.8152 |
+| 5 | 0.1849 | 0.1852 | 0.3090 | 0.7805 |
+| 6 | 0.1796 | 0.2034 | 0.3128 | 0.7519 |
+| 7 | 0.1747 | 0.2123 | 0.3741 | 0.8215 |
+| 8 | 0.1728 | 0.2197 | 0.3718 | 0.8184 |
+| 9 | 0.1686 | 0.2283 | 0.3655 | 0.7758 |
+| 10 | 0.1680 | 0.2085 | 0.3513 | 0.8095 |
+
+Best checkpoint:
+
+| Metric | Value |
+|---|---:|
+| best epoch | 5 |
+| best validation MAE | 0.1852 |
+| week 1 MAE | 0.1933 |
+| week 2 MAE | 0.1849 |
+| week 3 MAE | 0.1825 |
+| week 4 MAE | 0.1810 |
+| week 5 MAE | 0.1845 |
+| target mean | 0.3651 |
+| target std | 0.8941 |
+| prediction mean | 0.3090 |
+| prediction std | 0.7805 |
+
+Interpretation:
+
+- The model is real and learns useful signal: the best validation MAE reaches
+  `0.1852`, better than the one-epoch smoke and comparable to the scale of our
+  rolling-origin tree diagnostics.
+- It overfits quickly after epoch 5: train MAE keeps improving from `0.1849` to
+  `0.1680`, while validation MAE worsens from `0.1852` to `0.2085`.
+- The validation target distribution is very low severity (`target_mean=0.3651`),
+  so this number is not comparable to Kaggle public MAE and must not be used as
+  a direct submit signal.
+- The next useful step is not Kaggle submission. The next step is to adapt
+  blind-window backtesting or a submission writer for this neural checkpoint,
+  then compare residual diversity against LGB/XGB/CatBoost.

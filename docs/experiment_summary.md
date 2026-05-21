@@ -95,6 +95,22 @@ submitted as of this update.
 | `20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500` | CatBoost | Rolling origin | `0.2192` | `submissions/submission_20260520_115925_20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv` | Valid rerun of the CatBoost tail2737 hypothesis; SHA-256 prefix `0fba74bfc925`. |
 | `20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520` | LightGBM | Rolling origin | `0.2002` | `submissions/submission_20260520_163323_20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520.csv` | Memory-safe micro-profile LGBM; strong local score but should be treated as diagnostic/blend input until Kaggle evidence confirms it. |
 
+## 2026-05-21 Quota Probe Submissions
+
+These submissions intentionally spent daily Kaggle quota after the blind
+backtest refactor. They are negative or diagnostic evidence, not replacements
+for the `0.8124` public anchor.
+
+| Submission | Kaggle ref | Public MAE | SHA-256 prefix | Blind evidence | Decision |
+|---|---:|---:|---|---|---|
+| `submissions/submission_20260521_154656_20260521_153911_lightgbm_two_stage_lgbm_refit_full_lean_tail1095_20260521.csv` | `52882449` | `0.9380` | `6be765ac8579` | Best single-model blind anchor, blind MAE `0.3549`. | Do not promote on public; keep as pseudo-private anchor evidence only. |
+| `submissions/ensemble_20260521_blindfit_unregularized_lgb_w1w4_cat_w5.csv` | `52882455` | `0.9302` | `ebb7b3af4087` | Slightly beat LGBM in blind MAE (`0.3536`) by using LGBM for weeks 1-4 and LGB/Cat for week 5. | Best of this quota probe, but far from current public anchor. |
+| `submissions/ensemble_20260521_blindfit_regularized_horizon_lgb_xgb_cat.csv` | `52882462` | `0.9303` | `443c8add294c` | Regularized blind-fit blend MAE `0.3614`; worse than LGBM alone in blind. | Useful contrast against unregularized blend, not a candidate anchor. |
+
+Readout: the blind-validation candidates did not transfer to public LB. This
+reinforces the need to compare 5/22 private leaderboard behavior before using
+blind-backtest MAE as the sole promotion metric.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |

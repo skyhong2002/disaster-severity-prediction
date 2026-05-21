@@ -72,6 +72,22 @@ It is a promising diagnostic or blend input, but should not replace the current
 legal anchor until it has either public-LB evidence or pseudo-private validation
 evidence that explains why this low local MAE will generalize.
 
+## 2026-05-21 Quota Probe Readout
+
+Three additional legal submissions were made on 2026-05-21 after the blind
+backtest framework was merged. They should be interpreted as diagnostic quota
+probes, not as updates to the main 5/22 private-leaderboard anchor set.
+
+| Candidate | File | Kaggle ref | Public MAE | Rationale |
+|---|---|---:|---:|---|
+| LGBM blind anchor | `submissions/submission_20260521_154656_20260521_153911_lightgbm_two_stage_lgbm_refit_full_lean_tail1095_20260521.csv` | `52882449` | `0.9380` | Tests whether the best blind single model transfers to public LB. It did not. |
+| Blind-fit unregularized horizon blend | `submissions/ensemble_20260521_blindfit_unregularized_lgb_w1w4_cat_w5.csv` | `52882455` | `0.9302` | Uses LGBM for weeks 1-4 and an LGBM/CatBoost week-5 blend; best of the quota probes but still weak publicly. |
+| Blind-fit regularized horizon blend | `submissions/ensemble_20260521_blindfit_regularized_horizon_lgb_xgb_cat.csv` | `52882462` | `0.9303` | Tests anchor-regularized blind weights; similar public result to the unregularized blend. |
+
+Readout: these results do not challenge the existing `0.8124` public anchor.
+They are useful evidence that the newly constructed blind benchmark is not yet
+aligned enough with public LB to drive submissions by itself.
+
 ## Exact Commands for Current Best Blend
 
 ```bash
@@ -102,6 +118,9 @@ CatBoost training and prediction commands are recorded in
 | `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` | `bee6f618828d` if restored locally | Legal three-model current public best. |
 | `submissions/submission_20260520_115925_20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv` | `0fba74bfc925` | Local CatBoost-only rerun; valid but not submitted. |
 | `submissions/submission_20260520_163323_20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520.csv` | `25bf0deb1080` | Local LGBM micro rerun; valid but not submitted. |
+| `submissions/submission_20260521_154656_20260521_153911_lightgbm_two_stage_lgbm_refit_full_lean_tail1095_20260521.csv` | `6be765ac8579` | Submitted 2026-05-21 quota probe; public `0.9380`. |
+| `submissions/ensemble_20260521_blindfit_unregularized_lgb_w1w4_cat_w5.csv` | `ebb7b3af4087` | Submitted 2026-05-21 quota probe; public `0.9302`. |
+| `submissions/ensemble_20260521_blindfit_regularized_horizon_lgb_xgb_cat.csv` | `443c8add294c` | Submitted 2026-05-21 quota probe; public `0.9303`. |
 
 All local audit files have `2248` rows, matching submission columns, no NaN
 values, and predictions clipped to `[0, 5]`. The submitted 2026-05-16 and

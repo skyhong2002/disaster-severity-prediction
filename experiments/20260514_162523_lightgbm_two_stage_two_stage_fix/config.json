@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-05-14T16:25:23",
+  "experiment_name": "two_stage_fix",
+  "feature_options": {
+    "feature_profile": "lean",
+    "recency_half_life_days": 0,
+    "recent_days": 0,
+    "regularized": true,
+    "score_gap_days": 91,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "lightgbm_params": {
+    "bagging_fraction": 0.7,
+    "bagging_freq": 1,
+    "early_stopping_rounds": 100,
+    "extra_trees": true,
+    "feature_fraction": 0.7,
+    "lambda_l1": 0.1,
+    "lambda_l2": 2.0,
+    "learning_rate": 0.05,
+    "metric": "mae",
+    "min_child_samples": 80,
+    "n_estimators": 3000,
+    "n_jobs": -1,
+    "num_leaves": 63,
+    "objective": "regression_l1",
+    "random_state": 42,
+    "verbose": -1
+  },
+  "meteorological_columns": [
+    "prec",
+    "surf_pre",
+    "humidity",
+    "tmp",
+    "dp_tmp",
+    "wb_tmp",
+    "tmp_max",
+    "tmp_min",
+    "tmp_range",
+    "surf_tmp",
+    "wind",
+    "wind_max",
+    "wind_min",
+    "wind_range"
+  ],
+  "model_family": "lightgbm_two_stage",
+  "n_weeks": 5,
+  "pipeline": [
+    "load train.csv",
+    "build meteorological features",
+    "STAGE 1: train score reconstructor (meteo \u2192 score)",
+    "replace true scores with reconstructed scores",
+    "rebuild features using reconstructed scores",
+    "STAGE 2: train horizon models (1-5 weeks ahead)",
+    "save versioned models and metrics"
+  ],
+  "rolling_folds": 3,
+  "validation_strategy": "holdout"
+}

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -19,12 +21,14 @@ from validation import blind_score_mask, build_pseudo_test_window, parse_origin_
 def parse_args():
     parser = argparse.ArgumentParser(description="Detect score leakage from blind-window labels.")
     parser.add_argument("--origin", default="5", help="One week offset from train tail, e.g. 5 or -5.")
+    parser.add_argument("--origins", default=None, help="Comma-separated week offsets. Overrides --origin.")
     parser.add_argument("--blind-days", type=int, default=91)
     parser.add_argument("--history-tail-days", type=int, default=1100)
     parser.add_argument("--feature-profile", choices=["micro", "lean", "full"], default="micro")
     parser.add_argument("--score-gap-days", type=int, default=91)
     parser.add_argument("--max-regions", type=int, default=32)
     parser.add_argument("--sentinel-value", type=float, default=999.0)
+    parser.add_argument("--out-dir", default=None, help="Optional directory for leakage_sentinel_summary.json.")
     return parser.parse_args()
 
 
@@ -52,24 +56,7 @@ def comparable_numeric_features(df: pd.DataFrame) -> list[str]:
     return cols
 
 
-def main():
-    args = parse_args()
-    origin = parse_origin_offsets(args.origin)[0]
-    required_days = required_context_days(
-        args.feature_profile,
-        score_gap_days=args.score_gap_days,
-        use_score_history=True,
-    )
-    if args.history_tail_days < required_days:
-        print(
-            "WARNING: "
-            f"history_tail_days={args.history_tail_days} is below required_context_days={required_days}; "
-            "sentinel still runs, but this is not a formal model-selection context."
-        )
-
-    raw_tail_days = args.history_tail_days + origin.offset_weeks * 7 + 35
-    print(f"Loading subset: regions={args.max_regions}, raw_tail_days={raw_tail_days}")
-    train = load_subset(args.max_regions, raw_tail_days)
+def run_one_origin(train: pd.DataFrame, origin, args) -> dict:
     feature_options = {
         "use_score_history": True,
         "score_gap_days": args.score_gap_days,
@@ -78,7 +65,7 @@ def main():
         "feature_profile": args.feature_profile,
     }
 
-    print("Building baseline pseudo-test features ...")
+    print(f"\n[Origin {origin.label}] Building baseline pseudo-test features ...")
     baseline, _ = build_pseudo_test_window(
         train,
         origin,
@@ -93,7 +80,7 @@ def main():
     poisoned.loc[poison_mask, "score"] = args.sentinel_value
     print(f"Poisoned {int(poison_mask.sum())} weekly score rows inside the blind window.")
 
-    print("Building poisoned pseudo-test features ...")
+    print(f"[Origin {origin.label}] Building poisoned pseudo-test features ...")
     candidate, _ = build_pseudo_test_window(
         poisoned,
         origin,
@@ -111,7 +98,13 @@ def main():
         how="inner",
     )
     if len(merged) != len(baseline):
-        raise RuntimeError(f"Feature alignment changed after poisoning: {len(merged)} vs {len(baseline)} rows.")
+        return {
+            "origin": origin.label,
+            "status": "fail",
+            "reason": f"Feature alignment changed after poisoning: {len(merged)} vs {len(baseline)} rows.",
+            "poisoned_score_rows": int(poison_mask.sum()),
+            "regions": int(len(baseline)),
+        }
 
     mismatches = []
     for col in feature_cols:
@@ -126,12 +119,77 @@ def main():
         print("FAILED: blind-window score poisoning changed final-row features.")
         for col, diff, count in sorted(mismatches, key=lambda item: item[1], reverse=True)[:20]:
             print(f"  {col}: max_abs_diff={diff:.6g}, changed_rows={count}")
-        raise SystemExit(1)
+        return {
+            "origin": origin.label,
+            "status": "fail",
+            "reason": "blind-window score poisoning changed final-row features",
+            "poisoned_score_rows": int(poison_mask.sum()),
+            "regions": int(len(merged)),
+            "feature_count": int(len(feature_cols)),
+            "mismatches": [
+                {"feature": col, "max_abs_diff": diff, "changed_rows": count}
+                for col, diff, count in sorted(mismatches, key=lambda item: item[1], reverse=True)
+            ],
+        }
 
     print(
         "PASSED: blind-window score poisoning did not change final-row features "
         f"({len(feature_cols)} numeric features, {len(merged)} regions)."
     )
+    return {
+        "origin": origin.label,
+        "status": "pass",
+        "poisoned_score_rows": int(poison_mask.sum()),
+        "regions": int(len(merged)),
+        "feature_count": int(len(feature_cols)),
+    }
+
+
+def main():
+    args = parse_args()
+    origins = parse_origin_offsets(args.origins or args.origin)
+    required_days = required_context_days(
+        args.feature_profile,
+        score_gap_days=args.score_gap_days,
+        use_score_history=True,
+    )
+    if args.history_tail_days < required_days:
+        print(
+            "WARNING: "
+            f"history_tail_days={args.history_tail_days} is below required_context_days={required_days}; "
+            "sentinel still runs, but this is not a formal model-selection context."
+        )
+
+    max_origin_offset = max(origin.offset_weeks for origin in origins)
+    raw_tail_days = args.history_tail_days + max_origin_offset * 7 + 35
+    print(f"Loading subset: regions={args.max_regions}, raw_tail_days={raw_tail_days}")
+    train = load_subset(args.max_regions, raw_tail_days)
+
+    results = [run_one_origin(train, origin, args) for origin in origins]
+    payload = {
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "status": "pass" if all(result["status"] == "pass" for result in results) else "fail",
+        "feature_profile": args.feature_profile,
+        "history_tail_days": args.history_tail_days,
+        "required_context_days": required_days,
+        "blind_days": args.blind_days,
+        "score_gap_days": args.score_gap_days,
+        "max_regions": args.max_regions,
+        "sentinel_value": args.sentinel_value,
+        "origins": [origin.label for origin in origins],
+        "results": results,
+    }
+    if args.out_dir:
+        out_dir = Path(args.out_dir)
+        if not out_dir.is_absolute():
+            out_dir = ROOT / out_dir
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / "leakage_sentinel_summary.json"
+        out_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(f"\nSummary saved -> {out_path}")
+
+    if payload["status"] != "pass":
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

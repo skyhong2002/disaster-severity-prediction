@@ -1,6 +1,6 @@
 # Experiment and Submission Summary
 
-Last updated: 2026-05-20
+Last updated: 2026-05-21
 
 This file records the current legal model-selection state for the Final Project
 progress check. It is intended to keep the slides, report, code, and Kaggle
@@ -14,6 +14,35 @@ submissions consistent.
 - 5/15 static private leaderboard: Team 5 was ranked 3, below Baseline 3 and above Baseline 2.
 - Baseline 3 pressure: at the time of the TA announcement, at least 13 successful entries were needed to cross Public Baseline 3.
 - Strategy implication: use public leaderboard gains cautiously and prioritize private robustness, reproducibility, and leakage-free validation evidence.
+
+## 2026-05-21 Validation Architecture Update
+
+The codebase now includes a stronger model-selection contract before future
+submission decisions:
+
+- `src/train.py`, `src/train_xgb.py`, and `src/train_catboost.py` support
+  `--final-train-mode {last_fold,fold_ensemble,refit_full}`. The default is
+  `refit_full`, so CV is used to estimate best iterations and the saved
+  submission model is retrained on all legal rows instead of silently keeping
+  only the last validation fold.
+- `scripts/run_blind_backtest.py` creates a Kaggle-like pseudo-private test by
+  masking a 91-day historical score window, rebuilding time-safe features, and
+  scoring the next five weekly labels.
+- `scripts/drift_report.py` compares train-tail candidates to the real test
+  meteorological window using PSI, KS, quantile-Wasserstein distance,
+  weather-only adversarial AUC, and weather+region/month adversarial AUC.
+- `scripts/fit_blend_weights.py` fits non-negative per-horizon blend weights
+  from OOF or blind-backtest predictions with anchor regularization, optional
+  caps, and bootstrap stability around the current legal 35/35/30 blend.
+- `scripts/leakage_sentinel.py` poisons hidden blind-window labels to assert
+  that pseudo-test features do not change.
+- Trainers and prediction now support `drop_feature_groups` for coarse feature
+  ablations, including score history, climatology, rolling/EWM weather,
+  long-window drought proxies, region stats, and CatBoost `region_id`.
+
+These tools do not change the current best legal public submission by
+themselves. They define the required evidence for promoting future reruns from
+diagnostics to submission candidates.
 
 ## Current Best Legal Submission
 

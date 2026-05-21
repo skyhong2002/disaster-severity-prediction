@@ -53,12 +53,106 @@ FEATURE_PROFILES = {
     },
 }
 
+FEATURE_GROUPS = {
+    "calendar",
+    "short_lag",
+    "rolling",
+    "ewm",
+    "long_drought_proxy",
+    "domain_indices",
+    "climatology",
+    "score_history",
+    "region_stats",
+    "region_id",
+}
+
 
 def get_feature_profile(name: str) -> dict:
     """Return a predefined feature profile."""
     if name not in FEATURE_PROFILES:
         raise ValueError(f"Unknown feature profile: {name}")
     return FEATURE_PROFILES[name]
+
+
+def required_context_days(
+    feature_profile: str,
+    score_gap_days: int = SCORE_GAP_DAYS,
+    use_score_history: bool = False,
+) -> int:
+    """Return the minimum history window needed to fully populate a profile."""
+    profile = get_feature_profile(feature_profile)
+    required = 1
+    for key in ("lag_days", "roll_wins", "domain_wins", "long_wins", "ewm_spans"):
+        values = profile.get(key, [])
+        if values:
+            required = max(required, int(max(values)))
+    if use_score_history:
+        score_lag_days = [score_gap_days + int(lag_week) * 7 for lag_week in profile.get("score_lags", [])]
+        score_win_days = [score_gap_days + int(win) for win in profile.get("score_wins", [])]
+        if score_lag_days:
+            required = max(required, max(score_lag_days))
+        if score_win_days:
+            required = max(required, max(score_win_days))
+    return int(required)
+
+
+def parse_drop_feature_groups(raw: str | list[str] | tuple[str, ...] | None) -> list[str]:
+    """Normalize comma-separated feature groups for ablation runs."""
+    if raw is None:
+        return []
+    if isinstance(raw, str):
+        groups = [part.strip() for part in raw.split(",") if part.strip()]
+    else:
+        groups = [str(part).strip() for part in raw if str(part).strip()]
+    unknown = sorted(set(groups) - FEATURE_GROUPS)
+    if unknown:
+        raise ValueError(f"Unknown feature groups: {', '.join(unknown)}")
+    return groups
+
+
+def columns_for_feature_group(columns: list[str], group: str) -> list[str]:
+    """Return columns belonging to one coarse feature group."""
+    if group == "calendar":
+        names = {"month", "quarter", "dayofmonth", "dayofyear", "weekofyear", "sin_doy", "cos_doy", "sin_mon", "cos_mon"}
+        return [col for col in columns if col in names]
+    if group == "short_lag":
+        return [col for col in columns if "_lag" in col and not col.startswith("score_gap")]
+    if group == "rolling":
+        return [col for col in columns if "_rmean" in col or "_rstd" in col]
+    if group == "ewm":
+        return [col for col in columns if "_ewm" in col]
+    if group == "long_drought_proxy":
+        prefixes = ("prec_sum", "dry_days", "hot_days", "tmp_mean_long", "long_drought_idx")
+        return [col for col in columns if col.startswith(prefixes)]
+    if group == "domain_indices":
+        prefixes = ("drought_idx", "dryness_idx", "heat_humidity_idx", "dewpoint_spread", "wetbulb_spread")
+        return [col for col in columns if col.startswith(prefixes)]
+    if group == "climatology":
+        return [col for col in columns if "_clim_" in col or col.endswith("_anom")]
+    if group == "score_history":
+        return [col for col in columns if col.startswith("score_gap")]
+    if group == "region_stats":
+        return [col for col in columns if col.startswith("region_") and col != "region_id"]
+    if group == "region_id":
+        return ["region_id"] if "region_id" in columns else []
+    raise ValueError(f"Unknown feature group: {group}")
+
+
+def drop_feature_group_columns(df: pd.DataFrame, groups: list[str] | tuple[str, ...] | None) -> pd.DataFrame:
+    """Drop coarse feature groups for validation-driven ablation."""
+    groups = parse_drop_feature_groups(groups)
+    if not groups:
+        return df
+    drop_cols: set[str] = set()
+    columns = list(df.columns)
+    for group in groups:
+        if group == "region_id":
+            continue
+        drop_cols.update(columns_for_feature_group(columns, group))
+    if drop_cols:
+        df = df.drop(columns=sorted(drop_cols), errors="ignore")
+        print(f"  Dropped {len(drop_cols)} columns from feature groups: {', '.join(groups)}")
+    return df
 
 
 def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
@@ -289,6 +383,7 @@ def build_features(
     use_climatology: bool = True,
     use_region_stats: bool = True,
     feature_profile: str = "full",
+    drop_feature_groups: list[str] | tuple[str, ...] | None = None,
 ) -> pd.DataFrame:
     """Full feature engineering pipeline."""
     print(f"  Building features for {'train' if is_train else 'test'} set...")
@@ -302,6 +397,7 @@ def build_features(
         df = add_score_history_features(df, gap_days=score_gap_days, profile=profile)
     if use_region_stats:
         df = add_region_stats(df, train_df)
+    df = drop_feature_group_columns(df, drop_feature_groups)
     df = df.copy()
     print(f"  → {len(df.columns)} columns total")
     return df
@@ -310,4 +406,8 @@ def build_features(
 def get_feature_cols(df: pd.DataFrame) -> List[str]:
     """Return all feature columns (exclude id/date/target)."""
     exclude = {"region_id", "date", "score"}
-    return [c for c in df.columns if c not in exclude]
+    return [
+        c
+        for c in df.columns
+        if c not in exclude and not c.startswith("_") and not c.startswith("target_")
+    ]

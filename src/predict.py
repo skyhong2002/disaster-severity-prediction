@@ -25,6 +25,7 @@ import pandas as pd
 
 from features import build_features, get_feature_cols
 from experiment_utils import get_latest_run_dir, save_json
+from model_wrappers import get_model_feature_names, predict_model_or_ensemble
 
 warnings.filterwarnings("ignore")
 
@@ -91,11 +92,7 @@ def load_models(model_dir: Path, run_dir: Path | None = None):
 def model_feature_columns(models: dict, fallback_cols: list[str]) -> list[str]:
     """Use persisted model feature names when available for legacy compatibility."""
     first_model = models[min(models.keys())]
-    names = getattr(first_model, "feature_name_", None)
-    if names is None:
-        names = getattr(first_model, "feature_names_in_", None)
-    if names is None and hasattr(first_model, "feature_names_"):
-        names = first_model.feature_names_
+    names = get_model_feature_names(first_model)
     return list(names) if names is not None else fallback_cols
 
 
@@ -107,6 +104,7 @@ def load_feature_options(run_dir: Path | None) -> dict:
         "use_climatology": True,
         "use_region_stats": True,
         "feature_profile": "full",
+        "drop_feature_groups": [],
     }
     if run_dir is None:
         return defaults
@@ -162,6 +160,7 @@ def main():
         use_climatology=feature_options.get("use_climatology", True),
         use_region_stats=feature_options.get("use_region_stats", True),
         feature_profile=feature_options.get("feature_profile", "full"),
+        drop_feature_groups=feature_options.get("drop_feature_groups", []),
     )
     
     test_dates = test["date"].unique()
@@ -188,7 +187,7 @@ def main():
 
     preds = {}
     for week in range(1, N_WEEKS + 1):
-        raw = models[week].predict(X_test)
+        raw = predict_model_or_ensemble(models[week], X_test)
         preds[f"pred_week{week}"] = np.clip(raw, 0, 5)
         print(f"  Week {week}: mean={preds[f'pred_week{week}'].mean():.3f}")
 

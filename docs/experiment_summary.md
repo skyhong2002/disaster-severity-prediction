@@ -122,13 +122,15 @@ The serious reproduction pass is recorded in
 | Existing LGBM blind anchor postprocessed | Blind MAE `0.3549 -> 0.3418` | Not submitted | Keep as diagnostic; source public MAE is `0.9380`. |
 | Weather-only TCN | Local val MAE `0.3151`; blind MAE `0.4040` | Not submitted | Reject as standalone; useful only as an architecture smoke. |
 | Feature-fused TCN | Local val MAE `0.2654`; blind MAE `0.3508` | Submitted as ref `52900168`, public MAE `0.9450`, SHA-256 prefix `d62f9e32e312` | Negative public readout as a single model; keep as diversity input. |
-| LGBM + feature-fused TCN loose horizon blend | Blind mean horizon MAE `0.3249`; weights `lgb=0.76,0.68,0.66,0.36,0.08` | Submission blocked by daily quota after TCN single-model submit; SHA-256 prefix `005c49e67b41` | Next diagnostic candidate after quota reset, not a replacement for the `0.8124` public anchor. |
+| LGBM + feature-fused TCN loose horizon blend | Blind mean horizon MAE `0.3249`; weights `lgb=0.76,0.68,0.66,0.36,0.08` | Submitted as ref `52912241`, public MAE `0.9197`, SHA-256 prefix `005c49e67b41` | Negative public readout; keep as diagnostic only. |
+| 4-seed feature-fused TCN equal ensemble | Blind MAE `0.3772`; seed blind range `0.3508` to `0.4164` | Not submitted; SHA-256 prefix `6181c02e69eb` | Reject; seed averaging worsened blind MAE. |
+| LGBM + 4-seed TCNF fitted horizon blend | Blind MAE `0.3377`; weights `lgb=0.88,0.84,0.82,0.48,0.02` | Submitted as ref `52912252`, public MAE `0.9050`, SHA-256 prefix `8085cb7953cf` | Best TCNF-family public readout, still far behind the `0.8124` anchor. |
 
 Readout: Team 20 style feature-fused sequence modeling produced a real
-pseudo-private signal, especially for later horizons, but the single-model
-public score was poor. The next blend should combine TCNF with the public-strong
-LGB/XGB/CatBoost anchor family, not only with the blind-strong LGBM tail1095
-anchor.
+pseudo-private signal, especially for later horizons, but every submitted TCNF
+family candidate transferred poorly to public LB. The next blend should combine
+TCNF with the public-strong LGB/XGB/CatBoost anchor family, not only with the
+blind-strong LGBM tail1095 anchor.
 
 ## Experiment Table
 

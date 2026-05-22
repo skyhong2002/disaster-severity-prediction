@@ -15,8 +15,9 @@ workflow:
 - History context: `history-tail-days=1100`.
 - Submission sanity checks: `2248` rows, sample-submission region order, no
   missing predictions, predictions clipped to `[0, 5]`.
-- Kaggle quota status: after the TCN single-model submission, the 2026-05-21
-  Kaggle-day quota reached `6/6`; the horizon blend could not be submitted.
+- Kaggle quota status: after the 2026-05-22 quota reset, two diagnostic
+  LGBM+TCNF horizon blends were submitted. Both were negative public readouts,
+  so TCNF remains a diversity diagnostic rather than an anchor.
 
 ## Team 4 Features and Postprocessing
 
@@ -130,11 +131,35 @@ Artifact:
 
 - `submissions/submission_20260522_lgb_tcnf_horizon_blend_loose.csv`
 - SHA-256 prefix: `005c49e67b41`
+- Kaggle ref: `52912241`
+- Public MAE: `0.9197`
 
-The loose blend is the next Kaggle candidate after quota reset. It is
-validation-strong, but it carries public-LB risk because both source models are
-weak on public (`0.9380` and `0.9450`). Submit it as a diagnostic late-horizon
-blend, not as a replacement for the `0.8124` anchor.
+The loose blend was validation-strong but did not transfer to public LB because
+both source models are weak on public (`0.9380` and `0.9450`). Treat it as a
+diagnostic late-horizon blend, not as a replacement for the `0.8124` anchor.
+
+## Overnight TCNF Seed Ensemble
+
+The overnight queue trained three additional feature-fused TCN seeds and
+combined them with the existing seed `42`.
+
+| Seed | Local val MAE | Blind MAE |
+|---|---:|---:|
+| `42` | `0.26543` | `0.35082` |
+| `7` | `0.27260` | `0.39094` |
+| `13` | `0.26593` | `0.40740` |
+| `2026` | `0.26822` | `0.41636` |
+
+| Candidate | Blind MAE | Kaggle ref | Public MAE | SHA-256 prefix | Decision |
+|---|---:|---:|---:|---|---|
+| `submission_20260522_tcnf_seed_equal_4seed.csv` | `0.37721` | Not submitted | N/A | `6181c02e69eb` | Reject; seed averaging worsened blind MAE. |
+| `submission_20260522_lgb_tcnf_horizon_blend_loose.csv` | `0.32490` | `52912241` | `0.9197` | `005c49e67b41` | Negative public readout; keep as diagnostic only. |
+| `submission_20260522_lgb_tcnf_seed_equal_horizon_blend_fitted.csv` | `0.33770` | `52912252` | `0.9050` | `8085cb7953cf` | Better public than loose blend, still far behind anchor. |
+
+The 4-seed TCNF average reduced variance only on paper; it worsened blind MAE
+relative to the best single seed. The fitted LGBM+4-seed-TCNF blend improved
+public MAE compared with the loose single-seed blend, but the whole family
+still underperformed the public-strong LGB/XGB/CatBoost anchor by a wide margin.
 
 ## Decisions
 
@@ -142,8 +167,9 @@ blend, not as a replacement for the `0.8124` anchor.
   with public MAE `0.8124`.
 - Do not submit more pure TCN variants until public/private evidence supports
   sequence-only signals.
-- Submit the loose LGBM+TCNF horizon blend after quota reset if we want one
-  controlled probe of Team 20 style diversity.
+- Do not submit more LGBM+TCNF horizon blends unless they include the
+  public-strong LGB/XGB/CatBoost anchor family and have a clear diagnostic
+  purpose.
 - Do not submit the Team 4 region-prior LGBM run.
 - Next technical step: blend TCNF with the existing public-strong
   LGB/XGB/CatBoost anchor family, not only with the blind-strong LGBM anchor.

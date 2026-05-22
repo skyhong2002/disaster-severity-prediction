@@ -50,6 +50,15 @@ experiments/*/submissions/
 experiments/*/logs/
 experiments/latest.txt
 
+# Generated experiment runs and blind-backtest artifacts.
+# Historical tracked experiment metadata remains tracked, but new run output
+# should be summarized in docs instead of committed wholesale.
+experiments/20*/
+experiments/blind_*/
+experiments/blend_*/
+experiments/leakage_sentinel_*/
+experiments/nightly_*/
+
 # ── Submissions (generated files) ─────────────────────────────────────────────
 submissions/*.csv
 

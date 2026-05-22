@@ -64,7 +64,7 @@ user name
 ● Name limitation :
 Change the team name in Kaggle as Team {Group ID} (e.g. Team 1, Team 21).
 ● Daily Limit :
-Maximum of 3 submissions per team per day (reset on UTC+0, i.e. 8 AM in Taiwan).
+Maximum of 6 submissions per team per day (updated from 3; reset on UTC+0, i.e. 8 AM in Taiwan).
 ● Evaluation : Submissions are evaluated using MAE (Mean Absolute Error).
 ● The private leaderboard will only be visible after the competition ends.
 ○ By default, your two best public leaderboard submissions will be used for the private
@@ -425,5 +425,4 @@ If you have any other questions, please feel free to contact the TA at nycu.dm.t
        (2017).
     ○ Kechyn, Glib, et al. "Sales forecasting using WaveNet within the framework of the Kaggle
        competition." _arXiv preprint arXiv:1803.04037_ (2018).
-
 

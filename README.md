@@ -297,7 +297,7 @@ previous run. The report can then be updated by comparing the JSON summaries.
 
 ## 7. Kaggle Submission Rules
 - Team name must be **Team 5**
-- Max **3 submissions per day** (resets 8 AM Taiwan time)
+- Max **6 submissions per day** (updated from 3; resets 8 AM Taiwan time)
 - Deadline: **June 10, 2026 11:55 PM**
 - Your best 2 public LB submissions are auto-selected for private LB
 

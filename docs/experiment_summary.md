@@ -132,6 +132,24 @@ family candidate transferred poorly to public LB. The next blend should combine
 TCNF with the public-strong LGB/XGB/CatBoost anchor family, not only with the
 blind-strong LGBM tail1095 anchor.
 
+## 2026-05-22 Six-Submission Quota Probe
+
+The course daily Kaggle submission limit was increased from 3 to 6. The first
+extra-quota probe batch is recorded in
+`docs/anchor_family_probe_summary_20260522.md`.
+
+| Candidate | Kaggle ref | Public MAE | Decision |
+|---|---:|---:|---|
+| `submissions/ensemble_20260522_lgb_xgb_cat2737_375_375_25.csv` | `52928386` | `0.9546` | Reject; restored local component files are not safe anchor sources. |
+| `submissions/ensemble_20260522_lgb_xgb_cat2737_soft_cat_ramp.csv` | `52928403` | `0.9561` | Reject; same artifact-lineage issue. |
+| `submissions/ensemble_20260522_anchor_tcnf_cap5_global.csv` | `52928409` | `0.9509` | Reject; TCNF cap cannot rescue bad restored anchor sources. |
+| `submissions/ensemble_20260522_anchor_tcnf_late_ramp_cap10.csv` | `52928422` | `0.9531` | Reject; diagnostic only. |
+
+Readout: do not use the locally restored `restored_20260522_*_component` files
+for future submissions. The `0.8124` public anchor remains valid as a historical
+Kaggle submission, but new anchor-family probes must be built from reproducible
+current runs or exact recovered historical CSVs.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |

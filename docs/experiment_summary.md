@@ -150,6 +150,24 @@ for future submissions. The `0.8124` public anchor remains valid as a historical
 Kaggle submission, but new anchor-family probes must be built from reproducible
 current runs or exact recovered historical CSVs.
 
+## 2026-05-23 LGBM Feature Ablation Readout
+
+The first high-risk feature-group ablation batch is recorded in
+`docs/feature_ablation_lgbm_lean_tail1095_20260523_results.md`.
+
+| Variant | Rolling MAE | Delta vs baseline | Blind MAE | Decision |
+|---|---:|---:|---:|---|
+| Baseline LGBM lean tail1095 | `0.3124` | `+0.0000` | Prior anchor `0.3549` | Reference. |
+| `minus_climatology` | `0.3046` | `-0.0078` | `0.4463` | Reject; local-only improvement failed blind validation. |
+| `minus_score_history` | `0.3645` | `+0.0521` | Not run | Reject; score history is essential. |
+| `minus_long_drought_proxy` | `0.3645` | `+0.0521` | Not run | Reject; long drought proxies carry strong signal. |
+| `minus_domain_indices` | `0.3144` | `+0.0020` | Not run | Reject for now; worsens week 5. |
+| `minus_region_stats` | `0.3124` | `+0.0000` | Not run | No-op because region stats were disabled. |
+
+Readout: rolling-origin ablation alone is not a promotion signal. The
+`minus_climatology` run is a concrete example: it looked better locally but
+substantially worse in Kaggle-like blind validation.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |

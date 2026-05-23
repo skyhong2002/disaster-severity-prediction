@@ -13,4 +13,4 @@ The current project state is:
 - Three-model ensembling through `src/ensemble.py`.
 - Current best legal public score recorded in the repo: `0.8124` from `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`.
 
-Use `docs/experiment_summary.md` as the current source of truth for model selection and submission lineage.
+Use `docs/status/experiment_summary.md` as the current source of truth for model selection and submission lineage.

@@ -153,6 +153,7 @@ def build_pseudo_test_window(
         use_climatology=bool(feature_options.get("use_climatology", True)),
         use_region_stats=bool(feature_options.get("use_region_stats", False)),
         feature_profile=str(feature_options.get("feature_profile", "micro")),
+        max_score_lag_weeks=feature_options.get("max_score_lag_weeks"),
         drop_feature_groups=feature_options.get("drop_feature_groups", []),
     )
 
@@ -183,6 +184,13 @@ def predict_blind_origin(models: dict, pseudo_last: pd.DataFrame) -> pd.DataFram
         missing = [col for col in feat_cols if col not in pseudo_last.columns]
         if missing:
             raise ValueError(f"Missing {len(missing)} feature columns for week {week}: {missing[:10]}")
+        feature_na = pseudo_last[feat_cols].replace([np.inf, -np.inf], np.nan).isna().sum()
+        feature_na = feature_na[feature_na > 0].sort_values(ascending=False)
+        if len(feature_na):
+            raise ValueError(
+                f"Pseudo-test features contain missing/non-finite values for week {week}: "
+                f"{feature_na.head(10).to_dict()}"
+            )
         result[f"pred_week{week}"] = np.clip(predict_model_or_ensemble(model, pseudo_last[feat_cols]), 0, 5)
     return result
 

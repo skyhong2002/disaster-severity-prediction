@@ -120,7 +120,7 @@ The next decision should be based on private robustness, not only public score.
 
 - Compare the LGB/XGB anchor and CatBoost blends on the 5/22 static private leaderboard.
 - Treat the 5/20 CatBoost and LGBM reruns as post-readout blend inputs, not new anchors.
-- Use `docs/current_state.json` and `scripts/check_current_state.py` to keep report, slides, and experiment records aligned.
+- Use `docs/status/current_state.json` and `scripts/check_current_state.py` to keep report, slides, and experiment records aligned.
 - Finalize the IEEE report and keep code, experiments, and submission lineage consistent.
 
 **Current status:** repo-recorded best legal public MAE = **0.8124**.

@@ -66,6 +66,10 @@ def base_command(args, group: str | None) -> list[str]:
 
     if args.train_tail_days > 0:
         cmd.extend(["--train-tail-days", str(args.train_tail_days)])
+    if args.max_score_lag_weeks > 0:
+        cmd.extend(["--max-score-lag-weeks", str(args.max_score_lag_weeks)])
+    if args.drop_feature_nan_rows:
+        cmd.append("--drop-feature-nan-rows")
 
     if args.model_family == "catboost":
         if args.iterations > 0:
@@ -92,6 +96,8 @@ def main():
     parser.add_argument("--no-climatology", action="store_true")
     parser.add_argument("--use-global-region-stats", action="store_true")
     parser.add_argument("--train-tail-days", type=int, default=0)
+    parser.add_argument("--max-score-lag-weeks", type=int, default=0)
+    parser.add_argument("--drop-feature-nan-rows", action="store_true")
     parser.add_argument("--iterations", type=int, default=0, help="CatBoost only.")
     parser.add_argument("--execute", action="store_true", help="Run commands instead of only writing a manifest.")
     parser.add_argument("--out", default=None, help="Markdown manifest path.")

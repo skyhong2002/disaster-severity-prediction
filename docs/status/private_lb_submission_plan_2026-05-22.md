@@ -6,7 +6,7 @@ Last updated: 2026-05-20
 This plan was originally written before the CatBoost submissions. It is now kept
 as a private-leaderboard readout plan, with the current CatBoost blend family and
 2026-05-20 local reruns recorded so it stays consistent with
-`docs/experiment_summary.md`.
+`docs/status/experiment_summary.md`.
 
 ## Objective
 
@@ -107,7 +107,7 @@ uv run kaggle competitions submit \
 The neighboring CatBoost 10%, 20%, 35%, 40%, and horizon-ramp blends use the
 same legal LGB/XGB/CatBoost source files and `src/ensemble.py`; exact 2026-05-16
 CatBoost training and prediction commands are recorded in
-`docs/catboost_results_2026-05-16.md`.
+`docs/experiments/catboost_results_2026-05-16.md`.
 
 ## File Audit
 

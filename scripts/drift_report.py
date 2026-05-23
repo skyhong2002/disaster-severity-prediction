@@ -201,7 +201,11 @@ def format_report(metrics: dict, tail_values: list[int]) -> str:
 def main():
     args = parse_args()
     tail_values = parse_tail_days(args.tail_days)
-    out_path = Path(args.out) if args.out else ROOT / "docs" / f"drift_report_{datetime.now().strftime('%Y%m%d')}.md"
+    out_path = (
+        Path(args.out)
+        if args.out
+        else ROOT / "docs" / "validation" / f"drift_report_{datetime.now().strftime('%Y%m%d')}.md"
+    )
     if not out_path.is_absolute():
         out_path = ROOT / out_path
     json_path = Path(args.json_out) if args.json_out else out_path.with_suffix(".json")

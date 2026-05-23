@@ -1,6 +1,6 @@
 # Experiment and Submission Summary
 
-Last updated: 2026-05-22
+Last updated: 2026-05-23
 
 This file records the current legal model-selection state for the Final Project
 progress check. It is intended to keep the slides, report, code, and Kaggle
@@ -57,7 +57,7 @@ diagnostics to submission candidates.
 | LightGBM source | `submissions/submission_20260512_234155_lgbm_v2.csv` |
 | XGBoost source | `submissions/submission_20260513_001713_xgb_v1.csv` |
 | CatBoost source | `submissions/submission_20260516_063135_20260516_060249_catboost_two_stage_catboost_lean_tail2737_regularized_500.csv` |
-| Repro check | Command lineage is recorded in `docs/catboost_results_2026-05-16.md`. |
+| Repro check | Command lineage is recorded in `docs/experiments/catboost_results_2026-05-16.md`. |
 
 ## Submitted Candidates
 
@@ -114,7 +114,7 @@ blind-backtest MAE as the sole promotion metric.
 ## 2026-05-22 Team 4 / Team 20 Reproduction Pass
 
 The serious reproduction pass is recorded in
-`docs/team4_team20_upgrade_summary_20260522.md`.
+`docs/experiments/team4_team20_upgrade_summary_20260522.md`.
 
 | Candidate | Evidence | Kaggle status | Decision |
 |---|---|---|---|
@@ -136,7 +136,7 @@ blind-strong LGBM tail1095 anchor.
 
 The course daily Kaggle submission limit was increased from 3 to 6. The first
 extra-quota probe batch is recorded in
-`docs/anchor_family_probe_summary_20260522.md`.
+`docs/experiments/anchor_family_probe_summary_20260522.md`.
 
 | Candidate | Kaggle ref | Public MAE | Decision |
 |---|---:|---:|---|
@@ -153,7 +153,7 @@ current runs or exact recovered historical CSVs.
 ## 2026-05-23 LGBM Feature Ablation Readout
 
 The first high-risk feature-group ablation batch is recorded in
-`docs/feature_ablation_lgbm_lean_tail1095_20260523_results.md`.
+`docs/experiments/feature_ablation_lgbm_lean_tail1095_20260523_results.md`.
 
 | Variant | Rolling MAE | Delta vs baseline | Blind MAE | Decision |
 |---|---:|---:|---:|---|
@@ -167,6 +167,23 @@ The first high-risk feature-group ablation batch is recorded in
 Readout: rolling-origin ablation alone is not a promotion signal. The
 `minus_climatology` run is a concrete example: it looked better locally but
 substantially worse in Kaggle-like blind validation.
+
+## 2026-05-23 GRU Quota Probe
+
+The 2026-05-23 daily quota automation submitted the top two GRU-family
+candidates after a live-history guard and full submission sanity check. Both
+were legal/non-leaky, had `2248` rows, matched `data/sample_submission.csv`
+column and region order, contained no NaN values, and stayed within `[0, 5]`.
+
+| Candidate | Kaggle time | Public MAE | Decision |
+|---|---:|---:|---|
+| `submissions/submission_20260522_gru_family_constrained_stack.csv` | `2026-05-23 05:16:04.340000` | `0.9850` | Reject; GRU stack did not transfer to public LB. |
+| `submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv` | `2026-05-23 05:16:16.130000` | `0.9916` | Reject; raw GRU was worse than the stack. |
+
+Readout: pause GRU-family single models, stacks, affine calibration,
+calendar-gated variants, and GRU consensus submissions. The next candidate
+should return to reproducible boosted-tree anchor lineage or first explain why
+blind/LOO evidence is misaligned with public LB.
 
 ## Experiment Table
 

@@ -120,7 +120,7 @@ Hsin-Yu Chen, Wei-Hsin Hung, Sky Shih-Kai Hong
 
 - 等 5/22 static private leaderboard，比較 LGB/XGB anchor 與 CatBoost blend 的私榜表現。
 - 把 5/20 CatBoost 與 LGBM reruns 視為 post-readout blend inputs，不當成新 anchor。
-- 用 `docs/current_state.json` 與 `scripts/check_current_state.py` 維持報告、簡報、實驗紀錄一致。
+- 用 `docs/status/current_state.json` 與 `scripts/check_current_state.py` 維持報告、簡報、實驗紀錄一致。
 - 完成 IEEE 報告，並保持程式、實驗與提交紀錄一致。
 
 **目前狀態：** repo 紀錄的最佳 legal public MAE = **0.8124**。

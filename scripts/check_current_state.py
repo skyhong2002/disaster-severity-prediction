@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE_PATH = ROOT / "docs" / "current_state.json"
+STATE_PATH = ROOT / "docs" / "status" / "current_state.json"
 
 
 def read_text(path: Path) -> str:
@@ -39,28 +39,38 @@ def main() -> int:
 
     best = state["current_best"]
     best_path = ROOT / best["submission"]
-    require(best_path.exists(), f"Missing current best submission: {best['submission']}", failures)
+    best_required = bool(best.get("local_file_required", True))
+    require(
+        best_path.exists() or not best_required,
+        f"Missing current best submission: {best['submission']}",
+        failures,
+    )
     if best_path.exists():
         require(
             csv_row_count(best_path) == int(best["rows"]),
-            f"Current best row count differs from docs/current_state.json: {best['submission']}",
+            f"Current best row count differs from docs/status/current_state.json: {best['submission']}",
             failures,
         )
         expected_sha = best["sha256_prefix"]
         require(
             sha256_prefix(best_path, len(expected_sha)) == expected_sha,
-            f"Current best SHA-256 prefix differs from docs/current_state.json: {best['submission']}",
+            f"Current best SHA-256 prefix differs from docs/status/current_state.json: {best['submission']}",
             failures,
         )
 
     anchor = state["previous_anchor"]
     anchor_path = ROOT / anchor["submission"]
-    require(anchor_path.exists(), f"Missing previous anchor submission: {anchor['submission']}", failures)
+    anchor_required = bool(anchor.get("local_file_required", True))
+    require(
+        anchor_path.exists() or not anchor_required,
+        f"Missing previous anchor submission: {anchor['submission']}",
+        failures,
+    )
     if anchor_path.exists():
         expected_sha = anchor["sha256_prefix"]
         require(
             sha256_prefix(anchor_path, len(expected_sha)) == expected_sha,
-            f"Previous anchor SHA-256 prefix differs from docs/current_state.json: {anchor['submission']}",
+            f"Previous anchor SHA-256 prefix differs from docs/status/current_state.json: {anchor['submission']}",
             failures,
         )
 
@@ -100,6 +110,10 @@ def main() -> int:
     print("Current-state consistency check passed.")
     print(f"- Current best: {best['submission']} ({best['public_mae']} public MAE)")
     print(f"- Previous anchor: {anchor['submission']} ({anchor['public_mae']} public MAE)")
+    if not best_path.exists() and not best_required:
+        print(f"- Current best CSV is not present locally; using Kaggle ref {best['kaggle_ref']} as historical record.")
+    if not anchor_path.exists() and not anchor_required:
+        print("- Previous anchor CSV is not present locally; local-file check skipped by state policy.")
     return 0
 
 

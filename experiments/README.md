@@ -1,7 +1,7 @@
 # Experiment Tracking
 
 Current model-selection and submission audit notes are summarized in
-[`docs/experiment_summary.md`](../docs/experiment_summary.md). Use that file as
+[`docs/status/experiment_summary.md`](../docs/status/experiment_summary.md). Use that file as
 the progress-check source of truth for legal submissions and discarded runs.
 
 Each training run writes a timestamped directory here:

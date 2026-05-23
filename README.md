@@ -30,6 +30,13 @@ disaster-severity-prediction/
 ├── experiments/               # Run metadata; large artifacts ignored
 ├── models/                    # Saved model files (not in git)
 ├── submissions/               # Generated CSVs (not in git)
+├── docs/                      # Structured project docs and experiment readouts
+│   ├── status/                # Current state, leaderboard, submission plans
+│   ├── experiments/           # Model-family and Kaggle probe readouts
+│   ├── validation/            # Blind backtests, drift, distribution reports
+│   ├── presentations/         # Marp slides and exported PDFs
+│   ├── project/               # Assignment notes and planning references
+│   └── engineering/           # Implementation notes
 ├── report/
 │   └── main.tex               # IEEE report (Overleaf)
 ├── pyproject.toml
@@ -127,7 +134,7 @@ uv run python scripts/leakage_sentinel.py \
 # Compare train-tail candidates against the current test-window distribution
 uv run python scripts/drift_report.py \
   --tail-days "1095,1825,2737,3650,0" \
-  --out docs/drift_report_20260521.md
+  --out docs/validation/drift_report_20260521.md
 
 # Generate predictions from a specific saved run
 uv run python src/predict.py --run-dir experiments/<run_id>
@@ -153,7 +160,7 @@ uv run python scripts/feature_ablation.py \
   --model-family lightgbm \
   --groups score_history,climatology,rolling,ewm,long_drought_proxy \
   --feature-profile micro \
-  --out docs/feature_ablation_20260521_commands.md
+  --out docs/experiments/feature_ablation_20260521_commands.md
 
 # Output:
 # - submissions/submission_<timestamp>_<run_id>.csv
@@ -167,10 +174,12 @@ uv run python scripts/feature_ablation.py \
 the legacy latest-model files under `models/` for compatibility. `src/predict.py`
 defaults to the latest experiment recorded in `experiments/latest.txt`.
 
-Current model-selection state is tracked in `docs/current_state.json`. The
+Current model-selection state is tracked in `docs/status/current_state.json`. The
 current best legal public submission is
 `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` with public MAE
 `0.8124`.
+
+The full document map is in `docs/README.md`.
 
 Before updating the report, slides, or experiment notes, run:
 

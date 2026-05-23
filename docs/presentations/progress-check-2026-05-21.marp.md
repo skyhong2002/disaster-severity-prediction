@@ -186,7 +186,7 @@ The codebase has been refactored to support robust, production-level iteration:
 - **Modular Core:** Feature engineering, training, and inference logic are strictly decoupled (`src/train.py`, `src/predict.py`, `src/features.py`).
 - **Ensemble Tooling:** Automated post-processing scripts (`src/ensemble.py`) facilitate two-model and three-model blending.
 - **Experiment Tracking:** Every execution persists configuration metadata, evaluation metrics, and model weights to a versioned `experiments/` directory.
-- **Audit Trail:** Current submission lineage is summarized in `docs/experiment_summary.md`.
+- **Audit Trail:** Current submission lineage is summarized in `docs/status/experiment_summary.md`.
 
 ---
 

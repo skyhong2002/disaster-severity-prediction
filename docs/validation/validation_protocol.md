@@ -74,7 +74,7 @@ Run:
 ```bash
 uv run python scripts/drift_report.py \
   --tail-days "1095,1825,2737,3650,0" \
-  --out docs/drift_report_20260521.md
+  --out docs/validation/drift_report_20260521.md
 ```
 
 The report compares train-tail candidates against `data/test.csv` using PSI,
@@ -123,7 +123,7 @@ uv run python scripts/feature_ablation.py \
   --model-family lightgbm \
   --groups score_history,climatology,calendar,rolling,ewm,long_drought_proxy,domain_indices,region_stats \
   --feature-profile micro \
-  --out docs/feature_ablation_20260521_commands.md
+  --out docs/experiments/feature_ablation_20260521_commands.md
 ```
 
 Promote an ablation only if blind backtest improves, or if MAE is flat but

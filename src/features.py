@@ -75,13 +75,29 @@ def get_feature_profile(name: str) -> dict:
     return FEATURE_PROFILES[name]
 
 
+def configured_feature_profile(name: str, max_score_lag_weeks: int | None = None) -> dict:
+    """Return a mutable profile copy after applying experiment-level limits."""
+    profile = {
+        key: list(value) if isinstance(value, list) else value
+        for key, value in get_feature_profile(name).items()
+    }
+    if max_score_lag_weeks is not None and max_score_lag_weeks > 0:
+        profile["score_lags"] = [
+            int(lag)
+            for lag in profile.get("score_lags", [])
+            if int(lag) <= int(max_score_lag_weeks)
+        ]
+    return profile
+
+
 def required_context_days(
     feature_profile: str,
     score_gap_days: int = SCORE_GAP_DAYS,
     use_score_history: bool = False,
+    max_score_lag_weeks: int | None = None,
 ) -> int:
     """Return the minimum history window needed to fully populate a profile."""
-    profile = get_feature_profile(feature_profile)
+    profile = configured_feature_profile(feature_profile, max_score_lag_weeks=max_score_lag_weeks)
     required = 1
     for key in ("lag_days", "roll_wins", "domain_wins", "long_wins", "ewm_spans"):
         values = profile.get(key, [])
@@ -707,6 +723,7 @@ def build_features(
     use_climatology: bool = True,
     use_region_stats: bool = True,
     feature_profile: str = "full",
+    max_score_lag_weeks: int | None = None,
     drop_feature_groups: list[str] | tuple[str, ...] | None = None,
 ) -> pd.DataFrame:
     """
@@ -726,7 +743,7 @@ def build_features(
        - Region profile statistics (mean, max, baseline)
     """
     print(f"  Building features for {'train' if is_train else 'test'} set...")
-    profile = get_feature_profile(feature_profile)
+    profile = configured_feature_profile(feature_profile, max_score_lag_weeks=max_score_lag_weeks)
 
     # Memory-efficient type reduction
     df = reduce_mem_usage(df)

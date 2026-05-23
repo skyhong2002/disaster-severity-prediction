@@ -151,6 +151,17 @@ def parse_args():
         default="",
         help="Comma-separated coarse feature groups to remove for ablation.",
     )
+    parser.add_argument(
+        "--max-score-lag-weeks",
+        type=int,
+        default=0,
+        help="Keep only score-history lag features up to this many weeks. 0 uses the profile default.",
+    )
+    parser.add_argument(
+        "--drop-feature-nan-rows",
+        action="store_true",
+        help="Exclude supervised training rows with missing or infinite feature values from model fitting.",
+    )
     return parser.parse_args()
 
 
@@ -261,6 +272,19 @@ def make_recency_weights(dates: pd.Series, half_life_days: float) -> np.ndarray 
     return np.clip(weights / np.mean(weights), 0.05, 20.0)
 
 
+def feature_ready_mask(X: pd.DataFrame, enabled: bool) -> pd.Series:
+    """Return complete-feature rows when the warmup filter is enabled."""
+    if not enabled:
+        return pd.Series(True, index=X.index)
+    ready = X.replace([np.inf, -np.inf], np.nan).notna().all(axis=1)
+    dropped = int((~ready).sum())
+    if dropped:
+        print(f"  Feature-NaN training filter: dropping {dropped} / {len(X)} supervised rows.")
+    else:
+        print("  Feature-NaN training filter: no rows dropped.")
+    return ready
+
+
 def best_lgb_iteration(model: lgb.LGBMRegressor, fallback: int) -> int:
     """Return a usable one-based best iteration for final refit."""
     best = getattr(model, "best_iteration_", None)
@@ -320,6 +344,7 @@ def train_one_horizon(
     recent_days: int,
     recency_half_life_days: float,
     final_train_mode: str,
+    drop_feature_nan_rows: bool,
 ) -> tuple[lgb.LGBMRegressor | AveragingRegressor, float, list[float], dict]:
     """Train a single LightGBM model for horizon `week`."""
     print(f"\n  --- Training horizon: week {week} ---")
@@ -336,7 +361,7 @@ def train_one_horizon(
 
     X = merged[feat_cols]
     y = merged[target_col]
-    usable_mask = apply_recent_filter(merged, recent_days)
+    usable_mask = apply_recent_filter(merged, recent_days) & feature_ready_mask(X, drop_feature_nan_rows)
 
     fold_maes = []
     fold_models = []
@@ -434,6 +459,8 @@ def main():
                 "recency_half_life_days": args.recency_half_life_days,
                 "regularized": args.regularized,
                 "final_train_mode": args.final_train_mode,
+                "max_score_lag_weeks": args.max_score_lag_weeks or None,
+                "drop_feature_nan_rows": args.drop_feature_nan_rows,
                 "drop_feature_groups": drop_groups,
             },
             "pipeline": [
@@ -462,6 +489,7 @@ def main():
         use_climatology=not args.no_climatology,
         use_region_stats=args.use_global_region_stats,
         feature_profile=args.feature_profile,
+        max_score_lag_weeks=args.max_score_lag_weeks or None,
         drop_feature_groups=drop_groups,
     )
     del train
@@ -487,6 +515,7 @@ def main():
             args.recent_days,
             args.recency_half_life_days,
             args.final_train_mode,
+            args.drop_feature_nan_rows,
         )
         models[week]     = model
         val_maes[week]   = val_mae
@@ -526,6 +555,8 @@ def main():
             "recency_half_life_days": args.recency_half_life_days,
             "regularized": args.regularized,
             "final_train_mode": args.final_train_mode,
+            "max_score_lag_weeks": args.max_score_lag_weeks or None,
+            "drop_feature_nan_rows": args.drop_feature_nan_rows,
             "drop_feature_groups": drop_groups,
         },
         "validation_strategy": args.validation_mode,

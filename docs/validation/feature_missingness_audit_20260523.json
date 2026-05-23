@@ -1,0 +1,256 @@
+{
+  "created_at": "2026-05-23T13:23:31",
+  "feature_options": {
+    "drop_feature_groups": [],
+    "drop_feature_nan_rows": false,
+    "feature_profile": "lean",
+    "max_score_lag_weeks": null,
+    "score_gap_days": 91,
+    "train_tail_days": 1095,
+    "use_climatology": true,
+    "use_region_stats": false,
+    "use_score_history": true
+  },
+  "raw_test_weather": {
+    "summary": {
+      "columns": 16,
+      "max_missing_rate": 0.0,
+      "missing_cell_count": 0,
+      "missing_feature_count": 0,
+      "rows": 204568
+    },
+    "top_missing": []
+  },
+  "raw_train_weather": {
+    "summary": {
+      "columns": 16,
+      "max_missing_rate": 0.0,
+      "missing_cell_count": 0,
+      "missing_feature_count": 0,
+      "rows": 12319040
+    },
+    "top_missing": []
+  },
+  "run_dir": "/Users/skyhong/Documents/GitHub/disaster-severity-prediction/experiments/20260521_153911_lightgbm_two_stage_lgbm_refit_full_lean_tail1095_20260521",
+  "test_last_features": {
+    "summary": {
+      "columns": 401,
+      "max_missing_rate": 0.0,
+      "missing_cell_count": 0,
+      "missing_feature_count": 0,
+      "rows": 2248
+    },
+    "top_missing": []
+  },
+  "train_weekly_features": {
+    "summary": {
+      "columns": 401,
+      "max_missing_rate": 0.4304635761589404,
+      "missing_cell_count": 1782664,
+      "missing_feature_count": 120,
+      "rows": 339448
+    },
+    "top_missing": [
+      {
+        "feature": "score_gap_lag52w",
+        "missing": 146120,
+        "missing_rate": 0.4304635761589404
+      },
+      {
+        "feature": "score_gap_lag26w",
+        "missing": 87672,
+        "missing_rate": 0.2582781456953642
+      },
+      {
+        "feature": "score_gap_lag12w",
+        "missing": 56200,
+        "missing_rate": 0.16556291390728478
+      },
+      {
+        "feature": "score_gap_lag8w",
+        "missing": 47208,
+        "missing_rate": 0.1390728476821192
+      },
+      {
+        "feature": "score_momentum_28d",
+        "missing": 38216,
+        "missing_rate": 0.11258278145695365
+      },
+      {
+        "feature": "score_gap_lag4w",
+        "missing": 38216,
+        "missing_rate": 0.11258278145695365
+      },
+      {
+        "feature": "score_momentum_14d",
+        "missing": 33720,
+        "missing_rate": 0.09933774834437085
+      },
+      {
+        "feature": "score_gap_lag2w",
+        "missing": 33720,
+        "missing_rate": 0.09933774834437085
+      },
+      {
+        "feature": "score_velocity_1w",
+        "missing": 31472,
+        "missing_rate": 0.09271523178807947
+      },
+      {
+        "feature": "score_gap_std365d",
+        "missing": 31472,
+        "missing_rate": 0.09271523178807947
+      },
+      {
+        "feature": "score_gap_lag1w",
+        "missing": 31472,
+        "missing_rate": 0.09271523178807947
+      },
+      {
+        "feature": "score_gap_std182d",
+        "missing": 31472,
+        "missing_rate": 0.09271523178807947
+      },
+      {
+        "feature": "score_gap_std91d",
+        "missing": 31472,
+        "missing_rate": 0.09271523178807947
+      },
+      {
+        "feature": "score_gap_lag0w",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_trend_13w_52w",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_mean91d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_max91d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_mean182d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_max182d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_mean365d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "score_gap_max365d",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "last_known_score",
+        "missing": 29224,
+        "missing_rate": 0.08609271523178808
+      },
+      {
+        "feature": "wind_range_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "wind_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "tmp_max_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "wb_tmp_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "wind_max_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "surf_tmp_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "tmp_range_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "wind_min_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "dp_tmp_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "tmp_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "surf_pre_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "tmp_min_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "prec_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "humidity_lag49",
+        "missing": 15736,
+        "missing_rate": 0.046357615894039736
+      },
+      {
+        "feature": "wind_range_lag42",
+        "missing": 13488,
+        "missing_rate": 0.039735099337748346
+      },
+      {
+        "feature": "tmp_range_lag42",
+        "missing": 13488,
+        "missing_rate": 0.039735099337748346
+      },
+      {
+        "feature": "prec_lag42",
+        "missing": 13488,
+        "missing_rate": 0.039735099337748346
+      },
+      {
+        "feature": "surf_tmp_lag42",
+        "missing": 13488,
+        "missing_rate": 0.039735099337748346
+      }
+    ]
+  }
+}

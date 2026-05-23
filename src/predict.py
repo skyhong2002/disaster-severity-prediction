@@ -45,6 +45,11 @@ def parse_args():
         default=None,
         help="Experiment run directory. Defaults to experiments/latest.txt.",
     )
+    parser.add_argument(
+        "--allow-missing-features",
+        action="store_true",
+        help="Continue even if final test feature rows contain NaN/inf values. Default fails fast.",
+    )
     return parser.parse_args()
 
 
@@ -105,6 +110,8 @@ def load_feature_options(run_dir: Path | None) -> dict:
         "use_region_stats": True,
         "feature_profile": "full",
         "train_tail_days": 0,
+        "max_score_lag_weeks": None,
+        "drop_feature_nan_rows": False,
         "drop_feature_groups": [],
     }
     if run_dir is None:
@@ -127,6 +134,44 @@ def apply_train_tail(train: pd.DataFrame, tail_days: int) -> pd.DataFrame:
         .tail(tail_days)
         .reset_index(drop=True)
     )
+
+
+def audit_feature_missingness(X: pd.DataFrame) -> dict:
+    """Return a compact missing/non-finite feature audit for prediction input."""
+    clean = X.replace([np.inf, -np.inf], np.nan)
+    missing_counts = clean.isna().sum()
+    missing_counts = missing_counts[missing_counts > 0].sort_values(ascending=False)
+    return {
+        "rows": int(len(X)),
+        "columns": int(X.shape[1]),
+        "missing_feature_count": int(len(missing_counts)),
+        "missing_cell_count": int(missing_counts.sum()),
+        "max_missing_rate": float(missing_counts.max() / len(X)) if len(missing_counts) else 0.0,
+        "top_missing": {str(k): int(v) for k, v in missing_counts.head(30).items()},
+    }
+
+
+def enforce_prediction_feature_completeness(
+    X: pd.DataFrame,
+    run_dir: Path | None,
+    allow_missing: bool,
+) -> dict:
+    """Fail fast if final prediction rows have missing features."""
+    audit = audit_feature_missingness(X)
+    if run_dir is not None:
+        save_json(run_dir / "feature_missing_audit_predict.json", audit)
+    if audit["missing_feature_count"] == 0:
+        print("Feature missingness audit: no missing/non-finite values in final test rows.")
+        return audit
+    message = (
+        "Final test feature matrix contains missing/non-finite values: "
+        f"{audit['missing_feature_count']} columns, {audit['missing_cell_count']} cells. "
+        f"Top columns: {audit['top_missing']}"
+    )
+    if allow_missing:
+        print(f"WARNING: {message}")
+        return audit
+    raise ValueError(message)
 
 
 
@@ -175,6 +220,7 @@ def main():
         use_climatology=feature_options.get("use_climatology", True),
         use_region_stats=feature_options.get("use_region_stats", True),
         feature_profile=feature_options.get("feature_profile", "full"),
+        max_score_lag_weeks=feature_options.get("max_score_lag_weeks"),
         drop_feature_groups=feature_options.get("drop_feature_groups", []),
     )
     
@@ -199,6 +245,7 @@ def main():
         raise ValueError(f"Missing {len(missing_cols)} model feature columns, e.g. {missing_cols[:10]}")
     feat_cols = expected_cols
     X_test    = test_last[feat_cols]
+    feature_missing_audit = enforce_prediction_feature_completeness(X_test, run_dir, args.allow_missing_features)
 
     preds = {}
     for week in range(1, N_WEEKS + 1):
@@ -254,6 +301,7 @@ def main():
                 "global_submission_path": out_path,
                 "run_submission_path": run_submission_path,
                 "rows": len(submission),
+                "feature_missing_audit": feature_missing_audit,
                 "prediction_stats": pred_stats,
             },
         )

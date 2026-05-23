@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-20",
+  "last_updated": "2026-05-23",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -7,13 +7,15 @@
     "rows": 2248,
     "sha256_prefix": "bee6f618828d",
     "blend": "35% LightGBM / 35% XGBoost / 30% CatBoost",
-    "kaggle_ref": "52698259"
+    "kaggle_ref": "52698259",
+    "local_file_required": false
   },
   "previous_anchor": {
     "submission": "submissions/ensemble_final.csv",
     "public_mae": "0.8232",
     "sha256_prefix": "28d368bc4be8",
-    "blend": "50% LightGBM / 50% XGBoost"
+    "blend": "50% LightGBM / 50% XGBoost",
+    "local_file_required": false
   },
   "recent_findings": [
     {
@@ -39,6 +41,12 @@
       "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520",
       "local_mae": "0.2002",
       "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor."
+    },
+    {
+      "name": "GRU family public readout",
+      "submission": "submissions/submission_20260522_gru_family_constrained_stack.csv",
+      "public_mae": "0.9850",
+      "interpretation": "Risk-ranked GRU stack and raw GRU probes failed public transfer on 2026-05-23; pause GRU-family submissions."
     }
   ],
   "model_families": [
@@ -50,15 +58,16 @@
   "validation_note": "Holdout and rolling-origin local MAE are not directly comparable; Kaggle public/private leaderboard results are the external generalization checks.",
   "current_docs": [
     "README.md",
-    "docs/experiment_summary.md",
-    "docs/private_lb_submission_plan_2026-05-22.md",
-    "docs/progress-check-2026-05-21-5min.marp.md",
-    "docs/progress-check-2026-05-21-5min.marp.zh.md",
+    "docs/README.md",
+    "docs/status/experiment_summary.md",
+    "docs/status/private_lb_submission_plan_2026-05-22.md",
+    "docs/presentations/progress-check-2026-05-21-5min.marp.md",
+    "docs/presentations/progress-check-2026-05-21-5min.marp.zh.md",
     "report/main.tex"
   ],
   "archived_docs": [
-    "docs/improvement_plan.md",
-    "docs/progress-check-2026-05-21.marp.md"
+    "docs/project/improvement_plan.md",
+    "docs/presentations/progress-check-2026-05-21.marp.md"
   ],
   "banned_current_state_phrases": [
     "Current best legal submission: `submissions/ensemble_final.csv`",

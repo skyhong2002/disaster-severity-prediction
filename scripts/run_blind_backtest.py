@@ -75,6 +75,7 @@ def main():
         str(feature_options.get("feature_profile", "micro")),
         score_gap_days=int(feature_options.get("score_gap_days", args.blind_days)),
         use_score_history=bool(feature_options.get("use_score_history", False)),
+        max_score_lag_weeks=feature_options.get("max_score_lag_weeks"),
     )
     if args.history_tail_days < required_days:
         print(

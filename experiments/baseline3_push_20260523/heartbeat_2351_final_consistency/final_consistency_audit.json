@@ -1,0 +1,45 @@
+{
+  "created_at_utc": "2026-05-23T15:51:01Z",
+  "competition": "data-mining-2026-final-project",
+  "live_leaderboard_check": {
+    "source": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/kaggle_leaderboard_live.txt",
+    "team5_public_mae": 0.7991,
+    "team5_rank": 5,
+    "baseline3_public_mae": 0.8056,
+    "baseline3_rank": 6,
+    "stop_condition_crossed": true
+  },
+  "process_check": {
+    "tmux_missingness_shift_running": false,
+    "training_prediction_submission_running": false
+  },
+  "fixes_applied": [
+    {
+      "file": "report/main.tex",
+      "change": "Changed remaining 'best legal public submission' wording to 'best reportable public submission'."
+    },
+    {
+      "file": "docs/status/current_state.json",
+      "change": "Added report_integration and final_consistency_audit pointers under baseline3_push."
+    },
+    {
+      "file": "docs/status/baseline3_push_20260523.md",
+      "change": "Appended the 23:51 final consistency audit section."
+    },
+    {
+      "file": "docs/status/baseline3_push_20260523.json",
+      "change": "Updated refresh time, mode, and final_consistency_audit metadata."
+    }
+  ],
+  "decision": {
+    "public_chase_closed": true,
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru_today",
+    "selected_submission_if_allowed": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+    "selected_submission_public_mae": 0.7991,
+    "selected_submission_label": "public-chase",
+    "reportable_lineage": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+    "reportable_lineage_public_mae": 0.8124,
+    "reportable_lineage_label": "reportable"
+  },
+  "next_best_action": "Prepare a focused commit/review of report and status documentation; no additional Kaggle submissions are recommended."
+}

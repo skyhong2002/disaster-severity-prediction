@@ -1,0 +1,409 @@
+{
+  "blocked_source_patterns": [
+    "restored_20260522_",
+    "restored_unverified_"
+  ],
+  "candidates": [
+    {
+      "alphas": [
+        0.325,
+        0.375,
+        0.475,
+        0.625,
+        0.775
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv",
+        "prediction_max": 3.739599115268484,
+        "prediction_mean": 0.9637374238440326,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7659820729786879,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "293531f60aa1",
+        "sha256": "293531f60aa194024c810f685656e4d23f67b3ef4e3b8fa1454da2536a47b1b5"
+      },
+      "base": "v0_08094",
+      "decision": "passes_baseline3_and_adds_frontier_evidence",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.21351565893072427,
+      "mean_abs_delta_to_reportable_anchor": 0.20523271321986108,
+      "name": "baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv",
+      "rationale": "Tests whether the public optimum sits slightly left of the current 0.7930 horizon hedge.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:53:14.270000",
+        "description": "20260525 v1 hedge left-of-best horizon",
+        "kaggle_ref": 53003193,
+        "private_mae": null,
+        "public_mae": 0.7929,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003193/53003193.raw"
+      }
+    },
+    {
+      "alphas": [
+        0.375,
+        0.425,
+        0.525,
+        0.675,
+        0.825
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv",
+        "prediction_max": 3.6678702123724176,
+        "prediction_mean": 0.9552903817301959,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7675703906530555,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "eef241fc2218",
+        "sha256": "eef241fc22182945b2a83911da1f0524a3e405c00aa71a8a655f843f86365304"
+      },
+      "base": "v0_08094",
+      "decision": "passes_baseline3_and_adds_frontier_evidence",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.23445307753825353,
+      "mean_abs_delta_to_reportable_anchor": 0.1842952946123318,
+      "name": "baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv",
+      "rationale": "Midpoint between the best public hedge and the near-best stronger private hedge.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:54:17.373000",
+        "description": "20260525 v1 hedge midpoint frontier",
+        "kaggle_ref": 53003210,
+        "private_mae": null,
+        "public_mae": 0.7931,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003210/53003210.raw"
+      }
+    },
+    {
+      "alphas": [
+        0.35,
+        0.425,
+        0.55,
+        0.725,
+        0.9
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv",
+        "prediction_max": 3.6905352894781127,
+        "prediction_mean": 0.9510380410071168,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7699457747955923,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "2b58d70fc4a7",
+        "sha256": "2b58d70fc4a7d3ea7994cd85cfb73d7d332d7093828b0d2aac547350b33995cf"
+      },
+      "base": "v0_08094",
+      "decision": "passes_baseline3_and_adds_frontier_evidence",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24447712071423155,
+      "mean_abs_delta_to_reportable_anchor": 0.17427125143635375,
+      "name": "baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv",
+      "rationale": "Keeps week 1 near the best public hedge while moving later horizons closer to the clean anchor.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:54:26.993000",
+        "description": "20260525 v1 hedge early-public late-anchor",
+        "kaggle_ref": 53003215,
+        "private_mae": null,
+        "public_mae": 0.7927,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003215/53003215.raw"
+      }
+    },
+    {
+      "alphas": [
+        0.3,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+        "prediction_max": 3.742636297465978,
+        "prediction_mean": 0.9493111487331471,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.773134312919638,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "695c62a4eb28",
+        "sha256": "695c62a4eb283694fe70791231dd4fe90af7847eb6aa1e19a2d8ca8d2f2b48a7"
+      },
+      "base": "v0_08094",
+      "decision": "best_public_and_primary_selected_public_chase_candidate",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24803287551704917,
+      "mean_abs_delta_to_reportable_anchor": 0.17071549663353616,
+      "name": "baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "rationale": "Explores a stronger private hedge on late horizons without over-anchoring early horizons.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:54:35.963000",
+        "description": "20260525 v1 hedge public-early full-late",
+        "kaggle_ref": 53003220,
+        "private_mae": null,
+        "public_mae": 0.7922,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003220/53003220.raw"
+      }
+    },
+    {
+      "alphas": [
+        0.4,
+        0.475,
+        0.575,
+        0.75,
+        0.9
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+        "prediction_max": 3.638434281490248,
+        "prediction_mean": 0.9459881328683382,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7708342426750313,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "7adc27154921",
+        "sha256": "7adc271549214d51c1420252c5624abc6d6f2a51b127be21ba6affda88e32ef1"
+      },
+      "base": "v0_08094",
+      "decision": "stronger_private_hedge_alternative_below_baseline3",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.25724473682625504,
+      "mean_abs_delta_to_reportable_anchor": 0.1615036353243303,
+      "name": "baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+      "rationale": "Interpolates toward the most robust submitted horizon hedge while staying near the public-best frontier.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:54:43.910000",
+        "description": "20260525 v1 hedge robust mid frontier",
+        "kaggle_ref": 53003222,
+        "private_mae": null,
+        "public_mae": 0.7933,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003222/53003222.raw"
+      }
+    },
+    {
+      "alphas": [
+        0.425,
+        0.5,
+        0.6,
+        0.8,
+        0.95
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+        "prediction_max": 3.612383777496315,
+        "prediction_mean": 0.940063270691416,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7735384983388626,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "92f02f3f2a20",
+        "sha256": "92f02f3f2a20415e0102840c42aa7d0c5dc07bd57d7dd8207076768fbd10a4dc"
+      },
+      "base": "v0_08094",
+      "decision": "stronger_private_hedge_alternative_below_baseline3",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.2717376729051904,
+      "mean_abs_delta_to_reportable_anchor": 0.14701069924539492,
+      "name": "baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+      "rationale": "High-anchor smooth hedge for private-risk coverage while still retaining public-chase source signal.",
+      "reportable_method_claim": false,
+      "submission": {
+        "date": "2026-05-25 00:54:51.803000",
+        "description": "20260525 v1 hedge smooth high-anchor",
+        "kaggle_ref": 53003227,
+        "private_mae": null,
+        "public_mae": 0.7937,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu",
+        "team_name": "Team 5",
+        "url": "/submissions/53003227/53003227.raw"
+      }
+    }
+  ],
+  "competition": "data-mining-2026-final-project",
+  "created_at_utc": "2026-05-25T00:52:25+00:00",
+  "experiment_label": "private_hedge_frontier_20260525_0850",
+  "lineage_policy": [
+    "public-chase/final-selection artifact only",
+    "not a reportable method claim",
+    "no private labels or external answers used",
+    "do not use restored_20260522_* or restored_unverified_* sources"
+  ],
+  "live_readout": {
+    "baseline3_public_mae": 0.8056,
+    "best_public_candidate": {
+      "alphas": [
+        0.3,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "kaggle_ref": 53003220,
+      "label": "public-chase",
+      "mean_abs_delta_to_reportable_anchor": 0.17071549663353616,
+      "path": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "public_mae": 0.7922,
+      "reportable_method_claim": false,
+      "sha12": "695c62a4eb28"
+    },
+    "checked_at_taipei": "2026-05-25T08:59:27+08:00",
+    "checked_at_utc": "2026-05-25T00:59:27+00:00",
+    "gap_to_baseline3": -0.013399999999999967,
+    "kaggle_leaderboard_live": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/kaggle_leaderboard_live.txt",
+    "kaggle_submissions_live": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/kaggle_submissions_live.txt",
+    "next_best_action": "Quota is exhausted for 2026-05-25 UTC; wait for the 2026-05-26 08:00 Taipei reset, re-check live leaderboard/history, then continue only with adjacent horizon hedges if private-risk evidence is still needed.",
+    "next_quota_reset_taipei": "2026-05-26T08:00:00+08:00",
+    "quota_limit": 6,
+    "quota_remaining_today_utc": 0,
+    "quota_spent_today_utc": 6,
+    "reportable_method_lineage": {
+      "kaggle_ref": 52698259,
+      "label": "reportable",
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_mae": 0.8124,
+      "sha12": "bee6f618828d"
+    },
+    "stronger_private_hedges": [
+      {
+        "alphas": [
+          0.425,
+          0.5,
+          0.6,
+          0.8,
+          0.95
+        ],
+        "kaggle_ref": 53003227,
+        "label": "public-chase",
+        "mean_abs_delta_to_reportable_anchor": 0.14701069924539492,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+        "public_mae": 0.7937,
+        "sha12": "92f02f3f2a20"
+      },
+      {
+        "alphas": [
+          0.4,
+          0.475,
+          0.575,
+          0.75,
+          0.9
+        ],
+        "kaggle_ref": 53003222,
+        "label": "public-chase",
+        "mean_abs_delta_to_reportable_anchor": 0.1615036353243303,
+        "path": "submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+        "public_mae": 0.7933,
+        "sha12": "7adc27154921"
+      }
+    ],
+    "team5_public_mae": 0.7922,
+    "team5_rank": 3,
+    "team5_submission_date": "2026-05-25 00:54:51.803000"
+  },
+  "recommended_submission_order": [
+    "baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775",
+    "baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825",
+    "baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9",
+    "baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1",
+    "baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9",
+    "baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95"
+  ],
+  "sources": {
+    "cat35_08124": {
+      "key": "cat35_08124",
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_score": 0.8124,
+      "role": "clean_reportable_anchor",
+      "sha12": "bee6f618828d",
+      "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9"
+    },
+    "v0_08094": {
+      "key": "v0_08094",
+      "path": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv",
+      "public_score": 0.8094,
+      "role": "source_reference_only_public_chase",
+      "sha12": "2f1eb3575419",
+      "sha256": "2f1eb3575419ea0451de0b4edab58b672cc30ef420a579ec501e021ee58b1c23"
+    }
+  },
+  "updated_at_utc": "2026-05-25T00:59:27+00:00"
+}

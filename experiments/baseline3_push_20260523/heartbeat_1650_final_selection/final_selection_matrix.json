@@ -1,0 +1,177 @@
+{
+  "created_at_utc": "2026-05-23T08:51:35+00:00",
+  "mode": "private_robustness_final_selection_after_baseline3_cross",
+  "team5_public_mae": 0.7991,
+  "baseline3_public_mae": 0.8056,
+  "team5_rank": 5,
+  "stop_public_chase": true,
+  "quota_recommendation": "do_not_submit_more_today_unless_private_selection_requires_a_specific_already_generated_file",
+  "final_selection_recommendation": {
+    "leaderboard_optimal_submitted_file": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+    "leaderboard_optimal_public_mae": 0.7991,
+    "reportable_method_file": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+    "reportable_method_public_mae": 0.8124,
+    "do_not_select": [
+      "submission_20260522_gru_family_constrained_stack.csv",
+      "submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+      "restored_20260522_*",
+      "restored_unverified_*"
+    ]
+  },
+  "candidates": [
+    {
+      "name": "public_chase_best_alpha_p035",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "label": "public-chase",
+      "reportable": false,
+      "publicScore": 0.7991,
+      "kaggleDate": "2026-05-23 07:36:36.120000",
+      "privateRisk": "high_public_overfit_or_public_reference_blend_risk",
+      "recommendation": "final_selection_candidate_if_rule_allows; do_not_use_as_reportable_method_claim",
+      "rationale": "Best live public score 0.7991 and crossed Baseline 3, but generated from exact historical public-reference blend rather than a clean model improvement.",
+      "audit": {
+        "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "d550c9cbc465d52f520756e3e97072f1e7bfe6a13150ba2ed8c6204632264a79",
+        "sha12": "d550c9cbc465",
+        "prediction_min": 0.0,
+        "prediction_max": 3.8105149352457026,
+        "prediction_mean": 0.99176333138505,
+        "prediction_std_mean": 0.7660611056399406,
+        "exists": true
+      }
+    },
+    {
+      "name": "reportable_legal_anchor_cat35",
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "label": "reportable",
+      "reportable": true,
+      "publicScore": 0.8124,
+      "kaggleDate": "2026-05-16 04:53:01.467000",
+      "privateRisk": "medium_best_clean_lineage_but_weaker_public",
+      "recommendation": "primary_reportable_model_lineage; conservative_final_fallback",
+      "rationale": "Clean recovered exact legal anchor with known 35/35/30 LGB/XGB/CatBoost lineage and SHA match.",
+      "audit": {
+        "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9",
+        "sha12": "bee6f618828d",
+        "prediction_min": 0.0,
+        "prediction_max": 3.582823817811203,
+        "prediction_mean": 0.8819517839051713,
+        "prediction_std_mean": 0.8184469105693057,
+        "exists": true
+      }
+    },
+    {
+      "name": "historical_public_reference_v0",
+      "path": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv",
+      "label": "public-chase-source-reference-only",
+      "reportable": false,
+      "publicScore": 0.8094,
+      "kaggleDate": "2026-05-12 12:02:04.213000",
+      "privateRisk": "unknown_legacy_reference",
+      "recommendation": "reference_only_do_not_claim_as_current_method",
+      "rationale": "Strong historical public score but not current clean reportable lineage.",
+      "audit": {
+        "path": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "2f1eb3575419ea0451de0b4edab58b672cc30ef420a579ec501e021ee58b1c23",
+        "sha12": "2f1eb3575419",
+        "prediction_min": 0.0,
+        "prediction_max": 4.277565886988983,
+        "prediction_mean": 1.0508926261819078,
+        "prediction_std_mean": 0.799321699995257,
+        "exists": true
+      }
+    },
+    {
+      "name": "gru_constrained_stack",
+      "path": "submissions/submission_20260522_gru_family_constrained_stack.csv",
+      "label": "reportable-experiment",
+      "reportable": false,
+      "publicScore": 0.985,
+      "kaggleDate": "2026-05-23 05:16:04.340000",
+      "privateRisk": "rejected_by_public_transfer",
+      "recommendation": "do_not_select_final",
+      "rationale": "Public MAE 0.9850 after submission; validation did not transfer.",
+      "audit": {
+        "path": "submissions/submission_20260522_gru_family_constrained_stack.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "2bf9f97b852aafa5fe363f6cf581179f4ffb20545c2e5c7fbea3d68468af61ad",
+        "sha12": "2bf9f97b852a",
+        "prediction_min": 0.0,
+        "prediction_max": 4.997,
+        "prediction_mean": 0.6717561187330994,
+        "prediction_std_mean": 0.9167648338472029,
+        "exists": true
+      }
+    },
+    {
+      "name": "raw_gru",
+      "path": "submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+      "label": "reportable-experiment",
+      "reportable": false,
+      "publicScore": 0.9916,
+      "kaggleDate": "2026-05-23 05:16:16.130000",
+      "privateRisk": "rejected_by_public_transfer",
+      "recommendation": "do_not_select_final",
+      "rationale": "Public MAE 0.9916 after submission; validation did not transfer.",
+      "audit": {
+        "path": "submissions/submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "5ca7f847eba15e189aec400c14c1e00ae3e3427b2c4b84a28d4469032e065080",
+        "sha12": "5ca7f847eba1",
+        "prediction_min": 0.0,
+        "prediction_max": 5.0,
+        "prediction_mean": 0.6918924744481203,
+        "prediction_std_mean": 0.9361963658875851,
+        "exists": true
+      }
+    }
+  ],
+  "live_artifacts": {
+    "leaderboard": "experiments/baseline3_push_20260523/heartbeat_1650_final_selection/kaggle_leaderboard_live.txt",
+    "submissions": "experiments/baseline3_push_20260523/heartbeat_1650_final_selection/kaggle_submissions_live.txt"
+  }
+}

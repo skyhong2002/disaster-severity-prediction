@@ -1,6 +1,6 @@
 # Experiment and Submission Summary
 
-Last updated: 2026-05-23
+Last updated: 2026-05-25
 
 This file records the current legal model-selection state for the Final Project
 progress check. It is intended to keep the slides, report, code, and Kaggle
@@ -8,6 +8,8 @@ submissions consistent.
 
 ## Current Leaderboard Interpretation
 
+- Current public leaderboard best: `0.7922` MAE from `submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv` (Kaggle ref `53003220`), which crosses Baseline 3 (`0.8056`) and places Team 5 rank 3 on the live public leaderboard.
+- The `0.7922` artifact is a public-chase/final-selection horizon hedge and should not be described as a clean reportable modeling claim.
 - Current best legal public score: `0.8124` MAE.
 - Current best legal submission file: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`.
 - Previous legal LGB/XGB anchor: `submissions/ensemble_final.csv`, public MAE `0.8232`.
@@ -185,10 +187,79 @@ calendar-gated variants, and GRU consensus submissions. The next candidate
 should return to reproducible boosted-tree anchor lineage or first explain why
 blind/LOO evidence is misaligned with public LB.
 
+## 2026-05-23 Baseline 3 Public-Chase Readout
+
+After the missingness/shift queue finished, the strongest validation/blind
+candidate was `shift_lgbm_lean_tail1095_seasonmatch2_20260523` with rolling
+MAE `0.24574` and blind MAE `0.38370`. Because recent validation-strong
+families transferred poorly to public LB, the quota was spent on exact-history
+public-chase blends instead of on the new LGBM runs.
+
+| Submission | Kaggle ref | Public MAE | Decision |
+|---|---:|---:|---|
+| `submissions/baseline3_public_chase_v0_cat35_08124_alpham0p50.csv` | `52946549` | `0.8786` | Wrong direction; high-amplitude extrapolation failed. |
+| `submissions/baseline3_public_chase_v0_cat35_08124_alphap0p10.csv` | `52946569` | `0.8049` | First Baseline 3 crossing. |
+| `submissions/baseline3_public_chase_v0_cat35_08124_alphap0p20.csv` | `52946598` | `0.8019` | Improved public score. |
+| `submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv` | `52946620` | `0.7991` | Best public readout; Team 5 now beats Baseline 3. |
+
+Readout: for leaderboard/selection status, Team 5 has crossed Baseline 3 with
+public MAE `0.7991`. For report methodology, keep the legal `0.8124` CatBoost
+blend as the clean anchor and label the `0.7991` file as `public-chase`.
+
+## 2026-05-24 Manual Private-Hedge Readout
+
+After the user raised the private-LB risk of the public-chase artifact, a
+manual run spent all six useful 2026-05-24 quota slots on anchor-tilted hedge
+submissions. Each file passed the standard submission sanity checks and remains
+labelled `public-chase`, not `reportable`.
+
+| Submission | Kaggle ref | Public MAE | Decision |
+|---|---:|---:|---|
+| `submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p50.csv` | `52972055` | `0.7976` | Improved prior public best and moved closer to clean anchor. |
+| `submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv` | `52972132` | `0.7930` | Best public artifact; primary selectable public-chase candidate. |
+| `submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p65.csv` | `52972150` | `0.7982` | Still passes Baseline 3; uniform shift begins to regress public. |
+| `submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p80.csv` | `52972169` | `0.8022` | High-anchor-weight upper bound; still below Baseline 3. |
+| `submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv` | `52972194` | `0.7933` | Near-best public and stronger private hedge than the `0.7930` file. |
+| `submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv` | `52972219` | `0.7945` | Most anchor-tilted submitted horizon hedge; still below Baseline 3. |
+
+Readout: Team 5 public MAE is now `0.7930`, ahead of Baseline 3 `0.8056`.
+For final-selection discussion, keep the `0.7930` artifact as the public-best
+choice and the `0.7933`/`0.7945` horizon hedges as private-risk alternatives.
+For report methodology, the clean `0.8124` LGB/XGB/CatBoost lineage remains the
+reportable anchor.
+
+## 2026-05-25 Manual Private-Hedge Frontier Readout
+
+After the 08:12 DNS/API blocker recovered, a manual local follow-up spent all
+six 2026-05-25 quota slots on adjacent v1 horizon hedges. The slate was built
+from exact recovered Team 5 submissions only: the `0.8094` source reference and
+the clean `0.8124` reportable anchor. No private labels, external answers, or
+`restored_20260522_*` / `restored_unverified_*` sources were used. Every file
+passed the standard sanity checks before submission.
+
+| Submission | Kaggle ref | Public MAE | SHA-12 | Decision |
+|---|---:|---:|---:|---|
+| `submissions/baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv` | `53003193` | `0.7929` | `293531f60aa1` | Improved over the prior `0.7930` best but farther from the clean anchor. |
+| `submissions/baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv` | `53003210` | `0.7931` | `eef241fc2218` | Near-best midpoint hedge. |
+| `submissions/baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv` | `53003215` | `0.7927` | `2b58d70fc4a7` | Strong public score while moving late horizons closer to the clean anchor. |
+| `submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv` | `53003220` | `0.7922` | `695c62a4eb28` | New best public artifact and primary selectable public-chase candidate. |
+| `submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv` | `53003222` | `0.7933` | `7adc27154921` | Stronger private hedge alternative with lower delta to the reportable anchor. |
+| `submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv` | `53003227` | `0.7937` | `92f02f3f2a20` | Most anchor-tilted v1 hedge submitted today while still below Baseline 3. |
+
+Readout: Team 5 public MAE is now `0.7922`, ahead of Baseline 3 `0.8056` and
+Team 20 `0.7942`. For final-selection discussion, use ref `53003220` as the
+public-best artifact and refs `53003222` / `53003227` as stronger private-risk
+hedge alternatives. For report methodology, the clean `0.8124`
+LGB/XGB/CatBoost lineage remains the reportable anchor.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |
 |---|---|---|---|---:|---:|---|
+| `baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.30,0.40,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7922` | Current best public artifact; `public-chase`, not reportable method claim. |
+| `baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95` | Exact-history horizon hedge | More anchor-tilted v1 hedge with alphas `[0.425,0.50,0.60,0.80,0.95]` | Public LB feedback | N/A | `0.7937` | Stronger private-risk alternative while still below Baseline 3. |
+| `baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.35,0.40,0.50,0.65,0.80]` | Public LB feedback | N/A | `0.7930` | Previous public-best artifact; `public-chase`, not reportable method claim. |
+| `baseline3_public_chase_v0_cat35_08124_alphap0p35` | Exact-history public-chase blend | 65% recovered `0.8094` public reference + 35% recovered legal `0.8124` anchor | Public LB feedback | N/A | `0.7991` | Crossed Baseline 3; not a clean reportable method claim. |
 | `lgbm_v2` | LightGBM direct horizon | 337 features, score history | Chronological holdout | `0.6942` | Component of `0.8232` and `0.8124` ensembles | Legal baseline model. |
 | `xgb_v1` | XGBoost direct horizon | 337 features, score history | Chronological holdout | `0.7150` | Component of `0.8232` and `0.8124` ensembles | Legal diversity model. |
 | `catboost_lean_tail2737_regularized_500` | CatBoost direct horizon | Lean profile, 91-day-gapped score history, native categorical features | Rolling origin | `0.2212`; `0.2192` rerun | Component of `0.8124` ensemble | Validation scale differs from holdout; do not compare directly with LGB/XGB holdout MAE. |

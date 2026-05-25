@@ -1,0 +1,136 @@
+{
+  "created_at_taipei": "2026-05-25T08:12:38+08:00",
+  "created_at_utc": "2026-05-25T00:12:38Z",
+  "competition": "data-mining-2026-final-project",
+  "automation_id": "daily-kaggle-submission-plan",
+  "mode": "daily_quota_check_after_public_cross",
+  "baseline3_public_mae": 0.8056,
+  "live_check_status": "blocked_dns_api_kaggle_com",
+  "blocker": {
+    "kind": "dns_resolution_failed",
+    "curl": {
+      "cmd": "curl -I --max-time 10 https://api.kaggle.com",
+      "returncode": 6,
+      "stderr": "curl: (6) Could not resolve host: api.kaggle.com"
+    },
+    "kaggle_submissions": {
+      "cmd": "UV_CACHE_DIR=.uv-cache uv run kaggle competitions submissions -c data-mining-2026-final-project",
+      "returncode": 1,
+      "stderr": "HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with url: /v1/competitions.CompetitionApiService/ListSubmissions (Caused by NameResolutionError(\"HTTPSConnection(host='api.kaggle.com', port=443): Failed to resolve 'api.kaggle.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
+    },
+    "kaggle_leaderboard": {
+      "cmd": "UV_CACHE_DIR=.uv-cache uv run kaggle competitions leaderboard data-mining-2026-final-project -s",
+      "returncode": 1,
+      "stderr": "HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with url: /v1/competitions.CompetitionApiService/GetLeaderboard (Caused by NameResolutionError(\"HTTPSConnection(host='api.kaggle.com', port=443): Failed to resolve 'api.kaggle.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
+    },
+    "nslookup": {
+      "cmd": "nslookup api.kaggle.com 1.1.1.1",
+      "returncode": 10,
+      "stderr": "nslookup failed in this sandbox with isc_socket_bind: Operation not permitted"
+    }
+  },
+  "tmux": {
+    "checked_command": "tmux ls",
+    "missingness_shift_20260523_active": false,
+    "sessions_visible": []
+  },
+  "orchestrator_submit_command": "uv run python scripts/run_baseline3_push.py --submit --allow-missing-features",
+  "orchestrator_submit_status": "not_run_because_live_history_and_leaderboard_were_unreachable",
+  "ran_submit": false,
+  "quota_spent": 0,
+  "quota_policy": "提交前必須先能重新抓 live submission history 與 leaderboard；DNS 阻塞時不執行 --submit，避免在 unknown live state 下嘗試提交。",
+  "last_verified_live_snapshot": {
+    "verified_at_taipei": "2026-05-24T10:49:42+08:00",
+    "team5_public_mae": 0.793,
+    "baseline3_public_mae": 0.8056,
+    "team5_rank": 3,
+    "stop_condition_crossed": true,
+    "source": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json"
+  },
+  "local_sanity_checks": [
+    {
+      "role": "public_chase_best",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "kaggle_ref": 52972132,
+      "public_mae": 0.793,
+      "label": "public-chase",
+      "rows": 2248,
+      "columns_match_sample": true,
+      "region_id_order_match_sample": true,
+      "has_nan": false,
+      "prediction_min": 0.0,
+      "prediction_max": 3.703734663820451,
+      "prediction_range_ok": true,
+      "blocked_filename_pattern": false,
+      "sha256": "d2ba4500363eb5a4dc79fd175a570a60869a4fee9ac26ad2b8a0513b82d1ed5d",
+      "sha12": "d2ba4500363e",
+      "sanity_passed": true
+    },
+    {
+      "role": "private_hedge_alt_0p7933",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "kaggle_ref": 52972194,
+      "public_mae": 0.7933,
+      "label": "public-chase",
+      "rows": 2248,
+      "columns_match_sample": true,
+      "region_id_order_match_sample": true,
+      "has_nan": false,
+      "prediction_min": 0.0,
+      "prediction_max": 3.638434281490248,
+      "prediction_range_ok": true,
+      "blocked_filename_pattern": false,
+      "sha256": "a417100cad2b84da949239dbfbcb1c5c2b992fb1f53e043500eb8f3fe4df9082",
+      "sha12": "a417100cad2b",
+      "sanity_passed": true
+    },
+    {
+      "role": "private_hedge_alt_0p7945",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+      "kaggle_ref": 52972219,
+      "public_mae": 0.7945,
+      "label": "public-chase",
+      "rows": 2248,
+      "columns_match_sample": true,
+      "region_id_order_match_sample": true,
+      "has_nan": false,
+      "prediction_min": 0.0,
+      "prediction_max": 3.5863332735023827,
+      "prediction_range_ok": true,
+      "blocked_filename_pattern": false,
+      "sha256": "419d11ce0a81dfea19716eff49c45e8b003eb85e3c156bc760883af89eb6fbb1",
+      "sha12": "419d11ce0a81",
+      "sanity_passed": true
+    },
+    {
+      "role": "reportable_lineage",
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "kaggle_ref": 52698259,
+      "public_mae": 0.8124,
+      "label": "reportable",
+      "rows": 2248,
+      "columns_match_sample": true,
+      "region_id_order_match_sample": true,
+      "has_nan": false,
+      "prediction_min": 0.0,
+      "prediction_max": 3.582823817811203,
+      "prediction_range_ok": true,
+      "blocked_filename_pattern": false,
+      "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9",
+      "sha12": "bee6f618828d",
+      "sanity_passed": true
+    }
+  ],
+  "local_sanity_passed": true,
+  "recommendation": {
+    "submit_now": false,
+    "reason": "Kaggle live API 無法解析，今天 08:12 尚不能確認 live submission history / leaderboard；上次可驗證狀態已經低於 Baseline 3，因此不應盲目 public-chase。",
+    "when_dns_recovers": "先重新抓 submissions 與 leaderboard；若 Team 5 仍小於 0.8056，維持 private robustness 與 reportable lineage cleanup，不提交 public-only 變體。",
+    "selected_public_artifact_if_final_selection_needed": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+    "private_hedge_alternatives": [
+      "submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv"
+    ],
+    "reportable_lineage": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv"
+  }
+}

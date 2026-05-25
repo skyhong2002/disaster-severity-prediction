@@ -1,0 +1,600 @@
+{
+  "note": "Use one probe at a time and refresh public score before choosing the next direction. The negative-alpha ladder extrapolates away from the weaker 0.8124 anchor toward higher-amplitude variants of the 0.8094 public reference.",
+  "recommended_probe_order": [
+    "baseline3_public_chase_v0_cat35_08124_alpham0p50",
+    "baseline3_public_chase_v0_cat35_08124_alpham1p25",
+    "baseline3_public_chase_v0_cat35_08124_alpham0p10",
+    "baseline3_public_chase_v0_cat35_08124_alphap0p10",
+    "baseline3_public_chase_v0_cat35_08124_alphap0p20",
+    "baseline3_public_chase_v0_cat35_08124_alphap0p35",
+    "baseline3_private_hedge_v0_cat35_08124_alphap0p50",
+    "baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8",
+    "baseline3_private_hedge_v0_cat35_08124_alphap0p65",
+    "baseline3_public_chase_v0_affine_scale1p025_biasp0p000",
+    "baseline3_public_chase_v0_affine_scale0p975_biasp0p000"
+  ],
+  "sources": {
+    "cat35_08124": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_score": 0.8124,
+      "sha12": "bee6f618828d",
+      "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9"
+    },
+    "cat40_08168": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260519_lgb_xgb_cat2737_30_30_40.csv",
+      "public_score": 0.8168,
+      "sha12": "c6feb571cfd1",
+      "sha256": "c6feb571cfd189f5e0f77f5553c05be8fb2d89ba36f90c02f62703c78966d4f4"
+    },
+    "ensemble_final_08232": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_final.csv",
+      "public_score": 0.8232,
+      "sha12": "28d368bc4be8",
+      "sha256": "28d368bc4be857d8d10ef0b9ccaaa85bc5a65a39f250bbeb76f9191a83c54615"
+    },
+    "ramp_08138": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv",
+      "public_score": 0.8138,
+      "sha12": "21aeffe36801",
+      "sha256": "21aeffe3680171fb8e90cbc02f4c778f156bf53d59c5ccb400e18adcbea5ae73"
+    },
+    "v0_08094": {
+      "path": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv",
+      "public_score": 0.8094,
+      "sha12": "2f1eb3575419",
+      "sha256": "2f1eb3575419ea0451de0b4edab58b672cc30ef420a579ec501e021ee58b1c23"
+    }
+  },
+  "variants": [
+    {
+      "alpha": -1.25,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham1p25",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham1p25.csv",
+      "prediction_max": 5.0,
+      "prediction_mean": 1.2991219787754402,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 1.094699383421477,
+      "rows": 2248,
+      "sha12": "2d11c3b8b625",
+      "sha256": "2d11c3b8b62583afce9c81a09c87c632717e59c5bc2495f7e5f180805b3e00d4"
+    },
+    {
+      "alpha": -1.0,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham1p00",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham1p00.csv",
+      "prediction_max": 5.0,
+      "prediction_mean": 1.2443375035321353,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 1.0318521061844588,
+      "rows": 2248,
+      "sha12": "c9c5f9d33f21",
+      "sha256": "c9c5f9d33f2134d507e11763ae87af351814ddc4a9b7d79fa83776b9c7c9c4e3"
+    },
+    {
+      "alpha": -0.75,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham0p75",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham0p75.csv",
+      "prediction_max": 5.0,
+      "prediction_mean": 1.191050450889502,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.9688392950705804,
+      "rows": 2248,
+      "sha12": "30d17a4389ed",
+      "sha256": "30d17a4389edf06110fbe4a146c2fbce36bee26ba8ce1d13b1ba694251defca0"
+    },
+    {
+      "alpha": -0.5,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham0p50",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham0p50.csv",
+      "prediction_max": 4.994854915949647,
+      "prediction_mean": 1.1408742542242063,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.9039073697257181,
+      "rows": 2248,
+      "sha12": "3528a348ddb1",
+      "sha256": "3528a348ddb1b67f41c45f3fde7cee4c08dbc3c0a66a5a07c06bf8d2b5222e1b"
+    },
+    {
+      "alpha": -0.25,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham0p25",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham0p25.csv",
+      "prediction_max": 4.636210401469315,
+      "prediction_mean": 1.0948601747252231,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.8447486349021981,
+      "rows": 2248,
+      "sha12": "c980ee7fc664",
+      "sha256": "c980ee7fc66468d5fb5d8a1022b6f83bc7df8ae332950e6e78b4a8f1e855aae0"
+    },
+    {
+      "alpha": -0.1,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alpham0p10",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alpham0p10.csv",
+      "prediction_max": 4.421023692781116,
+      "prediction_mean": 1.0682332675435022,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.8156369524921393,
+      "rows": 2248,
+      "sha12": "e25fbe63ef21",
+      "sha256": "e25fbe63ef21e1f142bded9ead1f7eb86ac93c58d09564bf3e3c5f82827993f0"
+    },
+    {
+      "alpha": 0.05,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p05",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p05.csv",
+      "prediction_max": 4.205836984092916,
+      "prediction_mean": 1.042445584068071,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7920362599512943,
+      "rows": 2248,
+      "sha12": "893f46383e12",
+      "sha256": "893f46383e12d6c746b3f183a2787725cb52e4f9960ab0a52a881a575661eb38"
+    },
+    {
+      "alpha": 0.1,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p10",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p10.csv",
+      "prediction_max": 4.13410808119685,
+      "prediction_mean": 1.0339985419542344,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7855658599916897,
+      "rows": 2248,
+      "sha12": "4fd16f09a095",
+      "sha256": "4fd16f09a095631a53ce548721048a47571d636762f59b60f9a5e3ed9709d87b"
+    },
+    {
+      "alpha": 0.2,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p20",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p20.csv",
+      "prediction_max": 3.9906502754047173,
+      "prediction_mean": 1.0171044577265609,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.775148152075045,
+      "rows": 2248,
+      "sha12": "3ddeab41aa75",
+      "sha256": "3ddeab41aa756579a682edacfb3c076b29f9739048b0b66e01887cb27bf2c579"
+    },
+    {
+      "alpha": 0.3,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p30",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p30.csv",
+      "prediction_max": 3.869431334581203,
+      "prediction_mean": 1.000210373498887,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7682019194253131,
+      "rows": 2248,
+      "sha12": "49972458cbee",
+      "sha256": "49972458cbee73ee9f10974197f29657a3f7361250c766ee67463743f293f539"
+    },
+    {
+      "alpha": 0.35,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p35",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "prediction_max": 3.8105149352457026,
+      "prediction_mean": 0.9917633313850501,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7660611056399405,
+      "rows": 2248,
+      "sha12": "d550c9cbc465",
+      "sha256": "d550c9cbc465d52f520756e3e97072f1e7bfe6a13150ba2ed8c6204632264a79"
+    },
+    {
+      "alpha": 0.4,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_08124_alphap0p40",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p40.csv",
+      "prediction_max": 3.751598535910202,
+      "prediction_mean": 0.9833162892712133,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7648189993842284,
+      "rows": 2248,
+      "sha12": "694a0c93bd27",
+      "sha256": "694a0c93bd27f61d5dbe2f63d8f443950247951067e11af09f6cb938b75189dc"
+    },
+    {
+      "alpha": 0.1,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8138
+      },
+      "name": "baseline3_public_chase_v0_ramp_08138_alphap0p10",
+      "other": "ramp_08138",
+      "path": "submissions/baseline3_public_chase_v0_ramp_08138_alphap0p10.csv",
+      "prediction_max": 4.143259465251661,
+      "prediction_mean": 1.0338074669661985,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7853369407178873,
+      "rows": 2248,
+      "sha12": "f3329d4d1ad5",
+      "sha256": "f3329d4d1ad5f41ff8fbee0b00826e273d7613e164f81a4efd757d8cd3c615bd"
+    },
+    {
+      "alpha": 0.05,
+      "base": "v0_08094",
+      "kind": "convex_or_extrapolated_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8232
+      },
+      "name": "baseline3_public_chase_v0_ensemble_final_08232_alphap0p05",
+      "other": "ensemble_final_08232",
+      "path": "submissions/baseline3_public_chase_v0_ensemble_final_08232_alphap0p05.csv",
+      "prediction_max": 4.23329113625735,
+      "prediction_mean": 1.046771419233871,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7985618331727938,
+      "rows": 2248,
+      "sha12": "1808831ed397",
+      "sha256": "1808831ed397084f83fd69e0595051380bc4130f04a50560e05387a6d954d6df"
+    },
+    {
+      "alpha": 0.5,
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_hedge_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_08124_alphap0p50",
+      "note": "Closer to the clean 0.8124 reportable anchor than the 0.35 public-chase best; still not a reportable method claim.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p50.csv",
+      "prediction_max": 3.6337657372392016,
+      "prediction_mean": 0.9664222050435395,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.765043876976486,
+      "rows": 2248,
+      "sha12": "2dd02ae9e429",
+      "sha256": "2dd02ae9e4292b6cfd74c1ade5c5d163844f0d903808598898057fb68e5101ea"
+    },
+    {
+      "alpha": 0.65,
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_hedge_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_08124_alphap0p65",
+      "note": "Closer to the clean 0.8124 reportable anchor than the 0.35 public-chase best; still not a reportable method claim.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p65.csv",
+      "prediction_max": 3.4570165392327006,
+      "prediction_mean": 0.9410810787020291,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7721196547441095,
+      "rows": 2248,
+      "sha12": "c30d494a8ba9",
+      "sha256": "c30d494a8ba905517aff6c09db37a189da346f8a7c8d865177f03d2f9a724d65"
+    },
+    {
+      "alpha": 0.8,
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_hedge_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_08124_alphap0p80",
+      "note": "Closer to the clean 0.8124 reportable anchor than the 0.35 public-chase best; still not a reportable method claim.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p80.csv",
+      "prediction_max": 3.374432842467767,
+      "prediction_mean": 0.9157399523605185,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7870638195653892,
+      "rows": 2248,
+      "sha12": "994dd59ffee7",
+      "sha256": "994dd59ffee7f6faa01e5077334e5e7711462f0d93797aedc95fac82e0c36732"
+    },
+    {
+      "alphas": [
+        0.0,
+        0.0,
+        0.1,
+        0.2,
+        0.25
+      ],
+      "base": "v0_08094",
+      "kind": "horizon_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_horizon_0p0_0p0_0p1_0p2_0p25",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_horizon_0p0_0p0_0p1_0p2_0p25.csv",
+      "prediction_max": 4.277565886988983,
+      "prediction_mean": 1.0321967984094682,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7842382568586201,
+      "rows": 2248,
+      "sha12": "5d65e2c33567",
+      "sha256": "5d65e2c3356797a366acc7d49d40caefacfb19320a75daf184c7e72cbb75bb38"
+    },
+    {
+      "alphas": [
+        0.05,
+        0.05,
+        0.1,
+        0.15,
+        0.2
+      ],
+      "base": "v0_08094",
+      "kind": "horizon_blend",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_public_chase_v0_cat35_horizon_0p05_0p05_0p1_0p15_0p2",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_public_chase_v0_cat35_horizon_0p05_0p05_0p1_0p15_0p2.csv",
+      "prediction_max": 4.205836984092916,
+      "prediction_mean": 1.032248633877947,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7839285441801984,
+      "rows": 2248,
+      "sha12": "82fae4d4ba8c",
+      "sha256": "82fae4d4ba8c827a13f703fb7ef927711945b355add22a2de2f5b45fe4427cd9"
+    },
+    {
+      "alphas": [
+        0.35,
+        0.4,
+        0.5,
+        0.65,
+        0.8
+      ],
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8",
+      "note": "Moves later horizons closer to the clean reportable anchor while retaining the public-chase source for early horizons.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "prediction_max": 3.703734663820451,
+      "prediction_mean": 0.9595139027871143,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7666640649365555,
+      "rows": 2248,
+      "sha12": "d2ba4500363e",
+      "sha256": "d2ba4500363eb5a4dc79fd175a570a60869a4fee9ac26ad2b8a0513b82d1ed5d"
+    },
+    {
+      "alphas": [
+        0.4,
+        0.45,
+        0.55,
+        0.7,
+        0.85
+      ],
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85",
+      "note": "Moves later horizons closer to the clean reportable anchor while retaining the public-chase source for early horizons.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "prediction_max": 3.6384342814902477,
+      "prediction_mean": 0.9510668606732775,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7687003166624595,
+      "rows": 2248,
+      "sha12": "a417100cad2b",
+      "sha256": "a417100cad2b84da949239dbfbcb1c5c2b992fb1f53e043500eb8f3fe4df9082"
+    },
+    {
+      "alphas": [
+        0.45,
+        0.55,
+        0.65,
+        0.85,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "name": "baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0",
+      "note": "Moves later horizons closer to the clean reportable anchor while retaining the public-chase source for early horizons.",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+      "prediction_max": 3.5863332735023827,
+      "prediction_mean": 0.9324623629495623,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7773140473593975,
+      "rows": 2248,
+      "sha12": "419d11ce0a81",
+      "sha256": "419d11ce0a81dfea19716eff49c45e8b003eb85e3c156bc760883af89eb6fbb1"
+    },
+    {
+      "base": "v0_08094",
+      "bias": 0.0,
+      "kind": "affine",
+      "known_public_scores": {
+        "base": 0.8094
+      },
+      "name": "baseline3_public_chase_v0_affine_scale0p975_biasp0p000",
+      "path": "submissions/baseline3_public_chase_v0_affine_scale0p975_biasp0p000.csv",
+      "prediction_max": 4.170626739814258,
+      "prediction_mean": 1.0246203105273604,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7793386574953757,
+      "rows": 2248,
+      "scale": 0.975,
+      "sha12": "818db8b9bdfd",
+      "sha256": "818db8b9bdfdaf06a6d67d8af42149b9fe47dd07f52ff994710421ebe5422e9a"
+    },
+    {
+      "base": "v0_08094",
+      "bias": 0.0,
+      "kind": "affine",
+      "known_public_scores": {
+        "base": 0.8094
+      },
+      "name": "baseline3_public_chase_v0_affine_scale0p950_biasp0p000",
+      "path": "submissions/baseline3_public_chase_v0_affine_scale0p950_biasp0p000.csv",
+      "prediction_max": 4.063687592639534,
+      "prediction_mean": 0.9983479948728124,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7593556149954942,
+      "rows": 2248,
+      "scale": 0.95,
+      "sha12": "fc42eb4ddc5c",
+      "sha256": "fc42eb4ddc5cc833a10d280d57a131ecc7256add2766e8974e078f61b626f990"
+    },
+    {
+      "base": "v0_08094",
+      "bias": 0.0,
+      "kind": "affine",
+      "known_public_scores": {
+        "base": 0.8094
+      },
+      "name": "baseline3_public_chase_v0_affine_scale1p025_biasp0p000",
+      "path": "submissions/baseline3_public_chase_v0_affine_scale1p025_biasp0p000.csv",
+      "prediction_max": 4.384505034163707,
+      "prediction_mean": 1.0771649418364555,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.8193047424951384,
+      "rows": 2248,
+      "scale": 1.025,
+      "sha12": "33acc6e2d496",
+      "sha256": "33acc6e2d496a39a5b356394b904c63914b6d23dbf3f9f0fc4472daaafd125f1"
+    },
+    {
+      "base": "v0_08094",
+      "bias": -0.025,
+      "kind": "affine",
+      "known_public_scores": {
+        "base": 0.8094
+      },
+      "name": "baseline3_public_chase_v0_affine_scale1p000_biasm0p025",
+      "path": "submissions/baseline3_public_chase_v0_affine_scale1p000_biasm0p025.csv",
+      "prediction_max": 4.252565886988982,
+      "prediction_mean": 1.0268440552558915,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7980911661228208,
+      "rows": 2248,
+      "scale": 1.0,
+      "sha12": "71ffc55634e5",
+      "sha256": "71ffc55634e5bab4ac711fcd392b59ab2d7f2ae69968ab1f92460f83486820b5"
+    },
+    {
+      "base": "v0_08094",
+      "bias": 0.025,
+      "kind": "affine",
+      "known_public_scores": {
+        "base": 0.8094
+      },
+      "name": "baseline3_public_chase_v0_affine_scale1p000_biasp0p025",
+      "path": "submissions/baseline3_public_chase_v0_affine_scale1p000_biasp0p025.csv",
+      "prediction_max": 4.302565886988983,
+      "prediction_mean": 1.075892626181908,
+      "prediction_min": 0.025,
+      "prediction_std_mean": 0.799321699995257,
+      "rows": 2248,
+      "scale": 1.0,
+      "sha12": "2585769247ad",
+      "sha256": "2585769247ad89ff04fcb7d2db1097335b50a568738faf3577e63c4053fedcb2"
+    }
+  ]
+}

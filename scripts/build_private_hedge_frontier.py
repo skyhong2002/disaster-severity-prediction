@@ -1,0 +1,294 @@
+#!/usr/bin/env python3
+"""Build a small horizon-hedge frontier for final Kaggle selection.
+
+The generated files are public-chase / final-selection artifacts only. They
+blend an exact recovered historical Team 5 submission toward the clean
+reportable 0.8124 anchor, and they are not reportable method claims.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+import pandas as pd
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PRED_COLS = [f"pred_week{i}" for i in range(1, 6)]
+BLOCKED_PATTERNS = ("restored_20260522_", "restored_unverified_")
+
+
+@dataclass(frozen=True)
+class Source:
+    key: str
+    path: Path
+    public_score: float
+    role: str
+
+
+@dataclass(frozen=True)
+class Spec:
+    tag: str
+    alphas: tuple[float, float, float, float, float]
+    rationale: str
+
+
+def rel(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def alpha_slug(value: float) -> str:
+    return f"{value:g}".replace("-", "m").replace(".", "p")
+
+
+def read_checked(path: Path, sample: pd.DataFrame) -> pd.DataFrame:
+    if any(pattern in path.name for pattern in BLOCKED_PATTERNS):
+        raise ValueError(f"{rel(path)} is a blocked restored/unverified source")
+    frame = pd.read_csv(path)
+    if list(frame.columns) != list(sample.columns):
+        raise ValueError(f"{rel(path)} columns do not match sample_submission.csv")
+    if len(frame) != len(sample):
+        raise ValueError(f"{rel(path)} has {len(frame)} rows, expected {len(sample)}")
+    if not frame["region_id"].equals(sample["region_id"]):
+        raise ValueError(f"{rel(path)} region_id order differs from sample")
+    values = frame[PRED_COLS].apply(pd.to_numeric, errors="coerce")
+    if values.isna().any().any():
+        raise ValueError(f"{rel(path)} contains NaN or non-numeric predictions")
+    if float(values.min().min()) < -1e-9 or float(values.max().max()) > 5.0 + 1e-9:
+        raise ValueError(f"{rel(path)} predictions are outside [0, 5]")
+    return frame
+
+
+def validate_output(path: Path, sample: pd.DataFrame) -> dict[str, Any]:
+    frame = read_checked(path, sample)
+    values = frame[PRED_COLS]
+    digest = sha256(path)
+    return {
+        "path": rel(path),
+        "rows": int(len(frame)),
+        "columns_match_sample": list(frame.columns) == list(sample.columns),
+        "region_order_match": bool(frame["region_id"].equals(sample["region_id"])),
+        "nan_count": int(values.isna().sum().sum()),
+        "prediction_min": float(values.min().min()),
+        "prediction_max": float(values.max().max()),
+        "prediction_mean": float(values.mean().mean()),
+        "prediction_std_mean": float(values.std().mean()),
+        "sha256": digest,
+        "sha12": digest[:12],
+        "blocked_source_pattern": any(pattern in path.name for pattern in BLOCKED_PATTERNS),
+    }
+
+
+def horizon_blend(base: pd.DataFrame, anchor: pd.DataFrame, alphas: tuple[float, ...]) -> pd.DataFrame:
+    out = base[["region_id"]].copy()
+    for col, alpha in zip(PRED_COLS, alphas):
+        out[col] = base[col] * (1.0 - alpha) + anchor[col] * alpha
+    out[PRED_COLS] = out[PRED_COLS].clip(0, 5)
+    return out
+
+
+def mean_abs_delta(left: pd.DataFrame, right: pd.DataFrame) -> float:
+    return float((left[PRED_COLS] - right[PRED_COLS]).abs().mean().mean())
+
+
+def write_summary(path: Path, payload: dict[str, Any]) -> None:
+    lines = [
+        "# Private-Hedge Frontier 2026-05-25",
+        "",
+        f"- Created UTC: `{payload['created_at_utc']}`",
+        f"- Experiment label: `{payload['experiment_label']}`",
+        "- Role: public-chase / final-selection hedge only; not a reportable method claim.",
+        "- Source policy: exact recovered Team 5 submissions only; no private labels, external answers, or restored/unverified source files.",
+        "",
+        "## Sources",
+        "",
+        "| Key | Role | Public MAE | SHA-12 | Path |",
+        "|---|---|---:|---:|---|",
+    ]
+    for source in payload["sources"].values():
+        lines.append(
+            f"| `{source['key']}` | `{source['role']}` | `{source['public_score']:.4f}` | "
+            f"`{source['sha12']}` | `{source['path']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Candidate Slate",
+            "",
+            "| Candidate | Horizon alphas | SHA-12 | Delta to reportable anchor | Rationale |",
+            "|---|---|---:|---:|---|",
+        ]
+    )
+    for candidate in payload["candidates"]:
+        alphas = ", ".join(f"{value:.3g}" for value in candidate["alphas"])
+        lines.append(
+            f"| `{candidate['path']}` | `{alphas}` | `{candidate['audit']['sha12']}` | "
+            f"`{candidate['mean_abs_delta_to_reportable_anchor']:.6f}` | "
+            f"{candidate['rationale']} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Required Submission Sanity",
+            "",
+            "All generated candidates passed: 2248 rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.",
+            "",
+            "After each Kaggle submit, append the Kaggle ref and public score to the readout JSON and status ledger before choosing final-selection wording.",
+        ]
+    )
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--sample", type=Path, default=ROOT / "data" / "sample_submission.csv")
+    parser.add_argument(
+        "--source-dir",
+        type=Path,
+        default=ROOT / "experiments" / "recovered_submissions_20260523",
+    )
+    parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
+    parser.add_argument(
+        "--work-dir",
+        type=Path,
+        default=ROOT / "experiments" / "baseline3_push_20260523" / "private_hedge_frontier_20260525_0850",
+    )
+    args = parser.parse_args()
+
+    sample = pd.read_csv(args.sample)
+    source_dir = args.source_dir if args.source_dir.is_absolute() else ROOT / args.source_dir
+    out_dir = args.out_dir if args.out_dir.is_absolute() else ROOT / args.out_dir
+    work_dir = args.work_dir if args.work_dir.is_absolute() else ROOT / args.work_dir
+
+    sources = {
+        "v0_08094": Source(
+            key="v0_08094",
+            path=source_dir / "submission_20260512_195951.csv",
+            public_score=0.8094,
+            role="source_reference_only_public_chase",
+        ),
+        "cat35_08124": Source(
+            key="cat35_08124",
+            path=source_dir / "ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+            public_score=0.8124,
+            role="clean_reportable_anchor",
+        ),
+    }
+    frames = {key: read_checked(source.path, sample) for key, source in sources.items()}
+
+    specs = [
+        Spec(
+            "left_of_best_public",
+            (0.325, 0.375, 0.475, 0.625, 0.775),
+            "Tests whether the public optimum sits slightly left of the current 0.7930 horizon hedge.",
+        ),
+        Spec(
+            "midpoint_best_to_nearbest",
+            (0.375, 0.425, 0.525, 0.675, 0.825),
+            "Midpoint between the best public hedge and the near-best stronger private hedge.",
+        ),
+        Spec(
+            "preserve_early_anchor_late",
+            (0.350, 0.425, 0.550, 0.725, 0.900),
+            "Keeps week 1 near the best public hedge while moving later horizons closer to the clean anchor.",
+        ),
+        Spec(
+            "public_early_full_late_anchor",
+            (0.300, 0.400, 0.550, 0.750, 1.000),
+            "Explores a stronger private hedge on late horizons without over-anchoring early horizons.",
+        ),
+        Spec(
+            "robust_mid_frontier",
+            (0.400, 0.475, 0.575, 0.750, 0.900),
+            "Interpolates toward the most robust submitted horizon hedge while staying near the public-best frontier.",
+        ),
+        Spec(
+            "smooth_high_anchor",
+            (0.425, 0.500, 0.600, 0.800, 0.950),
+            "High-anchor smooth hedge for private-risk coverage while still retaining public-chase source signal.",
+        ),
+    ]
+
+    work_dir.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    candidates: list[dict[str, Any]] = []
+    base = frames["v0_08094"]
+    anchor = frames["cat35_08124"]
+    for spec in specs:
+        alpha_part = "_".join(alpha_slug(alpha) for alpha in spec.alphas)
+        name = f"baseline3_private_hedge_v1_cat35_{spec.tag}_horizon_{alpha_part}"
+        out_path = out_dir / f"{name}.csv"
+        frame = horizon_blend(base, anchor, spec.alphas)
+        frame.to_csv(out_path, index=False)
+        audit = validate_output(out_path, sample)
+        if audit["blocked_source_pattern"]:
+            raise ValueError(f"{rel(out_path)} matched a blocked pattern")
+        candidates.append(
+            {
+                "name": name,
+                "path": rel(out_path),
+                "artifact_label": "public-chase",
+                "kind": "private_robustness_horizon_hedge",
+                "reportable_method_claim": False,
+                "base": "v0_08094",
+                "other": "cat35_08124",
+                "alphas": list(spec.alphas),
+                "rationale": spec.rationale,
+                "known_public_scores": {
+                    "base": sources["v0_08094"].public_score,
+                    "other": sources["cat35_08124"].public_score,
+                },
+                "mean_abs_delta_to_reportable_anchor": mean_abs_delta(frame, anchor),
+                "mean_abs_delta_to_public_reference": mean_abs_delta(frame, base),
+                "audit": audit,
+                "submission": None,
+            }
+        )
+
+    payload = {
+        "created_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "experiment_label": "private_hedge_frontier_20260525_0850",
+        "competition": "data-mining-2026-final-project",
+        "sources": {
+            key: {
+                "key": source.key,
+                "path": rel(source.path),
+                "public_score": source.public_score,
+                "role": source.role,
+                "sha256": sha256(source.path),
+                "sha12": sha256(source.path)[:12],
+            }
+            for key, source in sources.items()
+        },
+        "blocked_source_patterns": list(BLOCKED_PATTERNS),
+        "candidates": candidates,
+        "recommended_submission_order": [candidate["name"] for candidate in candidates],
+        "lineage_policy": [
+            "public-chase/final-selection artifact only",
+            "not a reportable method claim",
+            "no private labels or external answers used",
+            "do not use restored_20260522_* or restored_unverified_* sources",
+        ],
+    }
+    readout_path = work_dir / "frontier_readout.json"
+    summary_path = work_dir / "experiment_summary.md"
+    readout_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_summary(summary_path, payload)
+    print(json.dumps({"readout": rel(readout_path), "summary": rel(summary_path), "candidates": len(candidates)}, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

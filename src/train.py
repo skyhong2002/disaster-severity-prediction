@@ -29,6 +29,7 @@ from features import (
     build_features,
     get_feature_cols,
     METEO_COLS,
+    parse_synthetic_date_parts,
     parse_drop_feature_groups,
     reduce_mem_usage,
 )
@@ -162,6 +163,12 @@ def parse_args():
         action="store_true",
         help="Exclude supervised training rows with missing or infinite feature values from model fitting.",
     )
+    parser.add_argument(
+        "--season-match-weight",
+        type=float,
+        default=1.0,
+        help="Multiply sample weight for train rows whose region/month-day appears in the test window.",
+    )
     return parser.parse_args()
 
 
@@ -272,6 +279,46 @@ def make_recency_weights(dates: pd.Series, half_life_days: float) -> np.ndarray 
     return np.clip(weights / np.mean(weights), 0.05, 20.0)
 
 
+def month_day_codes(dates: pd.Series) -> pd.Series:
+    """Return synthetic month-day codes from the competition date string."""
+    _, month, day = parse_synthetic_date_parts(dates)
+    return (month.astype(np.int16) * 100 + day.astype(np.int16)).astype(np.int16)
+
+
+def load_test_season_keys() -> set[tuple[str, int]]:
+    """Return (region, month-day) keys that appear in the Kaggle test window."""
+    test_dates = pd.read_csv(DATA_DIR / "test.csv", usecols=["region_id", "date"])
+    md = month_day_codes(test_dates["date"])
+    return set(zip(test_dates["region_id"].astype(str), md.astype(int)))
+
+
+def make_training_weights(
+    rows: pd.DataFrame,
+    recency_half_life_days: float,
+    season_match_weight: float,
+    season_match_keys: set[tuple[str, int]] | None,
+) -> np.ndarray | None:
+    """Combine recency weights with optional test-season matching weights."""
+    weights = make_recency_weights(rows["date"], recency_half_life_days)
+    if season_match_weight == 1.0 or not season_match_keys:
+        return weights
+    if weights is None:
+        weights = np.ones(len(rows), dtype=np.float32)
+    md = month_day_codes(rows["date"])
+    matches = np.array(
+        [(str(region), int(code)) in season_match_keys for region, code in zip(rows["region_id"], md)],
+        dtype=bool,
+    )
+    if matches.any():
+        print(
+            f"  Season-match weighting: {int(matches.sum())} / {len(rows)} rows "
+            f"multiplied by {season_match_weight:g}."
+        )
+        weights = weights * np.where(matches, season_match_weight, 1.0).astype(np.float32)
+        weights = np.clip(weights / np.mean(weights), 0.05, 20.0)
+    return weights.astype(np.float32)
+
+
 def feature_ready_mask(X: pd.DataFrame, enabled: bool) -> pd.Series:
     """Return complete-feature rows when the warmup filter is enabled."""
     if not enabled:
@@ -345,6 +392,8 @@ def train_one_horizon(
     recency_half_life_days: float,
     final_train_mode: str,
     drop_feature_nan_rows: bool,
+    season_match_weight: float,
+    season_match_keys: set[tuple[str, int]] | None,
 ) -> tuple[lgb.LGBMRegressor | AveragingRegressor, float, list[float], dict]:
     """Train a single LightGBM model for horizon `week`."""
     print(f"\n  --- Training horizon: week {week} ---")
@@ -377,7 +426,12 @@ def train_one_horizon(
         y_train = y[train_mask]
         X_val   = X[val_mask]
         y_val   = y[val_mask]
-        sample_weight = make_recency_weights(merged.loc[train_mask, "date"], recency_half_life_days)
+        sample_weight = make_training_weights(
+            merged.loc[train_mask],
+            recency_half_life_days,
+            season_match_weight,
+            season_match_keys,
+        )
 
         model = lgb.LGBMRegressor(**lgb_params)
         model.fit(
@@ -415,7 +469,12 @@ def train_one_horizon(
         final_n_estimators = int(np.median(best_iterations))
         final_info["final_n_estimators"] = final_n_estimators
         final_mask = usable_mask
-        sample_weight = make_recency_weights(merged.loc[final_mask, "date"], recency_half_life_days)
+        sample_weight = make_training_weights(
+            merged.loc[final_mask],
+            recency_half_life_days,
+            season_match_weight,
+            season_match_keys,
+        )
         print(f"  Refit full model: train_rows={int(final_mask.sum())}, n_estimators={final_n_estimators}")
         refit_model = lgb.LGBMRegressor(**refit_lgb_params(lgb_params, final_n_estimators))
         refit_model.fit(X.loc[final_mask], y.loc[final_mask], sample_weight=sample_weight)
@@ -436,6 +495,9 @@ def main():
     print("  Natural Disaster Severity Prediction — Training (Optimized)")
     print("=" * 60)
     print(f"Experiment run directory: {run_dir}")
+    season_match_keys = load_test_season_keys() if args.season_match_weight != 1.0 else None
+    if season_match_keys:
+        print(f"Loaded {len(season_match_keys)} test region/month-day keys for season-match weighting.")
 
     save_json(
         run_dir / "config.json",
@@ -461,6 +523,7 @@ def main():
                 "final_train_mode": args.final_train_mode,
                 "max_score_lag_weeks": args.max_score_lag_weeks or None,
                 "drop_feature_nan_rows": args.drop_feature_nan_rows,
+                "season_match_weight": args.season_match_weight,
                 "drop_feature_groups": drop_groups,
             },
             "pipeline": [
@@ -516,6 +579,8 @@ def main():
             args.recency_half_life_days,
             args.final_train_mode,
             args.drop_feature_nan_rows,
+            args.season_match_weight,
+            season_match_keys,
         )
         models[week]     = model
         val_maes[week]   = val_mae
@@ -557,6 +622,7 @@ def main():
             "final_train_mode": args.final_train_mode,
             "max_score_lag_weeks": args.max_score_lag_weeks or None,
             "drop_feature_nan_rows": args.drop_feature_nan_rows,
+            "season_match_weight": args.season_match_weight,
             "drop_feature_groups": drop_groups,
         },
         "validation_strategy": args.validation_mode,

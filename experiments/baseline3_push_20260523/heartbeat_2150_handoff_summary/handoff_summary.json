@@ -1,0 +1,37 @@
+{
+  "created_at_utc": "2026-05-23T13:52:18+00:00",
+  "mode": "handoff_summary_after_public_cross",
+  "live_gate": {
+    "team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "crossed_baseline3": true,
+    "team5_rank": 5
+  },
+  "final_decision": {
+    "stop_public_chase": true,
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru_today",
+    "selected_submission_if_allowed": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+    "selected_submission_public_mae": 0.7991,
+    "selected_submission_sha12": "d550c9cbc465",
+    "reportable_lineage": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+    "reportable_lineage_public_mae": 0.8124,
+    "reportable_lineage_sha12": "bee6f618828d"
+  },
+  "do_not_do": [
+    "Do not submit more baseline3_public_chase alpha variants today.",
+    "Do not submit GRU stack/raw or GRU-derived hedges as final/private anchors after public 0.9850/0.9916.",
+    "Do not use restored_20260522_* or restored_unverified_* as legal/reportable sources.",
+    "Do not claim the 0.7991 public-chase artifact as the reportable modeling method."
+  ],
+  "ready_artifacts": {
+    "baseline3_status_md": "docs/status/baseline3_push_20260523.md",
+    "baseline3_status_json": "docs/status/baseline3_push_20260523.json",
+    "current_state_json": "docs/status/current_state.json",
+    "final_selection_matrix": "experiments/baseline3_push_20260523/heartbeat_1650_final_selection/final_selection_matrix.json",
+    "private_robustness_audit": "experiments/baseline3_push_20260523/heartbeat_1750_private_robustness/private_robustness_audit.json",
+    "final_private_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+    "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
+    "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json"
+  },
+  "next_best_action": "Prepare a focused commit/PR summary for the baseline3_push_20260523 artifacts and integrate the report wording into report/main.tex if final report editing is next."
+}

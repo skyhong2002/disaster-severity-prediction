@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-23",
+  "last_updated": "2026-05-25",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -17,7 +17,72 @@
     "blend": "50% LightGBM / 50% XGBoost",
     "local_file_required": false
   },
+  "baseline3_push": {
+    "mode": "manual-private-hedge-frontier-after-public-cross",
+    "daily_submission_target": 6,
+    "baseline3_public_mae": "0.8056",
+    "team5_public_mae": "0.7922",
+    "gap_to_cross": "-0.0134",
+    "ledger": "docs/status/baseline3_push_20260523.md",
+    "orchestrator": "scripts/run_baseline3_push.py",
+    "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
+    "public_chase_best": {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "public_mae": "0.7922",
+      "rows": 2248,
+      "sha256_prefix": "695c62a4eb28",
+      "kaggle_ref": "53003220",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.30, 0.40, 0.55, 0.75, 1.00]",
+      "artifact_label": "public-chase",
+      "reportable_method_claim": false
+    },
+    "artifact_labels": [
+      "public-chase",
+      "reportable"
+    ],
+    "stop_condition": "last verified crossed: Team 5 public score 0.7922 < Baseline 3 public score 0.8056",
+    "quota_recommendation": "2026-05-25 live Kaggle was reachable; spent 6/6 quota on v1 private-hedge frontier. Wait for 2026-05-26 08:00 Taipei reset, then re-check live history/leaderboard before any new adjacent hedge.",
+    "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+    "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
+    "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
+    "report_integration": "experiments/baseline3_push_20260523/heartbeat_2251_report_integration/report_integration_summary.json",
+    "final_consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/final_consistency_audit.json",
+    "final_selection_recommendation": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_recommendation.json",
+    "final_selection_sanity": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_sanity.json",
+    "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
+    "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
+    "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
+    "latest_live_check_status": "submitted_private_hedge_frontier_20260525_quota_6_of_6",
+    "latest_live_check_taipei": "2026-05-25T08:59:27+08:00",
+    "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
+    "next_quota_reset_taipei": "2026-05-26T08:00:00+08:00",
+    "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json"
+  },
   "recent_findings": [
+    {
+      "name": "Manual private-hedge frontier 2026-05-25",
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "public_mae": "0.7922",
+      "interpretation": "A six-submission v1 horizon frontier improved Team 5 public MAE to 0.7922 while keeping the best file closer to the clean 0.8124 anchor than the prior 0.7930 public-best; label all v1 files as public-chase/final-selection artifacts, not reportable method claims."
+    },
+    {
+      "name": "Manual private-hedge Baseline 3 push",
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "public_mae": "0.7930",
+      "interpretation": "A 2026-05-24 manual six-submission hedge batch improved Team 5 public MAE to 0.7930 while adding closer-to-anchor private hedge candidates at 0.7933 and 0.7945; label all as public-chase, not reportable method claims."
+    },
+    {
+      "name": "Baseline 3 public-chase crossing",
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "public_mae": "0.7991",
+      "interpretation": "Public-first exact-history blend crossed Baseline 3 on 2026-05-23. Treat as leaderboard/selection artifact, not a reportable legal modeling claim."
+    },
+    {
+      "name": "Baseline 3 public-first push",
+      "submission": null,
+      "public_mae": "0.7991",
+      "interpretation": "Live leaderboard now has Team 5 ahead of Baseline 3 public MAE 0.8056 after exact-history public-chase probes; keep reportable lineage labels separate."
+    },
     {
       "name": "CatBoost 35% blend",
       "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_325_325_35.csv",
@@ -61,6 +126,7 @@
     "docs/README.md",
     "docs/status/experiment_summary.md",
     "docs/status/private_lb_submission_plan_2026-05-22.md",
+    "docs/status/baseline3_push_20260523.md",
     "docs/presentations/progress-check-2026-05-21-5min.marp.md",
     "docs/presentations/progress-check-2026-05-21-5min.marp.zh.md",
     "report/main.tex"
@@ -72,7 +138,7 @@
   "banned_current_state_phrases": [
     "Current best legal submission: `submissions/ensemble_final.csv`",
     "Current status: reproducible best legal public MAE = **0.8232**",
-    "目前狀態： repo 紀錄的最佳 legal public MAE = **0.8232**",
+    "\u76ee\u524d\u72c0\u614b\uff1a repo \u7d00\u9304\u7684\u6700\u4f73 legal public MAE = **0.8232**",
     "completely eliminates historical score features",
     "purely on meteorological data",
     "score reconstructor pipeline",

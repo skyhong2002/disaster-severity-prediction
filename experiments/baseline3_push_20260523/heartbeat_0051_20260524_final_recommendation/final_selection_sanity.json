@@ -1,0 +1,35 @@
+{
+  "all_candidates_passed": true,
+  "checks": {
+    "reportable_lineage": {
+      "columns_match_sample": true,
+      "exists": true,
+      "in_range_0_5": true,
+      "nan_count": 0,
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "prediction_max": 3.582823817811203,
+      "prediction_mean": 0.8819517839051711,
+      "prediction_min": 0.0,
+      "region_order_match_sample": true,
+      "rows": 2248,
+      "sha12": "bee6f618828d",
+      "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9"
+    },
+    "selected_public_chase": {
+      "columns_match_sample": true,
+      "exists": true,
+      "in_range_0_5": true,
+      "nan_count": 0,
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "prediction_max": 3.8105149352457026,
+      "prediction_mean": 0.99176333138505,
+      "prediction_min": 0.0,
+      "region_order_match_sample": true,
+      "rows": 2248,
+      "sha12": "d550c9cbc465",
+      "sha256": "d550c9cbc465d52f520756e3e97072f1e7bfe6a13150ba2ed8c6204632264a79"
+    }
+  },
+  "created_at_utc": "2026-05-23T16:51:02Z",
+  "sample_submission": "data/sample_submission.csv"
+}

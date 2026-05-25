@@ -1,0 +1,62 @@
+{
+  "created_at_utc": "2026-05-23T12:52:28+00:00",
+  "mode": "consistency_audit_after_public_cross",
+  "live_gate": {
+    "team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "crossed_baseline3": true
+  },
+  "fixes_applied": [
+    {
+      "file": "docs/status/current_state.json",
+      "field": "baseline3_push.mode",
+      "old": "public-first",
+      "fix": "final-report-after-public-cross"
+    }
+  ],
+  "checks": [
+    {
+      "file": "docs/status/current_state.json",
+      "has_public_chase_label": true,
+      "has_reportable_anchor": true,
+      "has_stop_quota_policy": true,
+      "has_blocked_restored_policy": false,
+      "stale_public_first_mode": false
+    },
+    {
+      "file": "docs/status/baseline3_push_20260523.json",
+      "has_public_chase_label": true,
+      "has_reportable_anchor": true,
+      "has_stop_quota_policy": true,
+      "has_blocked_restored_policy": true,
+      "stale_public_first_mode": false
+    },
+    {
+      "file": "docs/status/baseline3_push_20260523.md",
+      "has_public_chase_label": true,
+      "has_reportable_anchor": true,
+      "has_stop_quota_policy": true,
+      "has_blocked_restored_policy": true,
+      "stale_public_first_mode": false
+    },
+    {
+      "file": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
+      "has_public_chase_label": true,
+      "has_reportable_anchor": true,
+      "has_stop_quota_policy": true,
+      "has_blocked_restored_policy": true,
+      "stale_public_first_mode": false
+    },
+    {
+      "file": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+      "has_public_chase_label": true,
+      "has_reportable_anchor": true,
+      "has_stop_quota_policy": true,
+      "has_blocked_restored_policy": true,
+      "stale_public_first_mode": false
+    }
+  ],
+  "remaining_risks": [],
+  "decision": "public_chase_closed; continue final/reportable cleanup only",
+  "next_best_action": "If no new leaderboard change, commit/summarize the baseline3_push artifacts and prepare final report integration."
+}

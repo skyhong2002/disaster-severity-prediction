@@ -55,6 +55,8 @@ def base_command(args, group: str | None) -> list[str]:
         cmd.append("--regularized")
     if args.recency_half_life_days > 0:
         cmd.extend(["--recency-half-life-days", str(args.recency_half_life_days)])
+    if args.model_family == "lightgbm" and args.season_match_weight != 1.0:
+        cmd.extend(["--season-match-weight", str(args.season_match_weight)])
     if args.no_score_history:
         cmd.append("--no-score-history")
     if args.no_climatology:
@@ -92,6 +94,7 @@ def main():
     parser.add_argument("--final-train-mode", choices=["last_fold", "fold_ensemble", "refit_full"], default="refit_full")
     parser.add_argument("--regularized", action="store_true")
     parser.add_argument("--recency-half-life-days", type=float, default=0)
+    parser.add_argument("--season-match-weight", type=float, default=1.0, help="LightGBM only.")
     parser.add_argument("--no-score-history", action="store_true")
     parser.add_argument("--no-climatology", action="store_true")
     parser.add_argument("--use-global-region-stats", action="store_true")

@@ -1,0 +1,84 @@
+{
+  "created_at_utc": "2026-05-24T00:12:01Z",
+  "created_at_taipei": "2026-05-24T08:12:01+08:00",
+  "competition": "data-mining-2026-final-project",
+  "automation_id": "daily-kaggle-submission-plan",
+  "live_kaggle_check": {
+    "status": "blocked",
+    "blocker": "dns_failed_api_kaggle_com",
+    "curl_command": "curl -I --max-time 10 https://api.kaggle.com",
+    "curl_error": "curl: (6) Could not resolve host: api.kaggle.com",
+    "kaggle_history_command": "UV_CACHE_DIR=.uv-cache uv run kaggle competitions submissions -c data-mining-2026-final-project",
+    "kaggle_history_error": "Failed to resolve 'api.kaggle.com'",
+    "nslookup_command": "nslookup api.kaggle.com 1.1.1.1",
+    "nslookup_error": "Operation not permitted before DNS query could run"
+  },
+  "follow_up_live_check": {
+    "checked_at_utc": "2026-05-24T01:20:12Z",
+    "checked_at_taipei": "2026-05-24T09:20:12+08:00",
+    "status": "recovered",
+    "nslookup": "api.kaggle.com resolved to 34.54.168.202 via 1.1.1.1",
+    "curl": "HTTP/2 404 from https://api.kaggle.com, confirming host reachability",
+    "kaggle_leaderboard_command": "UV_CACHE_DIR=.uv-cache uv run kaggle competitions leaderboard data-mining-2026-final-project -s",
+    "kaggle_submissions_command": "UV_CACHE_DIR=.uv-cache uv run kaggle competitions submissions -c data-mining-2026-final-project",
+    "team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true,
+    "recommendation": "No public-chase submission needed; Team 5 remains below Baseline 3 after DNS recovered."
+  },
+  "submission_action": {
+    "ran_orchestrator_with_submit": false,
+    "reason": "Live submission history and leaderboard were unreachable; no quota should be spent without confirming current Team 5 score and remaining slots.",
+    "quota_spent": 0,
+    "recommendation": "Do not submit while Kaggle API DNS is blocked. Retry live check after DNS recovers; if Team 5 remains below 0.8056, stay in private robustness and reportable lineage cleanup."
+  },
+  "last_verified_live_snapshot": {
+    "source": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
+    "created_at_taipei": "2026-05-24T02:51:32+08:00",
+    "team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true
+  },
+  "local_sanity": {
+    "sample_submission_sha256": "fef3b9c0c0ded321e051d9514c54229a1adac4302057a64ccda6b9a3fbec222c",
+    "checked_artifacts": [
+      {
+        "label": "public-chase",
+        "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+        "kaggle_ref": 52946620,
+        "public_mae": 0.7991,
+        "sha256": "d550c9cbc465d52f520756e3e97072f1e7bfe6a13150ba2ed8c6204632264a79",
+        "rows": 2248,
+        "columns_match_sample": true,
+        "region_order_match_sample": true,
+        "nan_count": 0,
+        "min_prediction": 0.0,
+        "max_prediction": 3.8105149352457026,
+        "range_ok_0_5": true,
+        "blocked_name_pattern": false,
+        "reportable_method_claim": false
+      },
+      {
+        "label": "reportable",
+        "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+        "kaggle_ref": 52698259,
+        "public_mae": 0.8124,
+        "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9",
+        "rows": 2248,
+        "columns_match_sample": true,
+        "region_order_match_sample": true,
+        "nan_count": 0,
+        "min_prediction": 0.0,
+        "max_prediction": 3.582823817811203,
+        "range_ok_0_5": true,
+        "blocked_name_pattern": false,
+        "reportable_method_claim": true
+      }
+    ]
+  },
+  "process_check": {
+    "tmux_ls_status": "blocked_by_operation_not_permitted",
+    "missingness_shift_log_tail": "All missingness / shift experiments finished."
+  },
+  "next_best_action": "Kaggle DNS recovered at the 09:20 Taipei follow-up check and Team 5 still remains below Baseline 3; continue private robustness and reportable lineage cleanup, not public-chase quota spending."
+}

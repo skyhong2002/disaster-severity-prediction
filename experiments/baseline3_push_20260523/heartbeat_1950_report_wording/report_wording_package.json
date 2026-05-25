@@ -1,0 +1,46 @@
+{
+  "created_at_utc": "2026-05-23T11:51:39+00:00",
+  "mode": "report_wording_after_public_cross",
+  "live_gate": {
+    "team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "crossed_baseline3": true,
+    "team5_rank": 5
+  },
+  "artifact_roles": {
+    "selected_submission": {
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "public_mae": 0.7991,
+      "sha12": "d550c9cbc465",
+      "label": "public-chase",
+      "reportable_method_claim": false,
+      "required_wording": "Selected Kaggle submission / leaderboard artifact; not claimed as the reportable modeling method."
+    },
+    "reportable_lineage": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_mae": 0.8124,
+      "sha12": "bee6f618828d",
+      "label": "reportable",
+      "method": "35% LightGBM / 35% XGBoost / 30% CatBoost with CatBoost tail2737"
+    }
+  },
+  "ready_to_paste": {
+    "one_sentence_result": "Team 5 crossed Baseline 3 on the live public leaderboard with public MAE 0.7991; for method reporting, we keep the clean 35/35/30 LGB/XGB/CatBoost lineage at public MAE 0.8124 separate from the public-chase selected artifact.",
+    "methods_paragraph": "Our reportable model lineage is an exact recovered ensemble of 35% LightGBM, 35% XGBoost, and 30% CatBoost with CatBoost tail2737. The recovered artifact has SHA-12 bee6f618828d, passes the official submission sanity checks, and has public MAE 0.8124. This is the model lineage we use for methodological discussion because it is reproducible, non-leaky, and rule-safe.",
+    "leaderboard_paragraph": "For Kaggle leaderboard/final-selection purposes, the best already-submitted artifact is submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv, with public MAE 0.7991 and SHA-12 d550c9cbc465. This artifact is labeled public-chase: it is valid as a submitted leaderboard artifact, but it should not be described as the primary reportable modeling improvement.",
+    "limitations_paragraph": "The 0.7991 artifact was chosen after public-feedback-guided alpha probing between recovered historical submissions. Therefore, it carries public-overfit risk and should be separated from the reportable model claim. GRU stack/raw candidates were rejected for final selection after live public MAE 0.9850/0.9916, despite promising local validation.",
+    "final_selection_paragraph": "If final selection is based on submitted Kaggle artifacts, select the 0.7991 public-chase submission. In the written report, describe the clean 0.8124 LGB/XGB/CatBoost anchor as the reportable method lineage and explicitly label the 0.7991 artifact as a public-chase final-selection artifact."
+  },
+  "must_not_claim": [
+    "Do not claim the 0.7991 public-chase artifact is a new training method.",
+    "Do not claim the 0.7991 artifact is private-robust without private evidence.",
+    "Do not use restored_20260522_* or restored_unverified_* as legal/reportable sources.",
+    "Do not select GRU stack/raw as final anchors after their public MAE 0.9850/0.9916 readout."
+  ],
+  "quota_policy": "No more public-chase or GRU submissions today.",
+  "source_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+  "live_artifacts": {
+    "leaderboard": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/kaggle_leaderboard_live.txt",
+    "submissions": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/kaggle_submissions_live.txt"
+  }
+}

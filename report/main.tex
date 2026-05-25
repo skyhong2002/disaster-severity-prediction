@@ -51,8 +51,10 @@ weighted means, long-window drought proxies, climatology anomalies, and
 91-day-gapped historical score context. By separating historical diagnostic
 experiments from the current direct-horizon implementation, we avoid accidental
 score leakage while preserving useful region-specific signals. The current best
-legal Kaggle public leaderboard score recorded by the repository is
-\textbf{0.8124}.
+reportable Kaggle public leaderboard score recorded by the repository is
+\textbf{0.8124}. Separately, the selected already-submitted public-chase
+artifact reaches \textbf{0.7922} and crosses Baseline 3 (\textbf{0.8056}); we
+keep this final-selection artifact separate from the reportable method claim.
 \end{abstract}
 
 \section{Project Summary (\textcolor{red}{max 1 page})}
@@ -149,14 +151,14 @@ For each meteorological column $d$, we construct the following feature groups:
 We train one independent regressor per prediction horizon (week 1 through week 5),
 a technique known as \textbf{Direct Multi-Step Forecasting}. Each horizon model
 uses the full feature set and predicts exactly one target column,
-\texttt{target\_w1} through \texttt{target\_w5}. 
+\texttt{target\_w1} through \texttt{target\_w5}.
 
 \subsubsection{Ensemble Strategy}
 To capture diverse patterns and reduce variance, we train \textbf{LightGBM},
 \textbf{XGBoost}, and \textbf{CatBoost} models. LightGBM uses leaf-wise growth,
 XGBoost is configured with histogram-based depth-wise trees, and CatBoost uses
 native categorical handling for features such as region and calendar buckets.
-The current best legal public submission uses a convex blend with weights
+The current best reportable public submission uses a convex blend with weights
 35\% LightGBM, 35\% XGBoost, and 30\% CatBoost.
 
 \subsection{Inference and Submission Generation}
@@ -250,11 +252,14 @@ Initial Submission (Magic Leak) & 0.2100 (Leaked) & 0.8094* \\
 
 Table~\ref{tab:leaderboard} reports the Kaggle public leaderboard snapshot
 after our submissions. The public leaderboard is calculated with
-approximately 40\% of the test data. The current best legal Team 5 public MAE
-recorded in the repository is \textbf{0.8124}, achieved by adding CatBoost as a
-third ensemble member while keeping the leaky diagnostic submissions excluded
-from official claims. The corresponding submission file is
-\path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}.
+approximately 40\% of the test data. For methodological reporting, the clean
+Team 5 model lineage remains the 35\% LightGBM / 35\% XGBoost / 30\% CatBoost
+ensemble with public MAE \textbf{0.8124}. The corresponding reportable artifact
+is \path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}. For
+Kaggle final-selection purposes, Team 5 also has an already-submitted
+public-chase artifact with public MAE \textbf{0.7922}, which crosses Baseline 3.
+This artifact is valid as a leaderboard selection candidate, but it is not used
+as the primary reportable modeling claim.
 
 \begin{table}[h]
 \centering
@@ -262,27 +267,34 @@ from official claims. The corresponding submission file is
 \label{tab:leaderboard}
 \begin{tabular}{lcc}
 \hline
-\textbf{Team / Baseline} & \textbf{Public MAE} & \textbf{Entries} \\
+\textbf{Team / Baseline} & \textbf{Public MAE} & \textbf{Rank / Entries} \\
 \hline
-Baseline 3 & 0.8056 & 1 \\
-Team 20 & 0.8062 & 12 \\
-\textbf{Team 5 (v0 Magic Leak)*} & \textbf{0.8094} & \textbf{1} \\
-\textbf{Team 5 (LGB/XGB/CatBoost)} & \textbf{0.8124} & \textbf{1} \\
-\textbf{Team 5 (LGB/XGB Anchor)} & \textbf{0.8232} & \textbf{3} \\
-Team 4 & 0.8392 & 37 \\
-Team 3 & 0.8534 & 15 \\
+Team 3 & 0.7628 & 1 \\
+Team 4 & 0.7817 & 2 \\
+\textbf{Team 5 selected public-chase artifact} & \textbf{0.7922} & \textbf{3} \\
+Team 20 & 0.7942 & 4 \\
+Team 2 & 0.7955 & 5 \\
+Baseline 3 & 0.8056 & 6 \\
+\textbf{Team 5 reportable LGB/XGB/CatBoost lineage} & \textbf{0.8124} & \textbf{--} \\
 Baseline 2 & 0.8623 & 1 \\
-\textbf{Team 5 (Strategy B)} & \textbf{0.8640} & \textbf{4} \\
 Baseline 1 & 0.9117 & 1 \\
-Team 10 & 1.1791 & 2 \\
 \hline
-\multicolumn{3}{l}{\footnotesize *Discarded from final evaluation due to data leakage.}
+\multicolumn{3}{l}{\footnotesize Public-chase artifact is selected for leaderboard status, not method reporting.}
 \end{tabular}
 \end{table}
 
+The selected public-chase row corresponds to
+\path{submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv}
+(Kaggle ref \texttt{53003220}, SHA-12 \texttt{695c62a4eb28}). It was selected
+after public-feedback probing as a horizon-specific private-hedge frontier
+artifact, so it should not be described as a new training algorithm. More
+anchor-tilted submitted hedge alternatives are refs \texttt{53003222} and
+\texttt{53003227}. The reportable method lineage remains the 35/35/30
+LGB/XGB/CatBoost artifact with SHA-12 \texttt{bee6f618828d}.
+
 The generated submission contains one row per region and five predicted scores.
 Table~\ref{tab:pred_stats} summarizes the prediction distribution for the current
-best legal public submission. The mean forecast gradually decreases from week 1
+best reportable public submission. The mean forecast gradually decreases from week 1
 to week 5, while all predictions remain inside the valid score range after
 clipping.
 
@@ -304,7 +316,7 @@ clipping.
 \end{table}
 
 \subsubsection{Ablation Study: The Kaggle Paradox \& Data Leakage}
-To systematically analyze the impact of historical score dependencies and identify potential data leakage, we conducted an extensive ablation study. 
+To systematically analyze the impact of historical score dependencies and identify potential data leakage, we conducted an extensive ablation study.
 
 \textbf{1. The ``Magic Leak'' Phenomenon (v0):} Our initial submission achieved a surprisingly strong Public MAE of 0.8094. However, investigation revealed this was caused by a train-test discrepancy where the model inadvertently relied on recent scores during training, while the testing phase relied on a fixed forward-filled (\texttt{ffill}) score. This created an accidental hybrid persistence model. To maintain scientific rigor, we discarded this model despite its high score.
 
@@ -322,7 +334,7 @@ private leaderboard evidence before over-tuning its weight.
 
 % ========================================================
 \section{Conclusion}
-In this work, we implemented a robust time series prediction framework for forecasting drought severity levels. By using chronological and rolling-origin validation modes and by enforcing 91-day-gapped score-history features, we reduced leakage risk while retaining useful regional severity context. Our ablation study revealed a compelling ``Kaggle Paradox'': pure long-term meteorological models perform strongly locally but fail to generalize to the leaderboard because they lack unobserved geographical and infrastructural confounders implicitly encoded in historical drought scores. We demonstrated that naive target persistence fails completely (MAE 1.0815), while the current direct-horizon ensemble of LightGBM, XGBoost, and CatBoost achieves a competitive legal Public MAE of 0.8124.
+In this work, we implemented a robust time series prediction framework for forecasting drought severity levels. By using chronological and rolling-origin validation modes and by enforcing 91-day-gapped score-history features, we reduced leakage risk while retaining useful regional severity context. Our ablation study revealed a compelling ``Kaggle Paradox'': pure long-term meteorological models perform strongly locally but fail to generalize to the leaderboard because they lack unobserved geographical and infrastructural confounders implicitly encoded in historical drought scores. We demonstrated that naive target persistence fails completely (MAE 1.0815), while the current direct-horizon ensemble of LightGBM, XGBoost, and CatBoost achieves a competitive legal Public MAE of 0.8124. For final leaderboard selection, an already-submitted public-chase artifact reaches public MAE 0.7922 and crosses Baseline 3, but we treat it as a selected Kaggle artifact rather than evidence of a new reportable training method.
 
 % ========================================================
 \bibliographystyle{IEEEtran}

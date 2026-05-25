@@ -1,0 +1,555 @@
+{
+  "competition": "data-mining-2026-final-project",
+  "created_at_utc": "2026-05-23T07:52:10+00:00",
+  "refresh_confirmed_at_utc": "2026-05-25T00:59:27Z",
+  "mode": "manual-private-hedge-frontier-after-public-cross",
+  "automation_used": false,
+  "baseline3_public_mae": 0.8056,
+  "team5_public_mae": 0.7922,
+  "stop_condition_crossed": true,
+  "reportable_legal_anchor": {
+    "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+    "kaggle_ref": 52698259,
+    "public_mae": 0.8124,
+    "sha12": "bee6f618828d",
+    "label": "reportable"
+  },
+  "public_chase_best": {
+    "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+    "kaggle_ref": 53003220,
+    "public_mae": 0.7922,
+    "sha12": "695c62a4eb28",
+    "label": "public-chase",
+    "reportable_method_claim": false,
+    "selection_note": "Best live public artifact after the 2026-05-25 v1 private-hedge frontier; closer to the clean 0.8124 anchor than the prior 0.7930 public-best, but still not a reportable method claim."
+  },
+  "public_chase_curve": [
+    {
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alpham0p50.csv",
+      "kaggle_ref": 52946549,
+      "alpha": -0.5,
+      "public_mae": 0.8786,
+      "decision": "reject_wrong_direction"
+    },
+    {
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p10.csv",
+      "kaggle_ref": 52946569,
+      "alpha": 0.1,
+      "public_mae": 0.8049,
+      "decision": "crossed_baseline3"
+    },
+    {
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p20.csv",
+      "kaggle_ref": 52946598,
+      "alpha": 0.2,
+      "public_mae": 0.8019,
+      "decision": "improved"
+    },
+    {
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "kaggle_ref": 52946620,
+      "alpha": 0.35,
+      "public_mae": 0.7991,
+      "decision": "best_today"
+    }
+  ],
+  "missingness_shift_queue": {
+    "summary": "docs/missingness_shift_experiments_20260523_summary.md",
+    "best_validation_blind_candidate": "shift_lgbm_lean_tail1095_seasonmatch2_20260523",
+    "best_validation_blind_mae": 0.3837,
+    "kaggle_submission_decision": "do_not_submit_from_this_queue_today"
+  },
+  "artifacts": {
+    "builder": "scripts/build_public_chase_variants.py",
+    "manifest": "experiments/baseline3_push_20260523/public_chase_variants.json"
+  },
+  "public_chase_closed_at_utc": "2026-05-23T07:51:56+00:00",
+  "next_mode": "private_robustness_horizon_hedge_final_selection_review",
+  "quota_recommendation": "quota_exhausted_today_wait_for_2026-05-26_0800_taipei_refresh_before_any_more_submissions",
+  "post_cross_cleanup": {
+    "report": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/post_cross_cleanup_report.json",
+    "summary": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/experiment_summary.md",
+    "team5_rank": 5,
+    "final_submission_recommendation": {
+      "public_leaderboard_candidate": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "public_leaderboard_public_mae": 0.7991,
+      "reportable_model_candidate": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "reportable_model_public_mae": 0.8124,
+      "quota_recommendation": "do_not_submit_more_public_chase_today",
+      "private_selection_note": "If final/private selection allows choosing among submitted files, include the 0.7991 public-chase file as leaderboard-optimal but disclose/report the 0.8124 legal anchor as the clean model lineage."
+    },
+    "lineage_policy": [
+      "Stop spending quota on public-chase variants now that Team 5 is below Baseline 3 public MAE 0.8056.",
+      "Treat baseline3_public_chase_v0_cat35_08124_alpha* files as public-chase only; do not use them as reportable modeling claims.",
+      "Use recovered exact historical files only when SHA matches known live artifact; never use restored_20260522_* or restored_unverified_* as submit sources.",
+      "Next work should target private robustness, final selection rationale, and reportable lineage cleanup."
+    ]
+  },
+  "final_selection_matrix": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_1650_final_selection/final_selection_matrix.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_1650_final_selection/experiment_summary.md",
+    "recommendation": {
+      "leaderboard_optimal_submitted_file": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "leaderboard_optimal_public_mae": 0.7991,
+      "reportable_method_file": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "reportable_method_public_mae": 0.8124,
+      "do_not_select": [
+        "submission_20260522_gru_family_constrained_stack.csv",
+        "submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+        "restored_20260522_*",
+        "restored_unverified_*"
+      ]
+    }
+  },
+  "private_robustness_audit": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_1750_private_robustness/private_robustness_audit.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_1750_private_robustness/experiment_summary.md",
+    "candidate_roles": {
+      "leaderboard_optimal": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "reportable_lineage": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "source_reference_only": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv"
+    },
+    "private_robustness_assessment": {
+      "public_best_private_risk": "high_public_feedback_optimized_reference_blend",
+      "reportable_anchor_private_risk": "medium_clean_lineage_but_weaker_public",
+      "reasoning": [
+        "Public-chase best improved public MAE to 0.7991 but was selected by immediate public feedback after an alpha sweep.",
+        "It is valid as an already-submitted leaderboard/final-selection artifact, but not a reportable modeling claim.",
+        "The clean 0.8124 anchor has exact recovered SHA and reproducible LGB/XGB/CatBoost lineage, so it remains the reportable method.",
+        "GRU candidates have live public scores near 0.99 and should not be used as final/private anchors."
+      ]
+    },
+    "next_best_action": "prepare final report wording and final/private selection checklist using 0.7991 as selected submission and 0.8124 as reportable lineage"
+  },
+  "final_private_selection_checklist": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/experiment_summary.md",
+    "selected_submission_if_allowed": {
+      "path": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "public_mae": 0.7991,
+      "sha12": "d550c9cbc465",
+      "label": "public-chase",
+      "reportable_method_claim": false,
+      "required_wording": "Selected Kaggle submission / leaderboard artifact; not claimed as the reportable modeling method."
+    },
+    "reportable_model_lineage": {
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_mae": 0.8124,
+      "sha12": "bee6f618828d",
+      "label": "reportable",
+      "method": "35% LightGBM / 35% XGBoost / 30% CatBoost with CatBoost tail2737"
+    },
+    "quota_policy": "No more public-chase or GRU submissions today unless a formal final-selection action requires selecting an already submitted file in Kaggle UI."
+  },
+  "report_wording_package": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/experiment_summary.md",
+    "one_sentence_result": "Team 5 crossed Baseline 3 on the live public leaderboard with public MAE 0.7991; for method reporting, we keep the clean 35/35/30 LGB/XGB/CatBoost lineage at public MAE 0.8124 separate from the public-chase selected artifact.",
+    "must_not_claim": [
+      "Do not claim the 0.7991 public-chase artifact is a new training method.",
+      "Do not claim the 0.7991 artifact is private-robust without private evidence.",
+      "Do not use restored_20260522_* or restored_unverified_* as legal/reportable sources.",
+      "Do not select GRU stack/raw as final anchors after their public MAE 0.9850/0.9916 readout."
+    ]
+  },
+  "consistency_audit": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/experiment_summary.md",
+    "fixes_applied": [
+      {
+        "file": "docs/status/current_state.json",
+        "field": "baseline3_push.mode",
+        "old": "public-first",
+        "fix": "final-report-after-public-cross"
+      }
+    ],
+    "remaining_risks": [],
+    "next_best_action": "If no new leaderboard change, commit/summarize the baseline3_push artifacts and prepare final report integration."
+  },
+  "handoff_summary": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_2150_handoff_summary/handoff_summary.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_2150_handoff_summary/experiment_summary.md",
+    "final_decision": {
+      "stop_public_chase": true,
+      "quota_recommendation": "do_not_submit_more_public_chase_or_gru_today",
+      "selected_submission_if_allowed": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "selected_submission_public_mae": 0.7991,
+      "selected_submission_sha12": "d550c9cbc465",
+      "reportable_lineage": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "reportable_lineage_public_mae": 0.8124,
+      "reportable_lineage_sha12": "bee6f618828d"
+    },
+    "next_best_action": "Prepare a focused commit/PR summary for the baseline3_push_20260523 artifacts and integrate the report wording into report/main.tex if final report editing is next."
+  },
+  "report_integration": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_2251_report_integration/report_integration_summary.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_2251_report_integration/experiment_summary.md",
+    "edited_file": "report/main.tex",
+    "live_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "reportable_lineage_public_mae": 0.8124,
+    "selected_submission_label": "public-chase",
+    "reportable_lineage_label": "reportable",
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru_today",
+    "next_best_action": "Review/commit the report integration and keep remaining work to private robustness or final-selection documentation."
+  },
+  "final_consistency_audit": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/final_consistency_audit.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/experiment_summary.md",
+    "live_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true,
+    "fixes_applied": [
+      {
+        "file": "report/main.tex",
+        "change": "Changed remaining 'best legal public submission' wording to 'best reportable public submission' to prevent confusion with the 0.7991 public-chase artifact."
+      },
+      {
+        "file": "docs/status/current_state.json",
+        "change": "Added report_integration and final_consistency_audit pointers under baseline3_push."
+      }
+    ],
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru_today",
+    "next_best_action": "Prepare a focused commit/review of report and status documentation; no additional Kaggle submissions are recommended."
+  },
+  "final_selection_recommendation_20260524": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_recommendation.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/experiment_summary.md",
+    "sanity": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_sanity.json",
+    "live_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true,
+    "kaggle_final_selection_if_allowed": {
+      "artifact": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "kaggle_ref": 52946620,
+      "public_mae": 0.7991,
+      "sha12": "d550c9cbc465",
+      "label": "public-chase"
+    },
+    "reportable_method_lineage": {
+      "artifact": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "kaggle_ref": 52698259,
+      "public_mae": 0.8124,
+      "sha12": "bee6f618828d",
+      "label": "reportable"
+    },
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru",
+    "next_best_action": "Commit/review the final recommendation and status documentation; only use Kaggle UI if final submission selection must be changed manually."
+  },
+  "final_ui_handoff_20260524": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/experiment_summary.md",
+    "live_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true,
+    "select_in_kaggle_ui_if_available": {
+      "file_name": "baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "kaggle_ref": 52946620,
+      "public_mae": 0.7991,
+      "sha12": "d550c9cbc465",
+      "label": "public-chase"
+    },
+    "reportable_method_lineage": {
+      "file_name": "ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "kaggle_ref": 52698259,
+      "public_mae": 0.8124,
+      "sha12": "bee6f618828d",
+      "label": "reportable"
+    },
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru",
+    "next_best_action": "No new model or submission is recommended; preserve this handoff for manual final-selection UI work and commit/review documentation."
+  },
+  "automation_shutdown_20260524": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/experiment_summary.md",
+    "live_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "stop_condition_crossed": true,
+    "delete_automation": true,
+    "reason": "The hourly Baseline 3 public-chase objective has been completed and repeatedly verified; further hourly checks are low-value compared with manual final-selection UI work or normal development.",
+    "quota_recommendation": "do_not_submit_more_public_chase_or_gru",
+    "next_best_action": "Review/commit final report and status documentation. Use Kaggle UI only if final submission selection must be changed manually."
+  },
+  "daily_quota_check_20260524_0812": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_0812_20260524_dns_blocker/daily_quota_check.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_0812_20260524_dns_blocker/experiment_summary.md",
+    "live_check_status": "blocked_then_recovered",
+    "blocker": "dns_failed_api_kaggle_com",
+    "follow_up_checked_at_taipei": "2026-05-24T09:20:12+08:00",
+    "follow_up_status": "recovered_confirmed_crossed",
+    "follow_up_team5_public_mae": 0.7991,
+    "follow_up_baseline3_public_mae": 0.8056,
+    "quota_spent": 0,
+    "ran_submit": false,
+    "last_verified_team5_public_mae": 0.7991,
+    "baseline3_public_mae": 0.8056,
+    "last_verified_stop_condition_crossed": true,
+    "local_sanity_passed": true,
+    "quota_recommendation": "do_not_submit_public_chase_while_team5_remains_below_baseline3",
+    "next_best_action": "Kaggle DNS recovered at the 09:20 Taipei follow-up check and Team 5 still remains below 0.8056; keep working on private robustness and reportable lineage cleanup."
+  },
+  "daily_quota_check_20260525_0812": {
+    "report": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
+    "summary": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/experiment_summary.md",
+    "live_check_status": "blocked_dns_api_kaggle_com",
+    "blocker": "dns_failed_api_kaggle_com",
+    "checked_at_taipei": "2026-05-25T08:12:38+08:00",
+    "quota_spent": 0,
+    "ran_submit": false,
+    "orchestrator_submit_status": "not_run_because_live_history_and_leaderboard_were_unreachable",
+    "last_verified_team5_public_mae": 0.793,
+    "baseline3_public_mae": 0.8056,
+    "last_verified_stop_condition_crossed": true,
+    "local_sanity_passed": true,
+    "tmux_missingness_shift_active": false,
+    "quota_recommendation": "do_not_submit_while_kaggle_live_state_is_unreachable",
+    "next_best_action": "Retry Kaggle live submissions and leaderboard after DNS recovers; if Team 5 remains below 0.8056, keep public-chase closed and continue private robustness/reportable lineage cleanup."
+  },
+  "private_hedge_curve_20260524": [
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p50.csv",
+      "kaggle_ref": 52972055,
+      "public_mae": 0.7976,
+      "sha12": "2dd02ae9e429",
+      "kind": "private_robustness_hedge_blend",
+      "mean_abs_delta_to_reportable_anchor": 0.20937418607529268,
+      "decision": "passed_baseline3_and_improved_prior_public_best"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "kaggle_ref": 52972132,
+      "public_mae": 0.793,
+      "sha12": "d2ba4500363e",
+      "kind": "private_robustness_horizon_hedge",
+      "mean_abs_delta_to_reportable_anchor": 0.1947640039160964,
+      "decision": "best_public_and_primary_selected_public_chase_candidate"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p65.csv",
+      "kaggle_ref": 52972150,
+      "public_mae": 0.7982,
+      "sha12": "c30d494a8ba9",
+      "kind": "private_robustness_hedge_blend",
+      "mean_abs_delta_to_reportable_anchor": 0.14656193025270486,
+      "decision": "passed_baseline3_but_uniform_anchor_shift_started_to_regress_public"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_08124_alphap0p80.csv",
+      "kaggle_ref": 52972169,
+      "public_mae": 0.8022,
+      "sha12": "994dd59ffee7",
+      "kind": "private_robustness_hedge_blend",
+      "mean_abs_delta_to_reportable_anchor": 0.08374967443011705,
+      "decision": "passed_baseline3_as_high_anchor_weight_upper_bound_but_not_public_best"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "kaggle_ref": 52972194,
+      "public_mae": 0.7933,
+      "sha12": "a417100cad2b",
+      "kind": "private_robustness_horizon_hedge",
+      "mean_abs_delta_to_reportable_anchor": 0.1738265853085672,
+      "decision": "near_best_public_and_stronger_private_hedge_than_primary"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+      "kaggle_ref": 52972219,
+      "public_mae": 0.7945,
+      "sha12": "419d11ce0a81",
+      "kind": "private_robustness_horizon_hedge",
+      "mean_abs_delta_to_reportable_anchor": 0.12824326673256417,
+      "decision": "passed_baseline3_and_is_most_anchor_tilted_submitted_horizon_hedge"
+    }
+  ],
+  "private_hedge_push_20260524": {
+    "report": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
+    "summary": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/experiment_summary.md",
+    "live_team5_public_mae": 0.793,
+    "baseline3_public_mae": 0.8056,
+    "team5_rank": 3,
+    "quota_spent": 6,
+    "best_public_candidate": {
+      "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "kaggle_ref": 52972132,
+      "public_mae": 0.793,
+      "sha12": "d2ba4500363e",
+      "label": "public-chase"
+    },
+    "stronger_private_hedges": [
+      {
+        "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+        "kaggle_ref": 52972194,
+        "public_mae": 0.7933,
+        "sha12": "a417100cad2b",
+        "mean_abs_delta_to_reportable_anchor": 0.1738265853085672,
+        "label": "public-chase"
+      },
+      {
+        "path": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+        "kaggle_ref": 52972219,
+        "public_mae": 0.7945,
+        "sha12": "419d11ce0a81",
+        "mean_abs_delta_to_reportable_anchor": 0.12824326673256417,
+        "label": "public-chase"
+      }
+    ],
+    "quota_recommendation": "quota_exhausted_today_wait_for_next_reset_before_any_more_submissions",
+    "next_best_action": "At the next quota reset, continue only with horizon private-hedge refinements if final/private selection still needs more evidence."
+  },
+  "private_hedge_frontier_20260525": {
+    "report": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
+    "summary": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/experiment_summary.md",
+    "live_team5_public_mae": 0.7922,
+    "baseline3_public_mae": 0.8056,
+    "team5_rank": 3,
+    "quota_spent": 6,
+    "best_public_candidate": {
+      "path": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "kaggle_ref": 53003220,
+      "public_mae": 0.7922,
+      "sha12": "695c62a4eb28",
+      "alphas": [
+        0.3,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.17071549663353616,
+      "label": "public-chase",
+      "reportable_method_claim": false
+    },
+    "stronger_private_hedges": [
+      {
+        "path": "submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+        "kaggle_ref": 53003227,
+        "public_mae": 0.7937,
+        "sha12": "92f02f3f2a20",
+        "alphas": [
+          0.425,
+          0.5,
+          0.6,
+          0.8,
+          0.95
+        ],
+        "mean_abs_delta_to_reportable_anchor": 0.14701069924539492,
+        "label": "public-chase"
+      },
+      {
+        "path": "submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+        "kaggle_ref": 53003222,
+        "public_mae": 0.7933,
+        "sha12": "7adc27154921",
+        "alphas": [
+          0.4,
+          0.475,
+          0.575,
+          0.75,
+          0.9
+        ],
+        "mean_abs_delta_to_reportable_anchor": 0.1615036353243303,
+        "label": "public-chase"
+      }
+    ],
+    "next_quota_reset_taipei": "2026-05-26T08:00:00+08:00",
+    "next_best_action": "Quota is exhausted for 2026-05-25 UTC; wait for the 2026-05-26 08:00 Taipei reset, re-check live leaderboard/history, then continue only with adjacent horizon hedges if private-risk evidence is still needed."
+  },
+  "private_hedge_curve_20260525": [
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv",
+      "kaggle_ref": 53003193,
+      "public_mae": 0.7929,
+      "sha12": "293531f60aa1",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.325,
+        0.375,
+        0.475,
+        0.625,
+        0.775
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.20523271321986108,
+      "decision": "passes_baseline3_and_adds_frontier_evidence"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv",
+      "kaggle_ref": 53003210,
+      "public_mae": 0.7931,
+      "sha12": "eef241fc2218",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.375,
+        0.425,
+        0.525,
+        0.675,
+        0.825
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.1842952946123318,
+      "decision": "passes_baseline3_and_adds_frontier_evidence"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv",
+      "kaggle_ref": 53003215,
+      "public_mae": 0.7927,
+      "sha12": "2b58d70fc4a7",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.35,
+        0.425,
+        0.55,
+        0.725,
+        0.9
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.17427125143635375,
+      "decision": "passes_baseline3_and_adds_frontier_evidence"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "kaggle_ref": 53003220,
+      "public_mae": 0.7922,
+      "sha12": "695c62a4eb28",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.3,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.17071549663353616,
+      "decision": "best_public_and_primary_selected_public_chase_candidate"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+      "kaggle_ref": 53003222,
+      "public_mae": 0.7933,
+      "sha12": "7adc27154921",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.4,
+        0.475,
+        0.575,
+        0.75,
+        0.9
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.1615036353243303,
+      "decision": "stronger_private_hedge_alternative_below_baseline3"
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+      "kaggle_ref": 53003227,
+      "public_mae": 0.7937,
+      "sha12": "92f02f3f2a20",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.425,
+        0.5,
+        0.6,
+        0.8,
+        0.95
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.14701069924539492,
+      "decision": "stronger_private_hedge_alternative_below_baseline3"
+    }
+  ]
+}

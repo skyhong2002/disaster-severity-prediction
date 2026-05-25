@@ -112,6 +112,7 @@ def load_feature_options(run_dir: Path | None) -> dict:
         "train_tail_days": 0,
         "max_score_lag_weeks": None,
         "drop_feature_nan_rows": False,
+        "season_match_weight": 1.0,
         "drop_feature_groups": [],
     }
     if run_dir is None:
@@ -202,14 +203,14 @@ def main():
     # ── 2. Build features for test window ────────────
     print("\n[Stage 1] Building features for forecast ...")
     test["score"] = np.nan
-    
+
     # Prevent OOM by only concatenating the last 750 days of train for lag calculations
     # 'date' column has format 'XXXX-09-18' so Timedelta fails. Since each region has 1 row/day, use tail(750)
     train_tail_days = int(feature_options.get("train_tail_days", 0) or 0)
     train_ref = apply_train_tail(train, train_tail_days)
     train_recent = train_ref.groupby("region_id").tail(750).copy()
     combined = pd.concat([train_recent, test], ignore_index=True)
-    
+
     from features import build_features
     combined_feat = build_features(
         combined,
@@ -223,7 +224,7 @@ def main():
         max_score_lag_weeks=feature_options.get("max_score_lag_weeks"),
         drop_feature_groups=feature_options.get("drop_feature_groups", []),
     )
-    
+
     test_dates = test["date"].unique()
     test_feat = combined_feat[combined_feat["date"].isin(test_dates)].copy()
 

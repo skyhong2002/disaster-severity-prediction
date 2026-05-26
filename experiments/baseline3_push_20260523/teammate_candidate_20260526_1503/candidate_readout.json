@@ -1,0 +1,86 @@
+{
+  "created_taipei": "2026-05-26T15:03:35+08:00",
+  "artifact_label": "external-teammate-candidate",
+  "submission_status": "not_submitted",
+  "source_lineage": {
+    "declared_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+    "path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+    "repo_lineage_found": false,
+    "lineage_status": "provenance_pending",
+    "reportable_method_claim": false,
+    "public_chase": true,
+    "notes": "Attachment supplied by teammate discussion. No matching run directory or exact filename was found in the current checkout. Do not treat as reportable unless the generating code, data, and run logs are provided and audited."
+  },
+  "sanity_check": {
+    "passed": true,
+    "rows": 2248,
+    "columns": [
+      "region_id",
+      "pred_week1",
+      "pred_week2",
+      "pred_week3",
+      "pred_week4",
+      "pred_week5"
+    ],
+    "matches_sample_columns": true,
+    "matches_sample_region_order": true,
+    "nan_count": 0,
+    "prediction_min": 0.0,
+    "prediction_max": 5.0,
+    "prediction_mean": 0.3792474875140203,
+    "prediction_std": 0.8236902376783399,
+    "zero_count": 2458,
+    "max5_count": 3,
+    "sha256": "66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf",
+    "sha12": "66f7815e7ff3",
+    "blocked_restored_filename_pattern": false
+  },
+  "live_context": {
+    "checked_taipei": "2026-05-26T15:03:35+08:00",
+    "team5_public_mae": "0.7917",
+    "team5_rank": 3,
+    "baseline3_public_mae": "0.8056",
+    "today_quota_used_utc": "6/6",
+    "next_quota_reset_taipei": "2026-05-27T08:00:00+08:00"
+  },
+  "distance_to_current_artifacts": {
+    "public_best_v2_ref53038031": {
+      "public_mae": "0.7917",
+      "mean_abs_diff": 0.8037316841347502,
+      "rmse_diff": 1.0524506748370441,
+      "corr_flat": 0.39451208913714586
+    },
+    "private_hedge_smooth_v2_ref53038040": {
+      "public_mae": "0.7929",
+      "mean_abs_diff": 0.7892663959495312,
+      "rmse_diff": 1.0348561023891814,
+      "corr_flat": 0.4152063497801454
+    },
+    "reportable_anchor_ref52698259": {
+      "public_mae": "0.8124",
+      "mean_abs_diff": 0.6958463726039693,
+      "rmse_diff": 0.9447733674099813,
+      "corr_flat": 0.5263168230393782
+    },
+    "lgbm_refit_ref52882449": {
+      "public_mae": "0.9380",
+      "mean_abs_diff": 0.46093842111138095,
+      "rmse_diff": 0.6645587584122512,
+      "corr_flat": 0.6917460560917141
+    }
+  },
+  "decision": {
+    "submit_after_reset": "not_first_priority",
+    "reason": "The CSV passes format sanity but is very far from the current public-best and clean-anchor prediction surfaces, has many more zero predictions, and has no audited repo lineage. It should not consume the first 2026-05-27 quota slot unless the teammate provides clean generation evidence or the higher-priority adjacent hedge probes are exhausted.",
+    "required_before_any_submission": [
+      "Re-check live Kaggle submission history and leaderboard after 2026-05-27T08:00:00+08:00 Asia/Taipei.",
+      "Re-run the standard sanity check on the exact file to be submitted.",
+      "Confirm the teammate's generation path did not use private labels, external answers, unauthorized data, restored_20260522_* files, or restored_unverified_* files.",
+      "Record Kaggle ref, public score, SHA-256, artifact label, lineage status, and decision after submission if it is submitted."
+    ],
+    "preferred_next_candidates": [
+      "Continue adjacent horizon probes around the current public-best v2 frontier.",
+      "Keep refs 53038040, 53038036, and 53038033 as stronger private-risk alternatives."
+    ]
+  }
+}

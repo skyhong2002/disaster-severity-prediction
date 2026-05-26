@@ -53,7 +53,7 @@ experiments from the current direct-horizon implementation, we avoid accidental
 score leakage while preserving useful region-specific signals. The current best
 reportable Kaggle public leaderboard score recorded by the repository is
 \textbf{0.8124}. Separately, the selected already-submitted public-chase
-artifact reaches \textbf{0.7922} and crosses Baseline 3 (\textbf{0.8056}); we
+artifact reaches \textbf{0.7917} and crosses Baseline 3 (\textbf{0.8056}); we
 keep this final-selection artifact separate from the reportable method claim.
 \end{abstract}
 
@@ -257,7 +257,7 @@ Team 5 model lineage remains the 35\% LightGBM / 35\% XGBoost / 30\% CatBoost
 ensemble with public MAE \textbf{0.8124}. The corresponding reportable artifact
 is \path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}. For
 Kaggle final-selection purposes, Team 5 also has an already-submitted
-public-chase artifact with public MAE \textbf{0.7922}, which crosses Baseline 3.
+public-chase artifact with public MAE \textbf{0.7917}, which crosses Baseline 3.
 This artifact is valid as a leaderboard selection candidate, but it is not used
 as the primary reportable modeling claim.
 
@@ -271,10 +271,11 @@ as the primary reportable modeling claim.
 \hline
 Team 3 & 0.7628 & 1 \\
 Team 4 & 0.7817 & 2 \\
-\textbf{Team 5 selected public-chase artifact} & \textbf{0.7922} & \textbf{3} \\
+\textbf{Team 5 selected public-chase artifact} & \textbf{0.7917} & \textbf{3} \\
 Team 20 & 0.7942 & 4 \\
 Team 2 & 0.7955 & 5 \\
-Baseline 3 & 0.8056 & 6 \\
+Team 1 & 0.8043 & 6 \\
+Baseline 3 & 0.8056 & 7 \\
 \textbf{Team 5 reportable LGB/XGB/CatBoost lineage} & \textbf{0.8124} & \textbf{--} \\
 Baseline 2 & 0.8623 & 1 \\
 Baseline 1 & 0.9117 & 1 \\
@@ -284,12 +285,12 @@ Baseline 1 & 0.9117 & 1 \\
 \end{table}
 
 The selected public-chase row corresponds to
-\path{submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv}
-(Kaggle ref \texttt{53003220}, SHA-12 \texttt{695c62a4eb28}). It was selected
+\path{submissions/baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv}
+(Kaggle ref \texttt{53038031}, SHA-12 \texttt{eae8c5b0dc6f}). It was selected
 after public-feedback probing as a horizon-specific private-hedge frontier
 artifact, so it should not be described as a new training algorithm. More
-anchor-tilted submitted hedge alternatives are refs \texttt{53003222} and
-\texttt{53003227}. The reportable method lineage remains the 35/35/30
+anchor-tilted submitted hedge alternatives are refs \texttt{53038040},
+\texttt{53038036}, and \texttt{53038033}. The reportable method lineage remains the 35/35/30
 LGB/XGB/CatBoost artifact with SHA-12 \texttt{bee6f618828d}.
 
 The generated submission contains one row per region and five predicted scores.
@@ -334,7 +335,7 @@ private leaderboard evidence before over-tuning its weight.
 
 % ========================================================
 \section{Conclusion}
-In this work, we implemented a robust time series prediction framework for forecasting drought severity levels. By using chronological and rolling-origin validation modes and by enforcing 91-day-gapped score-history features, we reduced leakage risk while retaining useful regional severity context. Our ablation study revealed a compelling ``Kaggle Paradox'': pure long-term meteorological models perform strongly locally but fail to generalize to the leaderboard because they lack unobserved geographical and infrastructural confounders implicitly encoded in historical drought scores. We demonstrated that naive target persistence fails completely (MAE 1.0815), while the current direct-horizon ensemble of LightGBM, XGBoost, and CatBoost achieves a competitive legal Public MAE of 0.8124. For final leaderboard selection, an already-submitted public-chase artifact reaches public MAE 0.7922 and crosses Baseline 3, but we treat it as a selected Kaggle artifact rather than evidence of a new reportable training method.
+In this work, we implemented a robust time series prediction framework for forecasting drought severity levels. By using chronological and rolling-origin validation modes and by enforcing 91-day-gapped score-history features, we reduced leakage risk while retaining useful regional severity context. Our ablation study revealed a compelling ``Kaggle Paradox'': pure long-term meteorological models perform strongly locally but fail to generalize to the leaderboard because they lack unobserved geographical and infrastructural confounders implicitly encoded in historical drought scores. We demonstrated that naive target persistence fails completely (MAE 1.0815), while the current direct-horizon ensemble of LightGBM, XGBoost, and CatBoost achieves a competitive legal Public MAE of 0.8124. For final leaderboard selection, an already-submitted public-chase artifact reaches public MAE 0.7917 and crosses Baseline 3, but we treat it as a selected Kaggle artifact rather than evidence of a new reportable training method.
 
 % ========================================================
 \bibliographystyle{IEEEtran}

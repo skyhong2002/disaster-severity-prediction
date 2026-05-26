@@ -103,12 +103,83 @@ def mean_abs_delta(left: pd.DataFrame, right: pd.DataFrame) -> float:
     return float((left[PRED_COLS] - right[PRED_COLS]).abs().mean().mean())
 
 
+def build_specs(spec_set: str) -> list[Spec]:
+    if spec_set == "v1":
+        return [
+            Spec(
+                "left_of_best_public",
+                (0.325, 0.375, 0.475, 0.625, 0.775),
+                "Tests whether the public optimum sits slightly left of the current 0.7930 horizon hedge.",
+            ),
+            Spec(
+                "midpoint_best_to_nearbest",
+                (0.375, 0.425, 0.525, 0.675, 0.825),
+                "Midpoint between the best public hedge and the near-best stronger private hedge.",
+            ),
+            Spec(
+                "preserve_early_anchor_late",
+                (0.350, 0.425, 0.550, 0.725, 0.900),
+                "Keeps week 1 near the best public hedge while moving later horizons closer to the clean anchor.",
+            ),
+            Spec(
+                "public_early_full_late_anchor",
+                (0.300, 0.400, 0.550, 0.750, 1.000),
+                "Explores a stronger private hedge on late horizons without over-anchoring early horizons.",
+            ),
+            Spec(
+                "robust_mid_frontier",
+                (0.400, 0.475, 0.575, 0.750, 0.900),
+                "Interpolates toward the most robust submitted horizon hedge while staying near the public-best frontier.",
+            ),
+            Spec(
+                "smooth_high_anchor",
+                (0.425, 0.500, 0.600, 0.800, 0.950),
+                "High-anchor smooth hedge for private-risk coverage while still retaining public-chase source signal.",
+            ),
+        ]
+    if spec_set == "v2":
+        return [
+            Spec(
+                "lower_w1_only",
+                (0.275, 0.400, 0.550, 0.750, 1.000),
+                "Local probe around the 0.7922 best: reduce week-1 anchor weight while preserving the late-anchor shape.",
+            ),
+            Spec(
+                "lower_w2_only",
+                (0.300, 0.375, 0.550, 0.750, 1.000),
+                "Local probe around the 0.7922 best: reduce week-2 anchor weight while keeping the full week-5 anchor.",
+            ),
+            Spec(
+                "lower_early_pair",
+                (0.250, 0.375, 0.550, 0.750, 1.000),
+                "Tests whether the public optimum remains slightly left on early horizons after the v1 readout.",
+            ),
+            Spec(
+                "late_more_anchor",
+                (0.300, 0.400, 0.575, 0.800, 1.000),
+                "Moves weeks 3-4 closer to the clean anchor while preserving the best early-horizon weights.",
+            ),
+            Spec(
+                "balanced_private_frontier",
+                (0.325, 0.425, 0.575, 0.775, 1.000),
+                "Balanced public/private frontier: modestly more anchor weight than the 0.7922 best across weeks 1-4.",
+            ),
+            Spec(
+                "smooth_high_anchor_v2",
+                (0.350, 0.450, 0.600, 0.800, 1.000),
+                "Most anchor-tilted v2 hedge, intended as a private-risk alternative if public score remains below Baseline 3.",
+            ),
+        ]
+    raise ValueError(f"unknown spec set: {spec_set}")
+
+
 def write_summary(path: Path, payload: dict[str, Any]) -> None:
     lines = [
-        "# Private-Hedge Frontier 2026-05-25",
+        f"# Private-Hedge Frontier {payload['experiment_label']}",
         "",
         f"- Created UTC: `{payload['created_at_utc']}`",
         f"- Experiment label: `{payload['experiment_label']}`",
+        f"- Spec set: `{payload['spec_set']}`",
         "- Role: public-chase / final-selection hedge only; not a reportable method claim.",
         "- Source policy: exact recovered Team 5 submissions only; no private labels, external answers, or restored/unverified source files.",
         "",
@@ -160,17 +231,27 @@ def main() -> int:
         default=ROOT / "experiments" / "recovered_submissions_20260523",
     )
     parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
+    parser.add_argument("--spec-set", choices=["v1", "v2"], default="v1")
+    parser.add_argument("--experiment-label", default=None)
     parser.add_argument(
         "--work-dir",
         type=Path,
-        default=ROOT / "experiments" / "baseline3_push_20260523" / "private_hedge_frontier_20260525_0850",
+        default=None,
     )
     args = parser.parse_args()
 
     sample = pd.read_csv(args.sample)
     source_dir = args.source_dir if args.source_dir.is_absolute() else ROOT / args.source_dir
     out_dir = args.out_dir if args.out_dir.is_absolute() else ROOT / args.out_dir
-    work_dir = args.work_dir if args.work_dir.is_absolute() else ROOT / args.work_dir
+    default_labels = {
+        "v1": "private_hedge_frontier_20260525_0850",
+        "v2": "private_hedge_frontier_20260526_1135",
+    }
+    experiment_label = args.experiment_label or default_labels[args.spec_set]
+    if args.work_dir is None:
+        work_dir = ROOT / "experiments" / "baseline3_push_20260523" / experiment_label
+    else:
+        work_dir = args.work_dir if args.work_dir.is_absolute() else ROOT / args.work_dir
 
     sources = {
         "v0_08094": Source(
@@ -188,38 +269,7 @@ def main() -> int:
     }
     frames = {key: read_checked(source.path, sample) for key, source in sources.items()}
 
-    specs = [
-        Spec(
-            "left_of_best_public",
-            (0.325, 0.375, 0.475, 0.625, 0.775),
-            "Tests whether the public optimum sits slightly left of the current 0.7930 horizon hedge.",
-        ),
-        Spec(
-            "midpoint_best_to_nearbest",
-            (0.375, 0.425, 0.525, 0.675, 0.825),
-            "Midpoint between the best public hedge and the near-best stronger private hedge.",
-        ),
-        Spec(
-            "preserve_early_anchor_late",
-            (0.350, 0.425, 0.550, 0.725, 0.900),
-            "Keeps week 1 near the best public hedge while moving later horizons closer to the clean anchor.",
-        ),
-        Spec(
-            "public_early_full_late_anchor",
-            (0.300, 0.400, 0.550, 0.750, 1.000),
-            "Explores a stronger private hedge on late horizons without over-anchoring early horizons.",
-        ),
-        Spec(
-            "robust_mid_frontier",
-            (0.400, 0.475, 0.575, 0.750, 0.900),
-            "Interpolates toward the most robust submitted horizon hedge while staying near the public-best frontier.",
-        ),
-        Spec(
-            "smooth_high_anchor",
-            (0.425, 0.500, 0.600, 0.800, 0.950),
-            "High-anchor smooth hedge for private-risk coverage while still retaining public-chase source signal.",
-        ),
-    ]
+    specs = build_specs(args.spec_set)
 
     work_dir.mkdir(parents=True, exist_ok=True)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -228,7 +278,7 @@ def main() -> int:
     anchor = frames["cat35_08124"]
     for spec in specs:
         alpha_part = "_".join(alpha_slug(alpha) for alpha in spec.alphas)
-        name = f"baseline3_private_hedge_v1_cat35_{spec.tag}_horizon_{alpha_part}"
+        name = f"baseline3_private_hedge_{args.spec_set}_cat35_{spec.tag}_horizon_{alpha_part}"
         out_path = out_dir / f"{name}.csv"
         frame = horizon_blend(base, anchor, spec.alphas)
         frame.to_csv(out_path, index=False)
@@ -259,7 +309,8 @@ def main() -> int:
 
     payload = {
         "created_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "experiment_label": "private_hedge_frontier_20260525_0850",
+        "experiment_label": experiment_label,
+        "spec_set": args.spec_set,
         "competition": "data-mining-2026-final-project",
         "sources": {
             key: {

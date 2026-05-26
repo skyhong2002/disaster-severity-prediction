@@ -296,18 +296,22 @@ private-hedge files. Mean absolute difference to current public-best ref
 difference to the clean reportable anchor ref `52698259` is `0.695846` with flat
 correlation `0.526317`.
 
-Decision: do not submit this as the first 2026-05-27 quota slot. It can only be
-considered as a later public-chase probe after live Kaggle re-gating, exact-file
-sanity revalidation, and teammate confirmation that the generation path used no
-private labels, external answers, unauthorized data, `restored_20260522_*`, or
-`restored_unverified_*` sources. Readout:
-`experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json`.
+Decision update: per user directive on 2026-05-26, queue this candidate as rank
+`1` for the first 2026-05-27 post-reset submission slot, despite the risk
+screen. The staged path is
+`submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv`.
+Submit only after live Kaggle re-gating, exact-file sanity revalidation, SHA
+confirmation, and no evidence of private labels, external answers, unauthorized
+data, `restored_20260522_*`, or `restored_unverified_*` sources. Readout:
+`experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json`;
+queue:
+`experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json`.
 
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |
 |---|---|---|---|---:|---:|---|
-| `submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced` | LightGBM candidate attachment | Source lineage not found in checkout; teammate candidate only | Submission sanity + prediction-surface screen | N/A | Not submitted | Passed format sanity, SHA `66f7815e7ff3`, but `provenance_pending`; do not submit first after reset. |
+| `submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced` | LightGBM candidate attachment | Source lineage not found in checkout; teammate candidate only | Submission sanity + prediction-surface screen | N/A | Queued rank `1` after reset | Passed format sanity, SHA `66f7815e7ff3`, but `provenance_pending`; first post-reset probe per user directive, not reportable. |
 | `baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.25,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7917` | Current best public artifact; `public-chase`, not reportable method claim. |
 | `baseline3_private_hedge_v2_cat35_smooth_high_anchor_v2_horizon_0p35_0p45_0p6_0p8_1` | Exact-history horizon hedge | More anchor-tilted v2 hedge with alphas `[0.35,0.45,0.60,0.80,1.00]` | Public LB feedback | N/A | `0.7929` | Stronger private-risk alternative while still below Baseline 3. |
 | `baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.30,0.40,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7922` | Previous public-best artifact; `public-chase`, not reportable method claim. |

@@ -1,0 +1,43 @@
+{
+  "created_taipei": "2026-05-26T15:20:00+08:00",
+  "competition": "data-mining-2026-final-project",
+  "queue_applies_after_taipei": "2026-05-27T08:00:00+08:00",
+  "pre_submit_gate_required": true,
+  "pre_submit_gate": [
+    "live Kaggle submission history",
+    "live Kaggle leaderboard",
+    "quota availability",
+    "exact-file sanity check",
+    "SHA-256 confirmation",
+    "blocked-source filename check"
+  ],
+  "submission_order": [
+    {
+      "rank": 1,
+      "path": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "sha256": "66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf",
+      "sha12": "66f7815e7ff3",
+      "artifact_label": "external-teammate-candidate",
+      "lineage_status": "provenance_pending",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "decision_reason": "User requested this teammate artifact be queued first after reset despite prediction-surface risk; submit only after the live/sanity/rule-safety gate passes."
+    },
+    {
+      "rank": 2,
+      "path": "to_be_generated_after_live_gate",
+      "artifact_label": "adjacent-v2-horizon-hedge",
+      "lineage_status": "exact-history-public-chase",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "decision_reason": "Continue nearby probes around current v2 public-best frontier if quota remains after the teammate probe."
+    }
+  ],
+  "do_not_submit_if": [
+    "Kaggle live history or leaderboard is unreachable",
+    "quota is not available",
+    "row/column/order/NaN/range sanity fails",
+    "SHA-256 differs from the recorded value",
+    "any private-label, external-answer, unauthorized-data, restored_20260522_*, or restored_unverified_* evidence appears"
+  ]
+}

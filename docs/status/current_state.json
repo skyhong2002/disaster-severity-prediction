@@ -41,7 +41,7 @@
       "reportable"
     ],
     "stop_condition": "last verified crossed: Team 5 public score 0.7917 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-26 live Kaggle was reachable; spent 6/6 quota on v2 private-hedge frontier. Wait for 2026-05-27 08:00 Taipei reset, then re-check live history/leaderboard before any new adjacent hedge.",
+    "quota_recommendation": "2026-05-26 live Kaggle was reachable; spent 6/6 quota on v2 private-hedge frontier. Wait for 2026-05-27 08:00 Taipei reset, then re-check live history/leaderboard. Per user directive, submit the teammate LightGBM v3 enhanced candidate first if the live/sanity/rule-safety gate passes.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -58,14 +58,15 @@
     "next_quota_reset_taipei": "2026-05-27T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
     "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
-    "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json"
+    "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
+    "next_submission_queue_20260527": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json"
   },
   "recent_findings": [
     {
       "name": "Teammate LightGBM v3 enhanced candidate screen",
-      "submission": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
       "public_mae": null,
-      "interpretation": "Passed submission-format sanity and SHA recorded (66f7815e7ff3), but no repo lineage was found and its prediction surface is far from the current 0.7917 public-best frontier. Do not submit first after the 2026-05-27 08:00 Taipei reset; require lineage confirmation and live re-gate before any public-chase use."
+      "interpretation": "Passed submission-format sanity and SHA recorded (66f7815e7ff3), but no repo lineage was found and its prediction surface is far from the current 0.7917 public-best frontier. Per user directive, queue it as the first post-reset 2026-05-27 probe, with live re-gate, exact-file sanity/SHA confirmation, and rule-safety blocker checks before submission."
     },
     {
       "name": "Manual private-hedge frontier 2026-05-26",

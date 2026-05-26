@@ -263,5 +263,8 @@ For reports and method discussion, keep the legal anchor as the 35% LightGBM / 3
 - Live context: Team 5 public MAE remains `0.7917`, rank `3`; Baseline 3 is `0.8056`; 2026-05-26 UTC quota is already `6/6` used, so no submission before `2026-05-27T08:00:00+08:00`.
 - Lineage check: no matching run directory, exact filename, or exact local artifact was found in the checkout. Treat as `external-teammate-candidate`, `provenance_pending`, `public-chase=true`, `reportable_method_claim=false`.
 - Prediction-surface warning: mean prediction `0.379247`, `2458` exact zeros, and `3` exact `5.0` values. This is far from the current v2 public-best surface; mean absolute difference to ref `53038031` is `0.803732` with flat correlation `0.394512`.
-- Decision: do not submit this as the first post-reset quota slot. It can be considered only after live re-gating, exact-file sanity revalidation, and teammate confirmation that the run used no private labels, external answers, unauthorized data, `restored_20260522_*`, or `restored_unverified_*` sources.
+- User override: on 2026-05-26, the user requested this teammate candidate be queued as the first post-reset submission despite the risk screen.
+- Staged submission path: `submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv`.
+- Decision: queue as rank `1` for the 2026-05-27 post-reset submission slot. Submit only after live re-gating, exact-file sanity revalidation, SHA confirmation, and no evidence of private labels, external answers, unauthorized data, `restored_20260522_*`, or `restored_unverified_*` sources.
 - Readout artifact: `experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json`.
+- Queue artifact: `experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json`.

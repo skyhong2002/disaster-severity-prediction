@@ -65,7 +65,7 @@
   },
   "public_chase_closed_at_utc": "2026-05-23T07:51:56+00:00",
   "next_mode": "private_robustness_horizon_hedge_final_selection_review",
-  "quota_recommendation": "quota_exhausted_today_wait_for_2026-05-27_0800_taipei_refresh_before_any_more_submissions",
+  "quota_recommendation": "quota_exhausted_today_wait_for_2026-05-27_0800_taipei_refresh_then_submit_teammate_candidate_first_if_live_sanity_rule_gate_passes",
   "post_cross_cleanup": {
     "report": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/post_cross_cleanup_report.json",
     "summary": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/experiment_summary.md",
@@ -628,8 +628,10 @@
   "teammate_candidate_screen_20260526": {
     "report": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
     "summary": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/experiment_summary.md",
+    "queue": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json",
     "status": "not_submitted",
-    "path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+    "source_attachment_path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+    "staged_submission_path": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
     "sha12": "66f7815e7ff3",
     "sha256": "66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf",
     "sanity_passed": true,
@@ -637,15 +639,17 @@
     "label": "external-teammate-candidate",
     "public_chase": true,
     "reportable_method_claim": false,
+    "queue_rank_for_20260527_after_reset": 1,
+    "user_directive": "submit_first_after_reset_if_gate_passes",
     "prediction_mean": 0.3792474875140203,
     "zero_count": 2458,
     "mean_abs_diff_to_public_best_v2": 0.8037316841347502,
     "mean_abs_diff_to_reportable_anchor": 0.6958463726039693,
-    "quota_recommendation": "do_not_submit_first_after_2026-05-27_0800_taipei_reset",
+    "quota_recommendation": "submit_first_after_2026-05-27_0800_taipei_reset_if_live_sanity_rule_gate_passes",
     "required_before_submission": [
       "live Kaggle history and leaderboard re-gate after reset",
       "exact-file sanity revalidation and SHA confirmation",
-      "teammate confirmation of authorized non-leaky generation path"
+      "blocked-source and rule-safety evidence check"
     ]
   },
   "private_hedge_curve_20260526": [

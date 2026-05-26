@@ -5,6 +5,7 @@
   "source_lineage": {
     "declared_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
     "path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+    "staged_submission_path": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
     "repo_lineage_found": false,
     "lineage_status": "provenance_pending",
     "reportable_method_claim": false,
@@ -70,16 +71,18 @@
     }
   },
   "decision": {
-    "submit_after_reset": "not_first_priority",
-    "reason": "The CSV passes format sanity but is very far from the current public-best and clean-anchor prediction surfaces, has many more zero predictions, and has no audited repo lineage. It should not consume the first 2026-05-27 quota slot unless the teammate provides clean generation evidence or the higher-priority adjacent hedge probes are exhausted.",
+    "submit_after_reset": "first_priority_user_directive",
+    "queue_rank_for_20260527_after_reset": 1,
+    "user_directive_taipei": "2026-05-26: user requested to put this teammate candidate first despite the risk screen.",
+    "reason": "The CSV passes format sanity and is now queued as the first 2026-05-27 post-reset probe per user directive. It remains provenance_pending and should be recorded as a public-chase teammate candidate, not a reportable method claim.",
     "required_before_any_submission": [
       "Re-check live Kaggle submission history and leaderboard after 2026-05-27T08:00:00+08:00 Asia/Taipei.",
-      "Re-run the standard sanity check on the exact file to be submitted.",
-      "Confirm the teammate's generation path did not use private labels, external answers, unauthorized data, restored_20260522_* files, or restored_unverified_* files.",
+      "Re-run the standard sanity check on submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv and confirm SHA-256 remains 66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf.",
+      "Do not submit if any evidence appears that the teammate artifact used private labels, external answers, unauthorized data, restored_20260522_* files, or restored_unverified_* files.",
       "Record Kaggle ref, public score, SHA-256, artifact label, lineage status, and decision after submission if it is submitted."
     ],
     "preferred_next_candidates": [
-      "Continue adjacent horizon probes around the current public-best v2 frontier.",
+      "After this first teammate probe, continue adjacent horizon probes around the current public-best v2 frontier.",
       "Keep refs 53038040, 53038036, and 53038033 as stronger private-risk alternatives."
     ]
   }

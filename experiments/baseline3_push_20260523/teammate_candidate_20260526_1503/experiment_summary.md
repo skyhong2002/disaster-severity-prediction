@@ -7,6 +7,8 @@
 - Status: not submitted.
 - Artifact label: `external-teammate-candidate`; `public-chase=true`; `reportable_method_claim=false`.
 - Lineage status: `provenance_pending`. No matching run directory, exact filename, or exact local artifact was found in the current checkout.
+- Staged submission path: `submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv`.
+- Queue update: per user directive on 2026-05-26, this candidate is now rank `1` for the first post-reset submission slot on `2026-05-27T08:00:00+08:00`, subject to live Kaggle and exact-file sanity gates.
 
 ## Sanity Check
 
@@ -38,11 +40,14 @@ The candidate is much lower in average prediction level than the currently succe
 
 ## Decision
 
-Do not use this as the first 2026-05-27 submission. It is acceptable only as a later public-chase/provenance-pending probe if:
+Per user directive, use this as the first 2026-05-27 post-reset submission if the live gate and exact-file sanity gate pass. It remains a public-chase/provenance-pending teammate probe, not a reportable method claim.
+
+Required before submission:
 
 - the live history/leaderboard gate passes after the `08:00` Taipei reset;
-- the exact file is revalidated and the SHA remains `66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf`;
-- the teammate confirms the generation path used only authorized competition data and did not use private labels, external answers, `restored_20260522_*`, or `restored_unverified_*` sources;
-- higher-priority adjacent horizon hedge probes do not need all six quota slots.
+- `submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv` is revalidated and the SHA remains `66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf`;
+- no evidence appears that the generation path used private labels, external answers, unauthorized data, `restored_20260522_*`, or `restored_unverified_*` sources.
 
-Preferred next action after reset: continue adjacent probes around the v2 frontier and keep refs `53038040`, `53038036`, and `53038033` as stronger private-risk alternatives.
+After this first teammate probe, continue adjacent probes around the v2 frontier and keep refs `53038040`, `53038036`, and `53038033` as stronger private-risk alternatives.
+
+Queue artifact: `experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json`.

@@ -75,21 +75,15 @@ models.
 Our method is closest to the competition-style tabular forecasting tradition:
 XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and
 CatBoost~\cite{prokhorenkova2018catboost} are strong baselines for mixed
-continuous/categorical data and sparse feature interactions. Multi-horizon time
-series research has also advanced rapidly through interpretable neural
-forecasters such as TFT~\cite{lim2021temporal}, basis/interpolation models
-such as N-BEATS~\cite{oreshkin2020nbeats} and N-HiTS~\cite{challu2023nhits},
-efficient Transformer variants such as Informer~\cite{zhou2021informer},
-Autoformer~\cite{wu2021autoformer}, FEDformer~\cite{zhou2022fedformer},
-PatchTST~\cite{nie2023patchtst}, TimesNet~\cite{wu2023timesnet}, and
-iTransformer~\cite{liu2024itransformer}, as well as simpler alternatives such
-as DLinear~\cite{zeng2023dlinear} and TSMixer~\cite{chen2023tsmixer}. Recent
-foundation models, including TimesFM~\cite{das2024timesfm},
-Chronos~\cite{ansari2024chronos}, Moirai~\cite{woo2024moirai}, and later
-MoE-scale systems such as Time-MoE~\cite{shi2024timemoe} and
-Timer-S1~\cite{liu2026timers1}, show the direction of SOTA zero-shot
-forecasting, but our dataset has a specific supervised target,
-high-cardinality regions, and strict leakage constraints.
+continuous/categorical data and sparse feature interactions. The most relevant
+sequence alternatives for this assignment are TCN-style convolutional models
+~\cite{bai2018tcn}, PatchTST Transformers~\cite{nie2023patchtst}, and the
+simple DLinear baseline~\cite{zeng2023dlinear}, because peer reports explicitly
+compared neural sequence models with tree or linear baselines. Recent foundation
+models such as TimesFM~\cite{das2024timesfm} show the broader SOTA direction,
+but our dataset has a specific supervised target, high-cardinality regions, and
+strict leakage constraints, so zero-shot generality is less central than
+validation reliability.
 In drought forecasting, prior reviews emphasize that meteorological drought is
 nonlinear, nonstationary, and often benefits from hybrid or ensemble machine
 learning models~\cite{alawsi2022drought}. The U.S. Drought Monitor literature
@@ -194,6 +188,14 @@ nodes at the same depth share the same split. These balanced trees are less
 expressive per tree than arbitrary CART trees, but they are stable and provide
 a useful categorical-modeling bias for the ensemble.
 
+We used boosted trees deliberately rather than treating them as weak baselines.
+The course feedback and peer reports suggest that high-capacity neural models
+can look good under an internal metric but fail to transfer when the public and
+private distributions differ. Our feature table is heterogeneous, region-heavy,
+and partly based on hand-audited historical aggregates. Boosted trees let us
+inspect feature ablations, enforce leakage gaps, and keep exact submission
+lineage more easily than end-to-end sequence models.
+
 The best reportable submission blends the three model families as
 \begin{equation}
   \hat{y}_{r,h}=0.35\hat{y}^{LGB}_{r,h}
@@ -202,15 +204,17 @@ The best reportable submission blends the three model families as
 All final predictions are clipped to $[0,5]$.
 
 \subsection{Validation and Selection Discipline}
-We used three levels of evidence. First, chronological holdout and
-rolling-origin validation give fast local feedback. Second, Kaggle-like blind
-backtests hide a historical 91-day window and score the next five real weekly
-labels. Third, Kaggle public leaderboard readouts check transfer to the
-competition test distribution. These signals often disagreed, so no candidate
-was promoted from local MAE alone. We also used a leakage sentinel that poisons
-hidden-window labels and verifies that pseudo-test features do not change. This
-guard was important because a naive score-persistence model can look excellent
-locally but fail on Kaggle.
+We used four levels of evidence. First, chronological holdout and rolling-origin
+validation give fast local feedback. Second, Kaggle-like blind backtests hide a
+historical 91-day window and score the next five real weekly labels. Third,
+Kaggle public leaderboard readouts check transfer to the competition test
+distribution. Fourth, course feedback about public/private gaps was treated as
+an overfitting warning: a high public score is useful for placement, but it is
+not sufficient evidence that the modeling method generalizes. These signals
+often disagreed, so no candidate was promoted from local MAE alone. We also used
+a leakage sentinel that poisons hidden-window labels and verifies that
+pseudo-test features do not change. This guard was important because a naive
+score-persistence model can look excellent locally but fail on Kaggle.
 
 \subsection{Inference and Reproducibility}
 At inference time, training tail rows and the 91-day test rows are concatenated
@@ -291,6 +295,12 @@ same-region, same-month-day previous-year baseline, daily precipitation drops
 from 3.250 to 1.925, dry-day share rises from 0.403 to 0.487, and 90-day
 precipitation falls from 277.676 to 223.710. This motivated tail-length,
 season-matching, and drought-proxy experiments rather than all-history training.
+This directly matches the course suggestion to treat seasonality, recent-year
+importance, and data-range choice as first-class modeling decisions. However,
+we did not automatically choose the most recent-tail candidate: several
+recent-weighted runs improved a local or blind metric but failed to transfer to
+the public leaderboard. The final reportable lineage is therefore the candidate
+with the best combined evidence, not the candidate with the best single split.
 
 \subsection{Main Model Results}
 Table~\ref{tab:model_results} reports the major legal model families and
@@ -315,6 +325,14 @@ stress are not redundant with short lags. Removing climatology improved rolling
 MAE by 0.0078, but failed the blind backtest with MAE 0.4463 versus the baseline
 blind anchor 0.3549. This was a concrete example where local validation alone
 would have selected the wrong model.
+
+The ablations also changed our feature discipline. More features were not
+automatically better: target-history features were useful but dangerous, so
+they were allowed only behind the 91-day blind gap; climatology features were
+kept only when they survived blind checks; and leakage-adjacent artifacts were
+excluded even when their public score was attractive. This mirrors the peer
+warning that feature quantity can become a liability without validation-based
+pruning.
 
 Missingness and shift experiments on 2026-05-23 also failed to replace the
 reportable anchor. The best validation/blind candidate,
@@ -379,6 +397,16 @@ weather alone cannot reconstruct. However, target history also creates the
 largest leakage risk, so the final workflow treats leakage sentinels, blind
 backtests, and exact artifact lineage as part of model selection rather than as
 after-the-fact documentation.
+
+Peer reports support the same conclusion from different angles. One group found
+that discarding older years improved public score but raised public/private
+overfitting concern; another used LightGBM, TCN, and feature-fused TCN as an
+ensemble, where LightGBM still added marginal value despite not being the main
+sequence model; a third group tried GRU, LSTM, CNN, Transformer, and tree
+models, but reported that neural models did not transfer as reliably as their
+internal metrics suggested. Our response is therefore not to maximize model
+complexity, but to emphasize distribution checks, leakage-safe features,
+heterogeneous tree ensembles, and conservative artifact labeling.
 
 The public-chase sequence further shows why leaderboard scores must be labeled
 carefully. It improved Team 5 from the reportable 0.8124 anchor to 0.7915 by

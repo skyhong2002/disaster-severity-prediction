@@ -150,13 +150,51 @@ is a direct-horizon supervised pipeline, not a separate score-reconstruction
 system.
 
 \subsection{Model Families}
-For each horizon, we train one regressor. LightGBM is the primary tabular
-anchor because it handles many engineered features efficiently with leaf-wise
-histogram boosting. XGBoost provides a second boosted-tree inductive bias and
-served as the first ensemble partner. CatBoost is added for diversity because
-ordered boosting and categorical handling are well matched to \texttt{region}
-and calendar buckets. The best reportable submission blends the three model
-families as
+For each horizon, we train one independent regression model per family rather
+than an autoregressive five-week sequence model. For a feature vector
+$\mathbf{z}_{r,t}$ at forecast origin $t$, each model family learns an additive
+tree function
+\begin{equation}
+  F_h(\mathbf{z}_{r,t}) =
+  F_{0,h}+\sum_{m=1}^{M}\eta_m f_{m,h}(\mathbf{z}_{r,t}),
+\end{equation}
+where each $f_{m,h}$ is a regression tree fitted to the residual gradient of
+the current ensemble. The three libraries share this boosting view, but their
+tree structure and regularization are different.
+
+\textbf{LightGBM.} LightGBM is our primary tabular anchor. It first quantizes
+continuous inputs into histogram bins, then searches split gains on those bins
+instead of on all raw values~\cite{ke2017lightgbm}. Its trees are grown
+leaf-wise: after every split, the algorithm expands the current leaf with the
+largest estimated loss reduction. This best-first structure can form deep,
+specialized rules such as ``very low 90-day precipitation in a specific
+seasonal context,'' which is useful for our many lag, rolling, drought-proxy,
+and climatology features. The risk is overfitting, so the implementation relies
+on constraints such as learning rate, number of leaves, minimum leaf data, and
+feature subsampling.
+
+\textbf{XGBoost.} XGBoost also builds an additive ensemble of CART-style
+regression trees, but the split search is driven by a second-order regularized
+objective~\cite{chen2016xgboost}. At each boosting step it approximates the
+loss with gradients and Hessians, penalizes tree complexity through the number
+of leaves and leaf weights, and then applies shrinkage and row/column
+subsampling. In practice this gives a more conservative, depth-controlled tree
+structure than LightGBM. It often captures similar nonlinear interactions, but
+with different split choices, making it a strong diversity partner rather than
+a duplicate of the LightGBM model.
+
+\textbf{CatBoost.} CatBoost is added because its structure is different in two
+ways. First, it uses ordered boosting: training examples are processed through
+random permutations so that target-derived statistics for a row are computed
+only from earlier rows in that permutation~\cite{prokhorenkova2018catboost}.
+This is important because \texttt{region\_id}, month, and other calendar
+buckets are high-cardinality categorical signals that can otherwise memorize
+labels. Second, CatBoost commonly uses symmetric oblivious trees, where all
+nodes at the same depth share the same split. These balanced trees are less
+expressive per tree than arbitrary CART trees, but they are stable and provide
+a useful categorical-modeling bias for the ensemble.
+
+The best reportable submission blends the three model families as
 \begin{equation}
   \hat{y}_{r,h}=0.35\hat{y}^{LGB}_{r,h}
   +0.35\hat{y}^{XGB}_{r,h}+0.30\hat{y}^{CAT}_{r,h}.
@@ -185,6 +223,41 @@ report is tied to a CSV path, Kaggle reference id, blend description, and
 lineage label.
 
 \section{Experiments (\textcolor{red}{2-4 pages})}
+
+\begin{table*}[!t]
+\centering
+\caption{Main Experiment Results and Decisions}
+\label{tab:model_results}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.15\textwidth}p{0.18\textwidth}p{0.13\textwidth}p{0.08\textwidth}p{0.08\textwidth}p{0.21\textwidth}}
+\hline
+\textbf{Experiment} & \textbf{Feature / model idea} & \textbf{Validation} &
+\textbf{Local MAE} & \textbf{Public MAE} & \textbf{Decision} \\
+\hline
+Weather-only direct & Direct LGB/XGB without score history & Holdout &
+0.6770 / 0.7320 & 0.8640 & Rejected as primary method; weather alone misses
+unobserved regional severity context. \\
+LGB/XGB 50/50 anchor & Score-history boosted-tree ensemble & Holdout &
+0.6942 / 0.7150 & 0.8232 & First reproducible legal anchor. \\
+CatBoost tail2737 & Direct CatBoost with native region/calendar categories &
+Rolling origin & 0.2212 & Component only & Useful diversity model; validation
+scale differs from holdout. \\
+\textbf{LGB/XGB/Cat 35/35/30} & Three-model convex ensemble & Kaggle
+sanity + lineage audit & N/A & \textbf{0.8124} & \textbf{Best reportable
+method claim}, Kaggle ref 52698259. \\
+Blind LGBM tail1095 & Refit-full LGBM, lean features & Blind backtest &
+0.3549 blind & 0.9380 & Strong pseudo-private anchor but poor public transfer. \\
+Feature-fused TCN & 91-day sequence model with visible time-safe priors &
+Blind backtest & 0.3508 blind & 0.9450 & Neural diversity signal only; not a
+public anchor. \\
+Initial accidental hybrid & Leakage-adjacent score behavior & Diagnostic &
+0.2100 & 0.8094 & Excluded from reportable claims. \\
+Naive score persistence & score gap 0 / forward-fill control & Diagnostic &
+0.2321 & 1.0815 & Demonstrates severe leakage risk. \\
+\hline
+\end{tabular}
+\end{table*}
 
 \subsection{Dataset and Setup}
 The dataset contains daily meteorological observations over many synthetic
@@ -224,41 +297,6 @@ Table~\ref{tab:model_results} reports the major legal model families and
 diagnostic controls. Local MAE values come from different validation protocols,
 so they are used only within the same protocol. Kaggle public MAE is the common
 external comparison.
-
-\begin{table*}[t]
-\centering
-\caption{Main Experiment Results and Decisions}
-\label{tab:model_results}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{0.15\textwidth}p{0.18\textwidth}p{0.13\textwidth}p{0.08\textwidth}p{0.08\textwidth}p{0.21\textwidth}}
-\hline
-\textbf{Experiment} & \textbf{Feature / model idea} & \textbf{Validation} &
-\textbf{Local MAE} & \textbf{Public MAE} & \textbf{Decision} \\
-\hline
-Weather-only direct & Direct LGB/XGB without score history & Holdout &
-0.6770 / 0.7320 & 0.8640 & Rejected as primary method; weather alone misses
-unobserved regional severity context. \\
-LGB/XGB 50/50 anchor & Score-history boosted-tree ensemble & Holdout &
-0.6942 / 0.7150 & 0.8232 & First reproducible legal anchor. \\
-CatBoost tail2737 & Direct CatBoost with native region/calendar categories &
-Rolling origin & 0.2212 & Component only & Useful diversity model; validation
-scale differs from holdout. \\
-\textbf{LGB/XGB/Cat 35/35/30} & Three-model convex ensemble & Kaggle
-sanity + lineage audit & N/A & \textbf{0.8124} & \textbf{Best reportable
-method claim}, Kaggle ref 52698259. \\
-Blind LGBM tail1095 & Refit-full LGBM, lean features & Blind backtest &
-0.3549 blind & 0.9380 & Strong pseudo-private anchor but poor public transfer. \\
-Feature-fused TCN & 91-day sequence model with visible time-safe priors &
-Blind backtest & 0.3508 blind & 0.9450 & Neural diversity signal only; not a
-public anchor. \\
-Initial accidental hybrid & Leakage-adjacent score behavior & Diagnostic &
-0.2100 & 0.8094 & Excluded from reportable claims. \\
-Naive score persistence & score gap 0 / forward-fill control & Diagnostic &
-0.2321 & 1.0815 & Demonstrates severe leakage risk. \\
-\hline
-\end{tabular}
-\end{table*}
 
 The key lesson is that local validation and public transfer are not monotonic.
 For example, rolling-origin CatBoost and later neural/TCN variants looked strong

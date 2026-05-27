@@ -198,6 +198,39 @@ def build_specs(spec_set: str) -> list[Spec]:
                 "Private-robust hedge around the v2 public best: preserve early weights and move weeks 3-4 toward the clean anchor.",
             ),
         ]
+    if spec_set == "v4":
+        return [
+            Spec(
+                "w1_0p20_keep_shape",
+                (0.200, 0.375, 0.550, 0.750, 1.000),
+                "Follows the v3 week-1 signal: reduce only week-1 anchor weight from 0.225 to 0.200 while preserving the selected v3 shape.",
+            ),
+            Spec(
+                "w1_0p175_keep_shape",
+                (0.175, 0.375, 0.550, 0.750, 1.000),
+                "Boundary probe for the week-1 public optimum after v3 showed week-1 reduction helped.",
+            ),
+            Spec(
+                "w1_0p2125_keep_shape",
+                (0.2125, 0.375, 0.550, 0.750, 1.000),
+                "Fine-grained interpolation between the v3 selected 0.225 week-1 weight and the next lower 0.200 probe.",
+            ),
+            Spec(
+                "w1_0p225_w2_mid",
+                (0.225, 0.3625, 0.550, 0.750, 1.000),
+                "Tests whether a milder week-2 reduction than v3 lower_early_more can keep the 0.7915 public score with less anchor drift.",
+            ),
+            Spec(
+                "w1_0p20_late_anchor",
+                (0.200, 0.375, 0.575, 0.800, 1.000),
+                "Private-robust hedge combining the new lower week-1 probe with more anchor weight on weeks 3-4.",
+            ),
+            Spec(
+                "w1_0p225_late_mid_anchor",
+                (0.225, 0.375, 0.565, 0.775, 1.000),
+                "Softer late-anchor hedge between the v3 selected public-best shape and the same-day late-anchor private hedge.",
+            ),
+        ]
     raise ValueError(f"unknown spec set: {spec_set}")
 
 
@@ -259,7 +292,7 @@ def main() -> int:
         default=ROOT / "experiments" / "recovered_submissions_20260523",
     )
     parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
-    parser.add_argument("--spec-set", choices=["v1", "v2", "v3"], default="v1")
+    parser.add_argument("--spec-set", choices=["v1", "v2", "v3", "v4"], default="v1")
     parser.add_argument("--experiment-label", default=None)
     parser.add_argument(
         "--work-dir",
@@ -275,6 +308,7 @@ def main() -> int:
         "v1": "private_hedge_frontier_20260525_0850",
         "v2": "private_hedge_frontier_20260526_1135",
         "v3": "private_hedge_frontier_20260527_1445",
+        "v4": "private_hedge_frontier_20260528_queue_20260527_1500",
     }
     experiment_label = args.experiment_label or default_labels[args.spec_set]
     if args.work_dir is None:

@@ -65,7 +65,7 @@
   },
   "public_chase_closed_at_utc": "2026-05-23T07:51:56+00:00",
   "next_mode": "private_robustness_horizon_hedge_final_selection_review",
-  "quota_recommendation": "quota_exhausted_today_wait_for_2026-05-28_0800_taipei_refresh_before_any_more_submissions",
+  "quota_recommendation": "quota_exhausted_today_v4_queue_prepared_wait_for_2026-05-28_0800_taipei_refresh_before_any_more_submissions",
   "post_cross_cleanup": {
     "report": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/post_cross_cleanup_report.json",
     "summary": "experiments/baseline3_push_20260523/post_cross_cleanup_1549/experiment_summary.md",
@@ -904,5 +904,42 @@
       "mean_abs_delta_to_reportable_anchor": 0.17099120212702545,
       "decision": "strongest_same_day_private_hedge_alternative_below_baseline3"
     }
-  ]
+  ],
+  "private_hedge_frontier_20260528_queue": {
+    "report": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json",
+    "summary": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/experiment_summary.md",
+    "status": "prepared_not_submitted_quota_exhausted",
+    "live_team5_public_mae": 0.7915,
+    "baseline3_public_mae": 0.8056,
+    "team5_rank": 3,
+    "quota_used_20260527_utc": "6/6",
+    "next_quota_reset_taipei": "2026-05-28T08:00:00+08:00",
+    "candidate_count": 6,
+    "first_candidate": {
+      "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
+      "sha12": "ec1cea965464",
+      "alphas": [
+        0.2125,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "label": "public-chase",
+      "reportable_method_claim": false
+    },
+    "private_hedge_candidates": [
+      {
+        "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
+        "sha12": "4569505de0e4",
+        "mean_abs_delta_to_reportable_anchor": 0.17604335063360574
+      },
+      {
+        "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
+        "sha12": "5d6406745e87",
+        "mean_abs_delta_to_reportable_anchor": 0.17533117431642245
+      }
+    ],
+    "next_best_action": "After reset, live-gate Kaggle, revalidate SHA/sanity, then submit v4 queue in recorded order if still aligned."
+  }
 }

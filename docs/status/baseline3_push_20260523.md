@@ -290,3 +290,22 @@ For reports and method discussion, keep the legal anchor as the 35% LightGBM / 3
 - Reportable method lineage remains `experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` / Kaggle ref `52698259` / public MAE `0.8124`.
 - Readout artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json`.
 - Quota status: `6/6` used for 2026-05-27 UTC; next reset is `2026-05-28T08:00:00+08:00`.
+
+## 14:58 Private-Hedge Frontier v4 Queue Prep (2026-05-27)
+
+- No additional submission was made because 2026-05-27 UTC quota is already `6/6` used.
+- Live check still has Team 5 at public MAE `0.7915`, rank `3`; Baseline 3 is `0.8056`.
+- Generated six v4 exact-history horizon hedges for the 2026-05-28 reset. The queue focuses on the v3 week-1 signal while keeping two late-anchor private-risk hedges.
+- All v4 candidates passed sanity: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
+
+| Rank | Candidate | SHA-12 | Role |
+|---:|---|---:|---|
+| 1 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv` | `ec1cea965464` | Fine public-side week-1 interpolation. |
+| 2 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv` | `4138156b1e10` | Main public-side week-1 probe. |
+| 3 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` | `c02dc54a2a79` | Boundary public-side week-1 probe. |
+| 4 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv` | `56284d0e5a27` | Milder week-2 adjustment. |
+| 5 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv` | `4569505de0e4` | Softer late-anchor private hedge. |
+| 6 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv` | `5d6406745e87` | Stronger late-anchor private hedge. |
+
+- Readout artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json`.
+- Next action: after `2026-05-28T08:00:00+08:00`, re-check live Kaggle history/leaderboard/quota, revalidate exact-file SHA/sanity, then submit in rank order if still aligned.

@@ -18,21 +18,21 @@
     "local_file_required": false
   },
   "baseline3_push": {
-    "mode": "manual-private-hedge-frontier-v2-after-public-cross",
+    "mode": "manual-private-hedge-frontier-v3-after-public-cross",
     "daily_submission_target": 6,
     "baseline3_public_mae": "0.8056",
-    "team5_public_mae": "0.7917",
-    "gap_to_cross": "-0.0139",
+    "team5_public_mae": "0.7915",
+    "gap_to_cross": "-0.0141",
     "ledger": "docs/status/baseline3_push_20260523.md",
     "orchestrator": "scripts/run_baseline3_push.py",
     "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
     "public_chase_best": {
-      "submission": "submissions/baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7917",
+      "submission": "submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7915",
       "rows": 2248,
-      "sha256_prefix": "eae8c5b0dc6f",
-      "kaggle_ref": "53038031",
-      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.25, 0.375, 0.55, 0.75, 1.00]",
+      "sha256_prefix": "003351676087",
+      "kaggle_ref": "53074980",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.225, 0.375, 0.55, 0.75, 1.00]",
       "artifact_label": "public-chase",
       "reportable_method_claim": false
     },
@@ -40,8 +40,8 @@
       "public-chase",
       "reportable"
     ],
-    "stop_condition": "last verified crossed: Team 5 public score 0.7917 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-26 live Kaggle was reachable; spent 6/6 quota on v2 private-hedge frontier. Wait for 2026-05-27 08:00 Taipei reset, then re-check live history/leaderboard. Per user directive, submit the teammate LightGBM v3 enhanced candidate first if the live/sanity/rule-safety gate passes.",
+    "stop_condition": "last verified crossed: Team 5 public score 0.7915 < Baseline 3 public score 0.8056",
+    "quota_recommendation": "2026-05-27 live Kaggle was reachable; teammate first queue item was already submitted with public 1.0685, then spent remaining 5/6 quota on v3 horizon frontier. Wait for 2026-05-28 08:00 Taipei reset, then re-check live history/leaderboard before any v4 probe.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -52,21 +52,28 @@
     "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
     "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
     "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "submitted_private_hedge_frontier_20260526_quota_6_of_6",
-    "latest_live_check_taipei": "2026-05-26T11:39:01+08:00",
+    "latest_live_check_status": "submitted_private_hedge_frontier_20260527_quota_6_of_6",
+    "latest_live_check_taipei": "2026-05-27T14:50:06+08:00",
     "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
-    "next_quota_reset_taipei": "2026-05-27T08:00:00+08:00",
+    "next_quota_reset_taipei": "2026-05-28T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
     "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
     "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
-    "next_submission_queue_20260527": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json"
+    "next_submission_queue_20260527": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json",
+    "private_hedge_frontier_20260527": "experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json"
   },
   "recent_findings": [
     {
+      "name": "Manual private-hedge frontier 2026-05-27",
+      "submission": "submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7915",
+      "interpretation": "A five-submission v3 horizon frontier after the teammate first-queue readout improved Team 5 public MAE to 0.7915. Ref 53074980 is selected over same-score ref 53075001 because it is closer to the clean 0.8124 anchor; ref 53075022 and prior refs 53038040/53038036/53038033 remain stronger private-risk alternatives. All v3 files are public-chase/final-selection artifacts, not reportable method claims."
+    },
+    {
       "name": "Teammate LightGBM v3 enhanced candidate screen",
       "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
-      "public_mae": null,
-      "interpretation": "Passed submission-format sanity and SHA recorded (66f7815e7ff3), but no repo lineage was found and its prediction surface is far from the current 0.7917 public-best frontier. Per user directive, queue it as the first post-reset 2026-05-27 probe, with live re-gate, exact-file sanity/SHA confirmation, and rule-safety blocker checks before submission."
+      "public_mae": "1.0685",
+      "interpretation": "First 2026-05-27 queue item was already submitted by teammate as Kaggle ref 53074655 and scored public 1.0685. Keep as negative public readout with provenance_pending; do not promote or use as reportable lineage."
     },
     {
       "name": "Manual private-hedge frontier 2026-05-26",
@@ -153,7 +160,7 @@
   "banned_current_state_phrases": [
     "Current best legal submission: `submissions/ensemble_final.csv`",
     "Current status: reproducible best legal public MAE = **0.8232**",
-    "\u76ee\u524d\u72c0\u614b\uff1a repo \u7d00\u9304\u7684\u6700\u4f73 legal public MAE = **0.8232**",
+    "目前狀態： repo 紀錄的最佳 legal public MAE = **0.8232**",
     "completely eliminates historical score features",
     "purely on meteorological data",
     "score reconstructor pipeline",

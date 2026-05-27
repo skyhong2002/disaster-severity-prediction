@@ -1,7 +1,7 @@
 {
   "created_taipei": "2026-05-26T15:03:35+08:00",
   "artifact_label": "external-teammate-candidate",
-  "submission_status": "not_submitted",
+  "submission_status": "submitted_negative_public_readout",
   "source_lineage": {
     "declared_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
     "path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
@@ -71,10 +71,10 @@
     }
   },
   "decision": {
-    "submit_after_reset": "first_priority_user_directive",
+    "submit_after_reset": "already_submitted_as_first_queue_item",
     "queue_rank_for_20260527_after_reset": 1,
     "user_directive_taipei": "2026-05-26: user requested to put this teammate candidate first despite the risk screen.",
-    "reason": "The CSV passes format sanity and is now queued as the first 2026-05-27 post-reset probe per user directive. It remains provenance_pending and should be recorded as a public-chase teammate candidate, not a reportable method claim.",
+    "reason": "The teammate candidate was already submitted as the first 2026-05-27 queue item and scored public MAE 1.0685. Keep it as a negative public readout with provenance_pending; do not promote or report as method contribution.",
     "required_before_any_submission": [
       "Re-check live Kaggle submission history and leaderboard after 2026-05-27T08:00:00+08:00 Asia/Taipei.",
       "Re-run the standard sanity check on submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv and confirm SHA-256 remains 66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf.",
@@ -85,5 +85,13 @@
       "After this first teammate probe, continue adjacent horizon probes around the current public-best v2 frontier.",
       "Keep refs 53038040, 53038036, and 53038033 as stronger private-risk alternatives."
     ]
+  },
+  "kaggle_submission_result": {
+    "kaggle_ref": 53074655,
+    "date_utc": "2026-05-27T06:34:58.130000+00:00",
+    "public_mae": 1.0685,
+    "status": "COMPLETE",
+    "submitted_by": "veldahung",
+    "decision": "negative_public_readout_do_not_promote"
   }
 }

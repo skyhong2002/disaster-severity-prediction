@@ -9,6 +9,8 @@
 - Lineage status: `provenance_pending`. No matching run directory, exact filename, or exact local artifact was found in the current checkout.
 - Staged submission path: `submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv`.
 - Queue update: per user directive on 2026-05-26, this candidate is now rank `1` for the first post-reset submission slot on `2026-05-27T08:00:00+08:00`, subject to live Kaggle and exact-file sanity gates.
+- Kaggle result: already present in the 2026-05-27 live history as ref `53074655`, submitted by `veldahung`, public MAE `1.0685`.
+- Decision: negative public readout; keep as `provenance_pending` and do not promote or use as reportable method contribution.
 
 ## Sanity Check
 
@@ -40,7 +42,7 @@ The candidate is much lower in average prediction level than the currently succe
 
 ## Decision
 
-Per user directive, use this as the first 2026-05-27 post-reset submission if the live gate and exact-file sanity gate pass. It remains a public-chase/provenance-pending teammate probe, not a reportable method claim.
+Per user directive, this was the first 2026-05-27 queue item. It was already submitted by the time of the live gate and scored public MAE `1.0685`, so it is now a negative public readout. It remains a public-chase/provenance-pending teammate probe, not a reportable method claim.
 
 Required before submission:
 

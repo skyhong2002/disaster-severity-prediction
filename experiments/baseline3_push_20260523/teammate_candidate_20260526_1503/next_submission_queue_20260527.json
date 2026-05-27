@@ -2,6 +2,8 @@
   "created_taipei": "2026-05-26T15:20:00+08:00",
   "competition": "data-mining-2026-final-project",
   "queue_applies_after_taipei": "2026-05-27T08:00:00+08:00",
+  "queue_status": "completed",
+  "completed_taipei": "2026-05-27T14:50:06+08:00",
   "pre_submit_gate_required": true,
   "pre_submit_gate": [
     "live Kaggle submission history",
@@ -21,16 +23,30 @@
       "lineage_status": "provenance_pending",
       "public_chase": true,
       "reportable_method_claim": false,
-      "decision_reason": "User requested this teammate artifact be queued first after reset despite prediction-surface risk; submit only after the live/sanity/rule-safety gate passes."
+      "decision_reason": "User requested this teammate artifact be queued first after reset despite prediction-surface risk; submit only after the live/sanity/rule-safety gate passes.",
+      "outcome": {
+        "status": "submitted_before_agent_gate_seen_in_live_history",
+        "kaggle_ref": 53074655,
+        "public_mae": 1.0685,
+        "submitted_by": "veldahung",
+        "decision": "negative_public_readout_do_not_promote"
+      }
     },
     {
       "rank": 2,
-      "path": "to_be_generated_after_live_gate",
-      "artifact_label": "adjacent-v2-horizon-hedge",
+      "path": "experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json",
+      "artifact_label": "adjacent-v3-horizon-hedge",
       "lineage_status": "exact-history-public-chase",
       "public_chase": true,
       "reportable_method_claim": false,
-      "decision_reason": "Continue nearby probes around current v2 public-best frontier if quota remains after the teammate probe."
+      "decision_reason": "Continue nearby probes around current v2 public-best frontier if quota remains after the teammate probe.",
+      "outcome": {
+        "status": "submitted_remaining_five_slots",
+        "best_kaggle_ref": 53074980,
+        "best_public_mae": 0.7915,
+        "best_sha12": "003351676087",
+        "decision": "promote_as_public_chase_best_not_reportable"
+      }
     }
   ],
   "do_not_submit_if": [

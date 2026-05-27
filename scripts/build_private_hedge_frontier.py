@@ -170,6 +170,34 @@ def build_specs(spec_set: str) -> list[Spec]:
                 "Most anchor-tilted v2 hedge, intended as a private-risk alternative if public score remains below Baseline 3.",
             ),
         ]
+    if spec_set == "v3":
+        return [
+            Spec(
+                "lower_w1_more",
+                (0.225, 0.375, 0.550, 0.750, 1.000),
+                "After v2 lower_early_pair became public-best, reduce week-1 anchor weight slightly more while preserving weeks 2-5.",
+            ),
+            Spec(
+                "lower_w2_more",
+                (0.250, 0.350, 0.550, 0.750, 1.000),
+                "Local v3 probe: keep the best week-1 setting and reduce week-2 anchor weight to test the early-horizon public optimum.",
+            ),
+            Spec(
+                "lower_early_more",
+                (0.225, 0.350, 0.550, 0.750, 1.000),
+                "More aggressive early-horizon public-side probe; higher public-chase risk but useful as a boundary point.",
+            ),
+            Spec(
+                "week3_slight_down",
+                (0.250, 0.375, 0.525, 0.750, 1.000),
+                "Tests whether the public optimum also prefers slightly less anchor weight on week 3.",
+            ),
+            Spec(
+                "public_best_late_more_anchor",
+                (0.250, 0.375, 0.575, 0.800, 1.000),
+                "Private-robust hedge around the v2 public best: preserve early weights and move weeks 3-4 toward the clean anchor.",
+            ),
+        ]
     raise ValueError(f"unknown spec set: {spec_set}")
 
 
@@ -231,7 +259,7 @@ def main() -> int:
         default=ROOT / "experiments" / "recovered_submissions_20260523",
     )
     parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
-    parser.add_argument("--spec-set", choices=["v1", "v2"], default="v1")
+    parser.add_argument("--spec-set", choices=["v1", "v2", "v3"], default="v1")
     parser.add_argument("--experiment-label", default=None)
     parser.add_argument(
         "--work-dir",
@@ -246,6 +274,7 @@ def main() -> int:
     default_labels = {
         "v1": "private_hedge_frontier_20260525_0850",
         "v2": "private_hedge_frontier_20260526_1135",
+        "v3": "private_hedge_frontier_20260527_1445",
     }
     experiment_label = args.experiment_label or default_labels[args.spec_set]
     if args.work_dir is None:

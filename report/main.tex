@@ -14,13 +14,8 @@
 
 \begin{document}
 
-
-%===========================================
-% Start your report from here.
-%===========================================
-
 \title{Natural Disaster Severity Prediction via\\
-Gradient Boosting and Temporal Feature Engineering\\
+Leakage-Aware Boosted Trees and Temporal Feature Engineering\\
 {\footnotesize Data Mining Final Project, 2026 Spring}
 }
 
@@ -40,312 +35,333 @@ velda.cs14@nycu.edu.tw), and Sky Shih-Kai Hong (314554024,
 sky.cs14@nycu.edu.tw). Our code is available at GitHub:
 \href{https://github.com/skyhong2002/disaster-severity-prediction}{\color{blue}https://github.com/skyhong2002/disaster-severity-prediction}.
 
-Natural disaster severity prediction is a critical task for risk management
-and early warning systems. In this work, we address the problem of forecasting
-weekly drought severity scores (0--5 scale) for 2,248 geographic regions using
-historical meteorological data. We employ a leakage-aware direct multi-step
-forecasting approach using an ensemble of LightGBM, XGBoost, and CatBoost
-models. The implemented system builds temporal features per horizon from
-calendar variables, meteorological lags, rolling statistics, exponentially
-weighted means, long-window drought proxies, climatology anomalies, and
-91-day-gapped historical score context. By separating historical diagnostic
-experiments from the current direct-horizon implementation, we avoid accidental
-score leakage while preserving useful region-specific signals. The current best
-reportable Kaggle public leaderboard score recorded by the repository is
-\textbf{0.8124}. Separately, the selected already-submitted public-chase
-artifact reaches \textbf{0.7915} and crosses Baseline 3 (\textbf{0.8056}); we
-keep this final-selection artifact separate from the reportable method claim.
+This project predicts weekly drought severity scores for 2,248 regions from
+historical meteorological observations. The central difficulty is not only
+multi-horizon forecasting, but also preventing target leakage from weekly score
+labels while adapting to train-test season and weather shift. We implement
+direct horizon models using LightGBM, XGBoost, and CatBoost, with calendar,
+lag, rolling, exponentially weighted, drought-proxy, climatology, and
+91-day-gapped score-history features. The best reproducible reportable
+submission is a 35/35/30 LightGBM/XGBoost/CatBoost ensemble with Kaggle public
+MAE \textbf{0.8124}. A separate already-submitted public-chase horizon hedge
+reaches public MAE \textbf{0.7915} and crosses Baseline 3, but we keep it
+separate from the method claim because it was selected by public leaderboard
+feedback rather than by a new training algorithm.
 \end{abstract}
 
 \section{Project Summary (\textcolor{red}{max 1 page})}
 
 \subsection{Goal}
-The goal of this project is to predict the drought severity score for each
-geographic region over the \textbf{next five consecutive weeks} (35 days),
-given 91 days of historical meteorological observations per region from the
-test set. Scores range from 0 (no disaster) to 5 (extreme severity).
+The competition task is to predict the drought severity score for each region
+over the next five consecutive weeks after the 91-day test observation window.
+Scores are on a 0--5 scale, with larger values indicating more severe drought.
+The submission must contain one row per \texttt{region\_id} and five numeric
+columns, \texttt{pred\_week1} through \texttt{pred\_week5}. The evaluation
+metric is mean absolute error (MAE).
 
-\subsection{High-Level Approach}
-Our approach follows a supervised machine learning paradigm treating
-the task as a \textbf{multi-step time series regression} problem. We extract
-temporal features from the raw meteorological columns, including lag values,
-rolling means/stds, exponentially weighted averages, calendar encodings,
-climatology anomalies, and domain-specific drought indices. We also include
-historical score features only after a 91-day gap, matching the blind test
-window and preventing access to unavailable labels. These features feed into
-direct horizon models using LightGBM, XGBoost, and CatBoost. To maximize
-robustness, we ensemble their predictions. Final predictions are post-processed
-by clipping values to the valid score interval [0, 5].
+\subsection{Approach}
+We frame the task as supervised direct multi-step regression. For each horizon
+$h \in \{1,\ldots,5\}$, the training label is the real weekly score $h$ weeks
+after a forecast origin. The final pipeline builds a time-safe feature table
+from raw weather, recent and long-window weather summaries, calendar variables,
+region-month climatology anomalies, and score-history features shifted at
+least 91 days. The final reportable model is a convex ensemble of three
+boosted-tree families: LightGBM, XGBoost, and CatBoost. We chose this design
+because tabular gradient boosting remains highly competitive on heterogeneous
+structured features, while being easier to audit than large neural sequence
+models.
 
-\subsection{Related Works}
-Time series forecasting for environmental phenomena has been widely studied.
-Gradient boosting methods, notably XGBoost~\cite{chen2016xgboost} and
-LightGBM~\cite{ke2017lightgbm}, have demonstrated strong performance on
-tabular time series data by capturing non-linear feature interactions without
-requiring extensive feature scaling. For forecasting competitions and
-meteorological applications, lag-window feature engineering is often effective
-because recent observations and seasonal patterns usually contain strong
-predictive signals~\cite{kaggle_m5}. Transformer-based models such as Temporal
-Fusion Transformer~\cite{lim2021temporal} and PatchTST~\cite{nie2023patchtst}
-are possible future extensions, but the current repository implementation
-focuses on a fully reproducible gradient-boosted tree pipeline.
+\subsection{Related Work and SOTA Context}
+Our method is closest to the competition-style tabular forecasting tradition:
+XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and
+CatBoost~\cite{prokhorenkova2018catboost} are strong baselines for mixed
+continuous/categorical data and sparse feature interactions. Multi-horizon time
+series research has also advanced rapidly through interpretable neural
+forecasters such as TFT~\cite{lim2021temporal}, basis/interpolation models
+such as N-BEATS~\cite{oreshkin2020nbeats} and N-HiTS~\cite{challu2023nhits},
+efficient Transformer variants such as Informer~\cite{zhou2021informer},
+Autoformer~\cite{wu2021autoformer}, FEDformer~\cite{zhou2022fedformer},
+PatchTST~\cite{nie2023patchtst}, TimesNet~\cite{wu2023timesnet}, and
+iTransformer~\cite{liu2024itransformer}, as well as simpler alternatives such
+as DLinear~\cite{zeng2023dlinear} and TSMixer~\cite{chen2023tsmixer}. Recent
+foundation models, including TimesFM~\cite{das2024timesfm},
+Chronos~\cite{ansari2024chronos}, Moirai~\cite{woo2024moirai}, and later
+MoE-scale systems such as Time-MoE~\cite{shi2024timemoe} and
+Timer-S1~\cite{liu2026timers1}, show the direction of SOTA zero-shot
+forecasting, but our dataset has a specific supervised target,
+high-cardinality regions, and strict leakage constraints.
+In drought forecasting, prior reviews emphasize that meteorological drought is
+nonlinear, nonstationary, and often benefits from hybrid or ensemble machine
+learning models~\cite{alawsi2022drought}. The U.S. Drought Monitor literature
+also motivates our ordinal severity setting: drought categories combine
+multiple physical indicators and expert judgment, and transitions are usually
+incremental but can change rapidly under heat and rainfall shocks
+~\cite{svoboda2002droughtmonitor}.
 
 \section{Proposed Method (\textcolor{red}{1-3 pages})}
 
 \subsection{Problem Formulation}
-Let $\mathcal{R} = \{r_1, r_2, \ldots, r_K\}$ denote the set of geographic
-regions. For each region $r_k$, we observe a time series of meteorological
-features $\mathbf{X}_{r_k} \in \mathbb{R}^{T \times D}$ where $T$ is the
-number of observed days and $D$ is the number of meteorological variables.
-The target $y_{r_k, t}$ is the drought severity score at week $t$, available
-only on a specific day per week (the rest are NaN).
-
-Given the 91-day test window, the task is to predict:
+Let $\mathcal{R}$ be the set of regions and let
+$\mathbf{x}_{r,t} \in \mathbb{R}^{D}$ be the meteorological feature vector for
+region $r$ on day $t$. Weekly drought labels are observed only on score days,
+so most daily rows have missing labels. Given the final test window
+$\mathcal{T}_{r}^{test}$ of 91 days for region $r$, we predict five future
+weekly scores:
 \begin{equation}
-  \hat{y}_{r_k, t+1}, \hat{y}_{r_k, t+2}, \ldots, \hat{y}_{r_k, t+5}
+  \hat{\mathbf{y}}_{r} =
+  (\hat{y}_{r,1},\hat{y}_{r,2},\hat{y}_{r,3},\hat{y}_{r,4},\hat{y}_{r,5}).
 \end{equation}
-\noindent minimizing the Mean Absolute Error:
+The target metric is
 \begin{equation}
-  \text{MAE} = \frac{1}{K \cdot 5} \sum_{k=1}^{K} \sum_{w=1}^{5}
-  \left| \hat{y}_{r_k, w} - y_{r_k, w} \right|
+  \mathrm{MAE} = \frac{1}{5|\mathcal{R}|}
+  \sum_{r\in \mathcal{R}}\sum_{h=1}^{5}
+  \left|\hat{y}_{r,h} - y_{r,h}\right|.
 \end{equation}
 
-\subsection{Data Preprocessing}
-
-\subsubsection{Handling NaN Scores and Blind-Gap Features}
-Scores are observed only once per week, so most daily rows have missing target
-values. During training, only rows with real non-missing scores are used as
-supervised labels. Earlier diagnostic experiments attempted to reconstruct
-missing scores with a separate model, but that design created confusing
-train-test behavior and is not the current implementation path. The current
-pipeline keeps historical score context only when it is available before the
-91-day blind gap. A lag of zero in the score-history feature group therefore
-means ``last known score before the blind window,'' not the current or recent
-test-period score.
-
-\subsubsection{Feature Engineering}
-For each meteorological column $d$, we construct the following feature groups:
+\subsection{Leakage-Aware Feature Construction}
+The most important engineering constraint is that score labels inside the
+91-day blind window are unavailable at inference time. Therefore all features
+that depend on \texttt{score} are computed only from history ending at least
+91 days before the forecast origin. This rule also applies to validation:
+blind backtests explicitly mask the 91-day window before rebuilding features.
+Within this contract, the feature table contains:
 
 \begin{itemize}
-  \item \textbf{Meteorological lags}: 7, 14, 21, 28, 35, 42, and 49 days.
-  \item \textbf{Rolling statistics}: shifted rolling mean and standard
-        deviation over 7, 14, 21, 28, and 35 days.
-  \item \textbf{EWM features}: exponentially weighted means with spans 3, 7,
-        and 14 days.
-  \item \textbf{Calendar features}: month, quarter, day of month, approximate
-        day of year, week of year, and cyclical sine/cosine encodings.
-  \item \textbf{Domain Features}: We introduced a Drought Index (temperature divided by precipitation) and a Dryness Index (daily temperature range multiplied by max temperature) to explicitly capture conditions favorable to drought.
+  \item \textbf{Weather lags}: shifted daily values at 7, 14, 21, 28, 35, 42,
+        and 49 days.
+  \item \textbf{Rolling/EWM weather}: rolling mean and standard deviation over
+        7--35 days and exponentially weighted means with spans 3, 7, and 14.
+  \item \textbf{Long drought proxies}: 30/90/180-day precipitation sums,
+        dry-day counts, dry-day share, max dry streak, temperature means,
+        dew-point depression, wet-bulb depression, and related heat/dryness
+        indices.
+  \item \textbf{Calendar and seasonality}: month, quarter, day-of-year,
+        week-of-year, and cyclic sine/cosine encodings.
   \item \textbf{Climatology anomalies}: region-month normal weather and
-        standardized deviations for precipitation, temperature, humidity, and
-        related signals.
-  \item \textbf{Blind-gap score history}: score lags and rolling summaries
-        shifted by at least 91 days to prevent leakage from the unlabeled test
-        window.
-  \item \textbf{Region statistics}: historical mean, standard deviation,
-        median, maximum, and minimum score per region.
+        standardized deviations from those local seasonal norms.
+  \item \textbf{Blind-gap score history}: lagged score summaries shifted by at
+        least 91 days, so the model sees long-term severity context but not
+        hidden test-window labels.
 \end{itemize}
 
-\subsection{Model Architecture}
+Several early experiments used names containing \texttt{two\_stage}; these
+names are retained only for artifact compatibility. The active implementation
+is a direct-horizon supervised pipeline, not a separate score-reconstruction
+system.
 
-\subsubsection{Direct Horizon Models}
-We train one independent regressor per prediction horizon (week 1 through week 5),
-a technique known as \textbf{Direct Multi-Step Forecasting}. Each horizon model
-uses the full feature set and predicts exactly one target column,
-\texttt{target\_w1} through \texttt{target\_w5}.
+\subsection{Model Families}
+For each horizon, we train one regressor. LightGBM is the primary tabular
+anchor because it handles many engineered features efficiently with leaf-wise
+histogram boosting. XGBoost provides a second boosted-tree inductive bias and
+served as the first ensemble partner. CatBoost is added for diversity because
+ordered boosting and categorical handling are well matched to \texttt{region}
+and calendar buckets. The best reportable submission blends the three model
+families as
+\begin{equation}
+  \hat{y}_{r,h}=0.35\hat{y}^{LGB}_{r,h}
+  +0.35\hat{y}^{XGB}_{r,h}+0.30\hat{y}^{CAT}_{r,h}.
+\end{equation}
+All final predictions are clipped to $[0,5]$.
 
-\subsubsection{Ensemble Strategy}
-To capture diverse patterns and reduce variance, we train \textbf{LightGBM},
-\textbf{XGBoost}, and \textbf{CatBoost} models. LightGBM uses leaf-wise growth,
-XGBoost is configured with histogram-based depth-wise trees, and CatBoost uses
-native categorical handling for features such as region and calendar buckets.
-The current best reportable public submission uses a convex blend with weights
-35\% LightGBM, 35\% XGBoost, and 30\% CatBoost.
+\subsection{Validation and Selection Discipline}
+We used three levels of evidence. First, chronological holdout and
+rolling-origin validation give fast local feedback. Second, Kaggle-like blind
+backtests hide a historical 91-day window and score the next five real weekly
+labels. Third, Kaggle public leaderboard readouts check transfer to the
+competition test distribution. These signals often disagreed, so no candidate
+was promoted from local MAE alone. We also used a leakage sentinel that poisons
+hidden-window labels and verifies that pseudo-test features do not change. This
+guard was important because a naive score-persistence model can look excellent
+locally but fail on Kaggle.
 
-\subsection{Inference and Submission Generation}
-At inference time, recent training rows and the 91-day test rows are concatenated
-and sorted by \texttt{region\_id} and \texttt{date}. We rebuild the feature table
-using the feature options saved in the selected experiment run, select the last
-row of the 91-day test window for each region, and apply the five saved horizon
-models. The inference script can load LightGBM, XGBoost, or CatBoost model
-pickles from a run directory. The predictions are then blended and outputted to
-a timestamped CSV file under \texttt{submissions/}.
-
-\subsection{Experiment Versioning}
-Because the implementation is expected to evolve, each run is saved under a
-timestamped directory \texttt{experiments/<run\_id>/}. The directory contains
-\texttt{config.json} for hyperparameters and feature settings,
-\texttt{metrics.json} for validation results, and
-\texttt{submission\_metadata.json} for prediction statistics after inference.
-Large model files and generated submission CSVs are stored inside the same run
-directory but are ignored by git. This format allows LightGBM, XGBoost,
-CatBoost, ensembles, and future neural time series models to be appended to the
-report as comparable experiment rows. Some historical run identifiers still use
-the string \texttt{two\_stage}; this is retained for artifact compatibility and
-should not be interpreted as a description of the current training flow.
+\subsection{Inference and Reproducibility}
+At inference time, training tail rows and the 91-day test rows are concatenated
+per region, sorted by synthetic date, and transformed using the saved feature
+configuration. The last row of the test window becomes the forecast origin for
+each region. Every candidate submission is sanity-checked for 2,248 rows, exact
+sample-submission column order, matching \texttt{region\_id} order, no NaN
+values, and prediction range $[0,5]$. Each important Kaggle score in this
+report is tied to a CSV path, Kaggle reference id, blend description, and
+lineage label.
 
 \section{Experiments (\textcolor{red}{2-4 pages})}
 
-\subsubsection{Dataset and Experimental Setup}
-The dataset contains meteorological measurements for multiple geographic
-regions. The training set spans \textbf{5,480 days} per region with weekly
-drought scores (0--5). The test set provides 91 days of observations per
-region without labels; we must predict 5 future weekly scores.
-
-Table~\ref{tab:data_stats} summarizes key dataset statistics.
+\subsection{Dataset and Setup}
+The dataset contains daily meteorological observations over many synthetic
+years for 2,248 regions. Training has 5,480 days per region and weekly integer
+drought scores; test has 91 unlabeled days per region. Table~\ref{tab:data}
+summarizes the data shape.
 
 \begin{table}[h]
 \centering
 \caption{Dataset Statistics}
-\label{tab:data_stats}
+\label{tab:data}
 \begin{tabular}{lcc}
 \hline
 \textbf{Property} & \textbf{Train} & \textbf{Test} \\
 \hline
-Days per region   & 5,480 & 91 \\
-\# Regions        & 2,248 & 2,248 \\
-\# Raw meteo features & 14 & 14 \\
-\# Rows           & 12,319,040 & 204,568 \\
-Score range       & 0--5  & N/A \\
-Score NaN ratio   & 85.73\% & N/A \\
+Days per region & 5,480 & 91 \\
+Regions & 2,248 & 2,248 \\
+Rows & 12,319,040 & 204,568 \\
+Raw weather columns & 14 & 14 \\
+Score range & 0--5 & N/A \\
+Score NaN ratio & 85.73\% & N/A \\
 \hline
 \end{tabular}
 \end{table}
 
-The implementation supports both a \textbf{Chronological Holdout Split} and a
-\textbf{Rolling-Origin} validation mode. The holdout split is used for the
-original LightGBM/XGBoost anchor runs, while rolling-origin validation is used
-for the CatBoost robustness experiments. These validation scores should not be
-compared as if they came from the same protocol; Kaggle public and private
-leaderboard results remain the external check for generalization.
+Train-test distribution analysis showed that the real test window is not a
+simple continuation of the global training distribution. Compared with the
+recent 1,095-day training tail, test is hotter by about 5.35 degrees on average
+and slightly drier by precipitation and dry-day indicators. Against the stricter
+same-region, same-month-day previous-year baseline, daily precipitation drops
+from 3.250 to 1.925, dry-day share rises from 0.403 to 0.487, and 90-day
+precipitation falls from 277.676 to 223.710. This motivated tail-length,
+season-matching, and drought-proxy experiments rather than all-history training.
 
-\subsubsection{Baseline Descriptions}
-We compare against the official Kaggle baselines reported on the public
-leaderboard. Baseline 1, Baseline 2, and Baseline 3 provide reference MAE
-scores for evaluating whether our implemented pipeline improves over simple
-competition-provided methods.
+\subsection{Main Model Results}
+Table~\ref{tab:model_results} reports the major legal model families and
+diagnostic controls. Local MAE values come from different validation protocols,
+so they are used only within the same protocol. Kaggle public MAE is the common
+external comparison.
 
-\subsubsection{Experimental Results}
-
-Table~\ref{tab:experiment_log} records the main legal experiments and historical
-diagnostics used to evaluate historical score features, validation behavior,
-and model diversity.
-
-\begin{table}[h]
+\begin{table*}[t]
 \centering
-\caption{Experiment Log \& Kaggle Leaderboard Evaluation}
-\label{tab:experiment_log}
-\begin{tabular}{lcc}
+\caption{Main Experiment Results and Decisions}
+\label{tab:model_results}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.15\textwidth}p{0.18\textwidth}p{0.13\textwidth}p{0.08\textwidth}p{0.08\textwidth}p{0.21\textwidth}}
 \hline
-\textbf{Method Strategy} & \textbf{Local MAE} & \textbf{Public MAE} \\
+\textbf{Experiment} & \textbf{Feature / model idea} & \textbf{Validation} &
+\textbf{Local MAE} & \textbf{Public MAE} & \textbf{Decision} \\
 \hline
-Naive \texttt{ffill} Persistence (gap=0) & 0.2321 (Leaked) & 1.0815 \\
-Strategy B (Pure Weather Direct) & 0.6770 & 0.8640 \\
-Long-Term Weather (365 days) & 0.4888 & 0.8604 \\
-LGB/XGB Anchor (50/50) & 0.6942 / 0.7150 & 0.8232 \\
-CatBoost tail2737 (rolling-origin) & 0.2212 & component only \\
-\textbf{LGB/XGB/CatBoost 35/35/30} & N/A & \textbf{0.8124} \\
-Initial Submission (Magic Leak) & 0.2100 (Leaked) & 0.8094* \\
+Weather-only direct & Direct LGB/XGB without score history & Holdout &
+0.6770 / 0.7320 & 0.8640 & Rejected as primary method; weather alone misses
+unobserved regional severity context. \\
+LGB/XGB 50/50 anchor & Score-history boosted-tree ensemble & Holdout &
+0.6942 / 0.7150 & 0.8232 & First reproducible legal anchor. \\
+CatBoost tail2737 & Direct CatBoost with native region/calendar categories &
+Rolling origin & 0.2212 & Component only & Useful diversity model; validation
+scale differs from holdout. \\
+\textbf{LGB/XGB/Cat 35/35/30} & Three-model convex ensemble & Kaggle
+sanity + lineage audit & N/A & \textbf{0.8124} & \textbf{Best reportable
+method claim}, Kaggle ref 52698259. \\
+Blind LGBM tail1095 & Refit-full LGBM, lean features & Blind backtest &
+0.3549 blind & 0.9380 & Strong pseudo-private anchor but poor public transfer. \\
+Feature-fused TCN & 91-day sequence model with visible time-safe priors &
+Blind backtest & 0.3508 blind & 0.9450 & Neural diversity signal only; not a
+public anchor. \\
+Initial accidental hybrid & Leakage-adjacent score behavior & Diagnostic &
+0.2100 & 0.8094 & Excluded from reportable claims. \\
+Naive score persistence & score gap 0 / forward-fill control & Diagnostic &
+0.2321 & 1.0815 & Demonstrates severe leakage risk. \\
 \hline
-\multicolumn{3}{l}{\footnotesize *Discarded due to unintentional data leakage in feature engineering.}
 \end{tabular}
-\end{table}
+\end{table*}
 
-Table~\ref{tab:leaderboard} reports the Kaggle public leaderboard snapshot
-after our submissions. The public leaderboard is calculated with
-approximately 40\% of the test data. For methodological reporting, the clean
-Team 5 model lineage remains the 35\% LightGBM / 35\% XGBoost / 30\% CatBoost
-ensemble with public MAE \textbf{0.8124}. The corresponding reportable artifact
-is \path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}. For
-Kaggle final-selection purposes, Team 5 also has an already-submitted
-public-chase artifact with public MAE \textbf{0.7915}, which crosses Baseline 3.
-This artifact is valid as a leaderboard selection candidate, but it is not used
-as the primary reportable modeling claim.
+The key lesson is that local validation and public transfer are not monotonic.
+For example, rolling-origin CatBoost and later neural/TCN variants looked strong
+locally, but public leaderboard transfer was much worse than the historical
+LGB/XGB/CatBoost anchor. Conversely, the 35/35/30 ensemble made only a modest
+modeling change but improved the reproducible public score from 0.8232 to
+0.8124.
+
+\subsection{Feature and Validation Ablations}
+Feature ablations with LightGBM lean tail1095 clarified which signals were
+essential. Removing score-history features degraded rolling MAE by about
+0.052, confirming that old severity labels encode persistent regional drought
+state and unobserved geography. Removing long drought proxies caused a similar
+degradation, showing that accumulated rain deficit, dry streaks, and thermal
+stress are not redundant with short lags. Removing climatology improved rolling
+MAE by 0.0078, but failed the blind backtest with MAE 0.4463 versus the baseline
+blind anchor 0.3549. This was a concrete example where local validation alone
+would have selected the wrong model.
+
+Missingness and shift experiments on 2026-05-23 also failed to replace the
+reportable anchor. The best validation/blind candidate,
+the season-matched LGBM shift run, reached rolling MAE 0.24574 and blind MAE
+0.38370, but the recent pattern was that validation-strong families transferred
+poorly to public LB. We therefore kept it diagnostic rather than promoting it
+to the main claim.
+
+\subsection{Leaderboard and Final-Selection Readout}
+Table~\ref{tab:leaderboard} shows the relevant public leaderboard snapshot
+after the final 2026-05-27 submissions. The public leaderboard is useful for
+Kaggle placement, but it can also reward overfitting to public feedback.
+Therefore we report two separate artifacts: the reportable model lineage and
+the selected public-chase artifact.
 
 \begin{table}[h]
 \centering
-\caption{Kaggle Public Leaderboard Snapshot}
+\caption{Public Leaderboard Snapshot}
 \label{tab:leaderboard}
+\footnotesize
 \begin{tabular}{lcc}
 \hline
-\textbf{Team / Baseline} & \textbf{Public MAE} & \textbf{Rank / Entries} \\
+\textbf{Entry} & \textbf{Public MAE} & \textbf{Rank} \\
 \hline
 Team 3 & 0.7628 & 1 \\
 Team 4 & 0.7817 & 2 \\
-\textbf{Team 5 selected public-chase artifact} & \textbf{0.7915} & \textbf{3} \\
+\textbf{Team 5 public-chase} & \textbf{0.7915} & \textbf{3} \\
 Team 20 & 0.7942 & 4 \\
 Team 2 & 0.7955 & 5 \\
 Team 1 & 0.8043 & 6 \\
 Baseline 3 & 0.8056 & 7 \\
-\textbf{Team 5 reportable LGB/XGB/CatBoost lineage} & \textbf{0.8124} & \textbf{--} \\
-Baseline 2 & 0.8623 & 1 \\
-Baseline 1 & 0.9117 & 1 \\
+Team 5 reportable lineage & 0.8124 & -- \\
+Baseline 2 & 0.8623 & -- \\
+Baseline 1 & 0.9117 & -- \\
 \hline
-\multicolumn{3}{l}{\footnotesize Public-chase artifact is selected for leaderboard status, not method reporting.}
 \end{tabular}
 \end{table}
 
-The selected public-chase row corresponds to
+The selected public-chase artifact is
 \path{submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv}
-(Kaggle ref \texttt{53074980}, SHA-12 \texttt{003351676087}). It was selected
-after public-feedback probing as a horizon-specific private-hedge frontier
-artifact, so it should not be described as a new training algorithm. It tied
-ref \texttt{53075001} at public MAE \textbf{0.7915}, but was preferred because
-it is closer to the clean reportable anchor. More anchor-tilted submitted hedge
-alternatives include same-day ref \texttt{53075022} and cross-day refs
-\texttt{53038040}, \texttt{53038036}, and \texttt{53038033}. A teammate
-LightGBM v3 enhanced candidate was also screened and submitted as ref
-\texttt{53074655}, but its public MAE \textbf{1.0685} made it a negative
-public readout rather than a reportable contribution. After the 2026-05-27
-quota was exhausted, we prepared an unsubmitted v4 week-1 frontier queue for
-the next reset; these files have no leaderboard score yet and are not method
-claims. The reportable method lineage remains the 35/35/30
-LGB/XGB/CatBoost artifact with SHA-12 \texttt{bee6f618828d}.
+(Kaggle ref 53074980, SHA-12 003351676087, public MAE 0.7915). It is an
+exact-history horizon hedge moving the recovered 0.8094 public reference toward
+the clean 0.8124 anchor by horizon alphas
+$[0.225,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
+not a new reportable training algorithm. The strongest same-day private-risk
+alternative is ref 53075022 at public MAE 0.7918, with additional cross-day
+alternatives at refs 53038040, 53038036, and 53038033.
 
-The generated submission contains one row per region and five predicted scores.
-Table~\ref{tab:pred_stats} summarizes the prediction distribution for the current
-best reportable public submission. The mean forecast gradually decreases from week 1
-to week 5, while all predictions remain inside the valid score range after
-clipping.
+The reportable artifact remains
+\path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}
+(Kaggle ref 52698259, SHA-12 bee6f618828d when restored locally). Its
+prediction distribution is valid and conservative: week means are approximately
+0.955, 0.927, 0.880, 0.831, and 0.817, and all predictions are clipped within
+$[0,5]$.
 
-\begin{table}[h]
-\centering
-\caption{Prediction Statistics for Current Best Legal Submission}
-\label{tab:pred_stats}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Column} & \textbf{Mean} & \textbf{Std.} & \textbf{Min} & \textbf{Max} \\
-\hline
-\texttt{pred\_week1} & 0.955 & 0.819 & 0.000 & 3.470 \\
-\texttt{pred\_week2} & 0.927 & 0.818 & 0.000 & 3.376 \\
-\texttt{pred\_week3} & 0.880 & 0.824 & 0.000 & 3.457 \\
-\texttt{pred\_week4} & 0.831 & 0.804 & 0.000 & 3.428 \\
-\texttt{pred\_week5} & 0.817 & 0.827 & 0.000 & 3.583 \\
-\hline
-\end{tabular}
-\end{table}
+\subsection{Discussion}
+The experiments reveal a ``Kaggle paradox.'' Pure weather models and some
+validation-strong models look reasonable locally but underperform on the public
+leaderboard. Historical score features, when shifted safely beyond the 91-day
+blind gap, provide information about persistent regional vulnerability that raw
+weather alone cannot reconstruct. However, target history also creates the
+largest leakage risk, so the final workflow treats leakage sentinels, blind
+backtests, and exact artifact lineage as part of model selection rather than as
+after-the-fact documentation.
 
-\subsubsection{Ablation Study: The Kaggle Paradox \& Data Leakage}
-To systematically analyze the impact of historical score dependencies and identify potential data leakage, we conducted an extensive ablation study.
+The public-chase sequence further shows why leaderboard scores must be labeled
+carefully. It improved Team 5 from the reportable 0.8124 anchor to 0.7915 by
+using public feedback around exact historical artifacts. This is acceptable for
+Kaggle final selection if the competition UI allows selecting the submitted
+artifact, but it should not be described as evidence that the supervised
+training method itself reached 0.7915.
 
-\textbf{1. The ``Magic Leak'' Phenomenon (v0):} Our initial submission achieved a surprisingly strong Public MAE of 0.8094. However, investigation revealed this was caused by a train-test discrepancy where the model inadvertently relied on recent scores during training, while the testing phase relied on a fixed forward-filled (\texttt{ffill}) score. This created an accidental hybrid persistence model. To maintain scientific rigor, we discarded this model despite its high score.
-
-\textbf{2. The Naive Persistence Failure (1.0815):} We explicitly reproduced the pure \texttt{ffill} behavior by setting the score gap to 0. While this yielded an artificially low Local MAE of 0.2321 (due to looking at the current day's true score), it failed spectacularly on Kaggle with an MAE of 1.0815. This proves that drought is highly dynamic and cannot be modeled by simply freezing the last known state for 91 days.
-
-\textbf{3. The Kaggle Paradox \& Long-Term Weather (0.8604):} We initially hypothesized that removing the noisy historical scores entirely (Strategy B) would improve generalization. We expanded this by providing the model with up to 365 days of accumulated weather data, successfully dropping the Local MAE to an impressive 0.4888. However, the Kaggle Public MAE remained at 0.8604. This paradox demonstrates that historical scores, even when noisy, contain crucial unobserved confounders (e.g., local water infrastructure, soil characteristics) that pure meteorological features cannot capture.
-
-\textbf{4. The CatBoost Diversity Gain (0.8124):} After establishing the legal
-LGB/XGB anchor, we added a time-aware CatBoost direct-horizon model using native
-categorical handling and rolling-origin validation. A 35/35/30 blend of
-LightGBM, XGBoost, and CatBoost improved the legal public MAE from 0.8232 to
-0.8124. Because the CatBoost validation protocol differs from the original
-holdout protocol, we treat the public improvement as promising but still require
-private leaderboard evidence before over-tuning its weight.
-
-% ========================================================
 \section{Conclusion}
-In this work, we implemented a robust time series prediction framework for forecasting drought severity levels. By using chronological and rolling-origin validation modes and by enforcing 91-day-gapped score-history features, we reduced leakage risk while retaining useful regional severity context. Our ablation study revealed a compelling ``Kaggle Paradox'': pure long-term meteorological models perform strongly locally but fail to generalize to the leaderboard because they lack unobserved geographical and infrastructural confounders implicitly encoded in historical drought scores. We demonstrated that naive target persistence fails completely (MAE 1.0815), while the current direct-horizon ensemble of LightGBM, XGBoost, and CatBoost achieves a competitive legal Public MAE of 0.8124. For final leaderboard selection, an already-submitted public-chase artifact reaches public MAE 0.7915 and crosses Baseline 3, but we treat it as a selected Kaggle artifact rather than evidence of a new reportable training method.
+We built a leakage-aware drought severity forecasting pipeline for the Data
+Mining final project. The final reportable method uses direct-horizon
+LightGBM, XGBoost, and CatBoost models over carefully shifted temporal,
+meteorological, climatology, and historical severity features. The best
+reproducible modeling claim is the 35/35/30 boosted-tree ensemble with public
+MAE 0.8124. Extensive diagnostics showed that score history and long drought
+proxies are essential, that local rolling-origin MAE can be misleading under
+train-test shift, and that blind-window leakage controls are necessary. A
+separate public-chase artifact reaches public MAE 0.7915 and crosses Baseline
+3; we keep it available for final leaderboard selection while preserving the
+clean 0.8124 lineage as the scientific method claim.
 
-% ========================================================
 \bibliographystyle{IEEEtran}
 \bibliography{reference}
 

@@ -44,7 +44,7 @@ lag, rolling, exponentially weighted, drought-proxy, climatology, and
 91-day-gapped score-history features. The best reproducible reportable
 submission is a 35/35/30 LightGBM/XGBoost/CatBoost ensemble with Kaggle public
 MAE \textbf{0.8124}. A separate already-submitted public-chase horizon hedge
-reaches public MAE \textbf{0.7915} and crosses Baseline 3, but we keep it
+reaches public MAE \textbf{0.7912} and crosses Baseline 3, but we keep it
 separate from the method claim because it was selected by public leaderboard
 feedback rather than by a new training algorithm.
 \end{abstract}
@@ -343,7 +343,7 @@ to the main claim.
 
 \subsection{Leaderboard and Final-Selection Readout}
 Table~\ref{tab:leaderboard} shows the relevant public leaderboard snapshot
-after the final 2026-05-27 submissions. The public leaderboard is useful for
+after the 2026-05-28 v4 frontier submissions. The public leaderboard is useful for
 Kaggle placement, but it can also reward overfitting to public feedback.
 Therefore we report two separate artifacts: the reportable model lineage and
 the selected public-chase artifact.
@@ -359,7 +359,7 @@ the selected public-chase artifact.
 \hline
 Team 3 & 0.7628 & 1 \\
 Team 4 & 0.7817 & 2 \\
-\textbf{Team 5 public-chase} & \textbf{0.7915} & \textbf{3} \\
+\textbf{Team 5 public-chase} & \textbf{0.7912} & \textbf{3} \\
 Team 20 & 0.7942 & 4 \\
 Team 2 & 0.7955 & 5 \\
 Team 1 & 0.8043 & 6 \\
@@ -372,14 +372,15 @@ Baseline 1 & 0.9117 & -- \\
 \end{table}
 
 The selected public-chase artifact is
-\path{submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv}
-(Kaggle ref 53074980, SHA-12 003351676087, public MAE 0.7915). It is an
+\path{submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv}
+(Kaggle ref 53109133, SHA-12 c02dc54a2a79, public MAE 0.7912). It is an
 exact-history horizon hedge moving the recovered 0.8094 public reference toward
 the clean 0.8124 anchor by horizon alphas
-$[0.225,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
+$[0.175,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
 not a new reportable training algorithm. The strongest same-day private-risk
-alternative is ref 53075022 at public MAE 0.7918, with additional cross-day
-alternatives at refs 53038040, 53038036, and 53038033.
+alternative is ref 53109166 at public MAE 0.7914, with additional same-day or
+cross-day alternatives at refs 53109157, 53109150, 53075022, 53038040,
+53038036, and 53038033.
 
 The reportable artifact remains
 \path{submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv}
@@ -409,11 +410,11 @@ complexity, but to emphasize distribution checks, leakage-safe features,
 heterogeneous tree ensembles, and conservative artifact labeling.
 
 The public-chase sequence further shows why leaderboard scores must be labeled
-carefully. It improved Team 5 from the reportable 0.8124 anchor to 0.7915 by
+carefully. It improved Team 5 from the reportable 0.8124 anchor to 0.7912 by
 using public feedback around exact historical artifacts. This is acceptable for
 Kaggle final selection if the competition UI allows selecting the submitted
 artifact, but it should not be described as evidence that the supervised
-training method itself reached 0.7915.
+training method itself reached 0.7912.
 
 \section{Conclusion}
 We built a leakage-aware drought severity forecasting pipeline for the Data
@@ -424,7 +425,7 @@ reproducible modeling claim is the 35/35/30 boosted-tree ensemble with public
 MAE 0.8124. Extensive diagnostics showed that score history and long drought
 proxies are essential, that local rolling-origin MAE can be misleading under
 train-test shift, and that blind-window leakage controls are necessary. A
-separate public-chase artifact reaches public MAE 0.7915 and crosses Baseline
+separate public-chase artifact reaches public MAE 0.7912 and crosses Baseline
 3; we keep it available for final leaderboard selection while preserving the
 clean 0.8124 lineage as the scientific method claim.
 

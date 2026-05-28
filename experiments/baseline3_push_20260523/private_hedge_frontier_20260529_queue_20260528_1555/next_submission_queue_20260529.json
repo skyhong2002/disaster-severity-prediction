@@ -1,0 +1,204 @@
+{
+  "created_taipei": "2026-05-28T16:01:21+08:00",
+  "competition": "data-mining-2026-final-project",
+  "queue_applies_after_taipei": "2026-05-29T08:00:00+08:00",
+  "queue_status": "prepared",
+  "quota_limit": 6,
+  "pre_submit_gate_required": true,
+  "pre_submit_gate": [
+    "live Kaggle submission history",
+    "live Kaggle leaderboard",
+    "quota availability",
+    "exact-file sanity check",
+    "SHA-256 confirmation",
+    "blocked-source filename check",
+    "confirm no private labels, external answers, unauthorized data, restored_20260522_*, or restored_unverified_* sources",
+    "duplicate history check before spending quota"
+  ],
+  "live_gate_context": {
+    "action": "no_submit_quota_exhausted_prepare_next_reset_queue",
+    "baseline3_public_mae": 0.8056,
+    "checked_at_taipei": "2026-05-28T15:53:27+08:00",
+    "live_leaderboard_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/kaggle_leaderboard_live.txt",
+    "live_submissions_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/kaggle_submissions_live.txt",
+    "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
+    "quota_used_20260528_utc": "6/6",
+    "team5_public_mae": 0.7912,
+    "team5_rank": 3
+  },
+  "user_directive": "2026-05-28: put the teammate CSV directly first in the next queue.",
+  "actual_submit_policy": "After reset, run the live gate. If rank 1 is confirmed as the already-submitted negative duplicate, skip it and promote the v5 candidates in order; otherwise submit rank 1 only if all sanity, SHA, quota, and rule-safety checks still pass.",
+  "submission_order": [
+    {
+      "rank": 1,
+      "path": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "source_attachment_path": "/Users/skyhong/.codex/attachments/3a7c1688-1166-49c5-97c3-5a6b48128735/submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "sha256": "66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf",
+      "sha12": "66f7815e7ff3",
+      "artifact_label": "external-teammate-candidate",
+      "lineage_status": "provenance_pending",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "sanity_check": {
+        "passed": true,
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "matches_sample_columns": true,
+        "matches_sample_region_order": true,
+        "nan_count": 0,
+        "prediction_min": 0.0,
+        "prediction_max": 5.0,
+        "prediction_mean": 0.3792474875140203,
+        "prediction_std_mean": 0.8236902376783399,
+        "blocked_restored_filename_pattern": false
+      },
+      "known_prior_submission": {
+        "kaggle_ref": 53074655,
+        "public_mae": 1.0685,
+        "submitted_by": "veldahung",
+        "date_utc": "2026-05-27T06:34:58.130000+00:00",
+        "decision": "negative_public_readout_do_not_promote"
+      },
+      "duplicate_guard": {
+        "skip_if_live_history_confirms_same_file_or_sha": true,
+        "reason": "The exact teammate CSV is already recorded in live history as ref 53074655 with public MAE 1.0685; treat the user request as first gated queue item, not an automatic duplicate quota burn."
+      },
+      "decision_reason": "User requested the teammate artifact be placed first for the next reset; keep the pre-submit live-history and duplicate guard active."
+    },
+    {
+      "alphas": [
+        0.1625,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "Fine interpolation just below the v4 public-best week-1 weight 0.175.",
+      "mean_abs_delta_to_reportable_anchor": 0.18477955133324037,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+      "public_chase": true,
+      "rank": 2,
+      "reportable_method_claim": false,
+      "sha12": "530c7e912705",
+      "sha256": "530c7e912705dd1cb0c6c1c85879c89961696678f74d22eccb834bd20519d817",
+      "fallback_rank_if_teammate_duplicate_skips": 1
+    },
+    {
+      "alphas": [
+        0.15,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "Main continuation of the week-1 public-side curve after v4 improved monotonically down to 0.175.",
+      "mean_abs_delta_to_reportable_anchor": 0.1858645443805896,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+      "public_chase": true,
+      "rank": 3,
+      "reportable_method_claim": false,
+      "sha12": "524a8ddebdd6",
+      "sha256": "524a8ddebdd692cd8162b0f213b66a8c15b6982ed47da4e52e067e216c781057",
+      "fallback_rank_if_teammate_duplicate_skips": 2
+    },
+    {
+      "alphas": [
+        0.125,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "Boundary probe to locate the left side of the week-1 optimum without jumping all the way to zero.",
+      "mean_abs_delta_to_reportable_anchor": 0.1880345304752881,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+      "public_chase": true,
+      "rank": 4,
+      "reportable_method_claim": false,
+      "sha12": "7fc12846493c",
+      "sha256": "7fc12846493c27ffb8e939840f632f0ced9b328b9522efb90857260a7b2e23a7",
+      "fallback_rank_if_teammate_duplicate_skips": 3
+    },
+    {
+      "alphas": [
+        0.1,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "More aggressive week-1 public-side boundary probe; use after the safer 0.1625/0.15/0.125 points.",
+      "mean_abs_delta_to_reportable_anchor": 0.1902045165699866,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "public_chase": true,
+      "rank": 5,
+      "reportable_method_claim": false,
+      "sha12": "12016072d85f",
+      "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
+      "fallback_rank_if_teammate_duplicate_skips": 4
+    },
+    {
+      "alphas": [
+        0.175,
+        0.375,
+        0.575,
+        0.8,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "Private-robust hedge at the v4 public-best week-1 weight with weeks 3-4 moved toward the clean anchor.",
+      "mean_abs_delta_to_reportable_anchor": 0.1775011604111209,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p175_late_anchor_horizon_0p175_0p375_0p575_0p8_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p175_late_anchor_horizon_0p175_0p375_0p575_0p8_1.csv",
+      "public_chase": true,
+      "rank": 6,
+      "reportable_method_claim": false,
+      "sha12": "44798cc5134a",
+      "sha256": "44798cc5134a912bd4df4aa7b6115e4fa07e723427295ad587a6c00c477498fe",
+      "fallback_rank_if_teammate_duplicate_skips": 5
+    },
+    {
+      "alphas": [
+        0.15,
+        0.375,
+        0.575,
+        0.8,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision_reason": "Private-robust hedge combining the next lower week-1 public-side probe with late-anchor protection.",
+      "mean_abs_delta_to_reportable_anchor": 0.17967114650581945,
+      "name": "baseline3_private_hedge_v5_cat35_w1_0p15_late_anchor_horizon_0p15_0p375_0p575_0p8_1",
+      "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p15_late_anchor_horizon_0p15_0p375_0p575_0p8_1.csv",
+      "public_chase": true,
+      "rank": 7,
+      "reportable_method_claim": false,
+      "sha12": "34127e357aa5",
+      "sha256": "34127e357aa5cdc067187acb75c486ab9fbc7627abe76351a8a5949d43226cae",
+      "fallback_rank_if_teammate_duplicate_skips": 6
+    }
+  ],
+  "do_not_submit_if": [
+    "Kaggle live history or leaderboard is unreachable",
+    "quota is not available",
+    "row/column/order/NaN/range sanity fails",
+    "SHA-256 differs from the recorded value",
+    "any rule-safety or blocked-source evidence appears",
+    "the candidate is a confirmed duplicate with a known negative public readout unless the user explicitly re-overrides after seeing the live gate"
+  ]
+}

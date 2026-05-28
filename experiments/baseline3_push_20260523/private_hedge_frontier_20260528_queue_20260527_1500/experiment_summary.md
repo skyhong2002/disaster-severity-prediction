@@ -28,25 +28,23 @@
 
 All generated candidates passed: 2248 rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
 
-## Live Gate Context
+## Live Submission Results
 
-- Checked Taipei: `2026-05-27T14:58:00+08:00`.
-- Team 5 public MAE remains `0.7915`, rank `3`; Baseline 3 remains `0.8056`.
-- Quota status: `6/6` used for 2026-05-27 UTC, so no v4 candidate was submitted in this preparation pass.
-- Next reset: `2026-05-28T08:00:00+08:00`.
+- Checked Taipei: `2026-05-28T15:53:27+08:00`.
+- Live gate passed before submission: Kaggle submission history and leaderboard were reachable, quota was available, and each file was revalidated by SHA and format sanity.
+- Quota status after batch: `6/6` used for 2026-05-28 UTC.
+- Team 5 public MAE after batch: `0.7912`, rank `3`; Baseline 3 remains `0.8056`.
 - Live snapshots: `kaggle_submissions_live.txt` and `kaggle_leaderboard_live.txt` in this directory.
 
-## Recommended 2026-05-28 Submission Order
+| Rank | Candidate | Kaggle ref | Public MAE | SHA-12 | Purpose |
+|---:|---|---:|---:|---:|---|
+| 1 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv` | `53109107` | `0.7914` | `ec1cea965464` | Fine interpolation just left of v3 best week-1 weight. |
+| 2 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv` | `53109122` | `0.7913` | `4138156b1e10` | Main public-side week-1 probe. |
+| 3 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` | `53109133` | `0.7912` | `c02dc54a2a79` | New public best and selected public-chase candidate. |
+| 4 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv` | `53109150` | `0.7915` | `56284d0e5a27` | Milder week-2 adjustment with less anchor drift than ref `53075001`. |
+| 5 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv` | `53109157` | `0.7916` | `4569505de0e4` | Softer private hedge around the v3 public best. |
+| 6 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv` | `53109166` | `0.7914` | `5d6406745e87` | Stronger private hedge with lower delta to the clean anchor. |
 
-Submit only after live Kaggle history/leaderboard/quota checks and exact-file SHA/sanity validation.
-
-| Rank | Candidate | SHA-12 | Purpose |
-|---:|---|---:|---|
-| 1 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv` | `ec1cea965464` | Fine interpolation just left of v3 best week-1 weight. |
-| 2 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv` | `4138156b1e10` | Main public-side week-1 probe. |
-| 3 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` | `c02dc54a2a79` | Boundary public-side week-1 probe. |
-| 4 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv` | `56284d0e5a27` | Milder week-2 adjustment with less anchor drift than ref `53075001`. |
-| 5 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv` | `4569505de0e4` | Softer private hedge around the v3 public best. |
-| 6 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv` | `5d6406745e87` | Stronger private hedge with lower delta to the clean anchor. |
+Best public artifact: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / ref `53109133` / public MAE `0.7912`. Stronger private-risk alternatives remain same-day refs `53109166`, `53109157`, and `53109150`, plus cross-day refs `53075022`, `53038040`, `53038036`, and `53038033`.
 
 All v4 files are public-chase/final-selection candidates only. They must not be described as new reportable training methods.

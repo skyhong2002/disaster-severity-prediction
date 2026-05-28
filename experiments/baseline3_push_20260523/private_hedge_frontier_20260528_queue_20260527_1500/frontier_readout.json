@@ -40,7 +40,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv",
       "rationale": "Follows the v3 week-1 signal: reduce only week-1 anchor weight from 0.225 to 0.200 while preserving the selected v3 shape.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:50:26.170000+00:00",
+        "description": "20260528 v4 hedge w1 0p20 keep shape",
+        "kaggle_ref": 53109122,
+        "private_score": null,
+        "public_mae": 0.7913,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     },
     {
       "alphas": [
@@ -78,7 +86,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
       "rationale": "Boundary probe for the week-1 public optimum after v3 showed week-1 reduction helped.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:50:46.243000+00:00",
+        "description": "20260528 v4 hedge w1 0p175 keep shape",
+        "kaggle_ref": 53109133,
+        "private_score": null,
+        "public_mae": 0.7912,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     },
     {
       "alphas": [
@@ -116,7 +132,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
       "rationale": "Fine-grained interpolation between the v3 selected 0.225 week-1 weight and the next lower 0.200 probe.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:49:43.227000+00:00",
+        "description": "20260528 v4 hedge w1 0p2125 keep shape",
+        "kaggle_ref": 53109107,
+        "private_score": null,
+        "public_mae": 0.7914,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     },
     {
       "alphas": [
@@ -154,7 +178,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
       "rationale": "Tests whether a milder week-2 reduction than v3 lower_early_more can keep the 0.7915 public score with less anchor drift.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:51:07.433000+00:00",
+        "description": "20260528 v4 hedge w1 0p225 w2 mid",
+        "kaggle_ref": 53109150,
+        "private_score": null,
+        "public_mae": 0.7915,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     },
     {
       "alphas": [
@@ -192,7 +224,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
       "rationale": "Private-robust hedge combining the new lower week-1 probe with more anchor weight on weeks 3-4.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:51:38.507000+00:00",
+        "description": "20260528 v4 hedge w1 0p20 late anchor",
+        "kaggle_ref": 53109166,
+        "private_score": null,
+        "public_mae": 0.7914,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     },
     {
       "alphas": [
@@ -230,7 +270,15 @@
       "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
       "rationale": "Softer late-anchor hedge between the v3 selected public-best shape and the same-day late-anchor private hedge.",
       "reportable_method_claim": false,
-      "submission": null
+      "submission": {
+        "date_utc": "2026-05-28T07:51:22.383000+00:00",
+        "description": "20260528 v4 hedge w1 0p225 late mid anchor",
+        "kaggle_ref": 53109157,
+        "private_score": null,
+        "public_mae": 0.7916,
+        "status": "COMPLETE",
+        "submitted_by": "skynycu"
+      }
     }
   ],
   "competition": "data-mining-2026-final-project",
@@ -253,7 +301,104 @@
     "team5_public_mae": 0.7915,
     "team5_rank": 3
   },
-  "next_best_action": "After the 2026-05-28 08:00 Taipei quota reset, live-gate Kaggle and submit the v4 queue in rank order if still aligned with the live leaderboard and final-selection needs.",
+  "live_readout": {
+    "baseline3_public_mae": 0.8056,
+    "best_public_candidate": {
+      "alphas": [
+        0.175,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "kaggle_ref": 53109133,
+      "mean_abs_delta_to_reportable_anchor": 0.1836945582858911,
+      "name": "baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
+      "public_mae": 0.7912,
+      "reportable_method_claim": false,
+      "selection_reason": "Lowest public score in v4; continues the week-1 public-side trend but is farther from the clean anchor than v3/v4 private hedge alternatives.",
+      "sha12": "c02dc54a2a79",
+      "sha256": "c02dc54a2a79e1afdab4b54df9d4f1805373ba7479102ce77c0eceb76407d268"
+    },
+    "cross_day_private_hedge_reminder": [
+      {
+        "kaggle_ref": 53075022,
+        "mean_abs_delta_to_reportable_anchor": 0.17099120212702545,
+        "public_mae": 0.7918,
+        "sha12": "20aa554510a5"
+      },
+      {
+        "kaggle_ref": 53038040,
+        "mean_abs_delta_to_reportable_anchor": 0.1537784989566111,
+        "public_mae": 0.7929,
+        "sha12": "3b16648a2c5c"
+      },
+      {
+        "kaggle_ref": 53038036,
+        "mean_abs_delta_to_reportable_anchor": 0.16224699779507365,
+        "public_mae": 0.7925,
+        "sha12": "ec7984e858b2"
+      },
+      {
+        "kaggle_ref": 53038033,
+        "mean_abs_delta_to_reportable_anchor": 0.16452209875876597,
+        "public_mae": 0.7923,
+        "sha12": "a495c0ef028e"
+      }
+    ],
+    "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
+    "quota_used_20260528_utc": "6/6",
+    "same_day_private_hedges": [
+      {
+        "alphas": [
+          0.2,
+          0.375,
+          0.575,
+          0.8,
+          1.0
+        ],
+        "kaggle_ref": 53109166,
+        "mean_abs_delta_to_reportable_anchor": 0.17533117431642245,
+        "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
+        "public_mae": 0.7914,
+        "sha12": "5d6406745e87"
+      },
+      {
+        "alphas": [
+          0.225,
+          0.375,
+          0.565,
+          0.775,
+          1.0
+        ],
+        "kaggle_ref": 53109157,
+        "mean_abs_delta_to_reportable_anchor": 0.17604335063360574,
+        "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
+        "public_mae": 0.7916,
+        "sha12": "4569505de0e4"
+      },
+      {
+        "alphas": [
+          0.225,
+          0.3625,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "kaggle_ref": 53109150,
+        "mean_abs_delta_to_reportable_anchor": 0.1804191516859254,
+        "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
+        "public_mae": 0.7915,
+        "sha12": "56284d0e5a27"
+      }
+    ],
+    "team5_public_mae": 0.7912,
+    "team5_rank": 3,
+    "updated_at_utc": "2026-05-28T07:53:27+00:00"
+  },
+  "next_best_action": "Quota is exhausted for 2026-05-28 UTC. Prepare a v5 queue around lower week-1 alphas (0.1625 to 0.10) plus late-anchor private hedges, then live-gate after 2026-05-29 08:00 Taipei before submitting.",
   "recommended_submission_order": [
     "baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1",
     "baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1",
@@ -313,6 +458,12 @@
         "decision_reason": "Fine-grained interpolation between the v3 selected 0.225 week-1 weight and the next lower 0.200 probe.",
         "mean_abs_delta_to_reportable_anchor": 0.1804395791438434,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:49:43.227000+00:00",
+          "kaggle_ref": 53109107,
+          "public_mae": 0.7914,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
         "public_chase": true,
         "rank": 1,
@@ -332,6 +483,12 @@
         "decision_reason": "Follows the v3 week-1 signal: reduce only week-1 anchor weight from 0.225 to 0.200 while preserving the selected v3 shape.",
         "mean_abs_delta_to_reportable_anchor": 0.1815245721911926,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:50:26.170000+00:00",
+          "kaggle_ref": 53109122,
+          "public_mae": 0.7913,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv",
         "public_chase": true,
         "rank": 2,
@@ -351,6 +508,12 @@
         "decision_reason": "Boundary probe for the week-1 public optimum after v3 showed week-1 reduction helped.",
         "mean_abs_delta_to_reportable_anchor": 0.1836945582858911,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:50:46.243000+00:00",
+          "kaggle_ref": 53109133,
+          "public_mae": 0.7912,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
         "public_chase": true,
         "rank": 3,
@@ -370,6 +533,12 @@
         "decision_reason": "Tests whether a milder week-2 reduction than v3 lower_early_more can keep the 0.7915 public score with less anchor drift.",
         "mean_abs_delta_to_reportable_anchor": 0.1804191516859254,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:51:07.433000+00:00",
+          "kaggle_ref": 53109150,
+          "public_mae": 0.7915,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
         "public_chase": true,
         "rank": 4,
@@ -389,6 +558,12 @@
         "decision_reason": "Softer late-anchor hedge between the v3 selected public-best shape and the same-day late-anchor private hedge.",
         "mean_abs_delta_to_reportable_anchor": 0.17604335063360574,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:51:22.383000+00:00",
+          "kaggle_ref": 53109157,
+          "public_mae": 0.7916,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
         "public_chase": true,
         "rank": 5,
@@ -408,6 +583,12 @@
         "decision_reason": "Private-robust hedge combining the new lower week-1 probe with more anchor weight on weeks 3-4.",
         "mean_abs_delta_to_reportable_anchor": 0.17533117431642245,
         "name": "baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1",
+        "outcome": {
+          "date_utc": "2026-05-28T07:51:38.507000+00:00",
+          "kaggle_ref": 53109166,
+          "public_mae": 0.7914,
+          "status": "COMPLETE"
+        },
         "path": "submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
         "public_chase": true,
         "rank": 6,

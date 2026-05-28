@@ -32,7 +32,7 @@ All generated candidates passed: 2248 rows, sample columns, matching `region_id`
 
 - Checked Taipei: `2026-05-28T15:53:27+08:00`.
 - Live gate passed before submission: Kaggle submission history and leaderboard were reachable, quota was available, and each file was revalidated by SHA and format sanity.
-- Quota status after batch: `6/6` used for 2026-05-28 UTC.
+- Quota status after batch: `6/10` used for 2026-05-28 UTC after the daily limit was confirmed as 10/day; the remaining four slots were later used by the v5 readout.
 - Team 5 public MAE after batch: `0.7912`, rank `3`; Baseline 3 remains `0.8056`.
 - Live snapshots: `kaggle_submissions_live.txt` and `kaggle_leaderboard_live.txt` in this directory.
 
@@ -45,6 +45,6 @@ All generated candidates passed: 2248 rows, sample columns, matching `region_id`
 | 5 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv` | `53109157` | `0.7916` | `4569505de0e4` | Softer private hedge around the v3 public best. |
 | 6 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv` | `53109166` | `0.7914` | `5d6406745e87` | Stronger private hedge with lower delta to the clean anchor. |
 
-Best public artifact: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / ref `53109133` / public MAE `0.7912`. Stronger private-risk alternatives remain same-day refs `53109166`, `53109157`, and `53109150`, plus cross-day refs `53075022`, `53038040`, `53038036`, and `53038033`.
+Best v4 public artifact at the time: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / ref `53109133` / public MAE `0.7912`. It was later superseded on public score by the v5 quota-10 readout. Stronger private-risk alternatives remain same-day refs `53109166`, `53109157`, and `53109150`, plus cross-day refs `53075022`, `53038040`, `53038036`, and `53038033`.
 
 All v4 files are public-chase/final-selection candidates only. They must not be described as new reportable training methods.

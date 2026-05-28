@@ -30,11 +30,28 @@ All generated candidates passed: 2248 rows, sample columns, matching `region_id`
 
 ## Live Gate Context
 
-- Checked Taipei: `2026-05-28T15:53:27+08:00`.
-- Team 5 public MAE is `0.7912`, rank `3`; Baseline 3 is `0.8056`.
-- Quota status: `6/6` used for 2026-05-28 UTC, so no v5 candidate was submitted in this preparation pass.
+- Checked Taipei: `2026-05-28T17:00:54+08:00` after the quota-limit update.
+- Team 5 public MAE is `0.7907`, rank `3`; Baseline 3 is `0.8056`.
+- Quota status: `10/10` used for 2026-05-28 UTC after four v5 keep-shape submissions.
 - Next reset: `2026-05-29T08:00:00+08:00`.
 - Live snapshots: `kaggle_submissions_live.txt` and `kaggle_leaderboard_live.txt` in this directory.
+
+## Quota-10 v5 Submission Readout
+
+User confirmed the daily Kaggle limit is now `10/day` (updated from 6/day).
+Live history confirmed the teammate gate item was already submitted as ref
+`53074655` with public MAE `1.0685`, so the duplicate guard skipped it and the
+remaining four slots were spent on v5 keep-shape candidates.
+
+| Submission | Kaggle ref | Public MAE | SHA-12 | Delta to clean anchor | Decision |
+|---|---:|---:|---:|---:|---|
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv` | `53110653` | `0.7911` | `530c7e912705` | `0.184780` | Improved public best. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv` | `53110796` | `0.7910` | `524a8ddebdd6` | `0.185865` | Improved public best. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv` | `53110803` | `0.7909` | `7fc12846493c` | `0.188035` | Improved public best. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` | `53110808` | `0.7907` | `12016072d85f` | `0.190205` | Current public-best artifact; `public-chase`, not reportable. |
+
+Submission log:
+`experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/quota10_v5_submit_20260528_1648.json`.
 
 ## Manual 2026-05-29 Queue
 
@@ -49,4 +66,4 @@ in order rather than silently spending quota on a known negative duplicate.
 Manual queue JSON:
 `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json`.
 
-After each Kaggle submit, append the Kaggle ref and public score to the readout JSON and status ledger before choosing final-selection wording.
+After the 2026-05-29 reset, live-gate before any new submit. Do not resubmit the teammate duplicate or already-submitted v5 keep-shape files; use v5 late-anchor or v6 backup candidates only if private-risk protection is worth the quota.

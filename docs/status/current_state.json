@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-28T16:10:31+08:00",
+  "last_updated": "2026-05-28T17:00:24+08:00",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -18,22 +18,22 @@
     "local_file_required": false
   },
   "baseline3_push": {
-    "mode": "manual-private-hedge-frontier-v4-after-public-cross",
-    "daily_submission_target": 6,
+    "mode": "manual-private-hedge-frontier-v5-after-quota10-update",
+    "daily_submission_target": 10,
     "baseline3_public_mae": "0.8056",
-    "team5_public_mae": "0.7912",
-    "gap_to_cross": "-0.0144",
+    "team5_public_mae": "0.7907",
+    "gap_to_cross": "-0.0149",
     "ledger": "docs/status/baseline3_push_20260523.md",
     "orchestrator": "scripts/run_baseline3_push.py",
     "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
     "public_chase_best": {
-      "submission": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7912",
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7907",
       "rows": 2248,
-      "sha256_prefix": "c02dc54a2a79",
-      "sha256": "c02dc54a2a79e1afdab4b54df9d4f1805373ba7479102ce77c0eceb76407d268",
-      "kaggle_ref": "53109133",
-      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.175, 0.375, 0.55, 0.75, 1.00]",
+      "sha256_prefix": "12016072d85f",
+      "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
+      "kaggle_ref": "53110808",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.100, 0.375, 0.55, 0.75, 1.00]",
       "artifact_label": "public-chase",
       "reportable_method_claim": false
     },
@@ -41,8 +41,8 @@
       "public-chase",
       "reportable"
     ],
-    "stop_condition": "last verified crossed: Team 5 public score 0.7912 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-28 live recheck confirms Team 5 remains 0.7912 rank 3 and quota is 6/6 used. At 2026-05-29 08:00 Taipei, live-gate the teammate duplicate first, then v5; keep v6 as backup private-robust queue after v5 readout.",
+    "stop_condition": "last verified crossed: Team 5 public score 0.7907 < Baseline 3 public score 0.8056",
+    "quota_recommendation": "2026-05-28 live recheck confirms the daily quota is now 10/day and Team 5 used 10/10. Public best is ref 53110808 at 0.7907; next reset is 2026-05-29 08:00 Taipei, with v6/late-anchor private-robust hedges as the next live-gated candidates after duplicate checks.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -53,8 +53,8 @@
     "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
     "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
     "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "quota_6_of_6_used_20260528_live_rechecked_and_v6_backup_prepared",
-    "latest_live_check_taipei": "2026-05-28T16:10:31+08:00",
+    "latest_live_check_status": "quota_10_of_10_used_20260528_live_rechecked_and_v5_public_best_0p7907",
+    "latest_live_check_taipei": "2026-05-28T17:00:24+08:00",
     "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
     "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
@@ -65,9 +65,16 @@
     "private_hedge_frontier_20260528_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json",
     "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
     "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
-    "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json"
+    "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json",
+    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260528_1645/final_selection_matrix.json"
   },
   "recent_findings": [
+    {
+      "name": "Quota-10 v5 lower-week1 public-chase readout",
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7907",
+      "interpretation": "After the user confirmed the daily limit is now 10, four v5 keep-shape probes were submitted with full sanity checks. Public MAE improved monotonically to ref 53110808 at 0.7907; this is a public-chase/final-selection artifact, not a reportable method claim. Quota is now 10/10 used for 2026-05-28 UTC."
+    },
     {
       "name": "Prepared v6 private-robust backup queue",
       "submission": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",

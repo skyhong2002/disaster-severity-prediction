@@ -30,25 +30,26 @@ All generated candidates passed: 2248 rows, sample columns, matching `region_id`
 
 ## Live Gate Context
 
-- Checked Taipei: `2026-05-28T16:10:31+08:00`.
-- Team 5 public MAE is `0.7912`, rank `3`; Baseline 3 is `0.8056`.
-- Quota status: `6/6` used for 2026-05-28 UTC, so no v6 candidate was submitted in this preparation pass.
+- Checked Taipei: `2026-05-28T17:00:54+08:00` after the v5 quota-10 readout.
+- Team 5 public MAE is `0.7907`, rank `3`; Baseline 3 is `0.8056`.
+- Quota status: `10/10` used for 2026-05-28 UTC, so no v6 candidate was submitted in this preparation pass.
 - Next reset: `2026-05-29T08:00:00+08:00`.
 - Live snapshots: `kaggle_submissions_live.txt` and `kaggle_leaderboard_live.txt` in this directory.
 
 ## Backup Use
 
-This is not the first 2026-05-29 queue. The live-gated order remains: resolve
-the teammate duplicate guard, then use the v5 lower-week1 / late-anchor queue.
-Use v6 only after the v5 readout, or on a later quota reset, if the team needs
-more private-robust hedges around the v4 late-anchor signal.
+This is not an automatic 2026-05-29 submission queue. The teammate duplicate
+guard and v5 keep-shape readout have already been consumed on 2026-05-28 after
+the limit changed to 10/day. Use v6 only after a fresh live gate, or on a later
+quota reset, if the team needs more private-robust hedges around the v4
+late-anchor signal.
 
 The v6 candidates are intentionally closer to the clean `0.8124` anchor than
-the pure public-best v4 file. The closest v6 backup is
+the pure public-best v5 file. The closest v6 backup is
 `submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv`
 with SHA-12 `86d7dd4da810` and mean absolute delta `0.166822`; the more
 public-near backup is
 `submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv`
 with SHA-12 `2a9f1230b65f` and mean absolute delta `0.178586`.
 
-After each Kaggle submit, append the Kaggle ref and public score to the readout JSON and status ledger before choosing final-selection wording.
+After each future Kaggle submit, append the Kaggle ref and public score to the readout JSON and status ledger before choosing final-selection wording.

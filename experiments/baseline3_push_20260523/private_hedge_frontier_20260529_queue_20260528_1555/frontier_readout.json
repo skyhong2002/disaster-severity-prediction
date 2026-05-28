@@ -243,17 +243,19 @@
     "do not use restored_20260522_* or restored_unverified_* sources"
   ],
   "live_gate_context": {
-    "action": "no_submit_quota_exhausted_prepare_next_reset_queue",
+    "action": "submitted_after_user_confirmed_quota10",
     "baseline3_public_mae": 0.8056,
-    "checked_at_taipei": "2026-05-28T15:53:27+08:00",
+    "checked_at_taipei": "2026-05-28T17:00:24+08:00",
     "live_leaderboard_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/kaggle_leaderboard_live.txt",
     "live_submissions_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/kaggle_submissions_live.txt",
     "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
-    "quota_used_20260528_utc": "6/6",
-    "team5_public_mae": 0.7912,
-    "team5_rank": 3
+    "quota_used_20260528_utc": "10/10",
+    "team5_public_mae": 0.7907,
+    "team5_rank": 3,
+    "quota_limit_20260528_utc": 10,
+    "submission_log": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/quota10_v5_submit_20260528_1648.json"
   },
-  "next_best_action": "After the 2026-05-29 08:00 Taipei quota reset, live-gate Kaggle and submit the v5 queue in rank order if still aligned; stop the leftward week-1 search if public score reverses.",
+  "next_best_action": "Quota is 10/10 used for 2026-05-28 UTC. After the 2026-05-29 08:00 Taipei reset, live-gate again; use v6 or late-anchor private-robust hedges if the team wants lower private-risk alternatives to the public-best v5 ref 53110808.",
   "recommended_submission_order": [
     "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1",
     "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1",
@@ -428,5 +430,224 @@
       "reason": "The exact teammate CSV is already recorded in live history as ref 53074655 with public MAE 1.0685; treat the user request as first gated queue item, not an automatic duplicate quota burn."
     },
     "fallback_first_actual_v5_candidate": "submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv"
+  },
+  "submitted_results_20260528_quota10": [
+    {
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+      "kaggle_ref": 53110653,
+      "public_mae": 0.7911,
+      "sha12": "530c7e912705",
+      "sha256": "530c7e912705dd1cb0c6c1c85879c89961696678f74d22eccb834bd20519d817",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.1625,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.18477955133324037,
+      "decision": "passes_baseline3_and_extends_v5_week1_curve",
+      "label": "public-chase",
+      "artifact_label": "public-chase",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "sanity": {
+        "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "530c7e912705dd1cb0c6c1c85879c89961696678f74d22eccb834bd20519d817",
+        "sha12": "530c7e912705",
+        "prediction_min": 0.0,
+        "prediction_max": 3.885914069432608,
+        "prediction_mean": 0.9547941767928345,
+        "prediction_std_mean": 0.774213111668917
+      },
+      "kaggle_submission": {
+        "ref": 53110653,
+        "date": "2026-05-28 08:49:58.693000",
+        "description": "20260528 v5 hedge w1_0p1625_keep_shape horizon 0p1625_0p375_0p55_0p75_1",
+        "file_name": "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+        "public_score": "0.7911",
+        "private_score": "",
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53110653/53110653.raw"
+      }
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+      "kaggle_ref": 53110796,
+      "public_mae": 0.791,
+      "sha12": "524a8ddebdd6",
+      "sha256": "524a8ddebdd692cd8162b0f213b66a8c15b6982ed47da4e52e067e216c781057",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.15,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.1858645443805896,
+      "decision": "passes_baseline3_and_extends_v5_week1_curve",
+      "label": "public-chase",
+      "artifact_label": "public-chase",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "sanity": {
+        "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "524a8ddebdd692cd8162b0f213b66a8c15b6982ed47da4e52e067e216c781057",
+        "sha12": "524a8ddebdd6",
+        "prediction_min": 0.0,
+        "prediction_max": 3.898939321429574,
+        "prediction_mean": 0.9552172439788258,
+        "prediction_std_mean": 0.7743794791678069
+      },
+      "kaggle_submission": {
+        "ref": 53110796,
+        "date": "2026-05-28 08:56:01.630000",
+        "description": "20260528 v5 hedge w1_0p15_keep_shape horizon 0p15_0p375_0p55_0p75_1",
+        "file_name": "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+        "public_score": "0.7910",
+        "private_score": "",
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53110796/53110796.raw"
+      }
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+      "kaggle_ref": 53110803,
+      "public_mae": 0.7909,
+      "sha12": "7fc12846493c",
+      "sha256": "7fc12846493c27ffb8e939840f632f0ced9b328b9522efb90857260a7b2e23a7",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.125,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.1880345304752881,
+      "decision": "passes_baseline3_and_extends_v5_week1_curve",
+      "label": "public-chase",
+      "artifact_label": "public-chase",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "sanity": {
+        "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "7fc12846493c27ffb8e939840f632f0ced9b328b9522efb90857260a7b2e23a7",
+        "sha12": "7fc12846493c",
+        "prediction_min": 0.0,
+        "prediction_max": 3.926198666135976,
+        "prediction_mean": 0.9560633783508088,
+        "prediction_std_mean": 0.774747293027773
+      },
+      "kaggle_submission": {
+        "ref": 53110803,
+        "date": "2026-05-28 08:56:17.537000",
+        "description": "20260528 v5 hedge w1_0p125_keep_shape horizon 0p125_0p375_0p55_0p75_1",
+        "file_name": "baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+        "public_score": "0.7909",
+        "private_score": "",
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53110803/53110803.raw"
+      }
+    },
+    {
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "kaggle_ref": 53110808,
+      "public_mae": 0.7907,
+      "sha12": "12016072d85f",
+      "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
+      "kind": "private_robustness_horizon_hedge",
+      "alphas": [
+        0.1,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "mean_abs_delta_to_reportable_anchor": 0.1902045165699866,
+      "decision": "best_public_and_selected_public_chase_candidate_after_quota10_update",
+      "label": "public-chase",
+      "artifact_label": "public-chase",
+      "public_chase": true,
+      "reportable_method_claim": false,
+      "sanity": {
+        "path": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+        "rows": 2248,
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
+        "sha12": "12016072d85f",
+        "prediction_min": 0.0,
+        "prediction_max": 3.958398173294905,
+        "prediction_mean": 0.9569095127227918,
+        "prediction_std_mean": 0.7751615865164567
+      },
+      "kaggle_submission": {
+        "ref": 53110808,
+        "date": "2026-05-28 08:56:32.283000",
+        "description": "20260528 v5 hedge w1_0p10_keep_shape horizon 0p1_0p375_0p55_0p75_1",
+        "file_name": "baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+        "public_score": "0.7907",
+        "private_score": "",
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53110808/53110808.raw"
+      }
+    }
+  ],
+  "best_public_after_quota10_update": {
+    "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+    "kaggle_ref": 53110808,
+    "public_mae": 0.7907,
+    "sha12": "12016072d85f",
+    "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
+    "alphas": [
+      0.1,
+      0.375,
+      0.55,
+      0.75,
+      1.0
+    ],
+    "mean_abs_delta_to_reportable_anchor": 0.1902045165699866,
+    "label": "public-chase",
+    "reportable_method_claim": false
   }
 }

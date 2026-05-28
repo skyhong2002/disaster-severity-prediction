@@ -1,16 +1,16 @@
 # Baseline 3 Push Status: 2026-05-23
 
-- Updated: `2026-05-28T07:59:40Z`
+- Updated: `2026-05-28T09:00:54Z`
 - 08:00 Taipei refresh confirmed: `2026-05-28T07:48:41Z`
-- Mode: `manual-private-hedge-frontier-v4-after-public-cross`
+- Mode: `manual-private-hedge-frontier-v5-after-quota10-update`
 - Baseline 3 target: `< 0.8056` public MAE
-- Team 5 public score after push: `0.7912`
+- Team 5 public score after push: `0.7907`
 - Stop condition crossed: `True`
-- Current policy: 2026-05-28 quota is exhausted after six v4 horizon-hedge submissions; wait for the 2026-05-29 08:00 Taipei reset, then re-check live history/leaderboard before any new submission.
-- Next mode: live-gated 2026-05-29 queue with the user-requested teammate gate item first, then v5 lower-week1 / late-anchor hedges if quota remains.
+- Current policy: 2026-05-28 quota is now `10/day` (updated from 6/day), and Team 5 has used `10/10` UTC submissions after four v5 lower-week1 probes; wait for the 2026-05-29 08:00 Taipei reset, then re-check live history/leaderboard before any new submission.
+- Next mode: live-gated private-robust hedge follow-up after the v5 readout; do not resubmit the teammate duplicate or already-used v5 keep-shape files.
 - Submit flag used: manual Kaggle CLI, no Codex automation
 - Reportable legal anchor remains: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`, public MAE `0.8124`
-- Public-chase best: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv`, Kaggle ref `53109133`, public MAE `0.7912`, SHA-256 prefix `c02dc54a2a79`
+- Public-chase best: `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv`, Kaggle ref `53110808`, public MAE `0.7907`, SHA-256 prefix `12016072d85f`
 
 ## Live Leaderboard
 
@@ -18,10 +18,10 @@
 |---:|---|---:|---|
 | 1 | Team 3 | `0.7628` | `2026-05-22 03:47:47.553000` |
 | 2 | Team 4 | `0.7817` | `2026-05-22 18:22:43.346000` |
-| 3 | Team 5 | `0.7912` | `2026-05-28 07:51:38.506000` |
-| 4 | Team 20 | `0.7942` | `2026-05-19 07:05:50.876000` |
+| 3 | Team 5 | `0.7907` | `2026-05-28 08:56:32.283000` |
+| 4 | Team 20 | `0.7942` | `2026-05-28 08:09:11.703000` |
 | 5 | Team 2 | `0.7955` | `2026-05-22 17:19:58.006000` |
-| 6 | Team 1 | `0.8043` | `2026-05-26 03:09:07.316000` |
+| 6 | Team 1 | `0.8043` | `2026-05-28 08:52:33.130000` |
 | 7 | Baseline 3 | `0.8056` | `2026-04-29 18:20:59.886000` |
 
 ## Completed Queue
@@ -47,12 +47,12 @@
 
 The successful artifacts are exact-history public-chase blends: they combine the recovered `0.8094` public reference with the exact recovered `0.8124` legal anchor. They are useful for leaderboard crossing and submission selection, but they are not a clean reportable modeling claim.
 
-For reports and method discussion, keep the legal anchor as the 35% LightGBM / 35% XGBoost / 30% CatBoost submission with public MAE `0.8124`. This 2026-05-23 stage crossed Baseline 3 with `0.7991`; later private-hedge batches improved the selected public artifact to `0.7912`.
+For reports and method discussion, keep the legal anchor as the 35% LightGBM / 35% XGBoost / 30% CatBoost submission with public MAE `0.8124`. This 2026-05-23 stage crossed Baseline 3 with `0.7991`; later private-hedge batches improved the selected public artifact to `0.7907`.
 
 ## Post-Cross Policy
 
 - The `0.7991` readout was the 2026-05-23 crossing point, not the final current best after later hedges.
-- Keep `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / ref `53109133` as the current public leaderboard/final-selection candidate. Keep v4 refs `53109166`, `53109157`, and `53109150`, plus refs `53075022`, `53038040`, `53038036`, and `53038033`, as private-risk alternatives.
+- Keep `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` / ref `53110808` as the current public leaderboard/final-selection candidate. Keep v4 ref `53109133` and private-risk alternatives `53109166`, `53109157`, `53109150`, `53075022`, `53038036`, and `53038033` available for private-risk discussion.
 - Keep `experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` as the reportable legal model lineage.
 - Mark `baseline3_public_chase_v0_cat35_08124_alpha*` artifacts as `public-chase`, not `reportable`.
 - Continue blocking `restored_20260522_*` and `restored_unverified_*` as submit sources.
@@ -313,37 +313,56 @@ For reports and method discussion, keep the legal anchor as the 35% LightGBM / 3
 ## 15:53 Manual Private-Hedge Frontier v4 (2026-05-28)
 
 - Live gate passed after the 08:00 Taipei reset: DNS resolved `api.kaggle.com`, HTTP responded, and Kaggle CLI live history/leaderboard both completed.
-- All six 2026-05-28 quota slots were spent on the v4 exact-history horizon frontier. Each file passed sanity before submit: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
+- The first six 2026-05-28 quota slots were spent on the v4 exact-history horizon frontier before the daily limit was confirmed as `10/day`. Each file passed sanity before submit: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
 - Live leaderboard after the batch: Team 5 public MAE `0.7912`, Baseline 3 `0.8056`, Team 5 rank `3`.
 
 | Submission | Kaggle ref | Public MAE | SHA-12 | Decision |
 |---|---:|---:|---:|---|
 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv` | `53109107` | `0.7914` | `ec1cea965464` | Improved over the v3 public best while keeping a small step left of week-1 alpha `0.225`. |
 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv` | `53109122` | `0.7913` | `4138156b1e10` | Continued the week-1 public-side trend. |
-| `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` | `53109133` | `0.7912` | `c02dc54a2a79` | New public best and selected public-chase candidate. |
+| `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` | `53109133` | `0.7912` | `c02dc54a2a79` | v4 public-best at the time; later superseded on public score by v5. |
 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv` | `53109150` | `0.7915` | `56284d0e5a27` | Matched the old public best with less week-1 drift. |
 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv` | `53109157` | `0.7916` | `4569505de0e4` | Same-day private hedge with more late-anchor weight. |
 | `submissions/baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv` | `53109166` | `0.7914` | `5d6406745e87` | Strongest same-day private hedge among v4 public-near candidates. |
 
-- Selected public artifact, if choosing by public leaderboard: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / Kaggle ref `53109133` / public MAE `0.7912`.
+- Selected public artifact at the v4 checkpoint: `submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv` / Kaggle ref `53109133` / public MAE `0.7912`; later superseded on public score by v5 ref `53110808`.
 - Private-risk hedge alternatives for final-selection discussion: same-day refs `53109166` (`0.7914`), `53109157` (`0.7916`), and `53109150` (`0.7915`), plus cross-day refs `53075022` (`0.7918`), `53038040` (`0.7929`), `53038036` (`0.7925`), and `53038033` (`0.7923`).
 - Reportable method lineage remains `experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` / Kaggle ref `52698259` / public MAE `0.8124`.
 - Readout artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json`.
-- Quota status: `6/6` used for 2026-05-28 UTC; next reset is `2026-05-29T08:00:00+08:00`.
+- Quota status at the time: `6/10` used for 2026-05-28 UTC after the limit was confirmed as 10/day; the remaining four slots were later used by the v5 readout below.
 
 ## 15:59 Prepared 2026-05-29 Queue
 
-- With 2026-05-28 quota exhausted, a v5 queue was prepared but not submitted. It probes lower week-1 anchor alphas (`0.1625`, `0.150`, `0.125`, `0.100`) and late-anchor private hedges around the new v4 public best.
+- Before the quota-limit update was confirmed, a v5 queue was prepared for the next reset. It probes lower week-1 anchor alphas (`0.1625`, `0.150`, `0.125`, `0.100`) and late-anchor private hedges around the new v4 public best.
 - Per the latest user directive, the teammate CSV is recorded as rank `1` in the 2026-05-29 manual queue. Its SHA-256 is `66f7815e7ff30430fe543d1d1df0d3b1c0167594edbe2a34453418c25c1240cf`, and it again passed the format sanity gate.
 - Duplicate guard: the same teammate file is already in live history as ref `53074655` with public MAE `1.0685`. At the reset, re-check live history first; if that duplicate is confirmed, skip it and promote the v5 candidates in order rather than burning quota silently.
 - Queue artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json`.
 - V5 readout: `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json`.
 
-## 16:10 Prepared v6 Private-Robust Backup (2026-05-28)
+## 16:56 Quota-10 v5 Public-Chase Readout (2026-05-28)
 
-- Live re-check still has Team 5 at public MAE `0.7912`, rank `3`; Baseline 3 is `0.8056`.
-- Quota remains `6/6` used for 2026-05-28 UTC, so no v6 candidate was submitted.
-- Built six v6 exact-history backup hedges around the v4 late-anchor signal. They are not the first 2026-05-29 queue; use them only after the v5 readout or on a later quota reset if more private-risk protection is needed.
+- User confirmed the daily limit is now `10/day` (updated from 6/day). Live history showed the teammate file was already submitted as ref `53074655` with public MAE `1.0685`, so it was skipped by duplicate guard.
+- The remaining four 2026-05-28 UTC slots were spent on the v5 lower-week1 keep-shape probes. Each file passed sanity before submit: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
+- Live leaderboard after the batch: Team 5 public MAE `0.7907`, Baseline 3 `0.8056`, Team 5 rank `3`.
+
+| Submission | Kaggle ref | Public MAE | SHA-12 | Delta to clean anchor | Decision |
+|---|---:|---:|---:|---:|---|
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv` | `53110653` | `0.7911` | `530c7e912705` | `0.184780` | Improved public best while continuing the lower week-1 curve. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv` | `53110796` | `0.7910` | `524a8ddebdd6` | `0.185865` | Improved again; public-side trend still monotone. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv` | `53110803` | `0.7909` | `7fc12846493c` | `0.188035` | Improved public score but moved farther from the clean anchor. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` | `53110808` | `0.7907` | `12016072d85f` | `0.190205` | Current public-best artifact; `public-chase`, not reportable method claim. |
+
+- Selected public artifact, if choosing by public leaderboard: `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` / Kaggle ref `53110808` / public MAE `0.7907`.
+- Same-day private hedge near the public best: v4 ref `53109133` (`0.7912`, delta `0.183695`) because it stays within `0.0005` public MAE of v5 but is closer to the clean `0.8124` anchor.
+- Stronger private fallback within `0.0020` of public-best: ref `53038036` (`0.7925`, delta `0.162247`). More anchor-tilted ref `53038040` (`0.7929`) is now slightly outside the `0.0020` public window after the v5 improvement, but remains a diagnostic private-risk reference.
+- Submission log: `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/quota10_v5_submit_20260528_1648.json`.
+- Quota status: `10/10` used for 2026-05-28 UTC; next reset is `2026-05-29T08:00:00+08:00`.
+
+## 16:10 Prepared / 17:00 Revalidated v6 Private-Robust Backup (2026-05-28)
+
+- Live re-check after the v5 readout has Team 5 at public MAE `0.7907`, rank `3`; Baseline 3 is `0.8056`.
+- Quota is now `10/10` used for 2026-05-28 UTC, so no v6 candidate was submitted.
+- Built six v6 exact-history backup hedges around the v4 late-anchor signal. Use them after the next reset only if more private-risk protection is worth spending quota after the v5 public-best readout.
 - All v6 candidates passed sanity: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
 
 | Rank | Candidate | SHA-12 | Delta to clean anchor | Role |

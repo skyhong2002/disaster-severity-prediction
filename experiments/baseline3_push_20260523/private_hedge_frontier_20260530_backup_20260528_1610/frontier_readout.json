@@ -442,17 +442,18 @@
     "do not use restored_20260522_* or restored_unverified_* sources"
   ],
   "live_gate_context": {
-    "action": "no_submit_quota_exhausted_prepare_backup_queue",
+    "action": "backup_queue_after_v5_quota10_readout",
     "baseline3_public_mae": 0.8056,
-    "checked_at_taipei": "2026-05-28T16:10:31+08:00",
+    "checked_at_taipei": "2026-05-28T17:00:24+08:00",
     "live_leaderboard_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/kaggle_leaderboard_live.txt",
     "live_submissions_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/kaggle_submissions_live.txt",
     "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
-    "quota_used_20260528_utc": "6/6",
-    "team5_public_mae": 0.7912,
-    "team5_rank": 3
+    "quota_used_20260528_utc": "10/10",
+    "team5_public_mae": 0.7907,
+    "team5_rank": 3,
+    "quota_limit_20260528_utc": 10
   },
-  "next_best_action": "After 2026-05-29 reset, live-gate and resolve the teammate duplicate guard first, then submit v5 in order. Use v6 only as a backup private-robust queue after seeing v5 public readout or if a later quota reset is available.",
+  "next_best_action": "After 2026-05-29 reset, live-gate and submit v6/late-anchor private-robust hedges only if the team wants a lower-delta alternative to public-best v5 ref 53110808; do not describe v6 as reportable unless a clean reproducible modeling lineage is established.",
   "recommended_submission_order": [
     "baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1",
     "baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1",

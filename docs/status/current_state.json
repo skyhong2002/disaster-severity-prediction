@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-28T16:01:21+08:00",
+  "last_updated": "2026-05-28T16:10:31+08:00",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -42,7 +42,7 @@
       "reportable"
     ],
     "stop_condition": "last verified crossed: Team 5 public score 0.7912 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-28 live gate passed and all 6/6 UTC quota slots were spent on v4 private-hedge frontier submissions. Prepare for 2026-05-29 08:00 Taipei reset with a user-requested teammate gate item first, then v5 lower-week1/late-anchor hedges; live-gate before any submission.",
+    "quota_recommendation": "2026-05-28 live recheck confirms Team 5 remains 0.7912 rank 3 and quota is 6/6 used. At 2026-05-29 08:00 Taipei, live-gate the teammate duplicate first, then v5; keep v6 as backup private-robust queue after v5 readout.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -53,8 +53,8 @@
     "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
     "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
     "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "submitted_private_hedge_frontier_20260528_quota_6_of_6_and_prepared_20260529_queue",
-    "latest_live_check_taipei": "2026-05-28T15:53:27+08:00",
+    "latest_live_check_status": "quota_6_of_6_used_20260528_live_rechecked_and_v6_backup_prepared",
+    "latest_live_check_taipei": "2026-05-28T16:10:31+08:00",
     "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
     "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
@@ -64,9 +64,16 @@
     "private_hedge_frontier_20260527": "experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json",
     "private_hedge_frontier_20260528_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json",
     "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
-    "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json"
+    "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
+    "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json"
   },
   "recent_findings": [
+    {
+      "name": "Prepared v6 private-robust backup queue",
+      "submission": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",
+      "public_mae": null,
+      "interpretation": "Built six sanity-checked v6 backup candidates around the v4 late-anchor signal. They add week-2 or week-3/4 anchor weight to reduce distance to the clean 0.8124 anchor; use only after the v5 queue readout, not as a reportable method claim."
+    },
     {
       "name": "Manual private-hedge frontier 2026-05-28",
       "submission": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",

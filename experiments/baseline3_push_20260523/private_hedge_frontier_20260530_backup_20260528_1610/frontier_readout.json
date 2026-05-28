@@ -1,0 +1,483 @@
+{
+  "backup_submission_queue_after_v5_readout": {
+    "do_not_submit_if": [
+      "Kaggle live history or leaderboard is unreachable",
+      "quota is not available",
+      "row/column/order/NaN/range sanity fails",
+      "SHA-256 differs from the recorded value",
+      "any rule-safety or blocked-source evidence appears",
+      "v5 public curve clearly reverses and indicates lower week-1 / late-anchor continuation is harmful"
+    ],
+    "pre_submit_gate": [
+      "live Kaggle submission history",
+      "live Kaggle leaderboard",
+      "quota availability",
+      "exact-file sanity check",
+      "SHA-256 confirmation",
+      "blocked-source filename check",
+      "confirm no private labels, external answers, unauthorized data, restored_20260522_*, or restored_unverified_* sources",
+      "confirm candidate was not already submitted"
+    ],
+    "pre_submit_gate_required": true,
+    "queue_status": "prepared_not_submitted_backup",
+    "submission_order": [
+      {
+        "alphas": [
+          0.1625,
+          0.375,
+          0.575,
+          0.8,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Backup private hedge pairing the v5 lower week-1 probe with the v4 late-anchor protection that stayed near public best.",
+        "mean_abs_delta_to_reportable_anchor": 0.1785861534584702,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",
+        "public_chase": true,
+        "rank": 1,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.885914069432608,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "2a9f1230b65f",
+        "sha256": "2a9f1230b65fd993f316be4ac12791ae0124bcc74774c14ab6589cdd307a6828"
+      },
+      {
+        "alphas": [
+          0.2,
+          0.4,
+          0.575,
+          0.8,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Adds week-2 anchor weight to the v4 ref 53109166 late-anchor hedge, seeking lower private risk with limited public drift.",
+        "mean_abs_delta_to_reportable_anchor": 0.17320204313756,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1.csv",
+        "public_chase": true,
+        "rank": 2,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.846838313441709,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "d355e20f2ce1",
+        "sha256": "d355e20f2ce16c407a3801b393925cd299cc9374aff8fe62644ec2830376d3c2"
+      },
+      {
+        "alphas": [
+          0.175,
+          0.4,
+          0.575,
+          0.8,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Combines the v4 public-best week-1 setting with more week-2 and late-horizon anchor weight.",
+        "mean_abs_delta_to_reportable_anchor": 0.17537202923225848,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1.csv",
+        "public_chase": true,
+        "rank": 3,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.8728888174356415,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "efcbbfe922f6",
+        "sha256": "efcbbfe922f6171055c25c16bab08e40fa79a5905d5db911c8ca631521935edd"
+      },
+      {
+        "alphas": [
+          0.2,
+          0.375,
+          0.6,
+          0.825,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Stronger late-anchor version of ref 53109166 for private-risk coverage if v5 public-side probes overfit.",
+        "mean_abs_delta_to_reportable_anchor": 0.17116179275152094,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1.csv",
+        "public_chase": true,
+        "rank": 4,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.846838313441709,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "5838dee864bb",
+        "sha256": "5838dee864bbded3c53773e5cb5201a2d104168e3f782f697a7ceaebf147b0ff"
+      },
+      {
+        "alphas": [
+          0.225,
+          0.375,
+          0.6,
+          0.825,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Uses the v3 selected early shape with stronger week-3 and week-4 anchor protection.",
+        "mean_abs_delta_to_reportable_anchor": 0.1689918066568224,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1.csv",
+        "public_chase": true,
+        "rank": 5,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.820787809447777,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "e337885b660d",
+        "sha256": "e337885b660d68c85f650eba29d7e5c5559bdbd2b5ec03ba2024586453aaaf52"
+      },
+      {
+        "alphas": [
+          0.25,
+          0.375,
+          0.6,
+          0.825,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "decision_reason": "Most conservative v6 late-anchor backup, staying closer to prior private-robust refs while still below Baseline 3 in nearby submitted points.",
+        "mean_abs_delta_to_reportable_anchor": 0.16682182056212394,
+        "name": "baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1",
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv",
+        "public_chase": true,
+        "rank": 6,
+        "reportable_method_claim": false,
+        "sanity_check": {
+          "blocked_source_pattern": false,
+          "columns_match_sample": true,
+          "nan_count": 0,
+          "passed": true,
+          "prediction_max": 3.794737305453843,
+          "prediction_min": 0.0,
+          "region_order_match": true,
+          "rows": 2248
+        },
+        "sha12": "86d7dd4da810",
+        "sha256": "86d7dd4da81078e87d8a75df96ac99570c27f3c487875a24066f9a2c4420a982"
+      }
+    ],
+    "use_after": "Only after the 2026-05-29 v5 queue produces a public/private-risk readout, or if v5 is skipped because the teammate duplicate gate consumes planning time but not quota."
+  },
+  "blocked_source_patterns": [
+    "restored_20260522_",
+    "restored_unverified_"
+  ],
+  "candidates": [
+    {
+      "alphas": [
+        0.1625,
+        0.375,
+        0.575,
+        0.8,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",
+        "prediction_max": 3.885914069432608,
+        "prediction_mean": 0.9522428106094853,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7752027866724468,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "2a9f1230b65f",
+        "sha256": "2a9f1230b65fd993f316be4ac12791ae0124bcc74774c14ab6589cdd307a6828"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24016221869211513,
+      "mean_abs_delta_to_reportable_anchor": 0.1785861534584702,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",
+      "rationale": "Backup private hedge pairing the v5 lower week-1 probe with the v4 late-anchor protection that stayed near public best.",
+      "reportable_method_claim": false,
+      "submission": null
+    },
+    {
+      "alphas": [
+        0.2,
+        0.4,
+        0.575,
+        0.8,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1.csv",
+        "prediction_max": 3.846838313441709,
+        "prediction_mean": 0.9501443200377295,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7747435580896038,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "d355e20f2ce1",
+        "sha256": "d355e20f2ce16c407a3801b393925cd299cc9374aff8fe62644ec2830376d3c2"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24554632901302537,
+      "mean_abs_delta_to_reportable_anchor": 0.17320204313756,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1.csv",
+      "rationale": "Adds week-2 anchor weight to the v4 ref 53109166 late-anchor hedge, seeking lower private risk with limited public drift.",
+      "reportable_method_claim": false,
+      "submission": null
+    },
+    {
+      "alphas": [
+        0.175,
+        0.4,
+        0.575,
+        0.8,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1.csv",
+        "prediction_max": 3.8728888174356415,
+        "prediction_mean": 0.9509904544097125,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7750174172798607,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "efcbbfe922f6",
+        "sha256": "efcbbfe922f6171055c25c16bab08e40fa79a5905d5db911c8ca631521935edd"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24337634291832683,
+      "mean_abs_delta_to_reportable_anchor": 0.17537202923225848,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1.csv",
+      "rationale": "Combines the v4 public-best week-1 setting with more week-2 and late-horizon anchor weight.",
+      "reportable_method_claim": false,
+      "submission": null
+    },
+    {
+      "alphas": [
+        0.2,
+        0.375,
+        0.6,
+        0.825,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1.csv",
+        "prediction_max": 3.846838313441709,
+        "prediction_mean": 0.9492745476842614,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7754922909358448,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "5838dee864bb",
+        "sha256": "5838dee864bbded3c53773e5cb5201a2d104168e3f782f697a7ceaebf147b0ff"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24758657939906445,
+      "mean_abs_delta_to_reportable_anchor": 0.17116179275152094,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1.csv",
+      "rationale": "Stronger late-anchor version of ref 53109166 for private-risk coverage if v5 public-side probes overfit.",
+      "reportable_method_claim": false,
+      "submission": null
+    },
+    {
+      "alphas": [
+        0.225,
+        0.375,
+        0.6,
+        0.825,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1.csv",
+        "prediction_max": 3.820787809447777,
+        "prediction_mean": 0.9484284133122785,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.775265823002837,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "e337885b660d",
+        "sha256": "e337885b660d68c85f650eba29d7e5c5559bdbd2b5ec03ba2024586453aaaf52"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.24975656549376293,
+      "mean_abs_delta_to_reportable_anchor": 0.1689918066568224,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1.csv",
+      "rationale": "Uses the v3 selected early shape with stronger week-3 and week-4 anchor protection.",
+      "reportable_method_claim": false,
+      "submission": null
+    },
+    {
+      "alphas": [
+        0.25,
+        0.375,
+        0.6,
+        0.825,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "audit": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv",
+        "prediction_max": 3.794737305453843,
+        "prediction_mean": 0.9475822789402957,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.775086964245929,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "86d7dd4da810",
+        "sha256": "86d7dd4da81078e87d8a75df96ac99570c27f3c487875a24066f9a2c4420a982"
+      },
+      "base": "v0_08094",
+      "kind": "private_robustness_horizon_hedge",
+      "known_public_scores": {
+        "base": 0.8094,
+        "other": 0.8124
+      },
+      "mean_abs_delta_to_public_reference": 0.2519265515884614,
+      "mean_abs_delta_to_reportable_anchor": 0.16682182056212394,
+      "name": "baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1",
+      "other": "cat35_08124",
+      "path": "submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv",
+      "rationale": "Most conservative v6 late-anchor backup, staying closer to prior private-robust refs while still below Baseline 3 in nearby submitted points.",
+      "reportable_method_claim": false,
+      "submission": null
+    }
+  ],
+  "competition": "data-mining-2026-final-project",
+  "created_at_utc": "2026-05-28T08:09:25+00:00",
+  "experiment_label": "private_hedge_frontier_20260530_backup_20260528_1610",
+  "lineage_policy": [
+    "public-chase/final-selection artifact only",
+    "not a reportable method claim",
+    "no private labels or external answers used",
+    "do not use restored_20260522_* or restored_unverified_* sources"
+  ],
+  "live_gate_context": {
+    "action": "no_submit_quota_exhausted_prepare_backup_queue",
+    "baseline3_public_mae": 0.8056,
+    "checked_at_taipei": "2026-05-28T16:10:31+08:00",
+    "live_leaderboard_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/kaggle_leaderboard_live.txt",
+    "live_submissions_snapshot": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/kaggle_submissions_live.txt",
+    "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
+    "quota_used_20260528_utc": "6/6",
+    "team5_public_mae": 0.7912,
+    "team5_rank": 3
+  },
+  "next_best_action": "After 2026-05-29 reset, live-gate and resolve the teammate duplicate guard first, then submit v5 in order. Use v6 only as a backup private-robust queue after seeing v5 public readout or if a later quota reset is available.",
+  "recommended_submission_order": [
+    "baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1",
+    "baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1",
+    "baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1",
+    "baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1",
+    "baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1",
+    "baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1"
+  ],
+  "sources": {
+    "cat35_08124": {
+      "key": "cat35_08124",
+      "path": "experiments/recovered_submissions_20260523/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
+      "public_score": 0.8124,
+      "role": "clean_reportable_anchor",
+      "sha12": "bee6f618828d",
+      "sha256": "bee6f618828db8d5263ba9df79eb81572c7c994b1b72abf184466078496653c9"
+    },
+    "v0_08094": {
+      "key": "v0_08094",
+      "path": "experiments/recovered_submissions_20260523/submission_20260512_195951.csv",
+      "public_score": 0.8094,
+      "role": "source_reference_only_public_chase",
+      "sha12": "2f1eb3575419",
+      "sha256": "2f1eb3575419ea0451de0b4edab58b672cc30ef420a579ec501e021ee58b1c23"
+    }
+  },
+  "spec_set": "v6"
+}

@@ -380,12 +380,33 @@ the duplicate is confirmed, skip it and promote the v5 candidates in order.
 Queue readout:
 `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json`.
 
+## 2026-05-28 Prepared v6 Private-Robust Backup
+
+A v6 backup queue was also generated after confirming that the 2026-05-28 quota
+was already `6/6` used. These candidates are not meant to supersede the v5
+queue before v5 gets a public readout. They are a private-risk backup around
+the v4 late-anchor signal: the alphas add week-2 or week-3/4 anchor weight, so
+they are closer to the clean `0.8124` anchor than the pure public-best v4 file.
+
+| Candidate | SHA-12 | Delta to clean anchor | Role |
+|---|---:|---:|---|
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv` | `2a9f1230b65f` | `0.178586` | Public-near backup with v5 week-1 and late-anchor protection. |
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1.csv` | `d355e20f2ce1` | `0.173202` | Adds week-2 anchor to the v4 `53109166` hedge. |
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1.csv` | `efcbbfe922f6` | `0.175372` | Public-best week-1 setting with more week-2 and late anchor. |
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1.csv` | `5838dee864bb` | `0.171162` | Stronger late-anchor version of the v4 private hedge. |
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1.csv` | `e337885b660d` | `0.168992` | V3 early shape with stronger late-anchor protection. |
+| `submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv` | `86d7dd4da810` | `0.166822` | Most conservative v6 backup, closest to the clean anchor. |
+
+Readout:
+`experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json`.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |
 |---|---|---|---|---:|---:|---|
 | `baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.175,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7912` | Current best public artifact, ref `53109133`; `public-chase`, not reportable method claim. |
 | `baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1` | Exact-history horizon hedge | Prepared next-reset probe just left of the v4 week-1 optimum | Sanity + queued for live gate | N/A | Not submitted | First v5 candidate if the teammate duplicate guard skips; SHA `530c7e912705`; no score yet. |
+| `baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1` | Exact-history horizon hedge | Prepared backup with lower week-1 alpha and stronger late-anchor protection | Sanity + backup queue | N/A | Not submitted | Private-robust backup after v5 readout; SHA `5838dee864bb`; no score yet. |
 | `baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1` | Exact-history horizon hedge | Lower week-1 alpha with more anchor on weeks 3-4 | Public LB feedback | N/A | `0.7914` | Strongest same-day v4 private-risk alternative while still near the public best. |
 | `baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.225,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7915` | Previous public-best artifact; selected over same-score ref `53075001` because it is closer to the clean anchor; `public-chase`, not reportable method claim. |
 | `submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced` | LightGBM candidate attachment | Source lineage not found in checkout; teammate candidate only | Submission sanity + prediction-surface screen | N/A | `1.0685` | Negative public readout, ref `53074655`; keep `provenance_pending`, not reportable. |

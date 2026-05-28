@@ -338,3 +338,21 @@ For reports and method discussion, keep the legal anchor as the 35% LightGBM / 3
 - Duplicate guard: the same teammate file is already in live history as ref `53074655` with public MAE `1.0685`. At the reset, re-check live history first; if that duplicate is confirmed, skip it and promote the v5 candidates in order rather than burning quota silently.
 - Queue artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json`.
 - V5 readout: `experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json`.
+
+## 16:10 Prepared v6 Private-Robust Backup (2026-05-28)
+
+- Live re-check still has Team 5 at public MAE `0.7912`, rank `3`; Baseline 3 is `0.8056`.
+- Quota remains `6/6` used for 2026-05-28 UTC, so no v6 candidate was submitted.
+- Built six v6 exact-history backup hedges around the v4 late-anchor signal. They are not the first 2026-05-29 queue; use them only after the v5 readout or on a later quota reset if more private-risk protection is needed.
+- All v6 candidates passed sanity: `2248` rows, sample columns, matching `region_id` order, no NaN, prediction range in `[0,5]`, SHA-256 recorded, and no `restored_20260522_*` / `restored_unverified_*` filename pattern.
+
+| Rank | Candidate | SHA-12 | Delta to clean anchor | Role |
+|---:|---|---:|---:|---|
+| 1 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv` | `2a9f1230b65f` | `0.178586` | Public-near backup with v5 week-1 and late-anchor protection. |
+| 2 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p20_late_anchor_w2_0p40_horizon_0p2_0p4_0p575_0p8_1.csv` | `d355e20f2ce1` | `0.173202` | Adds week-2 anchor to the v4 `53109166` hedge. |
+| 3 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p175_late_anchor_w2_0p40_horizon_0p175_0p4_0p575_0p8_1.csv` | `efcbbfe922f6` | `0.175372` | Public-best week-1 setting with more week-2 and late anchor. |
+| 4 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1.csv` | `5838dee864bb` | `0.171162` | Stronger late-anchor version of the v4 private hedge. |
+| 5 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p225_stronger_late_anchor_horizon_0p225_0p375_0p6_0p825_1.csv` | `e337885b660d` | `0.168992` | V3 early shape with stronger late-anchor protection. |
+| 6 | `submissions/baseline3_private_hedge_v6_cat35_w1_0p25_stronger_late_anchor_horizon_0p25_0p375_0p6_0p825_1.csv` | `86d7dd4da810` | `0.166822` | Most conservative v6 backup, closest to the clean anchor. |
+
+- Readout artifact: `experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json`.

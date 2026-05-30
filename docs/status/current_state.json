@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-28T17:00:24+08:00",
+  "last_updated": "2026-05-30T22:10:50+08:00",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -18,22 +18,22 @@
     "local_file_required": false
   },
   "baseline3_push": {
-    "mode": "manual-private-hedge-frontier-v5-after-quota10-update",
+    "mode": "manual-private-hedge-frontier-v7-after-static-private-snapshot",
     "daily_submission_target": 10,
     "baseline3_public_mae": "0.8056",
-    "team5_public_mae": "0.7907",
-    "gap_to_cross": "-0.0149",
+    "team5_public_mae": "0.7905",
+    "gap_to_cross": "-0.0151",
     "ledger": "docs/status/baseline3_push_20260523.md",
     "orchestrator": "scripts/run_baseline3_push.py",
     "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
     "public_chase_best": {
-      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7907",
+      "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7905",
       "rows": 2248,
-      "sha256_prefix": "12016072d85f",
-      "sha256": "12016072d85f20a829e85a14393aa9c976d6ea09783b7d5932dae61a972ca1e7",
-      "kaggle_ref": "53110808",
-      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.100, 0.375, 0.55, 0.75, 1.00]",
+      "sha256_prefix": "9b452689c221",
+      "sha256": "9b452689c221d17e422c94c88c2e7eeaf69b289f259f3647269aaaba98cdf1e1",
+      "kaggle_ref": "53186508",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.025, 0.375, 0.55, 0.75, 1.00]",
       "artifact_label": "public-chase",
       "reportable_method_claim": false
     },
@@ -41,8 +41,8 @@
       "public-chase",
       "reportable"
     ],
-    "stop_condition": "last verified crossed: Team 5 public score 0.7907 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-28 live recheck confirms the daily quota is now 10/day and Team 5 used 10/10. Public best is ref 53110808 at 0.7907; next reset is 2026-05-29 08:00 Taipei, with v6/late-anchor private-robust hedges as the next live-gated candidates after duplicate checks.",
+    "stop_condition": "last verified crossed: Team 5 public score 0.7905 < Baseline 3 public score 0.8056",
+    "quota_recommendation": "2026-05-30 live recheck confirms 10/10 quota used. Static Private/final selection pair is refs 53186508 and 53186571; next reset is 2026-05-31 08:00 Taipei.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -53,10 +53,10 @@
     "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
     "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
     "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "quota_10_of_10_used_20260528_live_rechecked_and_v5_public_best_0p7907",
-    "latest_live_check_taipei": "2026-05-28T17:00:24+08:00",
+    "latest_live_check_status": "quota_10_of_10_used_20260530_v7_public_best_0p7905_static_private_pair_selected",
+    "latest_live_check_taipei": "2026-05-30T22:10:50+08:00",
     "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
-    "next_quota_reset_taipei": "2026-05-29T08:00:00+08:00",
+    "next_quota_reset_taipei": "2026-05-31T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
     "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
     "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
@@ -66,9 +66,40 @@
     "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
     "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
     "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json",
-    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260528_1645/final_selection_matrix.json"
+    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260530_2205/final_selection_matrix.json",
+    "private_hedge_frontier_20260530_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_quota_20260530_2155/frontier_readout.json",
+    "static_private_selection": {
+      "public_biased_alternate": {
+        "kaggle_ref": "53186493",
+        "public_mae": "0.7906",
+        "sha256_prefix": "f1c733d6d2e2",
+        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv"
+      },
+      "select_1_public_best": {
+        "artifact_label": "public-chase",
+        "kaggle_ref": "53186508",
+        "public_mae": "0.7905",
+        "reportable_method_claim": false,
+        "sha256_prefix": "9b452689c221",
+        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv"
+      },
+      "select_2_private_robust_hedge": {
+        "artifact_label": "public-chase",
+        "kaggle_ref": "53186571",
+        "public_mae": "0.7909",
+        "reportable_method_claim": false,
+        "sha256_prefix": "6c2e32e92647",
+        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv"
+      }
+    }
   },
   "recent_findings": [
+    {
+      "name": "Quota-10 v7 public/private frontier and Static Private selection",
+      "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "public_mae": "0.7905",
+      "interpretation": "After the 5/29 static private snapshot showed Team 5 rank 5, a 2026-05-30 v7 quota-10 frontier improved public MAE to ref 53186508 at 0.7905 and produced a private-robust selection hedge ref 53186571 at public 0.7909. Both are public-chase/final-selection artifacts, not reportable method claims."
+    },
     {
       "name": "Quota-10 v5 lower-week1 public-chase readout",
       "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
@@ -143,9 +174,9 @@
     },
     {
       "name": "CatBoost horizon ramp",
-      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv",
+      "interpretation": "Meaningful secondary private-LB hedge, but weaker than the 30% public anchor.",
       "public_mae": "0.8138",
-      "interpretation": "Meaningful secondary private-LB hedge, but weaker than the 30% public anchor."
+      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv"
     },
     {
       "name": "CatBoost tail2737 rerun",
@@ -155,9 +186,9 @@
     },
     {
       "name": "LGBM micro rolling rerun",
-      "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520",
+      "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor.",
       "local_mae": "0.2002",
-      "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor."
+      "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520"
     },
     {
       "name": "GRU family public readout",

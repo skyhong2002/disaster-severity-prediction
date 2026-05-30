@@ -2,9 +2,8 @@
 """Build a reproducible public/private final-selection matrix.
 
 This script does not submit to Kaggle. It consolidates submitted public-chase
-hedges, queued v5 candidates, and v6 private-robust backups into one readout so
-the next quota window can make a live-gated decision without re-litigating the
-whole history from memory.
+hedges and private-robust alternatives into one readout so the final-selection
+decision can be reproduced without re-litigating the whole history from memory.
 """
 from __future__ import annotations
 
@@ -81,6 +80,7 @@ def collect_submitted(ledger: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, int | None]] = set()
     for key in [
+        "private_hedge_curve_20260530",
         "private_hedge_curve_20260528",
         "private_hedge_curve_20260527",
         "private_hedge_curve_20260526",
@@ -149,28 +149,34 @@ def collect_queue_items(queue: dict[str, Any], backup: dict[str, Any]) -> dict[s
 
 def write_markdown(path: Path, payload: dict[str, Any]) -> None:
     rec = payload["recommendations"]
+    static_rec = rec["static_private_selection"]
+    queue = payload["queue_readout"]
     lines = [
-        "# Final Selection Matrix 2026-05-28",
+        "# Final Selection Matrix 2026-05-30",
         "",
         f"- Created UTC: `{payload['created_at_utc']}`",
         f"- Live Team 5 public MAE: `{payload['live_context']['team5_public_mae']}`",
         f"- Baseline 3 public MAE: `{payload['live_context']['baseline3_public_mae']}`",
+        f"- Team 5 public rank: `{payload['live_context']['team5_rank']}`",
+        f"- Static private snapshot: Team 5 rank `{payload['static_private_context']['team5_rank']}` at `{payload['static_private_context']['last_released_time_displayed']}`.",
         "- Role: decision support for public/private final selection; not a reportable method claim.",
         "",
         "## Recommendations",
         "",
-        f"- Public-best selected artifact: `{rec['public_best']['path']}` / ref `{rec['public_best']['kaggle_ref']}` / public `{rec['public_best']['public_mae']}`.",
-        f"- Same-day private hedge: `{rec['same_day_private_hedge']['path']}` / ref `{rec['same_day_private_hedge']['kaggle_ref']}` / public `{rec['same_day_private_hedge']['public_mae']}` / delta `{rec['same_day_private_hedge']['mean_abs_delta_to_reportable_anchor']:.6f}`.",
-        f"- Stronger private fallback: `{rec['stronger_private_fallback']['path']}` / ref `{rec['stronger_private_fallback']['kaggle_ref']}` / public `{rec['stronger_private_fallback']['public_mae']}` / delta `{rec['stronger_private_fallback']['mean_abs_delta_to_reportable_anchor']:.6f}`.",
+        f"- Select 1, public-best artifact: `{static_rec['select_1_public_best']['path']}` / ref `{static_rec['select_1_public_best']['kaggle_ref']}` / public `{static_rec['select_1_public_best']['public_mae']}`.",
+        f"- Select 2, static/private hedge: `{static_rec['select_2_private_robust_hedge']['path']}` / ref `{static_rec['select_2_private_robust_hedge']['kaggle_ref']}` / public `{static_rec['select_2_private_robust_hedge']['public_mae']}` / delta `{static_rec['select_2_private_robust_hedge']['mean_abs_delta_to_reportable_anchor']:.6f}`.",
+        f"- Public-biased alternate if the second slot must stay closer to public-best: `{static_rec['public_biased_alternate_hedge']['path']}` / ref `{static_rec['public_biased_alternate_hedge']['kaggle_ref']}` / public `{static_rec['public_biased_alternate_hedge']['public_mae']}` / delta `{static_rec['public_biased_alternate_hedge']['mean_abs_delta_to_reportable_anchor']:.6f}`.",
+        f"- Stronger private fallback by the matrix score: `{rec['stronger_private_fallback']['path']}` / ref `{rec['stronger_private_fallback']['kaggle_ref']}` / public `{rec['stronger_private_fallback']['public_mae']}` / delta `{rec['stronger_private_fallback']['mean_abs_delta_to_reportable_anchor']:.6f}`.",
         "",
-        "## Submitted Frontier",
+        "## Selected Submitted Frontier",
         "",
         "| Role | File | Ref | Public MAE | Delta | SHA-12 |",
         "|---|---|---:|---:|---:|---:|",
     ]
     for role, row in [
-        ("public_best", rec["public_best"]),
-        ("same_day_private_hedge", rec["same_day_private_hedge"]),
+        ("select_1_public_best", static_rec["select_1_public_best"]),
+        ("select_2_private_robust_hedge", static_rec["select_2_private_robust_hedge"]),
+        ("public_biased_alternate", static_rec["public_biased_alternate_hedge"]),
         ("stronger_private_fallback", rec["stronger_private_fallback"]),
     ]:
         lines.append(
@@ -191,9 +197,10 @@ def write_markdown(path: Path, payload: dict[str, Any]) -> None:
             "",
             "## Queue Pointers",
             "",
-            f"- Teammate gate: `{payload['queue_readout']['teammate_gate']['path']}`",
-            f"- First v5 keep-shape already consumed after duplicate skip: `{payload['queue_readout']['v5_submit_order_if_teammate_skips'][0]['path']}`",
-            f"- First v6/private-robust backup after fresh live gate: `{payload['queue_readout']['v6_backup_order_after_v5_readout'][0]['path']}`",
+            f"- Teammate gate: `{queue['teammate_gate']['path'] if queue.get('teammate_gate') else 'not_applicable'}`",
+            f"- Latest v7 public-best selected: `{static_rec['select_1_public_best']['path']}`",
+            f"- Latest v7 static/private hedge selected: `{static_rec['select_2_private_robust_hedge']['path']}`",
+            f"- First v6/private-robust backup if future quota is reopened: `{queue['v6_backup_order_after_v5_readout'][0]['path'] if queue.get('v6_backup_order_after_v5_readout') else 'not_applicable'}`",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -218,7 +225,7 @@ def main() -> int:
     parser.add_argument(
         "--out-dir",
         type=Path,
-        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260528_1645",
+        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260530_2205",
     )
     args = parser.parse_args()
 
@@ -226,17 +233,48 @@ def main() -> int:
     queue = read_json(args.queue)
     backup = ledger["private_hedge_frontier_20260530_backup"]
     submitted = score_submitted(collect_submitted(ledger))
-    public_best = min(submitted, key=lambda row: (float(row["public_mae"]), float(row["mean_abs_delta_to_reportable_anchor"] or 9)))
+    public_best = min(
+        submitted,
+        key=lambda row: (
+            float(row["public_mae"]),
+            float(row["mean_abs_delta_to_reportable_anchor"] or 9),
+        ),
+    )
+    submitted_keys = [row["source_key"] for row in submitted]
+    active_frontier_key = next(
+        key
+        for key in [
+            "private_hedge_curve_20260530",
+            "private_hedge_curve_20260528",
+            "private_hedge_curve_20260527",
+            "private_hedge_curve_20260526",
+            "private_hedge_curve_20260525",
+            "private_hedge_curve_20260524",
+        ]
+        if key in submitted_keys
+    )
     same_day_candidates = [
         row
         for row in submitted
-        if row["source_key"] == "private_hedge_curve_20260528" and row["within_public_0p0005"]
+        if row["source_key"] == active_frontier_key and row["within_public_0p0005"]
     ]
     same_day_private = min(
         same_day_candidates,
         key=lambda row: (
             float(row["mean_abs_delta_to_reportable_anchor"] or 9),
             float(row["public_mae"]),
+        ),
+    )
+    public_biased_alternate_pool = [
+        row
+        for row in same_day_candidates
+        if row["kaggle_ref"] != public_best["kaggle_ref"]
+    ]
+    public_biased_alternate = min(
+        public_biased_alternate_pool,
+        key=lambda row: (
+            float(row["public_mae"]),
+            float(row["mean_abs_delta_to_reportable_anchor"] or 9),
         ),
     )
     robust_pool = [row for row in submitted if row["within_public_0p0020"]]
@@ -248,6 +286,8 @@ def main() -> int:
         ),
     )
     queue_readout = collect_queue_items(queue, backup)
+    quota_context = ledger.get("private_hedge_frontier_20260530_quota", {})
+    static_private_context = ledger.get("static_private_snapshot_20260529", {})
     payload = {
         "created_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "inputs": {
@@ -258,10 +298,17 @@ def main() -> int:
         "live_context": {
             "team5_public_mae": ledger["team5_public_mae"],
             "baseline3_public_mae": ledger["baseline3_public_mae"],
-            "team5_rank": ledger["private_hedge_frontier_20260528_queue"]["team5_rank"],
-            "quota_status": ledger["private_hedge_frontier_20260530_backup"]["quota_used_20260528_utc"],
-            "next_quota_reset_taipei": ledger["private_hedge_frontier_20260530_backup"]["next_quota_reset_taipei"],
+            "team5_rank": quota_context.get("team5_rank", ledger["private_hedge_frontier_20260528_queue"]["team5_rank"]),
+            "quota_status": quota_context.get(
+                "quota_used_20260530_utc",
+                ledger["private_hedge_frontier_20260530_backup"]["quota_used_20260528_utc"],
+            ),
+            "next_quota_reset_taipei": quota_context.get(
+                "next_quota_reset_taipei",
+                ledger["private_hedge_frontier_20260530_backup"]["next_quota_reset_taipei"],
+            ),
         },
+        "static_private_context": static_private_context,
         "scoring_policy": {
             "private_robust_score": "0.55 * public_gap_to_best / 0.0020 + 0.45 * mean_abs_delta_to_reportable_anchor / 0.18",
             "interpretation": "Lower score is better among submitted public-chase artifacts that still pass Baseline 3.",
@@ -274,19 +321,25 @@ def main() -> int:
             ),
         },
         "recommendations": {
+            "active_frontier_key": active_frontier_key,
             "public_best": public_best,
             "same_day_private_hedge": same_day_private,
             "stronger_private_fallback": stronger_private,
+            "static_private_selection": {
+                "select_1_public_best": public_best,
+                "select_2_private_robust_hedge": same_day_private,
+                "public_biased_alternate_hedge": public_biased_alternate,
+            },
             "reportable_method_lineage": ledger["reportable_legal_anchor"],
         },
         "queue_readout": queue_readout,
         "next_quota_rules": [
-            "Current 2026-05-28 UTC quota is 10/10 used after the quota-limit update and v5 keep-shape readout.",
-            "Live-gate Kaggle submission history and leaderboard after 2026-05-29T08:00:00+08:00 Taipei before spending any new quota.",
+            "Current 2026-05-30 UTC quota is 10/10 used after the v7 quota-10 frontier.",
+            "For Static Private / final-selection UI, manually select refs 53186508 and 53186571; do not rely only on auto-selection.",
+            "Live-gate Kaggle submission history and leaderboard after 2026-05-31T08:00:00+08:00 Taipei before spending any new quota.",
             "Do not resubmit the teammate file: live history already confirms ref 53074655 / public 1.0685 for the same artifact.",
-            "Do not resubmit v5 keep-shape files already used on 2026-05-28; use them only as readout evidence for final selection.",
-            "If more quota is spent, prioritize private-robust v5 late-anchor or v6 backup candidates when the team wants lower private-risk alternatives to the public-best v5 artifact.",
-            "Do not describe any v5/v6 public-chase artifact as a reportable method claim.",
+            "Use ref 53186493 as the public-biased alternate only if the second final-selection slot must stay closer to public-best.",
+            "Do not describe any v5/v6/v7 public-chase artifact as a reportable method claim.",
         ],
     }
     args.out_dir.mkdir(parents=True, exist_ok=True)

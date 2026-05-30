@@ -1,6 +1,6 @@
 # Experiment and Submission Summary
 
-Last updated: 2026-05-28
+Last updated: 2026-05-30
 
 This file records the current legal model-selection state for the Final Project
 progress check. It is intended to keep the slides, report, code, and Kaggle
@@ -8,12 +8,14 @@ submissions consistent.
 
 ## Current Leaderboard Interpretation
 
-- Current public leaderboard best: `0.7907` MAE from `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` (Kaggle ref `53110808`), which crosses Baseline 3 (`0.8056`) and places Team 5 rank 3 on the live public leaderboard.
-- The `0.7907` artifact is a public-chase/final-selection horizon hedge and should not be described as a clean reportable modeling claim.
+- Current public leaderboard best: `0.7905` MAE from `submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv` (Kaggle ref `53186508`), which crosses Baseline 3 (`0.8056`) and places Team 5 rank 4 on the live public leaderboard.
+- The `0.7905` artifact is a public-chase/final-selection horizon hedge and should not be described as a clean reportable modeling claim.
+- Static Private / final-selection pair: select ref `53186508` as the public-best slot and ref `53186571` (`0.7909`, SHA-12 `6c2e32e92647`) as the private-robust hedge slot. Ref `53186493` (`0.7906`) is the public-biased alternate.
 - Current best legal public score: `0.8124` MAE.
 - Current best legal submission file: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`.
 - Previous legal LGB/XGB anchor: `submissions/ensemble_final.csv`, public MAE `0.8232`.
 - 5/15 static private leaderboard: Team 5 was ranked 3, below Baseline 3 and above Baseline 2.
+- 5/29 static private leaderboard snapshot: Team 5 was ranked 5 at release time `5/29 23:46:29`; the sheet notes this is not the final ranking, so the official Kaggle private selection remains risk-sensitive.
 - Baseline 3 pressure: at the time of the TA announcement, at least 13 successful entries were needed to cross Public Baseline 3.
 - Strategy implication: use public leaderboard gains cautiously and prioritize private robustness, reproducibility, and leakage-free validation evidence.
 
@@ -378,7 +380,7 @@ sanity checks before submission.
 | `submissions/baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv` | `53110653` | `0.7911` | `530c7e912705` | `0.184780` | Improved public best while continuing the lower week-1 curve. |
 | `submissions/baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv` | `53110796` | `0.7910` | `524a8ddebdd6` | `0.185865` | Improved again; public-side trend remained monotone. |
 | `submissions/baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv` | `53110803` | `0.7909` | `7fc12846493c` | `0.188035` | Improved public score, with higher distance from the clean anchor. |
-| `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` | `53110808` | `0.7907` | `12016072d85f` | `0.190205` | Current best public artifact; `public-chase`, not reportable method claim. |
+| `submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv` | `53110808` | `0.7907` | `12016072d85f` | `0.190205` | v5 public-best at the time; later superseded by v7 ref `53186508`. |
 
 Readout: Team 5 public MAE is now `0.7907`, ahead of Baseline 3 `0.8056`,
 Team 1 `0.8043`, and Team 20 `0.7942`. For final-selection discussion, use
@@ -412,11 +414,50 @@ the alphas add week-2 or week-3/4 anchor weight, so they are closer to the clean
 Readout:
 `experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json`.
 
+## 2026-05-30 Quota-10 v7 Static Private Readout
+
+After the 5/29 static private snapshot showed Team 5 rank `5`, the 2026-05-30
+live gate confirmed that no Team 5 submissions had been spent that day and that
+the current policy is `10/day`. All ten quota slots were used on a v7
+public/private frontier around the week-1 public optimum and late-horizon
+anchor protection. Every file passed the standard sanity checks before
+submission, including `2248` rows, exact sample columns and region order, no
+NaN, prediction range in `[0,5]`, SHA-256 recording, and no
+`restored_20260522_*` / `restored_unverified_*` source pattern.
+
+| Submission | Kaggle ref | Public MAE | SHA-12 | Delta to clean anchor | Decision |
+|---|---:|---:|---:|---:|---|
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p10_late_anchor_horizon_0p1_0p375_0p575_0p8_1.csv` | `53186451` | `0.7908` | `2669fcc54a42` | `0.184011` | Late-anchor hedge at the previous v5 week-1 setting. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p075_keep_shape_horizon_0p075_0p375_0p55_0p75_1.csv` | `53186458` | `0.7906` | `79792c199111` | `0.192375` | Near-public keep-shape probe. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p075_late_anchor_horizon_0p075_0p375_0p575_0p8_1.csv` | `53186470` | `0.7907` | `81fe2fae4b96` | `0.186181` | Near-public private hedge. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p05_keep_shape_horizon_0p05_0p375_0p55_0p75_1.csv` | `53186480` | `0.7906` | `63b3987da5fa` | `0.194544` | Aggressive week-1 public-side probe. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv` | `53186493` | `0.7906` | `f1c733d6d2e2` | `0.188351` | Public-biased alternate hedge. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv` | `53186508` | `0.7905` | `9b452689c221` | `0.196714` | Current public-best; Static Private slot 1. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p025_late_anchor_horizon_0p025_0p375_0p575_0p8_1.csv` | `53186528` | `0.7906` | `4dfc45e15a42` | `0.190521` | Near-public late-anchor hedge. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p00_keep_shape_horizon_0_0p375_0p55_0p75_1.csv` | `53186548` | `0.7906` | `f105abad604f` | `0.198884` | Zero week-1 anchor boundary. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p075_stronger_late_anchor_horizon_0p075_0p375_0p6_0p825_1.csv` | `53186562` | `0.7908` | `6cb910b58f59` | `0.182012` | Stronger late-anchor hedge. |
+| `submissions/baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv` | `53186571` | `0.7909` | `6c2e32e92647` | `0.179842` | Static Private slot 2; private-robust hedge. |
+
+Readout: Team 5 public MAE is now `0.7905`, ahead of Baseline 3 `0.8056`.
+For Static Private / final selection, manually select refs `53186508` and
+`53186571`. The first maximizes public score; the second gives a near-public
+late-anchor hedge only `0.0004` behind the public-best while reducing distance
+to the clean reportable anchor. Public-biased alternate ref `53186493` is
+available if the second slot must stay closer to public-best. Quota is `10/10`
+used for 2026-05-30; next reset is `2026-05-31T08:00:00+08:00`.
+
+Readouts:
+`experiments/baseline3_push_20260523/private_hedge_frontier_20260530_quota_20260530_2155/frontier_readout.json`;
+`experiments/baseline3_push_20260523/final_selection_matrix_20260530_2205/final_selection_matrix.json`.
+
 ## Experiment Table
 
 | Experiment | Model | Feature setup | Validation | Local MAE | Public MAE / Status | Notes |
 |---|---|---|---|---:|---:|---|
-| `baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.10,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7907` | Current best public artifact, ref `53110808`; `public-chase`, not reportable method claim. |
+| `baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.025,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7905` | Current best public artifact, ref `53186508`; Static Private slot 1; `public-chase`, not reportable method claim. |
+| `baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1` | Exact-history horizon hedge | Stronger late-anchor hedge by horizon alphas `[0.10,0.375,0.60,0.825,1.00]` | Public LB feedback | N/A | `0.7909` | Static Private slot 2, ref `53186571`; more private-robust than public-best while still near public. |
+| `baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1` | Exact-history horizon hedge | Lower week-1 alpha with late-anchor protection | Public LB feedback | N/A | `0.7906` | Public-biased alternate hedge, ref `53186493`; not reportable. |
+| `baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.10,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7907` | Previous public-best artifact, ref `53110808`; superseded by v7 ref `53186508`; `public-chase`, not reportable method claim. |
 | `baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1` | Exact-history horizon hedge | Recovered `0.8094` public reference moved toward recovered `0.8124` clean anchor by horizon alphas `[0.175,0.375,0.55,0.75,1.00]` | Public LB feedback | N/A | `0.7912` | Same-day near-public private hedge, ref `53109133`; closer to clean anchor than v5 public-best. |
 | `baseline3_private_hedge_v6_cat35_w1_0p20_stronger_late_anchor_horizon_0p2_0p375_0p6_0p825_1` | Exact-history horizon hedge | Prepared backup with lower week-1 alpha and stronger late-anchor protection | Sanity + backup queue | N/A | Not submitted | Private-robust backup after v5 readout; SHA `5838dee864bb`; no score yet. |
 | `baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1` | Exact-history horizon hedge | Lower week-1 alpha with more anchor on weeks 3-4 | Public LB feedback | N/A | `0.7914` | Strongest same-day v4 private-risk alternative while still near the public best. |

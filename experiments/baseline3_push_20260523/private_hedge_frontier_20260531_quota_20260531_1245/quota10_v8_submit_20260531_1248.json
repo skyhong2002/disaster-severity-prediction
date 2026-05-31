@@ -1,0 +1,1724 @@
+{
+  "best_public_after_runner": {
+    "action": "submit",
+    "audit": {
+      "columns": [
+        "region_id",
+        "pred_week1",
+        "pred_week2",
+        "pred_week3",
+        "pred_week4",
+        "pred_week5"
+      ],
+      "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+      "prediction_max": 4.043819925941376,
+      "prediction_mean": 0.959024848652749,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.776398048383161,
+      "rows": 2248,
+      "sha12": "390565517cb3",
+      "sha256": "390565517cb30fe91c9b75ef6c9eb6c93fb21cc2ab2b2960c3b6c437fc9fe442"
+    },
+    "candidate": {
+      "alphas": [
+        0.0375,
+        0.375,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "kind": "private_robustness_horizon_hedge",
+      "mean_abs_delta_to_public_reference": 0.22311889034385252,
+      "mean_abs_delta_to_reportable_anchor": 0.19562948180673284,
+      "name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1",
+      "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+      "rationale": "Fine-grained public plateau probe between the v7 0.025 and 0.050 week-1 anchor settings.",
+      "reportable_method_claim": false
+    },
+    "completed_at_utc": "2026-05-31T04:44:08+00:00",
+    "message": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+    "public_mae": 0.7905,
+    "submission": {
+      "date": "2026-05-31 04:43:54.920000",
+      "description": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53204258,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204258/53204258.raw"
+    },
+    "submitted_at_utc": "2026-05-31T04:43:53+00:00"
+  },
+  "competition": "data-mining-2026-final-project",
+  "created_at_utc": "2026-05-31T04:43:31+00:00",
+  "daily_quota_limit_assumption": 10,
+  "decision_policy": [
+    "submit v8 public-plateau probes and private-robust late-anchor hedges after 2026-05-31 live gate",
+    "do not use private labels, external answers, unauthorized data, restored_20260522_*, or restored_unverified_*",
+    "record SHA-256, Kaggle ref, public score, lineage, sanity, and selection role for every submission"
+  ],
+  "new_slots_available_at_start": 10,
+  "output_path": "experiments/baseline3_push_20260523/private_hedge_frontier_20260531_quota_20260531_1245/quota10_v8_submit_20260531_1248.json",
+  "post_live_recent": [
+    {
+      "date": "2026-05-31 04:46:28.600000",
+      "description": "20260531 v8 w1_0p10_w2_0p40_stronger_late_anchor 0p1_0p4_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7910",
+      "ref": 53204319,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204319/53204319.raw"
+    },
+    {
+      "date": "2026-05-31 04:46:07.340000",
+      "description": "20260531 v8 w1_0p025_stronger_late_anchor 0p025_0p375_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53204307,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204307/53204307.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:41.347000",
+      "description": "20260531 v8 w1_0p025_late_soft_anchor 0p025_0p375_0p5625_0p775_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53204297,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204297/53204297.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:25.360000",
+      "description": "20260531 v8 w1_0p025_w4_0p725_keep_shape 0p025_0p375_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53204292,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204292/53204292.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:04.790000",
+      "description": "20260531 v8 w1_0p025_w3_0p525_keep_shape 0p025_0p375_0p525_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53204287,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204287/53204287.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:48.737000",
+      "description": "20260531 v8 w1_0p025_w2_0p40_keep_shape 0p025_0p4_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53204281,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204281/53204281.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:26.907000",
+      "description": "20260531 v8 w1_0p025_w2_0p35_keep_shape 0p025_0p35_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53204270,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204270/53204270.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:10.173000",
+      "description": "20260531 v8 w1_m0p025_keep_shape m0p025_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53204263,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204263/53204263.raw"
+    },
+    {
+      "date": "2026-05-31 04:43:54.920000",
+      "description": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53204258,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204258/53204258.raw"
+    },
+    {
+      "date": "2026-05-31 04:43:34.883000",
+      "description": "20260531 v8 w1_0p0125_keep_shape 0p0125_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53204251,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53204251/53204251.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:45.363000",
+      "description": "20260530 v7 hedge w1_0p10_stronger_late_anchor horizon 0p1_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "ref": 53186571,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186571/53186571.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:24.677000",
+      "description": "20260530 v7 hedge w1_0p075_stronger_late_anchor horizon 0p075_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_stronger_late_anchor_horizon_0p075_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "ref": 53186562,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186562/53186562.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:03.427000",
+      "description": "20260530 v7 hedge w1_0p00_keep_shape horizon 0_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p00_keep_shape_horizon_0_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186548,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186548/53186548.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:42.967000",
+      "description": "20260530 v7 hedge w1_0p025_late_anchor horizon 0p025_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_late_anchor_horizon_0p025_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186528,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186528/53186528.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:17.803000",
+      "description": "20260530 v7 hedge w1_0p025_keep_shape horizon 0p025_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53186508,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186508/53186508.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:57.257000",
+      "description": "20260530 v7 hedge w1_0p05_late_anchor horizon 0p05_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186493,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186493/53186493.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:36.117000",
+      "description": "20260530 v7 hedge w1_0p05_keep_shape horizon 0p05_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_keep_shape_horizon_0p05_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186480,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186480/53186480.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:14.910000",
+      "description": "20260530 v7 hedge w1_0p075_late_anchor horizon 0p075_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_late_anchor_horizon_0p075_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53186470,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186470/53186470.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:53.617000",
+      "description": "20260530 v7 hedge w1_0p075_keep_shape horizon 0p075_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_keep_shape_horizon_0p075_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186458,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186458/53186458.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:37.697000",
+      "description": "20260530 v7 hedge w1_0p10_late_anchor horizon 0p1_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_late_anchor_horizon_0p1_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "ref": 53186451,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186451/53186451.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:32.283000",
+      "description": "20260528 v5 hedge w1_0p10_keep_shape horizon 0p1_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53110808,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110808/53110808.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:17.537000",
+      "description": "20260528 v5 hedge w1_0p125_keep_shape horizon 0p125_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "ref": 53110803,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110803/53110803.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:01.630000",
+      "description": "20260528 v5 hedge w1_0p15_keep_shape horizon 0p15_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7910",
+      "ref": 53110796,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110796/53110796.raw"
+    },
+    {
+      "date": "2026-05-28 08:49:58.693000",
+      "description": "20260528 v5 hedge w1_0p1625_keep_shape horizon 0p1625_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7911",
+      "ref": 53110653,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110653/53110653.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:38.507000",
+      "description": "20260528 v4 hedge w1 0p20 late anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "ref": 53109166,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109166/53109166.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:22.383000",
+      "description": "20260528 v4 hedge w1 0p225 late mid anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7916",
+      "ref": 53109157,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109157/53109157.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:07.433000",
+      "description": "20260528 v4 hedge w1 0p225 w2 mid",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53109150,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109150/53109150.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:46.243000",
+      "description": "20260528 v4 hedge w1 0p175 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7912",
+      "ref": 53109133,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109133/53109133.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:26.170000",
+      "description": "20260528 v4 hedge w1 0p20 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7913",
+      "ref": 53109122,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109122/53109122.raw"
+    },
+    {
+      "date": "2026-05-28 07:49:43.227000",
+      "description": "20260528 v4 hedge w1 0p2125 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "ref": 53109107,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109107/53109107.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:25.383000",
+      "description": "20260527 v3 hedge public best late more anchor",
+      "file_name": "baseline3_private_hedge_v3_cat35_public_best_late_more_anchor_horizon_0p25_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "ref": 53075022,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075022/53075022.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:09.673000",
+      "description": "20260527 v3 hedge week3 slight down",
+      "file_name": "baseline3_private_hedge_v3_cat35_week3_slight_down_horizon_0p25_0p375_0p525_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "ref": 53075011,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075011/53075011.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:53.907000",
+      "description": "20260527 v3 hedge lower early more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_early_more_horizon_0p225_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53075001,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075001/53075001.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:33.400000",
+      "description": "20260527 v3 hedge lower w2 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w2_more_horizon_0p25_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "ref": 53074990,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074990/53074990.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:14.090000",
+      "description": "20260527 v3 hedge lower w1 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53074980,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074980/53074980.raw"
+    },
+    {
+      "date": "2026-05-27 06:34:58.130000",
+      "description": "",
+      "file_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "private_score": "",
+      "public_score": "1.0685",
+      "ref": 53074655,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074655/53074655.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:42.743000",
+      "description": "20260526 v2 hedge smooth high anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_smooth_high_anchor_v2_horizon_0p35_0p45_0p6_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7929",
+      "ref": 53038040,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038040/53038040.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:35.330000",
+      "description": "20260526 v2 hedge balanced private",
+      "file_name": "baseline3_private_hedge_v2_cat35_balanced_private_frontier_horizon_0p325_0p425_0p575_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7925",
+      "ref": 53038036,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038036/53038036.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:29.127000",
+      "description": "20260526 v2 hedge late more anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_late_more_anchor_horizon_0p3_0p4_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7923",
+      "ref": 53038033,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038033/53038033.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:22.333000",
+      "description": "20260526 v2 hedge lower early pair",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "ref": 53038031,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038031/53038031.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:16.067000",
+      "description": "20260526 v2 hedge lower w2",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_w2_only_horizon_0p3_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7922",
+      "ref": 53038028,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038028/53038028.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:08.577000",
+      "description": "20260526 v2 hedge lower w1",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_w1_only_horizon_0p275_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7920",
+      "ref": 53038024,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038024/53038024.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:51.803000",
+      "description": "20260525 v1 hedge smooth high-anchor",
+      "file_name": "baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+      "private_score": "",
+      "public_score": "0.7937",
+      "ref": 53003227,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003227/53003227.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:43.910000",
+      "description": "20260525 v1 hedge robust mid frontier",
+      "file_name": "baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+      "private_score": "",
+      "public_score": "0.7933",
+      "ref": 53003222,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003222/53003222.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:35.963000",
+      "description": "20260525 v1 hedge public-early full-late",
+      "file_name": "baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7922",
+      "ref": 53003220,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003220/53003220.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:26.993000",
+      "description": "20260525 v1 hedge early-public late-anchor",
+      "file_name": "baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv",
+      "private_score": "",
+      "public_score": "0.7927",
+      "ref": 53003215,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003215/53003215.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:17.373000",
+      "description": "20260525 v1 hedge midpoint frontier",
+      "file_name": "baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv",
+      "private_score": "",
+      "public_score": "0.7931",
+      "ref": 53003210,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003210/53003210.raw"
+    },
+    {
+      "date": "2026-05-25 00:53:14.270000",
+      "description": "20260525 v1 hedge left-of-best horizon",
+      "file_name": "baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv",
+      "private_score": "",
+      "public_score": "0.7929",
+      "ref": 53003193,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003193/53003193.raw"
+    },
+    {
+      "date": "2026-05-24 02:46:33.153000",
+      "description": "Baseline3 private hedge v0 cat35 horizon 0.45 0.55 0.65 0.85 1.00",
+      "file_name": "baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+      "private_score": "",
+      "public_score": "0.7945",
+      "ref": 52972219,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972219/52972219.raw"
+    },
+    {
+      "date": "2026-05-24 02:45:49.757000",
+      "description": "Baseline3 private hedge v0 cat35 horizon 0.40 0.45 0.55 0.70 0.85",
+      "file_name": "baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "private_score": "",
+      "public_score": "0.7933",
+      "ref": 52972194,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972194/52972194.raw"
+    }
+  ],
+  "post_today_utc_submissions": 10,
+  "pre_existing_today_utc_submissions": 0,
+  "pre_live_recent": [
+    {
+      "date": "2026-05-30 13:57:45.363000",
+      "description": "20260530 v7 hedge w1_0p10_stronger_late_anchor horizon 0p1_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "ref": 53186571,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186571/53186571.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:24.677000",
+      "description": "20260530 v7 hedge w1_0p075_stronger_late_anchor horizon 0p075_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_stronger_late_anchor_horizon_0p075_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "ref": 53186562,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186562/53186562.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:03.427000",
+      "description": "20260530 v7 hedge w1_0p00_keep_shape horizon 0_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p00_keep_shape_horizon_0_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186548,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186548/53186548.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:42.967000",
+      "description": "20260530 v7 hedge w1_0p025_late_anchor horizon 0p025_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_late_anchor_horizon_0p025_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186528,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186528/53186528.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:17.803000",
+      "description": "20260530 v7 hedge w1_0p025_keep_shape horizon 0p025_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53186508,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186508/53186508.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:57.257000",
+      "description": "20260530 v7 hedge w1_0p05_late_anchor horizon 0p05_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186493,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186493/53186493.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:36.117000",
+      "description": "20260530 v7 hedge w1_0p05_keep_shape horizon 0p05_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_keep_shape_horizon_0p05_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186480,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186480/53186480.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:14.910000",
+      "description": "20260530 v7 hedge w1_0p075_late_anchor horizon 0p075_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_late_anchor_horizon_0p075_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53186470,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186470/53186470.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:53.617000",
+      "description": "20260530 v7 hedge w1_0p075_keep_shape horizon 0p075_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_keep_shape_horizon_0p075_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "ref": 53186458,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186458/53186458.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:37.697000",
+      "description": "20260530 v7 hedge w1_0p10_late_anchor horizon 0p1_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_late_anchor_horizon_0p1_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "ref": 53186451,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53186451/53186451.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:32.283000",
+      "description": "20260528 v5 hedge w1_0p10_keep_shape horizon 0p1_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "ref": 53110808,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110808/53110808.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:17.537000",
+      "description": "20260528 v5 hedge w1_0p125_keep_shape horizon 0p125_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "ref": 53110803,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110803/53110803.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:01.630000",
+      "description": "20260528 v5 hedge w1_0p15_keep_shape horizon 0p15_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7910",
+      "ref": 53110796,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110796/53110796.raw"
+    },
+    {
+      "date": "2026-05-28 08:49:58.693000",
+      "description": "20260528 v5 hedge w1_0p1625_keep_shape horizon 0p1625_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7911",
+      "ref": 53110653,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53110653/53110653.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:38.507000",
+      "description": "20260528 v4 hedge w1 0p20 late anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "ref": 53109166,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109166/53109166.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:22.383000",
+      "description": "20260528 v4 hedge w1 0p225 late mid anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7916",
+      "ref": 53109157,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109157/53109157.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:07.433000",
+      "description": "20260528 v4 hedge w1 0p225 w2 mid",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53109150,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109150/53109150.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:46.243000",
+      "description": "20260528 v4 hedge w1 0p175 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7912",
+      "ref": 53109133,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109133/53109133.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:26.170000",
+      "description": "20260528 v4 hedge w1 0p20 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7913",
+      "ref": 53109122,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109122/53109122.raw"
+    },
+    {
+      "date": "2026-05-28 07:49:43.227000",
+      "description": "20260528 v4 hedge w1 0p2125 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "ref": 53109107,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53109107/53109107.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:25.383000",
+      "description": "20260527 v3 hedge public best late more anchor",
+      "file_name": "baseline3_private_hedge_v3_cat35_public_best_late_more_anchor_horizon_0p25_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "ref": 53075022,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075022/53075022.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:09.673000",
+      "description": "20260527 v3 hedge week3 slight down",
+      "file_name": "baseline3_private_hedge_v3_cat35_week3_slight_down_horizon_0p25_0p375_0p525_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "ref": 53075011,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075011/53075011.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:53.907000",
+      "description": "20260527 v3 hedge lower early more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_early_more_horizon_0p225_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53075001,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53075001/53075001.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:33.400000",
+      "description": "20260527 v3 hedge lower w2 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w2_more_horizon_0p25_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "ref": 53074990,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074990/53074990.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:14.090000",
+      "description": "20260527 v3 hedge lower w1 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "ref": 53074980,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074980/53074980.raw"
+    },
+    {
+      "date": "2026-05-27 06:34:58.130000",
+      "description": "",
+      "file_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "private_score": "",
+      "public_score": "1.0685",
+      "ref": 53074655,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53074655/53074655.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:42.743000",
+      "description": "20260526 v2 hedge smooth high anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_smooth_high_anchor_v2_horizon_0p35_0p45_0p6_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7929",
+      "ref": 53038040,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038040/53038040.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:35.330000",
+      "description": "20260526 v2 hedge balanced private",
+      "file_name": "baseline3_private_hedge_v2_cat35_balanced_private_frontier_horizon_0p325_0p425_0p575_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7925",
+      "ref": 53038036,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038036/53038036.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:29.127000",
+      "description": "20260526 v2 hedge late more anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_late_more_anchor_horizon_0p3_0p4_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7923",
+      "ref": 53038033,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038033/53038033.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:22.333000",
+      "description": "20260526 v2 hedge lower early pair",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "ref": 53038031,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038031/53038031.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:16.067000",
+      "description": "20260526 v2 hedge lower w2",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_w2_only_horizon_0p3_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7922",
+      "ref": 53038028,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038028/53038028.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:08.577000",
+      "description": "20260526 v2 hedge lower w1",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_w1_only_horizon_0p275_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7920",
+      "ref": 53038024,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53038024/53038024.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:51.803000",
+      "description": "20260525 v1 hedge smooth high-anchor",
+      "file_name": "baseline3_private_hedge_v1_cat35_smooth_high_anchor_horizon_0p425_0p5_0p6_0p8_0p95.csv",
+      "private_score": "",
+      "public_score": "0.7937",
+      "ref": 53003227,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003227/53003227.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:43.910000",
+      "description": "20260525 v1 hedge robust mid frontier",
+      "file_name": "baseline3_private_hedge_v1_cat35_robust_mid_frontier_horizon_0p4_0p475_0p575_0p75_0p9.csv",
+      "private_score": "",
+      "public_score": "0.7933",
+      "ref": 53003222,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003222/53003222.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:35.963000",
+      "description": "20260525 v1 hedge public-early full-late",
+      "file_name": "baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7922",
+      "ref": 53003220,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003220/53003220.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:26.993000",
+      "description": "20260525 v1 hedge early-public late-anchor",
+      "file_name": "baseline3_private_hedge_v1_cat35_preserve_early_anchor_late_horizon_0p35_0p425_0p55_0p725_0p9.csv",
+      "private_score": "",
+      "public_score": "0.7927",
+      "ref": 53003215,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003215/53003215.raw"
+    },
+    {
+      "date": "2026-05-25 00:54:17.373000",
+      "description": "20260525 v1 hedge midpoint frontier",
+      "file_name": "baseline3_private_hedge_v1_cat35_midpoint_best_to_nearbest_horizon_0p375_0p425_0p525_0p675_0p825.csv",
+      "private_score": "",
+      "public_score": "0.7931",
+      "ref": 53003210,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003210/53003210.raw"
+    },
+    {
+      "date": "2026-05-25 00:53:14.270000",
+      "description": "20260525 v1 hedge left-of-best horizon",
+      "file_name": "baseline3_private_hedge_v1_cat35_left_of_best_public_horizon_0p325_0p375_0p475_0p625_0p775.csv",
+      "private_score": "",
+      "public_score": "0.7929",
+      "ref": 53003193,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/53003193/53003193.raw"
+    },
+    {
+      "date": "2026-05-24 02:46:33.153000",
+      "description": "Baseline3 private hedge v0 cat35 horizon 0.45 0.55 0.65 0.85 1.00",
+      "file_name": "baseline3_private_hedge_v0_cat35_horizon_0p45_0p55_0p65_0p85_1p0.csv",
+      "private_score": "",
+      "public_score": "0.7945",
+      "ref": 52972219,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972219/52972219.raw"
+    },
+    {
+      "date": "2026-05-24 02:45:49.757000",
+      "description": "Baseline3 private hedge v0 cat35 horizon 0.40 0.45 0.55 0.70 0.85",
+      "file_name": "baseline3_private_hedge_v0_cat35_horizon_0p4_0p45_0p55_0p7_0p85.csv",
+      "private_score": "",
+      "public_score": "0.7933",
+      "ref": 52972194,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972194/52972194.raw"
+    },
+    {
+      "date": "2026-05-24 02:44:30.867000",
+      "description": "Baseline3 private hedge v0 cat35 alpha +0.80",
+      "file_name": "baseline3_private_hedge_v0_cat35_08124_alphap0p80.csv",
+      "private_score": "",
+      "public_score": "0.8022",
+      "ref": 52972169,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972169/52972169.raw"
+    },
+    {
+      "date": "2026-05-24 02:43:41.147000",
+      "description": "Baseline3 private hedge v0 cat35 alpha +0.65",
+      "file_name": "baseline3_private_hedge_v0_cat35_08124_alphap0p65.csv",
+      "private_score": "",
+      "public_score": "0.7982",
+      "ref": 52972150,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972150/52972150.raw"
+    },
+    {
+      "date": "2026-05-24 02:42:51.660000",
+      "description": "Baseline3 private hedge v0 cat35 horizon 0.35 0.40 0.50 0.65 0.80",
+      "file_name": "baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
+      "private_score": "",
+      "public_score": "0.7930",
+      "ref": 52972132,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972132/52972132.raw"
+    },
+    {
+      "date": "2026-05-24 02:39:36.610000",
+      "description": "Baseline3 private hedge v0 cat35 alpha +0.50",
+      "file_name": "baseline3_private_hedge_v0_cat35_08124_alphap0p50.csv",
+      "private_score": "",
+      "public_score": "0.7976",
+      "ref": 52972055,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52972055/52972055.raw"
+    },
+    {
+      "date": "2026-05-23 07:36:36.120000",
+      "description": "Baseline3 public chase v0 cat35 alpha +0.35",
+      "file_name": "baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
+      "private_score": "",
+      "public_score": "0.7991",
+      "ref": 52946620,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52946620/52946620.raw"
+    },
+    {
+      "date": "2026-05-23 07:35:20.740000",
+      "description": "Baseline3 public chase v0 cat35 alpha +0.20",
+      "file_name": "baseline3_public_chase_v0_cat35_08124_alphap0p20.csv",
+      "private_score": "",
+      "public_score": "0.8019",
+      "ref": 52946598,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52946598/52946598.raw"
+    },
+    {
+      "date": "2026-05-23 07:34:20.027000",
+      "description": "Baseline3 public chase v0 cat35 alpha +0.10",
+      "file_name": "baseline3_public_chase_v0_cat35_08124_alphap0p10.csv",
+      "private_score": "",
+      "public_score": "0.8049",
+      "ref": 52946569,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52946569/52946569.raw"
+    },
+    {
+      "date": "2026-05-23 07:33:09.800000",
+      "description": "Baseline3 public chase v0 cat35 alpha -0.50",
+      "file_name": "baseline3_public_chase_v0_cat35_08124_alpham0p50.csv",
+      "private_score": "",
+      "public_score": "0.8786",
+      "ref": 52946549,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52946549/52946549.raw"
+    },
+    {
+      "date": "2026-05-23 05:16:16.130000",
+      "description": "daily quota legal candidate: raw gru risk-rank2",
+      "file_name": "submission_20260521_193438_20260521_190454_group3_ar_gru_group3_ar_gru_tail1825_10ep_20260521_group3_ar_gru.csv",
+      "private_score": "",
+      "public_score": "0.9916",
+      "ref": 52943399,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52943399/52943399.raw"
+    },
+    {
+      "date": "2026-05-23 05:16:04.340000",
+      "description": "daily quota legal candidate: gru constrained stack risk-rank1",
+      "file_name": "submission_20260522_gru_family_constrained_stack.csv",
+      "private_score": "",
+      "public_score": "0.9850",
+      "ref": 52943392,
+      "status": "SubmissionStatus.COMPLETE",
+      "team_name": "Team 5",
+      "url": "/submissions/52943392/52943392.raw"
+    }
+  ],
+  "readout": "experiments/baseline3_push_20260523/private_hedge_frontier_20260531_quota_20260531_1245/frontier_readout.json",
+  "results": [
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1.csv",
+        "prediction_max": 4.078079013715247,
+        "prediction_mean": 0.9598709830247317,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7769717436460358,
+        "rows": 2248,
+        "sha12": "d12fb86c376f",
+        "sha256": "d12fb86c376f74d2873ac01374c382eb1c8e046aefb9f416fd531082cec3d516"
+      },
+      "candidate": {
+        "alphas": [
+          0.0125,
+          0.375,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.220948904249154,
+        "mean_abs_delta_to_reportable_anchor": 0.19779946790143135,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1.csv",
+        "rationale": "Fine-grained public plateau probe between the v7 zero and 0.025 week-1 anchor settings.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:43:52+00:00",
+      "message": "20260531 v8 w1_0p0125_keep_shape 0p0125_0p375_0p55_0p75_1p0",
+      "public_mae": 0.7906,
+      "submission": {
+        "date": "2026-05-31 04:43:34.883000",
+        "description": "20260531 v8 w1_0p0125_keep_shape 0p0125_0p375_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53204251,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204251/53204251.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:43:32+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+        "prediction_max": 4.043819925941376,
+        "prediction_mean": 0.959024848652749,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.776398048383161,
+        "rows": 2248,
+        "sha12": "390565517cb3",
+        "sha256": "390565517cb30fe91c9b75ef6c9eb6c93fb21cc2ab2b2960c3b6c437fc9fe442"
+      },
+      "candidate": {
+        "alphas": [
+          0.0375,
+          0.375,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.22311889034385252,
+        "mean_abs_delta_to_reportable_anchor": 0.19562948180673284,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+        "rationale": "Fine-grained public plateau probe between the v7 0.025 and 0.050 week-1 anchor settings.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:44:08+00:00",
+      "message": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+      "public_mae": 0.7905,
+      "submission": {
+        "date": "2026-05-31 04:43:54.920000",
+        "description": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53204258,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204258/53204258.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:43:53+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1.csv",
+        "prediction_max": 4.129467645376053,
+        "prediction_mean": 0.9611595991455044,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7778865155525351,
+        "rows": 2248,
+        "sha12": "3186f3882dbb",
+        "sha256": "3186f3882dbb0e900492d04088527065990dd7435a98f4f378de210caaf4b3d8"
+      },
+      "candidate": {
+        "alphas": [
+          -0.025,
+          0.375,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.2220144827337048,
+        "mean_abs_delta_to_reportable_anchor": 0.2010350324806806,
+        "name": "baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1.csv",
+        "rationale": "Small left-of-zero week-1 boundary probe; high public-chase risk but useful to confirm the v7 week-1 optimum did not sit outside the tested range.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:44:23+00:00",
+      "message": "20260531 v8 w1_m0p025_keep_shape m0p025_0p375_0p55_0p75_1p0",
+      "public_mae": 0.7907,
+      "submission": {
+        "date": "2026-05-31 04:44:10.173000",
+        "description": "20260531 v8 w1_m0p025_keep_shape m0p025_0p375_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7907",
+        "ref": 53204263,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204263/53204263.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:44:08+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9602772048525218,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7767564915466808,
+        "rows": 2248,
+        "sha12": "ecb762e5373a",
+        "sha256": "ecb762e5373a322d643e54b30b44a7b3629c1da85d432796eb3d628147449901"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.35,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.21990476611764082,
+        "mean_abs_delta_to_reportable_anchor": 0.19884360603294454,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1.csv",
+        "rationale": "Tests whether the v7 public-best shape also benefits from slightly less week-2 anchor weight.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:44:45+00:00",
+      "message": "20260531 v8 w1_0p025_w2_0p35_keep_shape 0p025_0p35_0p55_0p75_1p0",
+      "public_mae": 0.7905,
+      "submission": {
+        "date": "2026-05-31 04:44:26.907000",
+        "description": "20260531 v8 w1_0p025_w2_0p35_keep_shape 0p025_0p35_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53204270,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204270/53204270.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:44:24+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9586186268249589,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7766485576504862,
+        "rows": 2248,
+        "sha12": "19b70bdfe92c",
+        "sha256": "19b70bdfe92c948ac643d585867df5fed484d74a2f0a30525b26458a094014be"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.4,
+          0.55,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.2241630284753658,
+        "mean_abs_delta_to_reportable_anchor": 0.19458534367521962,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1.csv",
+        "rationale": "Symmetric week-2 anchor probe around the v7 public-best, also mildly closer to the clean anchor.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:45:01+00:00",
+      "message": "20260531 v8 w1_0p025_w2_0p40_keep_shape 0p025_0p4_0p55_0p75_1p0",
+      "public_mae": 0.7906,
+      "submission": {
+        "date": "2026-05-31 04:44:48.737000",
+        "description": "20260531 v8 w1_0p025_w2_0p40_keep_shape 0p025_0p4_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53204281,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204281/53204281.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:44:45+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9602946723898906,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7764959279339633,
+        "rows": 2248,
+        "sha12": "a494bf9fd884",
+        "sha256": "a494bf9fd88437ee0bae2f5049ab9edcf032841770796257dcca63b65cb66c4a"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.375,
+          0.525,
+          0.75,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.21988853204147035,
+        "mean_abs_delta_to_reportable_anchor": 0.198859840109115,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1.csv",
+        "rationale": "Tests whether week 3 prefers a little less anchor weight while preserving the current public-best early shape.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:45:23+00:00",
+      "message": "20260531 v8 w1_0p025_w3_0p525_keep_shape 0p025_0p375_0p525_0p75_1p0",
+      "public_mae": 0.7906,
+      "submission": {
+        "date": "2026-05-31 04:45:04.790000",
+        "description": "20260531 v8 w1_0p025_w3_0p525_keep_shape 0p025_0p375_0p525_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53204287,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204287/53204287.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:45:01+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9603002206548397,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7763615245496119,
+        "rows": 2248,
+        "sha12": "d94440195bf0",
+        "sha256": "d94440195bf06e7d7a445b738701595b57213fff1880a46bbf5481a33c6eca9e"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.375,
+          0.55,
+          0.725,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.22000988098663465,
+        "mean_abs_delta_to_reportable_anchor": 0.19873849116395065,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1.csv",
+        "rationale": "Tests whether week 4 prefers a little less anchor weight while preserving the current public-best early shape.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:45:38+00:00",
+      "message": "20260531 v8 w1_0p025_w4_0p725_keep_shape 0p025_0p375_0p55_0p725_1p0",
+      "public_mae": 0.7905,
+      "submission": {
+        "date": "2026-05-31 04:45:25.360000",
+        "description": "20260531 v8 w1_0p025_w4_0p725_keep_shape 0p025_0p375_0p55_0p725_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53204292,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204292/53204292.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:45:23+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9581722327470658,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7771477491099128,
+        "rows": 2248,
+        "sha12": "874de0bed5a2",
+        "sha256": "874de0bed5a2cfdac15d2482bc53970c46b75ca5072617a24d9f3d824baa785b"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.375,
+          0.5625,
+          0.775,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.22513059623388837,
+        "mean_abs_delta_to_reportable_anchor": 0.193617775916697,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1.csv",
+        "rationale": "Soft late-anchor hedge halfway between the v7 public-best and v7 late-anchor shape.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:46:05+00:00",
+      "message": "20260531 v8 w1_0p025_late_soft_anchor 0p025_0p375_0p5625_0p775_1p0",
+      "public_mae": 0.7906,
+      "submission": {
+        "date": "2026-05-31 04:45:41.347000",
+        "description": "20260531 v8 w1_0p025_late_soft_anchor 0p025_0p375_0p5625_0p775_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53204297,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204297/53204297.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:45:38+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9551974882881415,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7783869655002572,
+        "rows": 2248,
+        "sha12": "a2219cb4bdb5",
+        "sha256": "a2219cb4bdb5b70f54002115b1b7c4c4d8b1318b54f4fdec517c7902c0f2a0b7"
+      },
+      "candidate": {
+        "alphas": [
+          0.025,
+          0.375,
+          0.6,
+          0.825,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.23239667673617498,
+        "mean_abs_delta_to_reportable_anchor": 0.18635169541441038,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1.csv",
+        "rationale": "Private-robust hedge at the v7 public-best week-1 setting with stronger weeks 3-4 anchor protection.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:46:25+00:00",
+      "message": "20260531 v8 w1_0p025_stronger_late_anchor 0p025_0p375_0p6_0p825_1p0",
+      "public_mae": 0.7907,
+      "submission": {
+        "date": "2026-05-31 04:46:07.340000",
+        "description": "20260531 v8 w1_0p025_stronger_late_anchor 0p025_0p375_0p6_0p825_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1.csv",
+        "private_score": "",
+        "public_score": "0.7907",
+        "ref": 53204307,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204307/53204307.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:46:05+00:00"
+    },
+    {
+      "action": "submit",
+      "audit": {
+        "columns": [
+          "region_id",
+          "pred_week1",
+          "pred_week2",
+          "pred_week3",
+          "pred_week4",
+          "pred_week5"
+        ],
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+        "prediction_max": 3.958398173294905,
+        "prediction_mean": 0.9518297961584116,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7768384979806445,
+        "rows": 2248,
+        "sha12": "a5a5e9188d9e",
+        "sha256": "a5a5e9188d9ea2ee9606478227637f22bb44f0a17ac897837ea6a3a69f840365"
+      },
+      "candidate": {
+        "alphas": [
+          0.1,
+          0.4,
+          0.6,
+          0.825,
+          1.0
+        ],
+        "artifact_label": "public-chase",
+        "kind": "private_robustness_horizon_hedge",
+        "mean_abs_delta_to_public_reference": 0.24103576619913292,
+        "mean_abs_delta_to_reportable_anchor": 0.1777126059514524,
+        "name": "baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1",
+        "path": "submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+        "rationale": "More conservative private-robust hedge extending the selected v7 Static Private slot with extra week-2 anchor weight.",
+        "reportable_method_claim": false
+      },
+      "completed_at_utc": "2026-05-31T04:46:41+00:00",
+      "message": "20260531 v8 w1_0p10_w2_0p40_stronger_late_anchor 0p1_0p4_0p6_0p825_1p0",
+      "public_mae": 0.791,
+      "submission": {
+        "date": "2026-05-31 04:46:28.600000",
+        "description": "20260531 v8 w1_0p10_w2_0p40_stronger_late_anchor 0p1_0p4_0p6_0p825_1p0",
+        "file_name": "baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+        "private_score": "",
+        "public_score": "0.7910",
+        "ref": 53204319,
+        "status": "SubmissionStatus.COMPLETE",
+        "team_name": "Team 5",
+        "url": "/submissions/53204319/53204319.raw"
+      },
+      "submitted_at_utc": "2026-05-31T04:46:26+00:00"
+    }
+  ],
+  "sanity_policy": {
+    "blocked_source_patterns": [
+      "restored_20260522_",
+      "restored_unverified_"
+    ],
+    "columns": [
+      "region_id",
+      "pred_week1",
+      "pred_week2",
+      "pred_week3",
+      "pred_week4",
+      "pred_week5"
+    ],
+    "nan": "forbidden",
+    "prediction_range": "[0,5]",
+    "region_id_order": "must_match_sample_submission",
+    "rows": 2248
+  },
+  "today_utc": "2026-05-31",
+  "updated_at_utc": "2026-05-31T04:46:41+00:00"
+}

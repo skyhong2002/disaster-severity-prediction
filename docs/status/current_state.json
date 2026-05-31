@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-30T22:10:50+08:00",
+  "last_updated": "2026-05-31T12:54:41+08:00",
   "project": "Natural Disaster Severity Prediction",
   "current_best": {
     "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
@@ -18,7 +18,7 @@
     "local_file_required": false
   },
   "baseline3_push": {
-    "mode": "manual-private-hedge-frontier-v7-after-static-private-snapshot",
+    "mode": "manual-private-hedge-frontier-v8-after-20260531-reset",
     "daily_submission_target": 10,
     "baseline3_public_mae": "0.8056",
     "team5_public_mae": "0.7905",
@@ -27,13 +27,13 @@
     "orchestrator": "scripts/run_baseline3_push.py",
     "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
     "public_chase_best": {
-      "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
       "public_mae": "0.7905",
       "rows": 2248,
-      "sha256_prefix": "9b452689c221",
-      "sha256": "9b452689c221d17e422c94c88c2e7eeaf69b289f259f3647269aaaba98cdf1e1",
-      "kaggle_ref": "53186508",
-      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.025, 0.375, 0.55, 0.75, 1.00]",
+      "sha256_prefix": "390565517cb3",
+      "sha256": "390565517cb30fe91c9b75ef6c9eb6c93fb21cc2ab2b2960c3b6c437fc9fe442",
+      "kaggle_ref": "53204258",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.0375, 0.375, 0.55, 0.75, 1.0]",
       "artifact_label": "public-chase",
       "reportable_method_claim": false
     },
@@ -42,7 +42,7 @@
       "reportable"
     ],
     "stop_condition": "last verified crossed: Team 5 public score 0.7905 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-30 live recheck confirms 10/10 quota used. Static Private/final selection pair is refs 53186508 and 53186571; next reset is 2026-05-31 08:00 Taipei.",
+    "quota_recommendation": "2026-05-31 live history confirms Team 5 used 10/10 UTC submissions on v8. Displayed public best remains 0.7905, but ref 53204258 ties public best with lower clean-anchor delta than v7 ref 53186508; pair it with private-robust hedge ref 53204319 at public 0.7910. Next reset: 2026-06-01 08:00 Taipei.",
     "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
     "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
     "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
@@ -53,10 +53,10 @@
     "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
     "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
     "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "quota_10_of_10_used_20260530_v7_public_best_0p7905_static_private_pair_selected",
-    "latest_live_check_taipei": "2026-05-30T22:10:50+08:00",
+    "latest_live_check_status": "quota_10_of_10_used_20260531_v8_public_tie_0p7905_private_hedge_0p7910_selected",
+    "latest_live_check_taipei": "2026-05-31T12:54:41+08:00",
     "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
-    "next_quota_reset_taipei": "2026-05-31T08:00:00+08:00",
+    "next_quota_reset_taipei": "2026-06-01T08:00:00+08:00",
     "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
     "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
     "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
@@ -66,32 +66,41 @@
     "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
     "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
     "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json",
-    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260530_2205/final_selection_matrix.json",
+    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260531_1255/final_selection_matrix.json",
     "private_hedge_frontier_20260530_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_quota_20260530_2155/frontier_readout.json",
     "static_private_selection": {
-      "public_biased_alternate": {
-        "kaggle_ref": "53186493",
-        "public_mae": "0.7906",
-        "sha256_prefix": "f1c733d6d2e2",
-        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv"
-      },
       "select_1_public_best": {
-        "artifact_label": "public-chase",
-        "kaggle_ref": "53186508",
+        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+        "kaggle_ref": "53204258",
         "public_mae": "0.7905",
-        "reportable_method_claim": false,
-        "sha256_prefix": "9b452689c221",
-        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv"
+        "sha256_prefix": "390565517cb3",
+        "artifact_label": "public-chase",
+        "reportable_method_claim": false
       },
       "select_2_private_robust_hedge": {
+        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+        "kaggle_ref": "53204319",
+        "public_mae": "0.7910",
+        "sha256_prefix": "a5a5e9188d9e",
         "artifact_label": "public-chase",
-        "kaggle_ref": "53186571",
-        "public_mae": "0.7909",
-        "reportable_method_claim": false,
-        "sha256_prefix": "6c2e32e92647",
-        "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv"
+        "reportable_method_claim": false
+      },
+      "fallback_previous_v7_pair": {
+        "public_best_ref": "53186508",
+        "private_hedge_ref": "53186571"
       }
-    }
+    },
+    "private_hedge_frontier_20260531_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260531_quota_20260531_1245/frontier_readout.json",
+    "recent_findings": [
+      {
+        "name": "Quota-10 v8 public/private frontier and updated Static Private selection",
+        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+        "public_mae": "0.7905",
+        "artifact_label": "public-chase",
+        "reportable_method_claim": false,
+        "interpretation": "The 2026-05-31 v8 quota-10 frontier did not improve displayed public MAE beyond 0.7905, but ref 53204258 ties the public best with lower clean-anchor delta than v7 ref 53186508. Ref 53204319 is a more private-robust second selection at displayed public 0.7910."
+      }
+    ]
   },
   "recent_findings": [
     {

@@ -350,6 +350,59 @@ def build_specs(spec_set: str) -> list[Spec]:
                 "Stronger late-anchor hedge at the current v5 public-best week-1 setting, designed as a near-public private fallback.",
             ),
         ]
+    if spec_set == "v8":
+        return [
+            Spec(
+                "w1_0p0125_keep_shape",
+                (0.0125, 0.375, 0.550, 0.750, 1.000),
+                "Fine-grained public plateau probe between the v7 zero and 0.025 week-1 anchor settings.",
+            ),
+            Spec(
+                "w1_0p0375_keep_shape",
+                (0.0375, 0.375, 0.550, 0.750, 1.000),
+                "Fine-grained public plateau probe between the v7 0.025 and 0.050 week-1 anchor settings.",
+            ),
+            Spec(
+                "w1_m0p025_keep_shape",
+                (-0.025, 0.375, 0.550, 0.750, 1.000),
+                "Small left-of-zero week-1 boundary probe; high public-chase risk but useful to confirm the v7 week-1 optimum did not sit outside the tested range.",
+            ),
+            Spec(
+                "w1_0p025_w2_0p35_keep_shape",
+                (0.025, 0.350, 0.550, 0.750, 1.000),
+                "Tests whether the v7 public-best shape also benefits from slightly less week-2 anchor weight.",
+            ),
+            Spec(
+                "w1_0p025_w2_0p40_keep_shape",
+                (0.025, 0.400, 0.550, 0.750, 1.000),
+                "Symmetric week-2 anchor probe around the v7 public-best, also mildly closer to the clean anchor.",
+            ),
+            Spec(
+                "w1_0p025_w3_0p525_keep_shape",
+                (0.025, 0.375, 0.525, 0.750, 1.000),
+                "Tests whether week 3 prefers a little less anchor weight while preserving the current public-best early shape.",
+            ),
+            Spec(
+                "w1_0p025_w4_0p725_keep_shape",
+                (0.025, 0.375, 0.550, 0.725, 1.000),
+                "Tests whether week 4 prefers a little less anchor weight while preserving the current public-best early shape.",
+            ),
+            Spec(
+                "w1_0p025_late_soft_anchor",
+                (0.025, 0.375, 0.5625, 0.775, 1.000),
+                "Soft late-anchor hedge halfway between the v7 public-best and v7 late-anchor shape.",
+            ),
+            Spec(
+                "w1_0p025_stronger_late_anchor",
+                (0.025, 0.375, 0.600, 0.825, 1.000),
+                "Private-robust hedge at the v7 public-best week-1 setting with stronger weeks 3-4 anchor protection.",
+            ),
+            Spec(
+                "w1_0p10_w2_0p40_stronger_late_anchor",
+                (0.100, 0.400, 0.600, 0.825, 1.000),
+                "More conservative private-robust hedge extending the selected v7 Static Private slot with extra week-2 anchor weight.",
+            ),
+        ]
     raise ValueError(f"unknown spec set: {spec_set}")
 
 
@@ -411,7 +464,7 @@ def main() -> int:
         default=ROOT / "experiments" / "recovered_submissions_20260523",
     )
     parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
-    parser.add_argument("--spec-set", choices=["v1", "v2", "v3", "v4", "v5", "v6", "v7"], default="v1")
+    parser.add_argument("--spec-set", choices=["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"], default="v1")
     parser.add_argument("--experiment-label", default=None)
     parser.add_argument(
         "--work-dir",
@@ -431,6 +484,7 @@ def main() -> int:
         "v5": "private_hedge_frontier_20260529_queue_20260528_1555",
         "v6": "private_hedge_frontier_20260530_backup_20260528_1610",
         "v7": "private_hedge_frontier_20260530_quota_20260530_2155",
+        "v8": "private_hedge_frontier_20260531_quota_20260531_1245",
     }
     experiment_label = args.experiment_label or default_labels[args.spec_set]
     if args.work_dir is None:

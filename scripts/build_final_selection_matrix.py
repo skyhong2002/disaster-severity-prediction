@@ -80,6 +80,7 @@ def collect_submitted(ledger: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, int | None]] = set()
     for key in [
+        "private_hedge_curve_20260531",
         "private_hedge_curve_20260530",
         "private_hedge_curve_20260528",
         "private_hedge_curve_20260527",
@@ -152,7 +153,7 @@ def write_markdown(path: Path, payload: dict[str, Any]) -> None:
     static_rec = rec["static_private_selection"]
     queue = payload["queue_readout"]
     lines = [
-        "# Final Selection Matrix 2026-05-30",
+        "# Final Selection Matrix 2026-05-31",
         "",
         f"- Created UTC: `{payload['created_at_utc']}`",
         f"- Live Team 5 public MAE: `{payload['live_context']['team5_public_mae']}`",
@@ -198,8 +199,8 @@ def write_markdown(path: Path, payload: dict[str, Any]) -> None:
             "## Queue Pointers",
             "",
             f"- Teammate gate: `{queue['teammate_gate']['path'] if queue.get('teammate_gate') else 'not_applicable'}`",
-            f"- Latest v7 public-best selected: `{static_rec['select_1_public_best']['path']}`",
-            f"- Latest v7 static/private hedge selected: `{static_rec['select_2_private_robust_hedge']['path']}`",
+            f"- Latest public-best selected: `{static_rec['select_1_public_best']['path']}`",
+            f"- Latest static/private hedge selected: `{static_rec['select_2_private_robust_hedge']['path']}`",
             f"- First v6/private-robust backup if future quota is reopened: `{queue['v6_backup_order_after_v5_readout'][0]['path'] if queue.get('v6_backup_order_after_v5_readout') else 'not_applicable'}`",
         ]
     )
@@ -225,7 +226,7 @@ def main() -> int:
     parser.add_argument(
         "--out-dir",
         type=Path,
-        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260530_2205",
+        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260531_1255",
     )
     args = parser.parse_args()
 
@@ -244,6 +245,7 @@ def main() -> int:
     active_frontier_key = next(
         key
         for key in [
+            "private_hedge_curve_20260531",
             "private_hedge_curve_20260530",
             "private_hedge_curve_20260528",
             "private_hedge_curve_20260527",
@@ -286,7 +288,9 @@ def main() -> int:
         ),
     )
     queue_readout = collect_queue_items(queue, backup)
-    quota_context = ledger.get("private_hedge_frontier_20260530_quota", {})
+    quota_context = ledger.get("private_hedge_frontier_20260531_quota") or ledger.get(
+        "private_hedge_frontier_20260530_quota", {}
+    )
     static_private_context = ledger.get("static_private_snapshot_20260529", {})
     payload = {
         "created_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
@@ -334,12 +338,12 @@ def main() -> int:
         },
         "queue_readout": queue_readout,
         "next_quota_rules": [
-            "Current 2026-05-30 UTC quota is 10/10 used after the v7 quota-10 frontier.",
-            "For Static Private / final-selection UI, manually select refs 53186508 and 53186571; do not rely only on auto-selection.",
-            "Live-gate Kaggle submission history and leaderboard after 2026-05-31T08:00:00+08:00 Taipei before spending any new quota.",
+            "Current 2026-05-31 UTC quota is 10/10 used after the v8 quota-10 frontier.",
+            "For Static Private / final-selection UI, manually select refs 53204258 and 53204319; do not rely only on auto-selection.",
+            "Live-gate Kaggle submission history and leaderboard after 2026-06-01T08:00:00+08:00 Taipei before spending any new quota.",
             "Do not resubmit the teammate file: live history already confirms ref 53074655 / public 1.0685 for the same artifact.",
-            "Use ref 53186493 as the public-biased alternate only if the second final-selection slot must stay closer to public-best.",
-            "Do not describe any v5/v6/v7 public-chase artifact as a reportable method claim.",
+            "Use the v7 pair refs 53186508/53186571 as fallback if the UI or team policy prefers the previous manually selected Static Private pair.",
+            "Do not describe any v5/v6/v7/v8 public-chase artifact as a reportable method claim.",
         ],
     }
     args.out_dir.mkdir(parents=True, exist_ok=True)

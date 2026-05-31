@@ -343,7 +343,7 @@ to the main claim.
 
 \subsection{Leaderboard and Final-Selection Readout}
 Table~\ref{tab:leaderboard} shows the relevant public leaderboard snapshot
-after the 2026-05-30 v7 frontier submissions. The public leaderboard is useful for
+after the 2026-05-31 v8 frontier submissions. The public leaderboard is useful for
 Kaggle placement, but it can also reward overfitting to public feedback.
 Therefore we report two separate artifacts: the reportable model lineage and
 the selected public-chase artifact. A 5/29 static private snapshot also showed
@@ -360,12 +360,13 @@ artifact and a near-public private-robust hedge.
 \textbf{Entry} & \textbf{Public MAE} & \textbf{Rank} \\
 \hline
 Team 3 & 0.7628 & 1 \\
-Team 4 & 0.7810 & 2 \\
-Team 20 & 0.7836 & 3 \\
-\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{4} \\
-Team 1 & 0.7909 & 5 \\
-Team 2 & 0.7955 & 6 \\
-Baseline 3 & 0.8056 & 7 \\
+Team 15 & 0.7799 & 2 \\
+Team 4 & 0.7810 & 3 \\
+Team 20 & 0.7836 & 4 \\
+\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{5} \\
+Team 1 & 0.7909 & 6 \\
+Team 2 & 0.7955 & 7 \\
+Baseline 3 & 0.8056 & 8 \\
 Team 5 reportable lineage & 0.8124 & -- \\
 Baseline 2 & 0.8623 & -- \\
 Baseline 1 & 0.9117 & -- \\
@@ -374,23 +375,24 @@ Baseline 1 & 0.9117 & -- \\
 \end{table}
 
 The selected public-chase artifact is
-\path{submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv}
-(Kaggle ref 53186508, SHA-12 9b452689c221, public MAE 0.7905). It is an
+\path{submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv}
+(Kaggle ref 53204258, SHA-12 390565517cb3, public MAE 0.7905). It is an
 exact-history horizon hedge moving the recovered 0.8094 public reference toward
 the clean 0.8124 anchor by horizon alphas
-$[0.025,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
+$[0.0375,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
 not a new reportable training algorithm. The strongest same-day private-risk
 alternative selected for the second Static Private slot is
-\path{submissions/baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv}
-(Kaggle ref 53186571, SHA-12 6c2e32e92647, public MAE 0.7909). Its horizon
-alphas are $[0.10,0.375,0.60,0.825,1.00]$, so it gives up only 0.0004 public
-MAE while moving later horizons closer to the clean anchor. A more
-public-biased alternate is ref 53186493 at public MAE 0.7906.
+\path{submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv}
+(Kaggle ref 53204319, SHA-12 a5a5e9188d9e, public MAE 0.7910). Its horizon
+alphas are $[0.10,0.40,0.60,0.825,1.00]$, so it gives up only 0.0005 displayed
+public MAE while moving week 2 and later horizons closer to the clean anchor.
+The previous v7 pair, refs 53186508 and 53186571, remains a fallback if the
+team wants the earlier manual selection.
 
 Because private leaderboard risk remains possible, the post-crossing workflow did
-not stop at the public crossing. The v7 improvement consumed the expanded
-10/day quota on 2026-05-30 after all files passed sanity checks; the current
-manual final-selection recommendation is to select refs 53186508 and 53186571.
+not stop at the public crossing. The v8 follow-up consumed the expanded
+10/day quota on 2026-05-31 after all files passed sanity checks; the current
+manual final-selection recommendation is to select refs 53204258 and 53204319.
 These files are sanity-checked final-selection artifacts only, not new
 reportable model claims.
 

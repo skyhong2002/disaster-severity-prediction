@@ -403,6 +403,59 @@ def build_specs(spec_set: str) -> list[Spec]:
                 "More conservative private-robust hedge extending the selected v7 Static Private slot with extra week-2 anchor weight.",
             ),
         ]
+    if spec_set == "v9":
+        return [
+            Spec(
+                "w1_0p0375_w2_0p35_w4_0p725",
+                (0.0375, 0.350, 0.550, 0.725, 1.000),
+                "Crosses the three v8 displayed-public tie signals: selected 0.0375 week-1, lower week-2 anchor, and lower week-4 anchor.",
+            ),
+            Spec(
+                "w1_0p0375_w2_0p40_keep_shape",
+                (0.0375, 0.400, 0.550, 0.750, 1.000),
+                "Keeps the v8 selected week-1 setting but moves week 2 toward the clean anchor to reduce private-risk distance.",
+            ),
+            Spec(
+                "w1_0p0375_w4_0p725_keep_shape",
+                (0.0375, 0.375, 0.550, 0.725, 1.000),
+                "Keeps the v8 selected week-1 setting and tests whether the v8 lower week-4 public tie transfers when paired with 0.0375.",
+            ),
+            Spec(
+                "w1_0p025_w2_0p35_w4_0p725",
+                (0.025, 0.350, 0.550, 0.725, 1.000),
+                "Combines the v8 same-score lower week-2 and lower week-4 public probes around the original v7 public-best week-1.",
+            ),
+            Spec(
+                "w1_0p05_w2_0p35_w4_0p725",
+                (0.050, 0.350, 0.550, 0.725, 1.000),
+                "Boundary point just to the right of the v8 public-tie cluster, useful if week-1 0.0375 is under-anchored on private.",
+            ),
+            Spec(
+                "w1_0p05_w2_0p40_keep_shape",
+                (0.050, 0.400, 0.550, 0.750, 1.000),
+                "Private-safer local point near the v8 selected public tie, increasing early-horizon anchor without changing late shape.",
+            ),
+            Spec(
+                "w1_0p0375_w2_0p40_late_soft_anchor",
+                (0.0375, 0.400, 0.5625, 0.775, 1.000),
+                "Private-robust soft late-anchor hedge at the v8 selected week-1 setting with extra week-2 protection.",
+            ),
+            Spec(
+                "w1_0p05_w2_0p40_late_soft_anchor",
+                (0.050, 0.400, 0.5625, 0.775, 1.000),
+                "Slightly more anchored version of the soft late-anchor hedge for the second Static Private slot.",
+            ),
+            Spec(
+                "w1_0p075_w2_0p425_stronger_late_anchor",
+                (0.075, 0.425, 0.600, 0.825, 1.000),
+                "Near-public private hedge that extends the v8 selected second slot with more week-2 anchor weight.",
+            ),
+            Spec(
+                "w1_0p125_w2_0p45_stronger_late_anchor",
+                (0.125, 0.450, 0.625, 0.850, 1.000),
+                "Most conservative v9 hedge; intended to lower private flip risk if the public plateau is overfit.",
+            ),
+        ]
     raise ValueError(f"unknown spec set: {spec_set}")
 
 
@@ -464,7 +517,7 @@ def main() -> int:
         default=ROOT / "experiments" / "recovered_submissions_20260523",
     )
     parser.add_argument("--out-dir", type=Path, default=ROOT / "submissions")
-    parser.add_argument("--spec-set", choices=["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"], default="v1")
+    parser.add_argument("--spec-set", choices=["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9"], default="v1")
     parser.add_argument("--experiment-label", default=None)
     parser.add_argument(
         "--work-dir",
@@ -485,6 +538,7 @@ def main() -> int:
         "v6": "private_hedge_frontier_20260530_backup_20260528_1610",
         "v7": "private_hedge_frontier_20260530_quota_20260530_2155",
         "v8": "private_hedge_frontier_20260531_quota_20260531_1245",
+        "v9": "private_hedge_frontier_20260601_quota_20260601_2325",
     }
     experiment_label = args.experiment_label or default_labels[args.spec_set]
     if args.work_dir is None:

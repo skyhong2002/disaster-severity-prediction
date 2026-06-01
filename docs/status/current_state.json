@@ -1,228 +1,4 @@
 {
-  "last_updated": "2026-05-31T12:54:41+08:00",
-  "project": "Natural Disaster Severity Prediction",
-  "current_best": {
-    "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv",
-    "public_mae": "0.8124",
-    "rows": 2248,
-    "sha256_prefix": "bee6f618828d",
-    "blend": "35% LightGBM / 35% XGBoost / 30% CatBoost",
-    "kaggle_ref": "52698259",
-    "local_file_required": false
-  },
-  "previous_anchor": {
-    "submission": "submissions/ensemble_final.csv",
-    "public_mae": "0.8232",
-    "sha256_prefix": "28d368bc4be8",
-    "blend": "50% LightGBM / 50% XGBoost",
-    "local_file_required": false
-  },
-  "baseline3_push": {
-    "mode": "manual-private-hedge-frontier-v8-after-20260531-reset",
-    "daily_submission_target": 10,
-    "baseline3_public_mae": "0.8056",
-    "team5_public_mae": "0.7905",
-    "gap_to_cross": "-0.0151",
-    "ledger": "docs/status/baseline3_push_20260523.md",
-    "orchestrator": "scripts/run_baseline3_push.py",
-    "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
-    "public_chase_best": {
-      "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7905",
-      "rows": 2248,
-      "sha256_prefix": "390565517cb3",
-      "sha256": "390565517cb30fe91c9b75ef6c9eb6c93fb21cc2ab2b2960c3b6c437fc9fe442",
-      "kaggle_ref": "53204258",
-      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.0375, 0.375, 0.55, 0.75, 1.0]",
-      "artifact_label": "public-chase",
-      "reportable_method_claim": false
-    },
-    "artifact_labels": [
-      "public-chase",
-      "reportable"
-    ],
-    "stop_condition": "last verified crossed: Team 5 public score 0.7905 < Baseline 3 public score 0.8056",
-    "quota_recommendation": "2026-05-31 live history confirms Team 5 used 10/10 UTC submissions on v8. Displayed public best remains 0.7905, but ref 53204258 ties public best with lower clean-anchor delta than v7 ref 53186508; pair it with private-robust hedge ref 53204319 at public 0.7910. Next reset: 2026-06-01 08:00 Taipei.",
-    "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
-    "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
-    "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
-    "report_integration": "experiments/baseline3_push_20260523/heartbeat_2251_report_integration/report_integration_summary.json",
-    "final_consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/final_consistency_audit.json",
-    "final_selection_recommendation": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_recommendation.json",
-    "final_selection_sanity": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_sanity.json",
-    "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
-    "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
-    "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
-    "latest_live_check_status": "quota_10_of_10_used_20260531_v8_public_tie_0p7905_private_hedge_0p7910_selected",
-    "latest_live_check_taipei": "2026-05-31T12:54:41+08:00",
-    "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
-    "next_quota_reset_taipei": "2026-06-01T08:00:00+08:00",
-    "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
-    "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
-    "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json",
-    "next_submission_queue_20260527": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json",
-    "private_hedge_frontier_20260527": "experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json",
-    "private_hedge_frontier_20260528_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json",
-    "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
-    "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
-    "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json",
-    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260531_1255/final_selection_matrix.json",
-    "private_hedge_frontier_20260530_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_quota_20260530_2155/frontier_readout.json",
-    "static_private_selection": {
-      "select_1_public_best": {
-        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
-        "kaggle_ref": "53204258",
-        "public_mae": "0.7905",
-        "sha256_prefix": "390565517cb3",
-        "artifact_label": "public-chase",
-        "reportable_method_claim": false
-      },
-      "select_2_private_robust_hedge": {
-        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
-        "kaggle_ref": "53204319",
-        "public_mae": "0.7910",
-        "sha256_prefix": "a5a5e9188d9e",
-        "artifact_label": "public-chase",
-        "reportable_method_claim": false
-      },
-      "fallback_previous_v7_pair": {
-        "public_best_ref": "53186508",
-        "private_hedge_ref": "53186571"
-      }
-    },
-    "private_hedge_frontier_20260531_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260531_quota_20260531_1245/frontier_readout.json",
-    "recent_findings": [
-      {
-        "name": "Quota-10 v8 public/private frontier and updated Static Private selection",
-        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
-        "public_mae": "0.7905",
-        "artifact_label": "public-chase",
-        "reportable_method_claim": false,
-        "interpretation": "The 2026-05-31 v8 quota-10 frontier did not improve displayed public MAE beyond 0.7905, but ref 53204258 ties the public best with lower clean-anchor delta than v7 ref 53186508. Ref 53204319 is a more private-robust second selection at displayed public 0.7910."
-      }
-    ]
-  },
-  "recent_findings": [
-    {
-      "name": "Quota-10 v7 public/private frontier and Static Private selection",
-      "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7905",
-      "interpretation": "After the 5/29 static private snapshot showed Team 5 rank 5, a 2026-05-30 v7 quota-10 frontier improved public MAE to ref 53186508 at 0.7905 and produced a private-robust selection hedge ref 53186571 at public 0.7909. Both are public-chase/final-selection artifacts, not reportable method claims."
-    },
-    {
-      "name": "Quota-10 v5 lower-week1 public-chase readout",
-      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7907",
-      "interpretation": "After the user confirmed the daily limit is now 10, four v5 keep-shape probes were submitted with full sanity checks. Public MAE improved monotonically to ref 53110808 at 0.7907; this is a public-chase/final-selection artifact, not a reportable method claim. Quota is now 10/10 used for 2026-05-28 UTC."
-    },
-    {
-      "name": "Prepared v6 private-robust backup queue",
-      "submission": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv",
-      "public_mae": null,
-      "interpretation": "Built six sanity-checked v6 backup candidates around the v4 late-anchor signal. They add week-2 or week-3/4 anchor weight to reduce distance to the clean 0.8124 anchor; use only after the v5 queue readout, not as a reportable method claim."
-    },
-    {
-      "name": "Manual private-hedge frontier 2026-05-28",
-      "submission": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7912",
-      "interpretation": "A six-submission v4 horizon frontier improved Team 5 public MAE to 0.7912. Ref 53109133 is the selected public-chase artifact; refs 53109166, 53109157, and 53109150 plus prior refs 53075022/53038040/53038036/53038033 remain private-risk hedge alternatives. All v4 files are public-chase/final-selection artifacts, not reportable method claims."
-    },
-    {
-      "name": "Prepared 2026-05-29 queue with teammate gate first and v5 hedges",
-      "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
-      "public_mae": null,
-      "interpretation": "User requested the teammate CSV be placed first. The queue records it as rank 1 with sanity SHA 66f7815e7ff3 and a duplicate guard because the same file already scored public 1.0685 as ref 53074655; if skipped by live history, v5 lower-week1 and late-anchor hedges are the next actual candidates."
-    },
-    {
-      "name": "Manual private-hedge frontier 2026-05-27",
-      "submission": "submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7915",
-      "interpretation": "A five-submission v3 horizon frontier after the teammate first-queue readout improved Team 5 public MAE to 0.7915. Ref 53074980 is selected over same-score ref 53075001 because it is closer to the clean 0.8124 anchor; ref 53075022 and prior refs 53038040/53038036/53038033 remain stronger private-risk alternatives. All v3 files are public-chase/final-selection artifacts, not reportable method claims."
-    },
-    {
-      "name": "Teammate LightGBM v3 enhanced candidate screen",
-      "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv",
-      "public_mae": "1.0685",
-      "interpretation": "First 2026-05-27 queue item was already submitted by teammate as Kaggle ref 53074655 and scored public 1.0685. Keep as negative public readout with provenance_pending; do not promote or use as reportable lineage."
-    },
-    {
-      "name": "Manual private-hedge frontier 2026-05-26",
-      "submission": "submissions/baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv",
-      "public_mae": "0.7917",
-      "interpretation": "A six-submission v2 local horizon frontier improved Team 5 public MAE to 0.7917; the public-best file is farther from the clean 0.8124 anchor than v1, so keep refs 53038036/53038040 as stronger private-risk alternatives and label all v2 files as public-chase/final-selection artifacts, not reportable method claims."
-    },
-    {
-      "name": "Manual private-hedge frontier 2026-05-25",
-      "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv",
-      "public_mae": "0.7922",
-      "interpretation": "A six-submission v1 horizon frontier improved Team 5 public MAE to 0.7922 while keeping the best file closer to the clean 0.8124 anchor than the prior 0.7930 public-best; label all v1 files as public-chase/final-selection artifacts, not reportable method claims."
-    },
-    {
-      "name": "Manual private-hedge Baseline 3 push",
-      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv",
-      "public_mae": "0.7930",
-      "interpretation": "A 2026-05-24 manual six-submission hedge batch improved Team 5 public MAE to 0.7930 while adding closer-to-anchor private hedge candidates at 0.7933 and 0.7945; label all as public-chase, not reportable method claims."
-    },
-    {
-      "name": "Baseline 3 public-chase crossing",
-      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv",
-      "public_mae": "0.7991",
-      "interpretation": "Public-first exact-history blend crossed Baseline 3 on 2026-05-23. Treat as leaderboard/selection artifact, not a reportable legal modeling claim."
-    },
-    {
-      "name": "Baseline 3 public-first push",
-      "submission": null,
-      "public_mae": "0.7991",
-      "interpretation": "Live leaderboard now has Team 5 ahead of Baseline 3 public MAE 0.8056 after exact-history public-chase probes; keep reportable lineage labels separate."
-    },
-    {
-      "name": "CatBoost 35% blend",
-      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_325_325_35.csv",
-      "public_mae": "0.8141",
-      "interpretation": "Nearby CatBoost-weight probe; public score regressed versus the 30% CatBoost anchor."
-    },
-    {
-      "name": "CatBoost horizon ramp",
-      "interpretation": "Meaningful secondary private-LB hedge, but weaker than the 30% public anchor.",
-      "public_mae": "0.8138",
-      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv"
-    },
-    {
-      "name": "CatBoost tail2737 rerun",
-      "run": "experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500",
-      "local_mae": "0.2192",
-      "interpretation": "Legal rerun, not submitted; supports the CatBoost hypothesis but does not change the anchor."
-    },
-    {
-      "name": "LGBM micro rolling rerun",
-      "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor.",
-      "local_mae": "0.2002",
-      "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520"
-    },
-    {
-      "name": "GRU family public readout",
-      "submission": "submissions/submission_20260522_gru_family_constrained_stack.csv",
-      "public_mae": "0.9850",
-      "interpretation": "Risk-ranked GRU stack and raw GRU probes failed public transfer on 2026-05-23; pause GRU-family submissions."
-    }
-  ],
-  "model_families": [
-    "LightGBM",
-    "XGBoost",
-    "CatBoost"
-  ],
-  "implementation_summary": "Direct-horizon boosted-tree models with leakage-aware 91-day-gapped score-history features and LGB/XGB/CatBoost ensembling.",
-  "validation_note": "Holdout and rolling-origin local MAE are not directly comparable; Kaggle public/private leaderboard results are the external generalization checks.",
-  "current_docs": [
-    "README.md",
-    "docs/README.md",
-    "docs/status/experiment_summary.md",
-    "docs/status/private_lb_submission_plan_2026-05-22.md",
-    "docs/status/baseline3_push_20260523.md",
-    "docs/presentations/progress-check-2026-05-21-5min.marp.md",
-    "docs/presentations/progress-check-2026-05-21-5min.marp.zh.md",
-    "report/main.tex"
-  ],
   "archived_docs": [
     "docs/project/improvement_plan.md",
     "docs/presentations/progress-check-2026-05-21.marp.md"
@@ -235,5 +11,258 @@
     "purely on meteorological data",
     "score reconstructor pipeline",
     "Score Reconstructor ensemble"
-  ]
+  ],
+  "baseline3_push": {
+    "artifact_labels": [
+      "public-chase",
+      "reportable"
+    ],
+    "automation_shutdown": "experiments/baseline3_push_20260523/heartbeat_0251_20260524_automation_shutdown/automation_shutdown.json",
+    "baseline3_public_mae": "0.8056",
+    "consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2050_consistency_audit/consistency_audit_report.json",
+    "daily_submission_target": 10,
+    "final_consistency_audit": "experiments/baseline3_push_20260523/heartbeat_2351_final_consistency/final_consistency_audit.json",
+    "final_selection_checklist": "experiments/baseline3_push_20260523/heartbeat_1850_final_checklist/final_private_selection_checklist.json",
+    "final_selection_matrix": "experiments/baseline3_push_20260523/final_selection_matrix_20260601_2335/final_selection_matrix.json",
+    "final_selection_recommendation": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_recommendation.json",
+    "final_selection_sanity": "experiments/baseline3_push_20260523/heartbeat_0051_20260524_final_recommendation/final_selection_sanity.json",
+    "final_ui_handoff": "experiments/baseline3_push_20260523/heartbeat_0151_20260524_final_ui_handoff/final_ui_handoff.json",
+    "gap_to_cross": "-0.0151",
+    "latest_daily_quota_check": "experiments/baseline3_push_20260523/heartbeat_0812_20260525_dns_blocker/daily_quota_check.json",
+    "latest_live_check_status": "quota_10_of_10_used_20260601_v9_public_tie_0p7905_private_hedge_0p7909_selected",
+    "latest_live_check_taipei": "2026-06-01T23:35:00+08:00",
+    "ledger": "docs/status/baseline3_push_20260523.md",
+    "mode": "manual-private-hedge-frontier-v9-after-20260601-reset",
+    "next_quota_reset_taipei": "2026-06-02T08:00:00+08:00",
+    "next_submission_queue_20260527": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/next_submission_queue_20260527.json",
+    "next_submission_queue_20260529": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/next_submission_queue_20260529.json",
+    "orchestrator": "scripts/run_baseline3_push.py",
+    "private_hedge_frontier_20260525": "experiments/baseline3_push_20260523/private_hedge_frontier_20260525_0850/frontier_readout.json",
+    "private_hedge_frontier_20260526": "experiments/baseline3_push_20260523/private_hedge_frontier_20260526_1135/frontier_readout.json",
+    "private_hedge_frontier_20260527": "experiments/baseline3_push_20260523/private_hedge_frontier_20260527_1445/frontier_readout.json",
+    "private_hedge_frontier_20260528_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260528_queue_20260527_1500/frontier_readout.json",
+    "private_hedge_frontier_20260529_queue": "experiments/baseline3_push_20260523/private_hedge_frontier_20260529_queue_20260528_1555/frontier_readout.json",
+    "private_hedge_frontier_20260530_backup": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_backup_20260528_1610/frontier_readout.json",
+    "private_hedge_frontier_20260530_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260530_quota_20260530_2155/frontier_readout.json",
+    "private_hedge_frontier_20260531_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260531_quota_20260531_1245/frontier_readout.json",
+    "private_hedge_frontier_20260601_quota": "experiments/baseline3_push_20260523/private_hedge_frontier_20260601_quota_20260601_2325/frontier_readout.json",
+    "private_hedge_push_20260524": "experiments/baseline3_push_20260523/private_hedge_20260524_1047/private_hedge_readout.json",
+    "public_chase_best": {
+      "artifact_label": "public-chase",
+      "blend": "Exact 0.8094 historical public reference blended toward the clean 0.8124 anchor with horizon alphas [0.0375, 0.375, 0.55, 0.75, 1.0]",
+      "kaggle_ref": "53204258",
+      "public_mae": "0.7905",
+      "reportable_method_claim": false,
+      "rows": 2248,
+      "sha256": "390565517cb30fe91c9b75ef6c9eb6c93fb21cc2ab2b2960c3b6c437fc9fe442",
+      "sha256_prefix": "390565517cb3",
+      "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv"
+    },
+    "public_chase_manifest": "experiments/baseline3_push_20260523/public_chase_variants.json",
+    "quota_recommendation": "2026-06-01 live history confirmed 0/10 Team 5 UTC submissions before v9; all 10 v9 candidates were submitted with sanity/SHA checks. Displayed public best remains ref 53204258 at 0.7905. Use ref 53259683 as the updated near-public private-robust Static Private hedge at public 0.7909; keep ref 53204319 as pure-delta fallback and ref 53038036 as the stronger private fallback if a larger public gap is acceptable. Next reset: 2026-06-02 08:00 Taipei.",
+    "recent_findings": [
+      {
+        "artifact_label": "public-chase",
+        "interpretation": "The 2026-06-01 v9 quota-10 frontier did not improve displayed public MAE beyond 0.7905, but it found ref 53259683 at public 0.7909 with strong week-2/late-anchor private protection. Keep v8 ref 53204258 as public-best and update the second Static Private slot to ref 53259683; ref 53204319 remains the pure-delta fallback.",
+        "name": "Quota-10 v9 public/private frontier and updated Static Private hedge",
+        "public_mae": "0.7909",
+        "reportable_method_claim": false,
+        "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv"
+      },
+      {
+        "artifact_label": "public-chase",
+        "interpretation": "The 2026-05-31 v8 quota-10 frontier did not improve displayed public MAE beyond 0.7905, but ref 53204258 ties the public best with lower clean-anchor delta than v7 ref 53186508. Ref 53204319 is a more private-robust second selection at displayed public 0.7910.",
+        "name": "Quota-10 v8 public/private frontier and updated Static Private selection",
+        "public_mae": "0.7905",
+        "reportable_method_claim": false,
+        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv"
+      }
+    ],
+    "report_integration": "experiments/baseline3_push_20260523/heartbeat_2251_report_integration/report_integration_summary.json",
+    "report_wording_package": "experiments/baseline3_push_20260523/heartbeat_1950_report_wording/report_wording_package.json",
+    "static_private_selection": {
+      "fallback_previous_v7_pair": {
+        "private_hedge_ref": "53186571",
+        "public_best_ref": "53186508"
+      },
+      "fallback_previous_v8_pair": {
+        "private_hedge_ref": "53204319",
+        "public_best_ref": "53204258"
+      },
+      "select_1_public_best": {
+        "artifact_label": "public-chase",
+        "kaggle_ref": "53204258",
+        "public_mae": "0.7905",
+        "reportable_method_claim": false,
+        "sha256_prefix": "390565517cb3",
+        "submission": "submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv"
+      },
+      "select_2_private_robust_hedge": {
+        "artifact_label": "public-chase",
+        "kaggle_ref": "53259683",
+        "public_mae": "0.7909",
+        "reportable_method_claim": false,
+        "sha256_prefix": "262f683b87b6",
+        "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv"
+      },
+      "stronger_private_fallback": {
+        "artifact_label": "public-chase",
+        "kaggle_ref": "53038036",
+        "public_mae": "0.7925",
+        "reportable_method_claim": false,
+        "sha256_prefix": "ec7984e858b2",
+        "submission": "submissions/baseline3_private_hedge_v2_cat35_balanced_private_frontier_horizon_0p325_0p425_0p575_0p775_1.csv"
+      }
+    },
+    "stop_condition": "last verified crossed: Team 5 public score 0.7905 < Baseline 3 public score 0.8056",
+    "team5_public_mae": "0.7905",
+    "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json"
+  },
+  "current_best": {
+    "blend": "35% LightGBM / 35% XGBoost / 30% CatBoost",
+    "kaggle_ref": "52698259",
+    "local_file_required": false,
+    "public_mae": "0.8124",
+    "rows": 2248,
+    "sha256_prefix": "bee6f618828d",
+    "submission": "submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv"
+  },
+  "current_docs": [
+    "README.md",
+    "docs/README.md",
+    "docs/status/experiment_summary.md",
+    "docs/status/private_lb_submission_plan_2026-05-22.md",
+    "docs/status/baseline3_push_20260523.md",
+    "docs/presentations/progress-check-2026-05-21-5min.marp.md",
+    "docs/presentations/progress-check-2026-05-21-5min.marp.zh.md",
+    "report/main.tex"
+  ],
+  "implementation_summary": "Direct-horizon boosted-tree models with leakage-aware 91-day-gapped score-history features and LGB/XGB/CatBoost ensembling.",
+  "last_updated": "2026-06-01T23:35:00+08:00",
+  "model_families": [
+    "LightGBM",
+    "XGBoost",
+    "CatBoost"
+  ],
+  "previous_anchor": {
+    "blend": "50% LightGBM / 50% XGBoost",
+    "local_file_required": false,
+    "public_mae": "0.8232",
+    "sha256_prefix": "28d368bc4be8",
+    "submission": "submissions/ensemble_final.csv"
+  },
+  "project": "Natural Disaster Severity Prediction",
+  "recent_findings": [
+    {
+      "artifact_label": "public-chase",
+      "interpretation": "The 2026-06-01 v9 quota-10 frontier did not improve displayed public MAE beyond 0.7905, but it found ref 53259683 at public 0.7909 with strong week-2/late-anchor private protection. Keep v8 ref 53204258 as public-best and update the second Static Private slot to ref 53259683; ref 53204319 remains the pure-delta fallback.",
+      "name": "Quota-10 v9 public/private frontier and updated Static Private hedge",
+      "public_mae": "0.7909",
+      "reportable_method_claim": false,
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv"
+    },
+    {
+      "interpretation": "After the 5/29 static private snapshot showed Team 5 rank 5, a 2026-05-30 v7 quota-10 frontier improved public MAE to ref 53186508 at 0.7905 and produced a private-robust selection hedge ref 53186571 at public 0.7909. Both are public-chase/final-selection artifacts, not reportable method claims.",
+      "name": "Quota-10 v7 public/private frontier and Static Private selection",
+      "public_mae": "0.7905",
+      "submission": "submissions/baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "After the user confirmed the daily limit is now 10, four v5 keep-shape probes were submitted with full sanity checks. Public MAE improved monotonically to ref 53110808 at 0.7907; this is a public-chase/final-selection artifact, not a reportable method claim. Quota is now 10/10 used for 2026-05-28 UTC.",
+      "name": "Quota-10 v5 lower-week1 public-chase readout",
+      "public_mae": "0.7907",
+      "submission": "submissions/baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "Built six sanity-checked v6 backup candidates around the v4 late-anchor signal. They add week-2 or week-3/4 anchor weight to reduce distance to the clean 0.8124 anchor; use only after the v5 queue readout, not as a reportable method claim.",
+      "name": "Prepared v6 private-robust backup queue",
+      "public_mae": null,
+      "submission": "submissions/baseline3_private_hedge_v6_cat35_w1_0p1625_late_anchor_horizon_0p1625_0p375_0p575_0p8_1.csv"
+    },
+    {
+      "interpretation": "A six-submission v4 horizon frontier improved Team 5 public MAE to 0.7912. Ref 53109133 is the selected public-chase artifact; refs 53109166, 53109157, and 53109150 plus prior refs 53075022/53038040/53038036/53038033 remain private-risk hedge alternatives. All v4 files are public-chase/final-selection artifacts, not reportable method claims.",
+      "name": "Manual private-hedge frontier 2026-05-28",
+      "public_mae": "0.7912",
+      "submission": "submissions/baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "User requested the teammate CSV be placed first. The queue records it as rank 1 with sanity SHA 66f7815e7ff3 and a duplicate guard because the same file already scored public 1.0685 as ref 53074655; if skipped by live history, v5 lower-week1 and late-anchor hedges are the next actual candidates.",
+      "name": "Prepared 2026-05-29 queue with teammate gate first and v5 hedges",
+      "public_mae": null,
+      "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv"
+    },
+    {
+      "interpretation": "A five-submission v3 horizon frontier after the teammate first-queue readout improved Team 5 public MAE to 0.7915. Ref 53074980 is selected over same-score ref 53075001 because it is closer to the clean 0.8124 anchor; ref 53075022 and prior refs 53038040/53038036/53038033 remain stronger private-risk alternatives. All v3 files are public-chase/final-selection artifacts, not reportable method claims.",
+      "name": "Manual private-hedge frontier 2026-05-27",
+      "public_mae": "0.7915",
+      "submission": "submissions/baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "First 2026-05-27 queue item was already submitted by teammate as Kaggle ref 53074655 and scored public 1.0685. Keep as negative public readout with provenance_pending; do not promote or use as reportable lineage.",
+      "name": "Teammate LightGBM v3 enhanced candidate screen",
+      "public_mae": "1.0685",
+      "submission": "submissions/teammate_first_queue_20260527_lightgbm_two_stage_lgbm_v3_enhanced.csv"
+    },
+    {
+      "interpretation": "A six-submission v2 local horizon frontier improved Team 5 public MAE to 0.7917; the public-best file is farther from the clean 0.8124 anchor than v1, so keep refs 53038036/53038040 as stronger private-risk alternatives and label all v2 files as public-chase/final-selection artifacts, not reportable method claims.",
+      "name": "Manual private-hedge frontier 2026-05-26",
+      "public_mae": "0.7917",
+      "submission": "submissions/baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "A six-submission v1 horizon frontier improved Team 5 public MAE to 0.7922 while keeping the best file closer to the clean 0.8124 anchor than the prior 0.7930 public-best; label all v1 files as public-chase/final-selection artifacts, not reportable method claims.",
+      "name": "Manual private-hedge frontier 2026-05-25",
+      "public_mae": "0.7922",
+      "submission": "submissions/baseline3_private_hedge_v1_cat35_public_early_full_late_anchor_horizon_0p3_0p4_0p55_0p75_1.csv"
+    },
+    {
+      "interpretation": "A 2026-05-24 manual six-submission hedge batch improved Team 5 public MAE to 0.7930 while adding closer-to-anchor private hedge candidates at 0.7933 and 0.7945; label all as public-chase, not reportable method claims.",
+      "name": "Manual private-hedge Baseline 3 push",
+      "public_mae": "0.7930",
+      "submission": "submissions/baseline3_private_hedge_v0_cat35_horizon_0p35_0p4_0p5_0p65_0p8.csv"
+    },
+    {
+      "interpretation": "Public-first exact-history blend crossed Baseline 3 on 2026-05-23. Treat as leaderboard/selection artifact, not a reportable legal modeling claim.",
+      "name": "Baseline 3 public-chase crossing",
+      "public_mae": "0.7991",
+      "submission": "submissions/baseline3_public_chase_v0_cat35_08124_alphap0p35.csv"
+    },
+    {
+      "interpretation": "Live leaderboard now has Team 5 ahead of Baseline 3 public MAE 0.8056 after exact-history public-chase probes; keep reportable lineage labels separate.",
+      "name": "Baseline 3 public-first push",
+      "public_mae": "0.7991",
+      "submission": null
+    },
+    {
+      "interpretation": "Nearby CatBoost-weight probe; public score regressed versus the 30% CatBoost anchor.",
+      "name": "CatBoost 35% blend",
+      "public_mae": "0.8141",
+      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_325_325_35.csv"
+    },
+    {
+      "interpretation": "Meaningful secondary private-LB hedge, but weaker than the 30% public anchor.",
+      "name": "CatBoost horizon ramp",
+      "public_mae": "0.8138",
+      "submission": "submissions/ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp.csv"
+    },
+    {
+      "interpretation": "Legal rerun, not submitted; supports the CatBoost hypothesis but does not change the anchor.",
+      "local_mae": "0.2192",
+      "name": "CatBoost tail2737 rerun",
+      "run": "experiments/20260520_111133_catboost_two_stage_catboost_lean_tail2737_regularized_500"
+    },
+    {
+      "interpretation": "Strong local diagnostic/blend input; needs Kaggle or pseudo-private evidence before becoming an anchor.",
+      "local_mae": "0.2002",
+      "name": "LGBM micro rolling rerun",
+      "run": "experiments/20260520_142456_lightgbm_two_stage_lgbm_micro_rolling_regularized_20260520"
+    },
+    {
+      "interpretation": "Risk-ranked GRU stack and raw GRU probes failed public transfer on 2026-05-23; pause GRU-family submissions.",
+      "name": "GRU family public readout",
+      "public_mae": "0.9850",
+      "submission": "submissions/submission_20260522_gru_family_constrained_stack.csv"
+    }
+  ],
+  "validation_note": "Holdout and rolling-origin local MAE are not directly comparable; Kaggle public/private leaderboard results are the external generalization checks."
 }

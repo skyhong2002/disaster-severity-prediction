@@ -1,0 +1,1387 @@
+{
+  "best_public_after_quota10_update": {
+    "alphas": [
+      0.0375,
+      0.375,
+      0.55,
+      0.725,
+      1.0
+    ],
+    "artifact_label": "public-chase",
+    "decision": "submitted_v9_frontier",
+    "kaggle_ref": 53259609,
+    "kaggle_submission": {
+      "api_date": "2026-06-01 15:24:00.860000",
+      "api_status": "SubmissionStatus.COMPLETE",
+      "date": "2026-06-01 15:24:00.860000",
+      "description": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "ref": 53259609,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259609/53259609.raw"
+    },
+    "kind": "private_robustness_horizon_hedge",
+    "label": "public-chase",
+    "mean_abs_delta_to_public_reference": 0.22109487403398392,
+    "mean_abs_delta_to_reportable_anchor": 0.19765349811660143,
+    "public_chase": true,
+    "public_mae": 0.7905,
+    "rationale": "Keeps the v8 selected week-1 setting and tests whether the v8 lower week-4 public tie transfers when paired with 0.0375.",
+    "reportable_method_claim": false,
+    "sanity": {
+      "blocked_source_pattern": false,
+      "columns_match_sample": true,
+      "nan_count": 0,
+      "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+      "prediction_max": 4.043819925941376,
+      "prediction_mean": 0.9598771534688483,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7760802670894951,
+      "region_order_match": true,
+      "rows": 2248,
+      "sha12": "38285232a483",
+      "sha256": "38285232a48373955e53c1502abd277ed6a825ef9150c9b19e38c5d6e4bb4398"
+    },
+    "sha12": "38285232a483",
+    "sha256": "38285232a48373955e53c1502abd277ed6a825ef9150c9b19e38c5d6e4bb4398",
+    "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+    "submit_message": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+    "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 170kB/s]\n"
+  },
+  "competition": "data-mining-2026-final-project",
+  "created_at_utc": "2026-06-01T15:26:50+00:00",
+  "post_submit_api_rows_top50": [
+    {
+      "date": "2026-06-01 15:26:28.957000",
+      "description": "20260601 v9 w1_0p125_w2_0p45_stronger_late_anchor 0p125_0p45_0p625_0p85_1p0",
+      "ref": 53259697,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259697/53259697.raw"
+    },
+    {
+      "date": "2026-06-01 15:26:12.660000",
+      "description": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+      "ref": 53259683,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259683/53259683.raw"
+    },
+    {
+      "date": "2026-06-01 15:25:49.107000",
+      "description": "20260601 v9 w1_0p05_w2_0p40_late_soft_anchor 0p05_0p4_0p5625_0p775_1p0",
+      "ref": 53259668,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259668/53259668.raw"
+    },
+    {
+      "date": "2026-06-01 15:25:26.273000",
+      "description": "20260601 v9 w1_0p0375_w2_0p40_late_soft_anchor 0p0375_0p4_0p5625_0p775_1p0",
+      "ref": 53259657,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259657/53259657.raw"
+    },
+    {
+      "date": "2026-06-01 15:25:09.210000",
+      "description": "20260601 v9 w1_0p05_w2_0p40_keep_shape 0p05_0p4_0p55_0p75_1p0",
+      "ref": 53259652,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259652/53259652.raw"
+    },
+    {
+      "date": "2026-06-01 15:24:47.020000",
+      "description": "20260601 v9 w1_0p05_w2_0p35_w4_0p725 0p05_0p35_0p55_0p725_1p0",
+      "ref": 53259642,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259642/53259642.raw"
+    },
+    {
+      "date": "2026-06-01 15:24:23.453000",
+      "description": "20260601 v9 w1_0p025_w2_0p35_w4_0p725 0p025_0p35_0p55_0p725_1p0",
+      "ref": 53259623,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259623/53259623.raw"
+    },
+    {
+      "date": "2026-06-01 15:24:00.860000",
+      "description": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+      "ref": 53259609,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259609/53259609.raw"
+    },
+    {
+      "date": "2026-06-01 15:23:43.523000",
+      "description": "20260601 v9 w1_0p0375_w2_0p40_keep_shape 0p0375_0p4_0p55_0p75_1p0",
+      "ref": 53259597,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259597/53259597.raw"
+    },
+    {
+      "date": "2026-06-01 15:23:19.813000",
+      "description": "20260601 v9 w1_0p0375_w2_0p35_w4_0p725 0p0375_0p35_0p55_0p725_1p0",
+      "ref": 53259586,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259586/53259586.raw"
+    },
+    {
+      "date": "2026-05-31 04:46:28.600000",
+      "description": "20260531 v8 w1_0p10_w2_0p40_stronger_late_anchor 0p1_0p4_0p6_0p825_1p0",
+      "ref": 53204319,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204319/53204319.raw"
+    },
+    {
+      "date": "2026-05-31 04:46:07.340000",
+      "description": "20260531 v8 w1_0p025_stronger_late_anchor 0p025_0p375_0p6_0p825_1p0",
+      "ref": 53204307,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204307/53204307.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:41.347000",
+      "description": "20260531 v8 w1_0p025_late_soft_anchor 0p025_0p375_0p5625_0p775_1p0",
+      "ref": 53204297,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204297/53204297.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:25.360000",
+      "description": "20260531 v8 w1_0p025_w4_0p725_keep_shape 0p025_0p375_0p55_0p725_1p0",
+      "ref": 53204292,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204292/53204292.raw"
+    },
+    {
+      "date": "2026-05-31 04:45:04.790000",
+      "description": "20260531 v8 w1_0p025_w3_0p525_keep_shape 0p025_0p375_0p525_0p75_1p0",
+      "ref": 53204287,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204287/53204287.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:48.737000",
+      "description": "20260531 v8 w1_0p025_w2_0p40_keep_shape 0p025_0p4_0p55_0p75_1p0",
+      "ref": 53204281,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204281/53204281.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:26.907000",
+      "description": "20260531 v8 w1_0p025_w2_0p35_keep_shape 0p025_0p35_0p55_0p75_1p0",
+      "ref": 53204270,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204270/53204270.raw"
+    },
+    {
+      "date": "2026-05-31 04:44:10.173000",
+      "description": "20260531 v8 w1_m0p025_keep_shape m0p025_0p375_0p55_0p75_1p0",
+      "ref": 53204263,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204263/53204263.raw"
+    },
+    {
+      "date": "2026-05-31 04:43:54.920000",
+      "description": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+      "ref": 53204258,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204258/53204258.raw"
+    },
+    {
+      "date": "2026-05-31 04:43:34.883000",
+      "description": "20260531 v8 w1_0p0125_keep_shape 0p0125_0p375_0p55_0p75_1p0",
+      "ref": 53204251,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53204251/53204251.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:45.363000",
+      "description": "20260530 v7 hedge w1_0p10_stronger_late_anchor horizon 0p1_0p375_0p6_0p825_1",
+      "ref": 53186571,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186571/53186571.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:24.677000",
+      "description": "20260530 v7 hedge w1_0p075_stronger_late_anchor horizon 0p075_0p375_0p6_0p825_1",
+      "ref": 53186562,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186562/53186562.raw"
+    },
+    {
+      "date": "2026-05-30 13:57:03.427000",
+      "description": "20260530 v7 hedge w1_0p00_keep_shape horizon 0_0p375_0p55_0p75_1",
+      "ref": 53186548,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186548/53186548.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:42.967000",
+      "description": "20260530 v7 hedge w1_0p025_late_anchor horizon 0p025_0p375_0p575_0p8_1",
+      "ref": 53186528,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186528/53186528.raw"
+    },
+    {
+      "date": "2026-05-30 13:56:17.803000",
+      "description": "20260530 v7 hedge w1_0p025_keep_shape horizon 0p025_0p375_0p55_0p75_1",
+      "ref": 53186508,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186508/53186508.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:57.257000",
+      "description": "20260530 v7 hedge w1_0p05_late_anchor horizon 0p05_0p375_0p575_0p8_1",
+      "ref": 53186493,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186493/53186493.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:36.117000",
+      "description": "20260530 v7 hedge w1_0p05_keep_shape horizon 0p05_0p375_0p55_0p75_1",
+      "ref": 53186480,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186480/53186480.raw"
+    },
+    {
+      "date": "2026-05-30 13:55:14.910000",
+      "description": "20260530 v7 hedge w1_0p075_late_anchor horizon 0p075_0p375_0p575_0p8_1",
+      "ref": 53186470,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186470/53186470.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:53.617000",
+      "description": "20260530 v7 hedge w1_0p075_keep_shape horizon 0p075_0p375_0p55_0p75_1",
+      "ref": 53186458,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186458/53186458.raw"
+    },
+    {
+      "date": "2026-05-30 13:54:37.697000",
+      "description": "20260530 v7 hedge w1_0p10_late_anchor horizon 0p1_0p375_0p575_0p8_1",
+      "ref": 53186451,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53186451/53186451.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:32.283000",
+      "description": "20260528 v5 hedge w1_0p10_keep_shape horizon 0p1_0p375_0p55_0p75_1",
+      "ref": 53110808,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53110808/53110808.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:17.537000",
+      "description": "20260528 v5 hedge w1_0p125_keep_shape horizon 0p125_0p375_0p55_0p75_1",
+      "ref": 53110803,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53110803/53110803.raw"
+    },
+    {
+      "date": "2026-05-28 08:56:01.630000",
+      "description": "20260528 v5 hedge w1_0p15_keep_shape horizon 0p15_0p375_0p55_0p75_1",
+      "ref": 53110796,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53110796/53110796.raw"
+    },
+    {
+      "date": "2026-05-28 08:49:58.693000",
+      "description": "20260528 v5 hedge w1_0p1625_keep_shape horizon 0p1625_0p375_0p55_0p75_1",
+      "ref": 53110653,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53110653/53110653.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:38.507000",
+      "description": "20260528 v4 hedge w1 0p20 late anchor",
+      "ref": 53109166,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109166/53109166.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:22.383000",
+      "description": "20260528 v4 hedge w1 0p225 late mid anchor",
+      "ref": 53109157,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109157/53109157.raw"
+    },
+    {
+      "date": "2026-05-28 07:51:07.433000",
+      "description": "20260528 v4 hedge w1 0p225 w2 mid",
+      "ref": 53109150,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109150/53109150.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:46.243000",
+      "description": "20260528 v4 hedge w1 0p175 keep shape",
+      "ref": 53109133,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109133/53109133.raw"
+    },
+    {
+      "date": "2026-05-28 07:50:26.170000",
+      "description": "20260528 v4 hedge w1 0p20 keep shape",
+      "ref": 53109122,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109122/53109122.raw"
+    },
+    {
+      "date": "2026-05-28 07:49:43.227000",
+      "description": "20260528 v4 hedge w1 0p2125 keep shape",
+      "ref": 53109107,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53109107/53109107.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:25.383000",
+      "description": "20260527 v3 hedge public best late more anchor",
+      "ref": 53075022,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53075022/53075022.raw"
+    },
+    {
+      "date": "2026-05-27 06:48:09.673000",
+      "description": "20260527 v3 hedge week3 slight down",
+      "ref": 53075011,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53075011/53075011.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:53.907000",
+      "description": "20260527 v3 hedge lower early more",
+      "ref": 53075001,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53075001/53075001.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:33.400000",
+      "description": "20260527 v3 hedge lower w2 more",
+      "ref": 53074990,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53074990/53074990.raw"
+    },
+    {
+      "date": "2026-05-27 06:47:14.090000",
+      "description": "20260527 v3 hedge lower w1 more",
+      "ref": 53074980,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53074980/53074980.raw"
+    },
+    {
+      "date": "2026-05-27 06:34:58.130000",
+      "description": "",
+      "ref": 53074655,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53074655/53074655.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:42.743000",
+      "description": "20260526 v2 hedge smooth high anchor",
+      "ref": 53038040,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53038040/53038040.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:35.330000",
+      "description": "20260526 v2 hedge balanced private",
+      "ref": 53038036,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53038036/53038036.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:29.127000",
+      "description": "20260526 v2 hedge late more anchor",
+      "ref": 53038033,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53038033/53038033.raw"
+    },
+    {
+      "date": "2026-05-26 03:36:22.333000",
+      "description": "20260526 v2 hedge lower early pair",
+      "ref": 53038031,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53038031/53038031.raw"
+    }
+  ],
+  "post_submit_cli_rows_top50": [
+    {
+      "date": "2026-06-01 15:26:28.957000",
+      "description": "20260601 v9 w1_0p125_w2_0p45_stronger_late_anchor 0p125_0p45_0p625_0p85_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p125_w2_0p45_stronger_late_anchor_horizon_0p125_0p45_0p625_0p85_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:26:12.660000",
+      "description": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:25:49.107000",
+      "description": "20260601 v9 w1_0p05_w2_0p40_late_soft_anchor 0p05_0p4_0p5625_0p775_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_late_soft_anchor_horizon_0p05_0p4_0p5625_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:25:26.273000",
+      "description": "20260601 v9 w1_0p0375_w2_0p40_late_soft_anchor 0p0375_0p4_0p5625_0p775_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_late_soft_anchor_horizon_0p0375_0p4_0p5625_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:25:09.210000",
+      "description": "20260601 v9 w1_0p05_w2_0p40_keep_shape 0p05_0p4_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_keep_shape_horizon_0p05_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:24:47.020000",
+      "description": "20260601 v9 w1_0p05_w2_0p35_w4_0p725 0p05_0p35_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p35_w4_0p725_horizon_0p05_0p35_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:24:23.453000",
+      "description": "20260601 v9 w1_0p025_w2_0p35_w4_0p725 0p025_0p35_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p025_w2_0p35_w4_0p725_horizon_0p025_0p35_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:24:00.860000",
+      "description": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:23:43.523000",
+      "description": "20260601 v9 w1_0p0375_w2_0p40_keep_shape 0p0375_0p4_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_keep_shape_horizon_0p0375_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-06-01 15:23:19.813000",
+      "description": "20260601 v9 w1_0p0375_w2_0p35_w4_0p725 0p0375_0p35_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p35_w4_0p725_horizon_0p0375_0p35_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:46:28.600000",
+      "description": "20260531 v8 w1_0p10_w2_0p40_stronger_late_anchor 0p1_0p4_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7910",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:46:07.340000",
+      "description": "20260531 v8 w1_0p025_stronger_late_anchor 0p025_0p375_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_stronger_late_anchor_horizon_0p025_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:45:41.347000",
+      "description": "20260531 v8 w1_0p025_late_soft_anchor 0p025_0p375_0p5625_0p775_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_late_soft_anchor_horizon_0p025_0p375_0p5625_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:45:25.360000",
+      "description": "20260531 v8 w1_0p025_w4_0p725_keep_shape 0p025_0p375_0p55_0p725_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w4_0p725_keep_shape_horizon_0p025_0p375_0p55_0p725_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:45:04.790000",
+      "description": "20260531 v8 w1_0p025_w3_0p525_keep_shape 0p025_0p375_0p525_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w3_0p525_keep_shape_horizon_0p025_0p375_0p525_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:44:48.737000",
+      "description": "20260531 v8 w1_0p025_w2_0p40_keep_shape 0p025_0p4_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p40_keep_shape_horizon_0p025_0p4_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:44:26.907000",
+      "description": "20260531 v8 w1_0p025_w2_0p35_keep_shape 0p025_0p35_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p025_w2_0p35_keep_shape_horizon_0p025_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:44:10.173000",
+      "description": "20260531 v8 w1_m0p025_keep_shape m0p025_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_m0p025_keep_shape_horizon_m0p025_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:43:54.920000",
+      "description": "20260531 v8 w1_0p0375_keep_shape 0p0375_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-31 04:43:34.883000",
+      "description": "20260531 v8 w1_0p0125_keep_shape 0p0125_0p375_0p55_0p75_1p0",
+      "file_name": "baseline3_private_hedge_v8_cat35_w1_0p0125_keep_shape_horizon_0p0125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:57:45.363000",
+      "description": "20260530 v7 hedge w1_0p10_stronger_late_anchor horizon 0p1_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_stronger_late_anchor_horizon_0p1_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:57:24.677000",
+      "description": "20260530 v7 hedge w1_0p075_stronger_late_anchor horizon 0p075_0p375_0p6_0p825_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_stronger_late_anchor_horizon_0p075_0p375_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:57:03.427000",
+      "description": "20260530 v7 hedge w1_0p00_keep_shape horizon 0_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p00_keep_shape_horizon_0_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:56:42.967000",
+      "description": "20260530 v7 hedge w1_0p025_late_anchor horizon 0p025_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_late_anchor_horizon_0p025_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:56:17.803000",
+      "description": "20260530 v7 hedge w1_0p025_keep_shape horizon 0p025_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p025_keep_shape_horizon_0p025_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7905",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:55:57.257000",
+      "description": "20260530 v7 hedge w1_0p05_late_anchor horizon 0p05_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_late_anchor_horizon_0p05_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:55:36.117000",
+      "description": "20260530 v7 hedge w1_0p05_keep_shape horizon 0p05_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p05_keep_shape_horizon_0p05_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:55:14.910000",
+      "description": "20260530 v7 hedge w1_0p075_late_anchor horizon 0p075_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_late_anchor_horizon_0p075_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:54:53.617000",
+      "description": "20260530 v7 hedge w1_0p075_keep_shape horizon 0p075_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p075_keep_shape_horizon_0p075_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7906",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-30 13:54:37.697000",
+      "description": "20260530 v7 hedge w1_0p10_late_anchor horizon 0p1_0p375_0p575_0p8_1",
+      "file_name": "baseline3_private_hedge_v7_cat35_w1_0p10_late_anchor_horizon_0p1_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7908",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 08:56:32.283000",
+      "description": "20260528 v5 hedge w1_0p10_keep_shape horizon 0p1_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p10_keep_shape_horizon_0p1_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7907",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 08:56:17.537000",
+      "description": "20260528 v5 hedge w1_0p125_keep_shape horizon 0p125_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p125_keep_shape_horizon_0p125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 08:56:01.630000",
+      "description": "20260528 v5 hedge w1_0p15_keep_shape horizon 0p15_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p15_keep_shape_horizon_0p15_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7910",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 08:49:58.693000",
+      "description": "20260528 v5 hedge w1_0p1625_keep_shape horizon 0p1625_0p375_0p55_0p75_1",
+      "file_name": "baseline3_private_hedge_v5_cat35_w1_0p1625_keep_shape_horizon_0p1625_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7911",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:51:38.507000",
+      "description": "20260528 v4 hedge w1 0p20 late anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_late_anchor_horizon_0p2_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:51:22.383000",
+      "description": "20260528 v4 hedge w1 0p225 late mid anchor",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_late_mid_anchor_horizon_0p225_0p375_0p565_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7916",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:51:07.433000",
+      "description": "20260528 v4 hedge w1 0p225 w2 mid",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p225_w2_mid_horizon_0p225_0p3625_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:50:46.243000",
+      "description": "20260528 v4 hedge w1 0p175 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p175_keep_shape_horizon_0p175_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7912",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:50:26.170000",
+      "description": "20260528 v4 hedge w1 0p20 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p20_keep_shape_horizon_0p2_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7913",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-28 07:49:43.227000",
+      "description": "20260528 v4 hedge w1 0p2125 keep shape",
+      "file_name": "baseline3_private_hedge_v4_cat35_w1_0p2125_keep_shape_horizon_0p2125_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7914",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:48:25.383000",
+      "description": "20260527 v3 hedge public best late more anchor",
+      "file_name": "baseline3_private_hedge_v3_cat35_public_best_late_more_anchor_horizon_0p25_0p375_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:48:09.673000",
+      "description": "20260527 v3 hedge week3 slight down",
+      "file_name": "baseline3_private_hedge_v3_cat35_week3_slight_down_horizon_0p25_0p375_0p525_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7918",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:47:53.907000",
+      "description": "20260527 v3 hedge lower early more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_early_more_horizon_0p225_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:47:33.400000",
+      "description": "20260527 v3 hedge lower w2 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w2_more_horizon_0p25_0p35_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:47:14.090000",
+      "description": "20260527 v3 hedge lower w1 more",
+      "file_name": "baseline3_private_hedge_v3_cat35_lower_w1_more_horizon_0p225_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7915",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-27 06:34:58.130000",
+      "description": "",
+      "file_name": "submission_20260526_145450_20260521_164434_lightgbm_two_stage_lgbm_v3_enhanced.csv",
+      "private_score": "",
+      "public_score": "1.0685",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-26 03:36:42.743000",
+      "description": "20260526 v2 hedge smooth high anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_smooth_high_anchor_v2_horizon_0p35_0p45_0p6_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7929",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-26 03:36:35.330000",
+      "description": "20260526 v2 hedge balanced private",
+      "file_name": "baseline3_private_hedge_v2_cat35_balanced_private_frontier_horizon_0p325_0p425_0p575_0p775_1.csv",
+      "private_score": "",
+      "public_score": "0.7925",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-26 03:36:29.127000",
+      "description": "20260526 v2 hedge late more anchor",
+      "file_name": "baseline3_private_hedge_v2_cat35_late_more_anchor_horizon_0p3_0p4_0p575_0p8_1.csv",
+      "private_score": "",
+      "public_score": "0.7923",
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "date": "2026-05-26 03:36:22.333000",
+      "description": "20260526 v2 hedge lower early pair",
+      "file_name": "baseline3_private_hedge_v2_cat35_lower_early_pair_horizon_0p25_0p375_0p55_0p75_1.csv",
+      "private_score": "",
+      "public_score": "0.7917",
+      "status": "SubmissionStatus.COMPLETE"
+    }
+  ],
+  "post_today_utc_submissions": 10,
+  "pre_existing_today_utc_submissions": 0,
+  "pre_submit_gate": {
+    "all_candidate_sanity_passed": true,
+    "blocked_source_patterns": [
+      "restored_20260522_",
+      "restored_unverified_"
+    ],
+    "blocked_sources_used": false,
+    "live_history_checked": true,
+    "pre_existing_today_utc_submissions": 0,
+    "quota_available": true
+  },
+  "private_robust_within_0p0005_of_best": {
+    "alphas": [
+      0.075,
+      0.425,
+      0.6,
+      0.825,
+      1.0
+    ],
+    "artifact_label": "public-chase",
+    "decision": "submitted_v9_frontier",
+    "kaggle_ref": 53259683,
+    "kaggle_submission": {
+      "api_date": "2026-06-01 15:26:12.660000",
+      "api_status": "SubmissionStatus.COMPLETE",
+      "date": "2026-06-01 15:26:12.660000",
+      "description": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+      "file_name": "baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+      "private_score": "",
+      "public_score": "0.7909",
+      "ref": 53259683,
+      "status": "SubmissionStatus.COMPLETE",
+      "url": "/submissions/53259683/53259683.raw"
+    },
+    "kind": "private_robustness_horizon_hedge",
+    "label": "public-chase",
+    "mean_abs_delta_to_public_reference": 0.2409949112832969,
+    "mean_abs_delta_to_reportable_anchor": 0.17775346086728844,
+    "public_chase": true,
+    "public_mae": 0.7909,
+    "rationale": "Near-public private hedge that extends the v8 selected second slot with more week-2 anchor weight.",
+    "reportable_method_claim": false,
+    "sanity": {
+      "blocked_source_pattern": false,
+      "columns_match_sample": true,
+      "nan_count": 0,
+      "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+      "prediction_max": 3.992431294280569,
+      "prediction_mean": 0.9518466415166129,
+      "prediction_min": 0.0,
+      "prediction_std_mean": 0.7773146036583659,
+      "region_order_match": true,
+      "rows": 2248,
+      "sha12": "262f683b87b6",
+      "sha256": "262f683b87b6aa8451cfcb870867ee98ebc4b6b3b417a71db2d811bb09df0f86"
+    },
+    "sha12": "262f683b87b6",
+    "sha256": "262f683b87b6aa8451cfcb870867ee98ebc4b6b3b417a71db2d811bb09df0f86",
+    "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+    "submit_message": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+    "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 177kB/s]\n"
+  },
+  "quota_limit_20260601_utc": 10,
+  "readout": "experiments/baseline3_push_20260523/private_hedge_frontier_20260601_quota_20260601_2325/frontier_readout.json",
+  "submitted_results": [
+    {
+      "alphas": [
+        0.0375,
+        0.35,
+        0.55,
+        0.725,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259586,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:23:19.813000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:23:19.813000",
+        "description": "20260601 v9 w1_0p0375_w2_0p35_w4_0p725 0p0375_0p35_0p55_0p725_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p35_w4_0p725_horizon_0p0375_0p35_0p55_0p725_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53259586,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259586/53259586.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.21896574285512144,
+      "mean_abs_delta_to_reportable_anchor": 0.19978262929546392,
+      "public_chase": true,
+      "public_mae": 0.7905,
+      "rationale": "Crosses the three v8 displayed-public tie signals: selected 0.0375 week-1, lower week-2 anchor, and lower week-4 anchor.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p35_w4_0p725_horizon_0p0375_0p35_0p55_0p725_1.csv",
+        "prediction_max": 4.043819925941376,
+        "prediction_mean": 0.9607064424826298,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7761574527928978,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "5b157f279d2b",
+        "sha256": "5b157f279d2b514690ce32ba9c51c181940b6821fe08ffa8d9d9fe73df0d29d9"
+      },
+      "sha12": "5b157f279d2b",
+      "sha256": "5b157f279d2b514690ce32ba9c51c181940b6821fe08ffa8d9d9fe73df0d29d9",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p35_w4_0p725_horizon_0p0375_0p35_0p55_0p725_1.csv",
+      "submit_message": "20260601 v9 w1_0p0375_w2_0p35_w4_0p725 0p0375_0p35_0p55_0p725_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 169kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.0375,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259597,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:23:43.523000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:23:43.523000",
+        "description": "20260601 v9 w1_0p0375_w2_0p40_keep_shape 0p0375_0p4_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_keep_shape_horizon_0p0375_0p4_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53259597,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259597/53259597.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.225248021522715,
+      "mean_abs_delta_to_reportable_anchor": 0.19350035062787035,
+      "public_chase": true,
+      "public_mae": 0.7906,
+      "rationale": "Keeps the v8 selected week-1 setting but moves week 2 toward the clean anchor to reduce private-risk distance.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_keep_shape_horizon_0p0375_0p4_0p55_0p75_1.csv",
+        "prediction_max": 4.043819925941376,
+        "prediction_mean": 0.9581955596389674,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7763673001903694,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "43091b79466b",
+        "sha256": "43091b79466bb275ad9690b7d6845ef8cea5123017edb23886daa7d558723122"
+      },
+      "sha12": "43091b79466b",
+      "sha256": "43091b79466bb275ad9690b7d6845ef8cea5123017edb23886daa7d558723122",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_keep_shape_horizon_0p0375_0p4_0p55_0p75_1.csv",
+      "submit_message": "20260601 v9 w1_0p0375_w2_0p40_keep_shape 0p0375_0p4_0p55_0p75_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 169kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.0375,
+        0.375,
+        0.55,
+        0.725,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259609,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:24:00.860000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:24:00.860000",
+        "description": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53259609,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259609/53259609.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.22109487403398392,
+      "mean_abs_delta_to_reportable_anchor": 0.19765349811660143,
+      "public_chase": true,
+      "public_mae": 0.7905,
+      "rationale": "Keeps the v8 selected week-1 setting and tests whether the v8 lower week-4 public tie transfers when paired with 0.0375.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+        "prediction_max": 4.043819925941376,
+        "prediction_mean": 0.9598771534688483,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7760802670894951,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "38285232a483",
+        "sha256": "38285232a48373955e53c1502abd277ed6a825ef9150c9b19e38c5d6e4bb4398"
+      },
+      "sha12": "38285232a483",
+      "sha256": "38285232a48373955e53c1502abd277ed6a825ef9150c9b19e38c5d6e4bb4398",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w4_0p725_keep_shape_horizon_0p0375_0p375_0p55_0p725_1.csv",
+      "submit_message": "20260601 v9 w1_0p0375_w4_0p725_keep_shape 0p0375_0p375_0p55_0p725_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 170kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.025,
+        0.35,
+        0.55,
+        0.725,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259623,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:24:23.453000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:24:23.453000",
+        "description": "20260601 v9 w1_0p025_w2_0p35_w4_0p725 0p025_0p35_0p55_0p725_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p025_w2_0p35_w4_0p725_horizon_0p025_0p35_0p55_0p725_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53259623,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259623/53259623.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.21788074980777222,
+      "mean_abs_delta_to_reportable_anchor": 0.20086762234281313,
+      "public_chase": true,
+      "public_mae": 0.7905,
+      "rationale": "Combines the v8 same-score lower week-2 and lower week-4 public probes around the original v7 public-best week-1.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p025_w2_0p35_w4_0p725_horizon_0p025_0p35_0p55_0p725_1.csv",
+        "prediction_max": 4.060949469828311,
+        "prediction_mean": 0.9611295096686213,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7764387102530149,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "b2eba6486837",
+        "sha256": "b2eba6486837ef7e1021400ef377178e45ade4e5f02b14d106d75eaa8b07d2ec"
+      },
+      "sha12": "b2eba6486837",
+      "sha256": "b2eba6486837ef7e1021400ef377178e45ade4e5f02b14d106d75eaa8b07d2ec",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p025_w2_0p35_w4_0p725_horizon_0p025_0p35_0p55_0p725_1.csv",
+      "submit_message": "20260601 v9 w1_0p025_w2_0p35_w4_0p725 0p025_0p35_0p55_0p725_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 171kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.05,
+        0.35,
+        0.55,
+        0.725,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259642,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:24:47.020000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:24:47.020000",
+        "description": "20260601 v9 w1_0p05_w2_0p35_w4_0p725 0p05_0p35_0p55_0p725_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p35_w4_0p725_horizon_0p05_0p35_0p55_0p725_1.csv",
+        "private_score": "",
+        "public_score": "0.7905",
+        "ref": 53259642,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259642/53259642.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.22005073590247068,
+      "mean_abs_delta_to_reportable_anchor": 0.19869763624811468,
+      "public_chase": true,
+      "public_mae": 0.7905,
+      "rationale": "Boundary point just to the right of the v8 public-tie cluster, useful if week-1 0.0375 is under-anchored on private.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p35_w4_0p725_horizon_0p05_0p35_0p55_0p725_1.csv",
+        "prediction_max": 4.02669038205444,
+        "prediction_mean": 0.9602833752966383,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7758874383575195,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "2993e16cf7b1",
+        "sha256": "2993e16cf7b138a6a5477de7a8128a10a81a4ab2458428c2223d1071aeef234f"
+      },
+      "sha12": "2993e16cf7b1",
+      "sha256": "2993e16cf7b138a6a5477de7a8128a10a81a4ab2458428c2223d1071aeef234f",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p35_w4_0p725_horizon_0p05_0p35_0p55_0p725_1.csv",
+      "submit_message": "20260601 v9 w1_0p05_w2_0p35_w4_0p725 0p05_0p35_0p55_0p725_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 169kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.05,
+        0.4,
+        0.55,
+        0.75,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259652,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:25:09.210000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:25:09.210000",
+        "description": "20260601 v9 w1_0p05_w2_0p40_keep_shape 0p05_0p4_0p55_0p75_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_keep_shape_horizon_0p05_0p4_0p55_0p75_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53259652,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259652/53259652.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.22633301457006424,
+      "mean_abs_delta_to_reportable_anchor": 0.1924153575805211,
+      "public_chase": true,
+      "public_mae": 0.7906,
+      "rationale": "Private-safer local point near the v8 selected public tie, increasing early-horizon anchor without changing late shape.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_keep_shape_horizon_0p05_0p4_0p55_0p75_1.csv",
+        "prediction_max": 4.02669038205444,
+        "prediction_mean": 0.9577724924529759,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.776097285754991,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "ddcbd1e7853e",
+        "sha256": "ddcbd1e7853eba3072e7cdd33c173fc84904e7eeb5a1ab514138d70ba1251d6f"
+      },
+      "sha12": "ddcbd1e7853e",
+      "sha256": "ddcbd1e7853eba3072e7cdd33c173fc84904e7eeb5a1ab514138d70ba1251d6f",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_keep_shape_horizon_0p05_0p4_0p55_0p75_1.csv",
+      "submit_message": "20260601 v9 w1_0p05_w2_0p40_keep_shape 0p05_0p4_0p55_0p75_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 171kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.0375,
+        0.4,
+        0.5625,
+        0.775,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259657,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:25:26.273000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:25:26.273000",
+        "description": "20260601 v9 w1_0p0375_w2_0p40_late_soft_anchor 0p0375_0p4_0p5625_0p775_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_late_soft_anchor_horizon_0p0375_0p4_0p5625_0p775_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53259657,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259657/53259657.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.22834472046010007,
+      "mean_abs_delta_to_reportable_anchor": 0.1904036516904853,
+      "public_chase": true,
+      "public_mae": 0.7906,
+      "rationale": "Private-robust soft late-anchor hedge at the v8 selected week-1 setting with extra week-2 protection.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_late_soft_anchor_horizon_0p0375_0p4_0p5625_0p775_1.csv",
+        "prediction_max": 4.043819925941376,
+        "prediction_mean": 0.9569198765472929,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7768357434570043,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "a304c903000d",
+        "sha256": "a304c903000d7a2db01e7b6df43d2056ad21ad5edfa584b01bbb5688cf2110ed"
+      },
+      "sha12": "a304c903000d",
+      "sha256": "a304c903000d7a2db01e7b6df43d2056ad21ad5edfa584b01bbb5688cf2110ed",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p0375_w2_0p40_late_soft_anchor_horizon_0p0375_0p4_0p5625_0p775_1.csv",
+      "submit_message": "20260601 v9 w1_0p0375_w2_0p40_late_soft_anchor 0p0375_0p4_0p5625_0p775_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 171kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.05,
+        0.4,
+        0.5625,
+        0.775,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259668,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:25:49.107000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:25:49.107000",
+        "description": "20260601 v9 w1_0p05_w2_0p40_late_soft_anchor 0p05_0p4_0p5625_0p775_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_late_soft_anchor_horizon_0p05_0p4_0p5625_0p775_1.csv",
+        "private_score": "",
+        "public_score": "0.7906",
+        "ref": 53259668,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259668/53259668.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.2294297135074493,
+      "mean_abs_delta_to_reportable_anchor": 0.189318658643136,
+      "public_chase": true,
+      "public_mae": 0.7906,
+      "rationale": "Slightly more anchored version of the soft late-anchor hedge for the second Static Private slot.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_late_soft_anchor_horizon_0p05_0p4_0p5625_0p775_1.csv",
+        "prediction_max": 4.02669038205444,
+        "prediction_mean": 0.9564968093613014,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7765657290216261,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "87c19ce24e72",
+        "sha256": "87c19ce24e72e664f8fdf57acf6dc05a01733a0f876050c907867bb1fb001e1e"
+      },
+      "sha12": "87c19ce24e72",
+      "sha256": "87c19ce24e72e664f8fdf57acf6dc05a01733a0f876050c907867bb1fb001e1e",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p05_w2_0p40_late_soft_anchor_horizon_0p05_0p4_0p5625_0p775_1.csv",
+      "submit_message": "20260601 v9 w1_0p05_w2_0p40_late_soft_anchor 0p05_0p4_0p5625_0p775_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 176kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.075,
+        0.425,
+        0.6,
+        0.825,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259683,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:26:12.660000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:26:12.660000",
+        "description": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+        "private_score": "",
+        "public_score": "0.7909",
+        "ref": 53259683,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259683/53259683.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.2409949112832969,
+      "mean_abs_delta_to_reportable_anchor": 0.17775346086728844,
+      "public_chase": true,
+      "public_mae": 0.7909,
+      "rationale": "Near-public private hedge that extends the v8 selected second slot with more week-2 anchor weight.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+        "prediction_max": 3.992431294280569,
+        "prediction_mean": 0.9518466415166129,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7773146036583659,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "262f683b87b6",
+        "sha256": "262f683b87b6aa8451cfcb870867ee98ebc4b6b3b417a71db2d811bb09df0f86"
+      },
+      "sha12": "262f683b87b6",
+      "sha256": "262f683b87b6aa8451cfcb870867ee98ebc4b6b3b417a71db2d811bb09df0f86",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv",
+      "submit_message": "20260601 v9 w1_0p075_w2_0p425_stronger_late_anchor 0p075_0p425_0p6_0p825_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 177kB/s]\n"
+    },
+    {
+      "alphas": [
+        0.125,
+        0.45,
+        0.625,
+        0.85,
+        1.0
+      ],
+      "artifact_label": "public-chase",
+      "decision": "submitted_v9_frontier",
+      "kaggle_ref": 53259697,
+      "kaggle_submission": {
+        "api_date": "2026-06-01 15:26:28.957000",
+        "api_status": "SubmissionStatus.COMPLETE",
+        "date": "2026-06-01 15:26:28.957000",
+        "description": "20260601 v9 w1_0p125_w2_0p45_stronger_late_anchor 0p125_0p45_0p625_0p85_1p0",
+        "file_name": "baseline3_private_hedge_v9_cat35_w1_0p125_w2_0p45_stronger_late_anchor_horizon_0p125_0p45_0p625_0p85_1.csv",
+        "private_score": "",
+        "public_score": "0.7914",
+        "ref": 53259697,
+        "status": "SubmissionStatus.COMPLETE",
+        "url": "/submissions/53259697/53259697.raw"
+      },
+      "kind": "private_robustness_horizon_hedge",
+      "label": "public-chase",
+      "mean_abs_delta_to_public_reference": 0.25163339621645786,
+      "mean_abs_delta_to_reportable_anchor": 0.16711497593412744,
+      "public_chase": true,
+      "public_mae": 0.7914,
+      "rationale": "Most conservative v9 hedge; intended to lower private flip risk if the public plateau is overfit.",
+      "reportable_method_claim": false,
+      "sanity": {
+        "blocked_source_pattern": false,
+        "columns_match_sample": true,
+        "nan_count": 0,
+        "path": "submissions/baseline3_private_hedge_v9_cat35_w1_0p125_w2_0p45_stronger_late_anchor_horizon_0p125_0p45_0p625_0p85_1.csv",
+        "prediction_max": 3.926198666135976,
+        "prediction_mean": 0.947626022391616,
+        "prediction_min": 0.0,
+        "prediction_std_mean": 0.7773069454402067,
+        "region_order_match": true,
+        "rows": 2248,
+        "sha12": "458c8d1b7f68",
+        "sha256": "458c8d1b7f687dfe391ab6b7848ed15c6f76674d657d8f3d291227945a44f0ec"
+      },
+      "sha12": "458c8d1b7f68",
+      "sha256": "458c8d1b7f687dfe391ab6b7848ed15c6f76674d657d8f3d291227945a44f0ec",
+      "submission": "submissions/baseline3_private_hedge_v9_cat35_w1_0p125_w2_0p45_stronger_late_anchor_horizon_0p125_0p45_0p625_0p85_1.csv",
+      "submit_message": "20260601 v9 w1_0p125_w2_0p45_stronger_late_anchor 0p125_0p45_0p625_0p85_1p0",
+      "submit_stdout_stderr": "Successfully submitted to Data Mining Final Project (2026 Spring)\n  0%|          | 0.00/219k [00:00<?, ?B/s]\n100%|██████████| 219k/219k [00:01<00:00, 169kB/s]\n"
+    }
+  ]
+}

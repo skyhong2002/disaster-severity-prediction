@@ -343,7 +343,7 @@ to the main claim.
 
 \subsection{Leaderboard and Final-Selection Readout}
 Table~\ref{tab:leaderboard} shows the relevant public leaderboard snapshot
-after the 2026-05-31 v8 frontier submissions. The public leaderboard is useful for
+after the 2026-06-01 v9 frontier submissions. The public leaderboard is useful for
 Kaggle placement, but it can also reward overfitting to public feedback.
 Therefore we report two separate artifacts: the reportable model lineage and
 the selected public-chase artifact. A 5/29 static private snapshot also showed
@@ -359,14 +359,15 @@ artifact and a near-public private-robust hedge.
 \hline
 \textbf{Entry} & \textbf{Public MAE} & \textbf{Rank} \\
 \hline
-Team 3 & 0.7628 & 1 \\
-Team 15 & 0.7799 & 2 \\
-Team 4 & 0.7810 & 3 \\
-Team 20 & 0.7836 & 4 \\
-\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{5} \\
-Team 1 & 0.7909 & 6 \\
-Team 2 & 0.7955 & 7 \\
-Baseline 3 & 0.8056 & 8 \\
+Team 2 & 0.7598 & 1 \\
+Team 3 & 0.7628 & 2 \\
+Team 15 & 0.7754 & 3 \\
+Team 4 & 0.7810 & 4 \\
+Team 20 & 0.7836 & 5 \\
+\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{6} \\
+Team 1 & 0.7909 & 7 \\
+Team 11 & 0.8031 & 8 \\
+Baseline 3 & 0.8056 & 9 \\
 Team 5 reportable lineage & 0.8124 & -- \\
 Baseline 2 & 0.8623 & -- \\
 Baseline 1 & 0.9117 & -- \\
@@ -380,20 +381,22 @@ The selected public-chase artifact is
 exact-history horizon hedge moving the recovered 0.8094 public reference toward
 the clean 0.8124 anchor by horizon alphas
 $[0.0375,0.375,0.55,0.75,1.00]$. It is useful for final selection, but it is
-not a new reportable training algorithm. The strongest same-day private-risk
+not a new reportable training algorithm. The current near-public private-risk
 alternative selected for the second Static Private slot is
-\path{submissions/baseline3_private_hedge_v8_cat35_w1_0p10_w2_0p40_stronger_late_anchor_horizon_0p1_0p4_0p6_0p825_1.csv}
-(Kaggle ref 53204319, SHA-12 a5a5e9188d9e, public MAE 0.7910). Its horizon
-alphas are $[0.10,0.40,0.60,0.825,1.00]$, so it gives up only 0.0005 displayed
-public MAE while moving week 2 and later horizons closer to the clean anchor.
-The previous v7 pair, refs 53186508 and 53186571, remains a fallback if the
+\path{submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv}
+(Kaggle ref 53259683, SHA-12 262f683b87b6, public MAE 0.7909). Its horizon
+alphas are $[0.075,0.425,0.60,0.825,1.00]$, so it gives up only 0.0004
+displayed public MAE while moving week 2 and later horizons closer to the clean
+anchor. The v8 private hedge ref 53204319 remains the pure-delta fallback, and
+the previous v7 pair, refs 53186508 and 53186571, remains a fallback if the
 team wants the earlier manual selection.
 
 Because private leaderboard risk remains possible, the post-crossing workflow did
-not stop at the public crossing. The v8 follow-up consumed the expanded
-10/day quota on 2026-05-31 after all files passed sanity checks; the current
-manual final-selection recommendation is to select refs 53204258 and 53204319.
-These files are sanity-checked final-selection artifacts only, not new
+not stop at the public crossing. The v9 follow-up consumed the expanded
+10/day quota on 2026-06-01 after all files passed sanity checks; the current
+manual final-selection recommendation is to select refs 53204258 and 53259683.
+Ref 53038036 remains a stronger private fallback if a larger public gap is
+acceptable. These files are sanity-checked final-selection artifacts only, not new
 reportable model claims.
 
 The reportable artifact remains

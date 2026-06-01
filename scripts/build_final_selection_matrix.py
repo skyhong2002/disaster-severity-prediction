@@ -80,6 +80,7 @@ def collect_submitted(ledger: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, int | None]] = set()
     for key in [
+        "private_hedge_curve_20260601",
         "private_hedge_curve_20260531",
         "private_hedge_curve_20260530",
         "private_hedge_curve_20260528",
@@ -153,7 +154,7 @@ def write_markdown(path: Path, payload: dict[str, Any]) -> None:
     static_rec = rec["static_private_selection"]
     queue = payload["queue_readout"]
     lines = [
-        "# Final Selection Matrix 2026-05-31",
+        "# Final Selection Matrix 2026-06-01",
         "",
         f"- Created UTC: `{payload['created_at_utc']}`",
         f"- Live Team 5 public MAE: `{payload['live_context']['team5_public_mae']}`",
@@ -226,7 +227,7 @@ def main() -> int:
     parser.add_argument(
         "--out-dir",
         type=Path,
-        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260531_1255",
+        default=ROOT / "experiments" / "baseline3_push_20260523" / "final_selection_matrix_20260601_2335",
     )
     args = parser.parse_args()
 
@@ -245,6 +246,7 @@ def main() -> int:
     active_frontier_key = next(
         key
         for key in [
+            "private_hedge_curve_20260601",
             "private_hedge_curve_20260531",
             "private_hedge_curve_20260530",
             "private_hedge_curve_20260528",
@@ -288,8 +290,10 @@ def main() -> int:
         ),
     )
     queue_readout = collect_queue_items(queue, backup)
-    quota_context = ledger.get("private_hedge_frontier_20260531_quota") or ledger.get(
-        "private_hedge_frontier_20260530_quota", {}
+    quota_context = (
+        ledger.get("private_hedge_frontier_20260601_quota")
+        or ledger.get("private_hedge_frontier_20260531_quota")
+        or ledger.get("private_hedge_frontier_20260530_quota", {})
     )
     static_private_context = ledger.get("static_private_snapshot_20260529", {})
     payload = {
@@ -338,12 +342,12 @@ def main() -> int:
         },
         "queue_readout": queue_readout,
         "next_quota_rules": [
-            "Current 2026-05-31 UTC quota is 10/10 used after the v8 quota-10 frontier.",
-            "For Static Private / final-selection UI, manually select refs 53204258 and 53204319; do not rely only on auto-selection.",
-            "Live-gate Kaggle submission history and leaderboard after 2026-06-01T08:00:00+08:00 Taipei before spending any new quota.",
+            "Current 2026-06-01 UTC quota is 10/10 used after the v9 quota-10 frontier.",
+            "For Static Private / final-selection UI, manually select refs 53204258 and 53259683; do not rely only on auto-selection.",
+            "Live-gate Kaggle submission history and leaderboard after 2026-06-02T08:00:00+08:00 Taipei before spending any new quota.",
             "Do not resubmit the teammate file: live history already confirms ref 53074655 / public 1.0685 for the same artifact.",
-            "Use the v7 pair refs 53186508/53186571 as fallback if the UI or team policy prefers the previous manually selected Static Private pair.",
-            "Do not describe any v5/v6/v7/v8 public-chase artifact as a reportable method claim.",
+            "Use the v8 pair refs 53204258/53204319 or the v7 pair refs 53186508/53186571 as fallback if the UI or team policy prefers a previous manually selected Static Private pair.",
+            "Do not describe any v5/v6/v7/v8/v9 public-chase artifact as a reportable method claim.",
         ],
     }
     args.out_dir.mkdir(parents=True, exist_ok=True)

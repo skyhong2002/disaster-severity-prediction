@@ -1,3 +1,6 @@
+% Course-provided IEEE Overleaf template structure:
+% IEEEtran conference class, original two-column layout, and no manual
+% font-size or line-spacing changes.
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 \usepackage{cite}
@@ -341,10 +344,43 @@ the season-matched LGBM shift run, reached rolling MAE 0.24574 and blind MAE
 poorly to public LB. We therefore kept it diagnostic rather than promoting it
 to the main claim.
 
+Table~\ref{tab:param_sensitivity} summarizes the main knobs that we changed
+after inspecting either validation failures or live Kaggle feedback. These were
+not blind automatic sweeps: each round changed a small number of weights or
+feature contracts, then we decided whether the new evidence was reportable,
+diagnostic, or only useful for final selection.
+
+\begin{table}[h]
+\centering
+\caption{Parameter Sensitivity Checks}
+\label{tab:param_sensitivity}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{p{0.26\columnwidth}p{0.34\columnwidth}p{0.30\columnwidth}}
+\hline
+\textbf{Knob} & \textbf{Values or variants tried} & \textbf{Readout and decision} \\
+\hline
+CatBoost blend weight & 10, 20, 30, 35, and 40\% CatBoost inside the
+LGB/XGB/Cat family & Public MAE was 0.8163, 0.8126, \textbf{0.8124}, 0.8141,
+and 0.8168, so 30\% became the reportable anchor. \\
+Horizon-specific CatBoost ramp & More CatBoost weight on later forecast weeks &
+Public MAE 0.8138; useful robustness probe, but weaker than 35/35/30. \\
+Feature groups & Dropped climatology, score history, long drought proxies,
+domain indices, and region stats in LGBM lean tail1095 & Score history and long
+drought proxies were essential; the climatology drop improved rolling MAE but
+failed blind validation. \\
+Public-chase horizon alphas & Moved exact public-strong history toward the clean
+0.8124 anchor, then adjusted early-week and late-week anchor weights & Public
+MAE improved from 0.8049 to 0.7991, then to 0.7930 and finally 0.7905; label as
+public-chase, not reportable method evidence. \\
+\hline
+\end{tabular}
+\end{table}
+
 \subsection{Leaderboard and Final-Selection Readout}
 Table~\ref{tab:leaderboard} shows the relevant public leaderboard snapshot
-after the 2026-06-01 v9 frontier submissions. The public leaderboard is useful for
-Kaggle placement, but it can also reward overfitting to public feedback.
+from a live Kaggle CLI re-check on 2026-06-04. The public leaderboard is useful
+for Kaggle placement, but it can also reward overfitting to public feedback.
 Therefore we report two separate artifacts: the reportable model lineage and
 the selected public-chase artifact. A 5/29 static private snapshot also showed
 Team 5 at rank 5, so the final-selection decision keeps both a public-best
@@ -359,15 +395,18 @@ artifact and a near-public private-robust hedge.
 \hline
 \textbf{Entry} & \textbf{Public MAE} & \textbf{Rank} \\
 \hline
-Team 2 & 0.7598 & 1 \\
-Team 3 & 0.7628 & 2 \\
-Team 15 & 0.7754 & 3 \\
-Team 4 & 0.7810 & 4 \\
-Team 20 & 0.7836 & 5 \\
-\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{6} \\
-Team 1 & 0.7909 & 7 \\
-Team 11 & 0.8031 & 8 \\
-Baseline 3 & 0.8056 & 9 \\
+Team 10 & 0.7371 & 1 \\
+Team 2 & 0.7598 & 2 \\
+Team 3 & 0.7628 & 3 \\
+Team 15 & 0.7754 & 4 \\
+Team 4 & 0.7810 & 5 \\
+Team 20 & 0.7836 & 6 \\
+Team 14 & 0.7904 & 7 \\
+\textbf{Team 5 public-chase} & \textbf{0.7905} & \textbf{8} \\
+Team 1 & 0.7909 & 9 \\
+Team 11 & 0.8010 & 10 \\
+Team 8 & 0.8027 & 11 \\
+Baseline 3 & 0.8056 & 12 \\
 Team 5 reportable lineage & 0.8124 & -- \\
 Baseline 2 & 0.8623 & -- \\
 Baseline 1 & 0.9117 & -- \\
@@ -432,6 +471,12 @@ using public feedback around exact historical artifacts. This is acceptable for
 Kaggle final selection if the competition UI allows selecting the submitted
 artifact, but it should not be described as evidence that the supervised
 training method itself reached 0.7905.
+
+In plain language, our final interpretation is that the strongest transferable
+modeling idea is still the leakage-safe boosted-tree ensemble, while the best
+Kaggle score comes from small, manually reviewed horizon-weight adjustments
+around known submitted shapes. That is why the report keeps the 0.7905 and
+0.8124 numbers side by side instead of merging them into one claim.
 
 \section{Conclusion}
 We built a leakage-aware drought severity forecasting pipeline for the Data

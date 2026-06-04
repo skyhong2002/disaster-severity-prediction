@@ -313,8 +313,12 @@ previous run. The report can then be updated by comparing the JSON summaries.
 ---
 
 ## 8. Report
-Report is in `report/main.tex` (IEEE format).  
-Upload to [Overleaf](https://www.overleaf.com) → New Project → Upload `.tex` file.  
+Report is in `report/main.tex` (IEEE format).<br>
+It keeps the course-provided IEEE Overleaf template structure (`IEEEtran`
+conference class, two-column layout, no manual font-size or line-spacing
+changes).<br>
+Upload through the assignment-provided IEEE Overleaf project/link, or upload the
+same `.tex` and `IEEEtran.cls` files to [Overleaf](https://www.overleaf.com).<br>
 Submit PDF via E3 as `DM_project_Group_5.pdf` by June 10.
 
 ---

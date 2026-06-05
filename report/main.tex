@@ -291,14 +291,60 @@ Score NaN ratio & 85.73\% & N/A \\
 \end{tabular}
 \end{table}
 
-Train-test distribution analysis showed that the real test window is not a
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{eda_overview.png}
+\caption{Exploratory data analysis from raw train/test files. The observed
+weekly labels are sparse and imbalanced; score 0 accounts for 59.63\% of labeled
+rows, while scores 4 and 5 together account for only 5.77\%. The weather panels
+show that the public test window is warmer and precipitation-light relative to
+the full training sample.}
+\label{fig:eda_overview}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{train_test_shift.png}
+\caption{Train-test shift against the stricter same-region, same-month-day
+previous-year baseline. The left panel uses standardized mean deltas so features
+with different units are comparable; the right panel shows PSI. Long-window rain
+and dry-day features shift more than most daily raw variables, motivating
+rolling drought proxies and season-matched validation.}
+\label{fig:train_test_shift}
+\end{figure*}
+
+The raw label table is not a dense daily target. Only 1,757,936 training rows
+have an observed weekly score, matching the 85.73\% score-missing ratio in
+Table~\ref{tab:data}. Among observed labels, the target is heavily imbalanced:
+59.63\% are score 0, 17.26\% are score 1, and only 1.82\% are score 5. This
+distribution shaped the metric strategy. MAE can be improved by predicting the
+dominant low-severity class, but the private leaderboard can punish models that
+miss rare high-severity regions. For this reason, blind backtests also tracked
+zero-score, nonzero-score, and high-severity slices instead of relying only on
+the overall average.
+
+The original weather fields also show useful seasonality and distribution
+shift, shown in Fig.~\ref{fig:eda_overview}. Mean labeled score is lowest around
+May--June (about 0.75) and highest around August (about 0.94), and the
+positive-label rate follows the same seasonal pattern. The test weather
+distribution is visibly warmer than the full training sample and has a large
+mass at zero precipitation. Therefore, month features alone are insufficient:
+the model also needs recent rolling weather summaries, precipitation deficit
+features, heat-dryness interactions, and a validation design that compares the
+test period to seasonally matched historical windows.
+
+Train-test distribution analysis confirmed that the real test window is not a
 simple continuation of the global training distribution. Compared with the
 recent 1,095-day training tail, test is hotter by about 5.35 degrees on average
 and slightly drier by precipitation and dry-day indicators. Against the stricter
 same-region, same-month-day previous-year baseline, daily precipitation drops
-from 3.250 to 1.925, dry-day share rises from 0.403 to 0.487, and 90-day
-precipitation falls from 277.676 to 223.710. This motivated tail-length,
-season-matching, and drought-proxy experiments rather than all-history training.
+from 3.250 to 1.925, dry-day share rises from 0.403 to 0.487, 90-day
+precipitation falls from 277.676 to 223.710, and 90-day dry days rise from
+35.592 to 43.770. Figure~\ref{fig:train_test_shift} also shows that 90-day rain
+days have the largest PSI among the plotted variables (0.663), followed by
+90-day dry days (0.463). This motivated tail-length, season-matching, and
+drought-proxy experiments rather than all-history training.
+
 This directly matches the course suggestion to treat seasonality, recent-year
 importance, and data-range choice as first-class modeling decisions. However,
 we did not automatically choose the most recent-tail candidate: several
@@ -320,15 +366,79 @@ modeling change but improved the reproducible public score from 0.8232 to
 0.8124.
 
 \subsection{Feature and Validation Ablations}
-Feature ablations with LightGBM lean tail1095 clarified which signals were
-essential. Removing score-history features degraded rolling MAE by about
-0.052, confirming that old severity labels encode persistent regional drought
-state and unobserved geography. Removing long drought proxies caused a similar
-degradation, showing that accumulated rain deficit, dry streaks, and thermal
-stress are not redundant with short lags. Removing climatology improved rolling
-MAE by 0.0078, but failed the blind backtest with MAE 0.4463 versus the baseline
-blind anchor 0.3549. This was a concrete example where local validation alone
-would have selected the wrong model.
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{feature_ablation.png}
+\caption{LightGBM lean tail1095 feature ablation. The left panel compares
+rolling-origin average MAE against the baseline; the right panel shows how the
+largest feature removals affect each forecast horizon.}
+\label{fig:feature_ablation}
+\end{figure*}
+
+\begin{table*}[!t]
+\centering
+\caption{LightGBM Lean Tail1095 Feature Ablation Details}
+\label{tab:feature_ablation}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{p{0.17\textwidth}rrrrrrrp{0.27\textwidth}}
+\hline
+\textbf{Run} & \textbf{Feat.} & \textbf{Avg} & \textbf{$\Delta$} &
+\textbf{W1} & \textbf{W2} & \textbf{W3} & \textbf{W4/W5} &
+\textbf{Readout} \\
+\hline
+\path{minus_climatology} & 386 & 0.3046 & -0.0078 & 0.2711 &
+0.2868 & 0.3094 & 0.3189/0.3368 & Local improvement, but blind MAE
+0.4463 vs. baseline blind 0.3549; rejected. \\
+\path{baseline} & 401 & 0.3124 & +0.0000 & 0.2865 & 0.2960 &
+0.3215 & 0.3275/0.3305 & Reference configuration. \\
+\path{minus_region_stats} & 401 & 0.3124 & +0.0000 & 0.2865 &
+0.2960 & 0.3215 & 0.3275/0.3305 & No-op because region stats were
+disabled in this profile. \\
+\path{minus_domain_indices} & 367 & 0.3144 & +0.0020 & 0.2794 &
+0.2958 & 0.3211 & 0.3217/0.3541 & Small average loss; week 5 worsens,
+so not promoted. \\
+\path{minus_long_drought_proxy} & 380 & 0.3645 & +0.0521 & 0.3625 &
+0.3683 & 0.3568 & 0.3601/0.3748 & Reject; accumulated drought proxies
+carry strong signal. \\
+\path{minus_score_history} & 379 & 0.3645 & +0.0521 & 0.3446 &
+0.3479 & 0.3630 & 0.3758/0.3914 & Reject; 91-day-gapped score history
+captures persistent regional state. \\
+\hline
+\end{tabular}
+\end{table*}
+
+Feature ablations with LightGBM lean tail1095 were designed as controlled
+removals, not as a large leaderboard sweep. The baseline used 401 feature
+columns, train-tail-days 1095, recency half-life 1095, three rolling-origin
+folds, and refit-full training. Table~\ref{tab:feature_ablation} and
+Fig.~\ref{fig:feature_ablation} show the detailed readout.
+
+The largest negative controls were \texttt{minus\_score\_history} and
+\texttt{minus\_long\_drought\_proxy}. Removing either group degraded average rolling
+MAE by about 0.052. The horizon shape is also informative:
+\texttt{minus\_score\_history} becomes worse toward weeks 4--5, suggesting that
+old drought severity labels encode slow regional vulnerability and unobserved
+geography, while \texttt{minus\_long\_drought\_proxy} hurts every horizon because
+accumulated rain deficit, dry streaks, and heat stress are not redundant with
+short weather lags.
+
+The most important false positive was \texttt{minus\_climatology}. It improved
+rolling-origin MAE from 0.3124 to 0.3046, which would normally look like a
+clean feature-pruning win. However, its Kaggle-like blind backtest deteriorated
+to 0.4463, compared with 0.3549 for the baseline blind LGBM anchor. It also had
+high-severity blind MAE 1.7394. This result changed the selection rule: a
+feature group could be dropped only if it improved both rolling validation and
+blind validation, because rolling-origin alone was vulnerable to
+season-specific overfitting.
+
+\texttt{minus\_domain\_indices} was a smaller but still useful diagnostic. Its
+average loss was only +0.0020, and early horizons were not clearly worse, but
+week 5 degraded to 0.3541. We therefore kept the domain indices because the
+competition averages five future weeks and the late horizons are most exposed
+to private shift. \texttt{minus\_region\_stats} was recorded as a no-op because
+that feature switch was disabled in the lean profile; keeping this row in the
+ablation log prevented us from incorrectly claiming a real experimental effect.
 
 The ablations also changed our feature discipline. More features were not
 automatically better: target-history features were useful but dangerous, so
@@ -339,11 +449,10 @@ warning that feature quantity can become a liability without validation-based
 pruning.
 
 Missingness and shift experiments on 2026-05-23 also failed to replace the
-reportable anchor. The best validation/blind candidate,
-the season-matched LGBM shift run, reached rolling MAE 0.24574 and blind MAE
-0.38370, but the recent pattern was that validation-strong families transferred
-poorly to public LB. We therefore kept it diagnostic rather than promoting it
-to the main claim.
+reportable anchor. The best validation/blind candidate, the season-matched LGBM
+shift run, reached rolling MAE 0.24574 and blind MAE 0.38370, but the recent
+pattern was that validation-strong families transferred poorly to public LB. We
+therefore kept it diagnostic rather than promoting it to the main claim.
 
 Table~\ref{tab:param_sensitivity} summarizes the main knobs that we changed
 after inspecting either validation failures or live Kaggle feedback. These were

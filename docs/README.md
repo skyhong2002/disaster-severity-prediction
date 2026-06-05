@@ -21,7 +21,7 @@ lineage and rejected alternatives.
 - Machine-readable state guard: `status/current_state.json`
 - Validation rules and leakage boundaries: `validation/validation_protocol.md`
 - Report source: `../report/main.tex`
-- Current legal public anchor: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`, a LightGBM/XGBoost/CatBoost blend with public MAE `0.8124`.
+- Current legal public anchor: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`, a LightGBM/XGBoost/CatBoost blend with public MAE `0.8124` and blind MAE `0.4038`.
 
 ## Submission Readout Policy
 

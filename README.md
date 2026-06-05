@@ -177,7 +177,7 @@ defaults to the latest experiment recorded in `experiments/latest.txt`.
 Current model-selection state is tracked in `docs/status/current_state.json`. The
 current best legal public submission is
 `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv` with public MAE
-`0.8124`.
+`0.8124` and blind MAE `0.4038`.
 
 The full document map is in `docs/README.md`.
 

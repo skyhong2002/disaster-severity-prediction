@@ -119,6 +119,8 @@
     "teammate_candidate_screen_20260526": "experiments/baseline3_push_20260523/teammate_candidate_20260526_1503/candidate_readout.json"
   },
   "current_best": {
+    "blind_mae": "0.4038",
+    "blind_mae_source": "docs/validation/blind_backtest_summary_20260521.md",
     "blend": "35% LightGBM / 35% XGBoost / 30% CatBoost",
     "kaggle_ref": "52698259",
     "local_file_required": false,
@@ -138,7 +140,7 @@
     "report/main.tex"
   ],
   "implementation_summary": "Direct-horizon boosted-tree models with leakage-aware 91-day-gapped score-history features and LGB/XGB/CatBoost ensembling.",
-  "last_updated": "2026-06-01T23:35:00+08:00",
+  "last_updated": "2026-06-05T19:33:02+08:00",
   "model_families": [
     "LightGBM",
     "XGBoost",

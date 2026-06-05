@@ -9,7 +9,7 @@
 - Current policy: 2026-06-01 quota is `10/day`, and Team 5 has used `10/10` UTC submissions after the v9 public/private frontier. Wait for the 2026-06-02 08:00 Taipei reset, then re-check live history/leaderboard before any new submission.
 - Next mode: Static Private / final-selection UI handoff plus post-reset live gate; manually select refs `53204258` and `53259683` rather than relying only on Kaggle auto-selection.
 - Submit flag used: manual Kaggle CLI, no Codex automation
-- Reportable legal anchor remains: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`, public MAE `0.8124`
+- Reportable legal anchor remains: `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`, public MAE `0.8124`, blind MAE `0.4038` (not the blind-best model)
 - Public-chase best: `submissions/baseline3_private_hedge_v8_cat35_w1_0p0375_keep_shape_horizon_0p0375_0p375_0p55_0p75_1.csv`, Kaggle ref `53204258`, public MAE `0.7905`, SHA-256 prefix `390565517cb3`
 - Static/private hedge selected as the second slot: `submissions/baseline3_private_hedge_v9_cat35_w1_0p075_w2_0p425_stronger_late_anchor_horizon_0p075_0p425_0p6_0p825_1.csv`, Kaggle ref `53259683`, public MAE `0.7909`, SHA-256 prefix `262f683b87b6`
 - Static private snapshot: user-provided Google Sheet screenshot, last released `5/29 23:46:29`, Team 5 rank `5`; this is not the final Kaggle private ranking.
@@ -51,7 +51,7 @@
 
 The successful artifacts are exact-history public-chase blends: they combine the recovered `0.8094` public reference with the exact recovered `0.8124` legal anchor. They are useful for leaderboard crossing and submission selection, but they are not a clean reportable modeling claim.
 
-For reports and method discussion, keep the legal anchor as the 35% LightGBM / 35% XGBoost / 30% CatBoost submission with public MAE `0.8124`. This 2026-05-23 stage crossed Baseline 3 with `0.7991`; later private-hedge batches improved the selected public artifact to `0.7905`.
+For reports and method discussion, keep the legal anchor as the 35% LightGBM / 35% XGBoost / 30% CatBoost submission with public MAE `0.8124` and blind MAE `0.4038`. This 2026-05-23 stage crossed Baseline 3 with `0.7991`; later private-hedge batches improved the selected public artifact to `0.7905`. The blind readout is weaker than the LGBM-only blind anchor, so it supports careful labeling rather than claiming pseudo-private dominance.
 
 ## Post-Cross Policy
 

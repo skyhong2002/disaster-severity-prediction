@@ -92,7 +92,7 @@ Shin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
 | LGB/XGB 50/50 | - | - | 0.8232 |
 | CatBoost tail2737 | Rolling origin | 0.2212 / 0.2192 rerun | ensemble member |
 | LGBM micro 20260520 | Rolling origin | 0.2002 | diagnostic only |
-| **LGB/XGB/Cat 35/35/30** | - | - | **0.8124** |
+| **LGB/XGB/Cat 35/35/30** | Blind backtest + Kaggle sanity | 0.4038 blind | **0.8124** |
 
 **目前 repo 紀錄的最佳 public：** `submissions/ensemble_20260516_lgb_xgb_cat2737_35_35_30.csv`。
 

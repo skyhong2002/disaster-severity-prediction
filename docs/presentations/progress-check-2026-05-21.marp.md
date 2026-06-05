@@ -134,6 +134,9 @@ Key experiments establishing our methodology:
 | **LGB/XGB 50/50 Anchor** | **0.8232** | Previous legal anchor; still useful for private leaderboard comparison. |
 | **Initial Submission (Leak)** | **0.8094** | Accidental hybrid due to feature artifact. **Discarded to maintain strict academic rigor.** |
 
+Blind-backtest readout for the 35/35/30 anchor is `0.4038`, so it is the best
+legal public anchor but not the blind-best pseudo-private model.
+
 ---
 
 <!-- _class: compact -->

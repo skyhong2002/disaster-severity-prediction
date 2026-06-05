@@ -546,7 +546,7 @@ Readouts:
 | `xgb_v1` | XGBoost direct horizon | 337 features, score history | Chronological holdout | `0.7150` | Component of `0.8232` and `0.8124` ensembles | Legal diversity model. |
 | `catboost_lean_tail2737_regularized_500` | CatBoost direct horizon | Lean profile, 91-day-gapped score history, native categorical features | Rolling origin | `0.2212`; `0.2192` rerun | Component of `0.8124` ensemble | Validation scale differs from holdout; do not compare directly with LGB/XGB holdout MAE. |
 | `lgbm_micro_rolling_regularized_20260520` | LightGBM direct horizon | Micro profile, 91-day-gapped score history, regularized | Rolling origin | `0.2002` | Local diagnostic / candidate blend input | Strong local run; needs Kaggle or pseudo-private evidence before becoming an anchor. |
-| `ensemble_20260516_lgb_xgb_cat2737_35_35_30` | Three-model ensemble | `lgbm_v2` + `xgb_v1` + CatBoost tail2737 | N/A | N/A | `0.8124` | Current best legal public submission. |
+| `ensemble_20260516_lgb_xgb_cat2737_35_35_30` | Three-model ensemble | `lgbm_v2` + `xgb_v1` + CatBoost tail2737 | Blind backtest + Kaggle sanity | `0.4038 blind` | `0.8124` | Current reportable public lineage; not the blind-best model. |
 | `ensemble_20260519_lgb_xgb_cat2737_horizon_cat_ramp` | Three-model ensemble | Horizon-specific CatBoost ramp | Private-robustness probe | N/A | `0.8138` | Keep for 5/22 readout; do not continue unless private rank supports it. |
 | `ensemble_final` | 50/50 ensemble | `lgbm_v2` + `xgb_v1` | N/A | N/A | `0.8232` | Previous legal anchor. |
 | `lgbm_direct` | LightGBM direct weather-only | 318 weather-only features | Chronological holdout | `0.6770` | `0.8640` strategy result | Good local score, weak public generalization. |

@@ -251,9 +251,9 @@ LGB/XGB 50/50 anchor & Score-history boosted-tree ensemble & Holdout &
 CatBoost tail2737 & Direct CatBoost with native region/calendar categories &
 Rolling origin & 0.2212 & Component only & Useful diversity model; validation
 scale differs from holdout. \\
-\textbf{LGB/XGB/Cat 35/35/30} & Three-model convex ensemble & Kaggle
-sanity + lineage audit & N/A & \textbf{0.8124} & \textbf{Best reportable
-method claim}, Kaggle ref 52698259. \\
+\textbf{LGB/XGB/Cat 35/35/30} & Three-model convex ensemble & Blind backtest +
+Kaggle sanity & 0.4038 blind & \textbf{0.8124} & \textbf{Best reportable
+method claim}; not blind-best, Kaggle ref 52698259. \\
 Blind LGBM tail1095 & Refit-full LGBM, lean features & Blind backtest &
 0.3549 blind & 0.9380 & Strong pseudo-private anchor but poor public transfer. \\
 Feature-fused TCN & 91-day sequence model with visible time-safe priors &
@@ -363,7 +363,9 @@ For example, rolling-origin CatBoost and later neural/TCN variants looked strong
 locally, but public leaderboard transfer was much worse than the historical
 LGB/XGB/CatBoost anchor. Conversely, the 35/35/30 ensemble made only a modest
 modeling change but improved the reproducible public score from 0.8232 to
-0.8124.
+0.8124. Its blind-backtest MAE was 0.4038, worse than the LGBM-only blind
+anchor at 0.3549, so we treat 35/35/30 as the best reportable public lineage
+rather than as the pseudo-private validation winner.
 
 \subsection{Feature and Validation Ablations}
 \begin{figure*}[!t]

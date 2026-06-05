@@ -31,7 +31,7 @@ style: |
 ## Natural Disaster Severity Prediction
 
 **Group 5**  
-Hsin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
+Shin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
 
 May 21, 2026
 

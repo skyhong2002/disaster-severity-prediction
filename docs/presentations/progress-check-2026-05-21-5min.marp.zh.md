@@ -31,7 +31,7 @@ style: |
 ## 天然災害嚴重度預測
 
 **第 5 組**  
-Hsin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
+Shin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
 
 2026 年 5 月 21 日
 

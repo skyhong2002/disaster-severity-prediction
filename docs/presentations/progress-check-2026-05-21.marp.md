@@ -33,7 +33,7 @@ style: |
 **Archived draft:** this longer deck predates the CatBoost ensemble update. Use `progress-check-2026-05-21-5min.marp.md` or `progress-check-2026-05-21-5min.marp.zh.md` for the current implementation narrative.
 
 **Group 5**  
-Hsin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
+Shin-Yu Chen, Velda Wei-Hsin Hung, Sky Shih-Kai Hong
 
 May 21, 2026
 
